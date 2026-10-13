@@ -1,0 +1,437 @@
+/* Container Setup */
+.hero-landing-wrapper {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Background Image Layer */
+.hero-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+/* Violet / Indigo Glassy Overlay */
+.hero-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(22, 10, 36, 0.78) 0%,
+    rgba(15, 8, 28, 0.65) 50%,
+    rgba(10, 5, 20, 0.85) 100%
+  );
+  z-index: 2;
+}
+
+/* Header Navbar */
+.hero-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 4rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo-wrapper {
+  width: 42px;
+  height: 42px;
+  background: #7c3aed;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
+}
+
+.brand-logo {
+  width: 24px;
+  height: 24px;
+}
+
+.brand-text h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.brand-text span {
+  font-size: 0.65rem;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.6);
+  display: block;
+  font-weight: 600;
+}
+
+.help {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.83), rgba(255, 255, 255, 0.68));;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.help:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.help-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+/* Content Layout Split */
+.hero-main-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 4rem 3rem 4rem;
+  min-height: calc(100vh - 120px);
+  gap: 3rem;
+}
+
+.hero-left {
+  flex: 1;
+  max-width: 580px;
+}
+
+.hero-right {
+  flex: 0 0 440px;
+}
+
+/* Typography & Hero Text */
+.hero-content h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+
+.hero-line {
+  display: block;
+}
+
+.hero-gradient {
+  color: #c4b5fd; /* Soft purple highlight color */
+}
+
+.hero-description {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2.5rem;
+}
+
+/* Operations Widget (Preserved Data Layout) */
+.hero-visual {
+  position: relative;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 2rem;
+  max-width: 440px;
+}
+
+.panel-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.live-pill {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
+.parking-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.slot {
+  padding: 8px 4px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.slot.occupied { background: rgba(196, 181, 253, 0.3); color: #e9d5ff; }
+.slot.available { background: rgba(52, 211, 153, 0.25); color: #a7f3d0; }
+.slot.retrieval { background: rgba(248, 113, 113, 0.25); color: #fecaca; }
+.slot.reserved { background: rgba(251, 191, 36, 0.25); color: #fef08a; }
+.slot.ready { background: rgba(167, 139, 250, 0.25); color: #ddd6fe; }
+
+.floating-card {
+  position: absolute;
+  background: #1e1b4b;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-kicker { font-size: 0.65rem; color: #a78bfa; text-transform: uppercase; }
+.floating-card strong { font-size: 0.85rem; margin: 2px 0; }
+.floating-card small { font-size: 0.7rem; color: rgba(255, 255, 255, 0.6); }
+
+.card-one { top: -25px; right: -20px; }
+.card-two { bottom: -20px; left: -15px; }
+
+/* Glassmorphism Login Card */
+.login-card-container {
+  width: 100%;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  color: #1e1b4b;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(124, 58, 237, 0.15);
+}
+
+.login-heading h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  text-align: center;
+  color: #0f172a;
+}
+
+.login-heading p {
+  font-size: 0.85rem;
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+.input-group {
+  margin-bottom: 1.2rem;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  width: 18px;
+  height: 18px;
+  color: #64748b;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 12px 12px 38px;
+  background: rgba(241, 245, 249, 0.9);
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.input-wrapper input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  background: #ffffff;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.password-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #475569;
+  cursor: pointer;
+}
+
+.password-options a {
+  color: #7c3aed;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.password-options a:hover {
+  text-decoration: underline;
+}
+
+.login-error {
+  color: #dc2626;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background: #7c3aed;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.login-button:hover {
+  background: #6d28d9;
+}
+
+.login-button:active {
+  transform: scale(0.99);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 1.2rem 0;
+}
+
+.divider span {
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.divider p {
+  margin: 0 10px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.signup {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.customer-button {
+  width: 100%;
+  padding: 11px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  color: #1e1b4b;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.customer-button:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .hero-main-container {
+    flex-direction: column;
+    padding: 1rem 2rem 3rem 2rem;
+  }
+
+  .hero-left {
+    max-width: 100%;
+  }
+
+  .hero-right {
+    width: 100%;
+    max-width: 440px;
+  }
+}

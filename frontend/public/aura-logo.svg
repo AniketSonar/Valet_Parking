@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="aura-bg" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#80618E"/>
+      <stop offset="1" stop-color="#554063"/>
+    </linearGradient>
+    <linearGradient id="aura-accent" x1="12" y1="30" x2="36" y2="14" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#E8D4F0"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="12" fill="url(#aura-bg)"/>
+  <!-- Stylized car silhouette -->
+  <path d="M10 28.5c0-1.1.9-2 2-2h1.2l2.1-4.2a2 2 0 0 1 1.8-1.1h13.8a2 2 0 0 1 1.8 1.1l2.1 4.2H36c1.1 0 2 .9 2 2v2.5a1.5 1.5 0 0 1-1.5 1.5h-1.2a3.3 3.3 0 0 0-6.6 0h-9.4a3.3 3.3 0 0 0-6.6 0H12A1.5 1.5 0 0 1 10.5 31V28.5H10Z" fill="url(#aura-accent)" opacity="0.92"/>
+  <circle cx="16.5" cy="31.5" r="2.2" fill="#554063"/>
+  <circle cx="31.5" cy="31.5" r="2.2" fill="#554063"/>
+  <!-- Key ring accent -->
+  <circle cx="34" cy="16" r="4.5" stroke="white" stroke-width="1.8" fill="none" opacity="0.9"/>
+  <path d="M34 20.5v5.5l3.5 3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+</svg>

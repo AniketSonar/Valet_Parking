@@ -385,9 +385,8 @@ function VehiclesOperations() {
     vehicleId,
     action
   ) => {
-    let endpoint = "";
-
-    let successFallback = "";
+    let endpoint;
+    let successFallback;
 
     switch (action) {
       case "request-retrieval":

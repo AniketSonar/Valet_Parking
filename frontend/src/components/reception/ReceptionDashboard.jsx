@@ -242,7 +242,9 @@ const ProfileView = ({ onLogout }) => {
   try {
     const s = localStorage.getItem("user");
     if (s) user = JSON.parse(s);
-  } catch (e) { }
+  } catch {
+    // Ignore invalid stored JSON
+  }
 
   const initials = user.name
     ? user.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()

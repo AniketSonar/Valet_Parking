@@ -30,7 +30,7 @@ router.get(
 router.get(
   "/valet",
   authenticate,
-  authorizeRoles("valet"),
+  authorizeRoles("valet", "valet_attendant"),
   getValetParkingSlots
 );
 

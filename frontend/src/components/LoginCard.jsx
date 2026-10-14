@@ -73,7 +73,7 @@ function LoginCard() {
         navigate("/reception-dashboard", {
           replace: true,
         });
-      } else if (role === "valet") {
+      } else if (role === "valet" || role === "valet_attendant") {
         navigate("/valet-dashboard", {
           replace: true,
         });

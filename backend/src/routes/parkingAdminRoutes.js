@@ -34,7 +34,7 @@ const router = express.Router();
 router.get(
   "/dashboard",
   authenticate,
-  authorizeRoles("parking_admin"),
+  authorizeRoles("parking_admin", "super_admin"),
   getParkingAdminDashboard
 );
 
@@ -51,7 +51,8 @@ router.post(
   authorizeRoles(
     "parking_admin",
     "super_admin",
-    "valet_attendant"
+    "valet_attendant",
+    "valet"
   ),
   createParkingSession
 );
@@ -66,7 +67,7 @@ router.patch(
 router.patch(
   "/sessions/:id/valet",
   authenticate,
-  authorizeRoles("parking_admin", "valet_attendant"),
+  authorizeRoles("parking_admin", "super_admin", "valet_attendant", "valet"),
   assignValet
 );
 
@@ -80,21 +81,21 @@ router.patch(
 router.patch(
   "/sessions/:id/start-retrieval",
   authenticate,
-  authorizeRoles("parking_admin", "super_admin", "valet"),
+  authorizeRoles("parking_admin", "super_admin", "valet", "valet_attendant"),
   startRetrieval
 );
 
 router.patch(
   "/sessions/:id/ready",
   authenticate,
-  authorizeRoles("parking_admin", "super_admin", "valet"),
+  authorizeRoles("parking_admin", "super_admin", "valet", "valet_attendant"),
   markReadyForPickup
 );
 
 router.patch(
   "/sessions/:id/complete",
   authenticate,
-  authorizeRoles("parking_admin", "super_admin", "valet"),
+  authorizeRoles("parking_admin", "super_admin", "valet", "valet_attendant"),
   completeReturn
 );
 
@@ -115,42 +116,42 @@ router.get(
 router.get(
   "/staff",
   authenticate,
-  authorizeRoles("parking_admin"),
+  authorizeRoles("parking_admin", "super_admin"),
   getParkingStaff
 );
 
 router.get(
   "/reports",
   authenticate,
-  authorizeRoles("parking_admin"),
+  authorizeRoles("parking_admin", "super_admin"),
   getParkingReports
 );
 
 router.get(
   "/profile",
   authenticate,
-  authorizeRoles("parking_admin"),
+  authorizeRoles("parking_admin", "super_admin"),
   getParkingAdminProfile
 );
 
 router.post(
   "/staff-assignments",
   authenticate,
-  authorizeRoles("parking_admin"),
+  authorizeRoles("parking_admin", "super_admin"),
   createStaffAssignment
 );
 
 router.get(
   "/staff-assignments",
   authenticate,
-  authorizeRoles("parking_admin"),
+  authorizeRoles("parking_admin", "super_admin"),
   getStaffAssignments
 );
 
 router.patch(
   "/staff-assignments/:id/deactivate",
   authenticate,
-  authorizeRoles("parking_admin"),
+  authorizeRoles("parking_admin", "super_admin"),
   deactivateStaffAssignment
 );
 

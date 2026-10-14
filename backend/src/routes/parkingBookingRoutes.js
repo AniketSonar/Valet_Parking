@@ -12,30 +12,39 @@ const authorizeRoles = require("../middleware/roleMiddleware");
 
 const router = express.Router();
 
+const BOOKING_STAFF_ROLES = [
+  "cashier",
+  "reception_security",
+  "parking_admin",
+  "super_admin",
+  "valet",
+  "valet_attendant"
+];
+
 router.post(
   "/",
   authenticate,
-  authorizeRoles("cashier", "parking_admin", "super_admin"),
+  authorizeRoles(...BOOKING_STAFF_ROLES),
   createParkingBooking
 );
 
 router.get(
   "/",
   authenticate,
-  authorizeRoles("cashier", "parking_admin", "super_admin"),
+  authorizeRoles(...BOOKING_STAFF_ROLES),
   getParkingBookings
 );
 
 router.get(
   "/:id",
   authenticate,
-  authorizeRoles("cashier", "parking_admin", "super_admin"),
+  authorizeRoles(...BOOKING_STAFF_ROLES),
   getParkingBookingById
 );
 router.patch(
   "/:id/arrive",
   authenticate,
-  authorizeRoles("cashier", "parking_admin", "super_admin"),
+  authorizeRoles(...BOOKING_STAFF_ROLES),
   arriveParkingBooking
 );
 module.exports = router;

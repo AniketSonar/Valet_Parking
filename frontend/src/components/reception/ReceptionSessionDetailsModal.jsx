@@ -271,9 +271,9 @@ function ReceptionSessionDetailsModal({ session, onClose }) {
     );
 
     const previousIndex =
-      currentIndex <= 0 ? photos.length - 1 : currentIndex - 1;
+      currentIndex <= 0 ? selectedPhotoList.length - 1 : currentIndex - 1;
 
-    setSelectedPhoto(photos[previousIndex]);
+    setSelectedPhoto(selectedPhotoList[previousIndex]);
   };
 
   const showNextPhoto = (event) => {
@@ -291,9 +291,9 @@ function ReceptionSessionDetailsModal({ session, onClose }) {
     );
 
     const nextIndex =
-      currentIndex >= photos.length - 1 ? 0 : currentIndex + 1;
+      currentIndex >= selectedPhotoList.length - 1 ? 0 : currentIndex + 1;
 
-    setSelectedPhoto(photos[nextIndex]);
+    setSelectedPhoto(selectedPhotoList[nextIndex]);
   };
 
   return (

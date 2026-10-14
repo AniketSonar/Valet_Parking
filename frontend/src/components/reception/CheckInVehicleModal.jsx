@@ -322,10 +322,7 @@ const CheckInVehicleModal = ({
 
           throw new Error(
             firstError?.message ||
-              "Inspection photo upload failed."
-
-            `${failedUploads.length} inspection photo${failedUploads.length > 1 ? "s" : ""
-            } could not be uploaded. The session and inspection were created, but please verify the inspection photos.`
+              `${failedUploads.length} inspection photo${failedUploads.length > 1 ? "s" : ""} could not be uploaded. The session and inspection were created, but please verify the inspection photos.`
           );
         }
       }

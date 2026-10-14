@@ -2,6 +2,7 @@
 const supabase = require("../config/supabase");
 
 const allowedRoles = [
+  "super_admin",
   "parking_admin",
   "valet_attendant",
   "reception_security",

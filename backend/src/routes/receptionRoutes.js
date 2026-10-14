@@ -26,7 +26,7 @@ const RECEPTION_ROLES = [
 router.get(
   "/dashboard",
   authenticate,
-  authorizeRoles("cashier"),
+  authorizeRoles(...RECEPTION_ROLES),
   getReceptionDashboard
 );
 
@@ -40,7 +40,7 @@ router.get(
 router.get(
   "/active-sessions",
   authenticate,
-  authorizeRoles("cashier"),
+  authorizeRoles(...RECEPTION_ROLES),
   getActiveParkingSessions
 );
 

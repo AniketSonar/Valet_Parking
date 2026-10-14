@@ -45,25 +45,18 @@ const createIncident = async (req, res) => {
       }
     }
 
-    const { data: employee, error: employeeError } = await supabase
+    const { data: employee } = await supabase
       .from("employees")
       .select("id, name, role, email")
       .eq("email", req.user.email)
-      .single();
-
-    if (employeeError || !employee) {
-      return res.status(404).json({
-        success: false,
-        message: "Employee record not found."
-      });
-    }
+      .maybeSingle();
 
     const { data: incident, error } = await supabase
       .from("incidents")
       .insert([
         {
           parking_session_id: parking_session_id || null,
-          reported_by: employee.id,
+          reported_by: employee?.id || null,
           incident_type,
           description: description.trim()
         }

@@ -238,7 +238,7 @@ export const getNotifications = async (params = {}) => {
   const query = new URLSearchParams(params).toString();
 
   return apiClient(
-    `/api/notifications/${query ? `?${query}` : ""}`
+    `/api/notifications${query ? `?${query}` : ""}`
   );
 };
 

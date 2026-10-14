@@ -124,7 +124,7 @@ const ParkingAdminProfile = ({ onLogout }) => {
       .map((part) => part[0])
       .join("")
       .toUpperCase();
-  }, [profile?.name]);
+  }, [profile]);
 
   const formattedDate = profile?.created_at
     ? new Date(

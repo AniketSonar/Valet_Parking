@@ -54,31 +54,6 @@ router.get(
 );
 
 router.get(
-  "/:id",
-  authenticate,
-  authorizeRoles(
-    "cashier",
-    "reception_security",
-    "parking_admin",
-    "super_admin",
-    "valet_attendant"
-  ),
-  getCustomerById
-);
-
-router.delete(
-  "/:id",
-  authenticate,
-  authorizeRoles(
-    "cashier",
-    "reception_security",
-    "parking_admin",
-    "super_admin"
-  ),
-  deleteCustomer
-);
-
-router.get(
   "/portal/dashboard",
   authenticate,
   authorizeRoles("customer"),
@@ -160,6 +135,31 @@ router.patch(
   authenticate,
   authorizeRoles("customer"),
   cancelCustomerRetrieval
+);
+
+router.get(
+  "/:id",
+  authenticate,
+  authorizeRoles(
+    "cashier",
+    "reception_security",
+    "parking_admin",
+    "super_admin",
+    "valet_attendant"
+  ),
+  getCustomerById
+);
+
+router.delete(
+  "/:id",
+  authenticate,
+  authorizeRoles(
+    "cashier",
+    "reception_security",
+    "parking_admin",
+    "super_admin"
+  ),
+  deleteCustomer
 );
 
 module.exports = router;

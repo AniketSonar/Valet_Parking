@@ -26,28 +26,37 @@ const apiClient = async (endpoint, options = {}) => {
       }
     );
 
-    let data = {};
+    if (!response.ok) {
+      let errorMessage = `Request failed with status ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorData.error || errorMessage;
+      } catch {
+        const errorText = await response.text();
+        if (errorText) errorMessage = errorText;
+      }
+
+      if (response.status === 401) {
+        console.error("Authentication failed.");
+      }
+
+      throw new Error(errorMessage);
+    }
 
     const contentType =
       response.headers.get("content-type");
+
+    if (options.responseType === "blob" || contentType?.includes("application/pdf")) {
+      return await response.blob();
+    }
+
+    let data = {};
 
     if (contentType?.includes("application/json")) {
       data = await response.json();
     } else {
       const text = await response.text();
       data = text ? { message: text } : {};
-    }
-
-    if (!response.ok) {
-      if (response.status === 401) {
-        console.error("Authentication failed.");
-      }
-
-      throw new Error(
-        data.message ||
-          data.error ||
-          `Request failed with status ${response.status}`
-      );
     }
 
     return data;

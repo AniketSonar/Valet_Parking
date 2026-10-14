@@ -22,7 +22,7 @@ router.post(
 router.get(
   "/",
   authenticate,
-  authorizeRoles("cashier", "reception_security", "parking_admin", "super_admin", "valet"),
+  authorizeRoles("cashier", "reception_security", "parking_admin", "super_admin", "valet", "valet_attendant"),
   getNotifications
 );
 
@@ -35,7 +35,8 @@ router.get(
     "reception_security",
     "parking_admin",
     "super_admin",
-    "valet"
+    "valet",
+    "valet_attendant"
   ),
   getMyNotifications
 );
@@ -47,10 +48,4 @@ router.patch(
   updateNotificationStatus
 );
 
-router.get(
-  "/my",
-  authenticate,
-  authorizeRoles("customer"),
-  getMyNotifications
-);
 module.exports = router;

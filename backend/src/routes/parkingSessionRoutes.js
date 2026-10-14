@@ -34,6 +34,7 @@ router.post(
   authorizeRoles(
     "parking_admin",
     "super_admin",
+    "valet",
     "valet_attendant"
   ),
   createParkingSession
@@ -45,6 +46,7 @@ router.post(
   authorizeRoles(
     "parking_admin",
     "super_admin",
+    "valet",
     "valet_attendant"
   ),
   quickCheckIn
@@ -64,14 +66,14 @@ router.post(
 router.patch(
   "/:id/assign-slot",
   authenticate,
-  authorizeRoles("parking_admin", "super_admin", "valet"),
+  authorizeRoles("parking_admin", "super_admin", "valet", "valet_attendant"),
   assignParkingSlot
 );
 
 router.patch(
   "/:id/slot",
   authenticate,
-  authorizeRoles("parking_admin", "super_admin", "valet"),
+  authorizeRoles("parking_admin", "super_admin", "valet", "valet_attendant"),
   assignParkingSlot
 );
 
@@ -81,6 +83,7 @@ router.patch(
   authorizeRoles(
     "parking_admin",
     "super_admin",
+    "valet",
     "valet_attendant"
   ),
   assignValet
@@ -92,6 +95,7 @@ router.patch(
   authorizeRoles(
     "parking_admin",
     "super_admin",
+    "valet",
     "valet_attendant"
   ),
   assignValet
@@ -110,7 +114,8 @@ router.patch(
   authorizeRoles(
     "parking_admin",
     "super_admin",
-    "valet"
+    "valet",
+    "valet_attendant"
   ),
   startRetrieval
 );
@@ -121,7 +126,8 @@ router.patch(
   authorizeRoles(
     "parking_admin",
     "super_admin",
-    "valet"
+    "valet",
+    "valet_attendant"
   ),
   markReadyForPickup
 );
@@ -132,7 +138,8 @@ router.patch(
   authorizeRoles(
     "parking_admin",
     "super_admin",
-    "valet"
+    "valet",
+    "valet_attendant"
   ),
   markReadyForPickup
 );
@@ -143,7 +150,8 @@ router.patch(
   authorizeRoles(
     "parking_admin",
     "super_admin",
-    "valet"
+    "valet",
+    "valet_attendant"
   ),
   completeReturn
 );
@@ -154,7 +162,8 @@ router.patch(
   authorizeRoles(
     "parking_admin",
     "super_admin",
-    "valet"
+    "valet",
+    "valet_attendant"
   ),
   completeReturn
 );
@@ -192,7 +201,7 @@ router.get(
 router.get(
   "/valet-dashboard",
   authenticate,
-  authorizeRoles("valet"),
+  authorizeRoles("valet", "valet_attendant"),
   getValetDashboard
 );
 

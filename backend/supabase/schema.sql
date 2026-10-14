@@ -174,7 +174,7 @@ create table if not exists public.feedback (
 
 create table if not exists public.incidents (
   id uuid primary key default gen_random_uuid(),
-  parking_session_id uuid not null references public.parking_sessions(id) on delete cascade,
+  parking_session_id uuid references public.parking_sessions(id) on delete cascade,
   reported_by uuid references public.employees(id) on delete set null,
   incident_type text not null,
   description text,

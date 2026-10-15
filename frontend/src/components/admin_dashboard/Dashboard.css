@@ -4,7 +4,7 @@
    ============================================================ */
 
 :root {
-  --dashboard-bg: #f8f6ff;
+  --dashboard-bg: #fbf8f9;
   --dashboard-card: #ffffff;
   --dashboard-surface: #faf9ff;
 
@@ -12,17 +12,17 @@
   --dashboard-muted: #6b647b;
   --dashboard-faint: #8a8398;
 
-  --dashboard-purple: #7c3aed;
-  --dashboard-purple-dark: #6a26ea;
+  --dashboard-purple: #8b1230;
+  --dashboard-purple-dark: #730c26;
 
-  --dashboard-border: rgba(124, 58, 237, 0.12);
-  --dashboard-border-soft: rgba(124, 58, 237, 0.08);
+  --dashboard-border: rgba(139, 18, 48, 0.12);
+  --dashboard-border-soft: rgba(139, 18, 48, 0.08);
 
   --dashboard-shadow:
-    0 10px 30px -5px rgba(124, 58, 237, 0.08);
+    0 10px 30px -5px rgba(139, 18, 48, 0.08);
 
   --dashboard-shadow-hover:
-    0 14px 32px rgba(124, 58, 237, 0.12);
+    0 14px 32px rgba(139, 18, 48, 0.12);
 }
 
 html[data-theme="dark"] {
@@ -34,11 +34,11 @@ html[data-theme="dark"] {
   --dashboard-muted: #b8afc8;
   --dashboard-faint: #8e84a2;
 
-  --dashboard-purple: #8b5cf6;
-  --dashboard-purple-dark: #7c3aed;
+  --dashboard-purple: #a82042;
+  --dashboard-purple-dark: #8b1230;
 
-  --dashboard-border: rgba(172, 148, 255, 0.18);
-  --dashboard-border-soft: rgba(172, 148, 255, 0.12);
+  --dashboard-border: rgba(201, 59, 93, 0.18);
+  --dashboard-border-soft: rgba(201, 59, 93, 0.12);
 
   --dashboard-shadow:
     0 20px 50px rgba(5, 3, 9, 0.34);
@@ -148,7 +148,7 @@ html[data-theme="dark"] {
 
 .dashboard-eyebrow {
   margin-bottom: 8px;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .dashboard-eyebrow::before {
@@ -439,7 +439,7 @@ html[data-theme="dark"] {
 .stat-card:hover {
   transform: translateY(-2px);
 
-  border-color: rgba(124, 58, 237, 0.16);
+  border-color: rgba(139, 18, 48, 0.16);
 
   box-shadow: var(--dashboard-shadow-hover);
 }
@@ -541,7 +541,7 @@ html[data-theme="dark"] {
 
   border: 1px solid var(--dashboard-border);
 
-  background: #f3efff;
+  background: #fce7eb;
   color: var(--dashboard-purple);
 }
 
@@ -676,8 +676,8 @@ html[data-theme="dark"] {
 }
 
 .metric-icon.blue {
-  background: #f3efff;
-  color: #7c3aed;
+  background: #fce7eb;
+  color: #8b1230;
 }
 
 .metric-icon.green {
@@ -732,7 +732,7 @@ html[data-theme="dark"] {
 
   padding: 24px 18px;
 
-  border: 1px dashed rgba(124, 58, 237, 0.2);
+  border: 1px dashed rgba(139, 18, 48, 0.2);
   border-radius: 12px;
 
   background: var(--dashboard-surface);
@@ -752,7 +752,7 @@ html[data-theme="dark"] {
 
   border-radius: 50%;
 
-  background: #f3efff;
+  background: #fce7eb;
   color: var(--dashboard-purple);
 
   font-weight: 800;
@@ -846,7 +846,7 @@ html[data-theme="dark"] {
 .quick-card:hover {
   transform: translateY(-2px);
 
-  border-color: rgba(124, 58, 237, 0.16);
+  border-color: rgba(139, 18, 48, 0.16);
 
   background: #fdfcff;
 
@@ -872,8 +872,8 @@ html[data-theme="dark"] {
 }
 
 .staff-icon {
-  background: #f3efff;
-  color: #7c3aed;
+  background: #fce7eb;
+  color: #8b1230;
 }
 
 .report-icon {
@@ -988,14 +988,14 @@ html[data-theme="dark"] .system-status {
 
 html[data-theme="dark"] .panel-action {
   background: #211a2c;
-  color: #a78bfa;
+  color: #c93b5d;
 }
 
 html[data-theme="dark"] .empty-icon,
 html[data-theme="dark"] .metric-icon.blue,
 html[data-theme="dark"] .staff-icon {
   background: #2a2040;
-  color: #a78bfa;
+  color: #c93b5d;
 }
 
 
@@ -1125,6 +1125,6 @@ html[data-theme="dark"] .staff-icon {
 .dashboard button:focus-visible,
 .dashboard input:focus-visible,
 .dashboard select:focus-visible {
-  outline: 2px solid rgba(124, 58, 237, 0.45);
+  outline: 2px solid rgba(139, 18, 48, 0.45);
   outline-offset: 2px;
 }

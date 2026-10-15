@@ -57,7 +57,7 @@
 }
 
 .customer-payments-refresh:hover {
-  background: #faf8ff;
+  background: #fdf7f8;
   border-color: #cfc0ee;
   box-shadow: 0 3px 10px rgba(76, 29, 149, 0.06);
 }
@@ -83,7 +83,7 @@
 
 .customer-payment-card {
   overflow: hidden;
-  border: 1px solid #e9e3f4;
+  border: 1px solid #f2e1e5;
   border-radius: 14px;
   background: #ffffff;
   box-shadow: 0 4px 16px rgba(51, 33, 82, 0.05);
@@ -105,7 +105,7 @@
   justify-content: center;
   border-radius: 10px;
   background: #f3effd;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .customer-payment-main {
@@ -257,7 +257,7 @@
   padding: 0 14px;
   border: 0;
   border-radius: 8px;
-  background: #7c3aed;
+  background: #8b1230;
   color: #ffffff;
   font-size: 12px;
   font-weight: 600;
@@ -270,7 +270,7 @@
 
 .customer-payment-invoice-btn:hover {
   background: #6d28d9;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.18);
+  box-shadow: 0 4px 12px rgba(139, 18, 48, 0.18);
 }
 
 .customer-payment-invoice-btn:active {
@@ -294,7 +294,7 @@
   justify-content: center;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid #e9e3f4;
+  border: 1px solid #f2e1e5;
   border-radius: 14px;
   background: #ffffff;
   color: #777187;
@@ -312,7 +312,7 @@
   justify-content: center;
   flex-direction: column;
   padding: 40px 20px;
-  border: 1px solid #e9e3f4;
+  border: 1px solid #f2e1e5;
   border-radius: 14px;
   background: #ffffff;
   text-align: center;
@@ -328,7 +328,7 @@
   margin-bottom: 14px;
   border-radius: 12px;
   background: #f3effd;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .customer-payments-empty h3 {
@@ -382,7 +382,7 @@
   flex: 0 0 auto;
   border: 0;
   background: transparent;
-  color: #7c3aed;
+  color: #8b1230;
   font-size: 12px;
   font-weight: 650;
   cursor: pointer;

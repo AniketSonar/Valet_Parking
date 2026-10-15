@@ -1,12 +1,12 @@
 :root {
-  --reception-bg: #f8f6ff;
+  --reception-bg: #fbf8f9;
   --reception-card: #ffffff;
   --reception-main: #171324;
   --reception-muted: #6b647b;
   --reception-faint: #8a8398;
-  --reception-purple: #7c3aed;
-  --reception-border: rgba(124, 58, 237, 0.12);
-  --reception-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.08);
+  --reception-purple: #8b1230;
+  --reception-border: rgba(139, 18, 48, 0.12);
+  --reception-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08);
 }
 
 html[data-theme="dark"] {
@@ -15,7 +15,7 @@ html[data-theme="dark"] {
   --reception-main: #f8f5fc;
   --reception-muted: #b8afc8;
   --reception-faint: #8e84a2;
-  --reception-border: rgba(172, 148, 255, 0.18);
+  --reception-border: rgba(201, 59, 93, 0.18);
   --reception-shadow: 0 20px 50px rgba(5, 3, 9, 0.34);
 }
 
@@ -24,7 +24,7 @@ html[data-theme="dark"] {
   grid-template-columns: 260px minmax(0, 1fr);
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f3efff 0%, #f8f6ff 50%, #ffffff 100%);
+  background: linear-gradient(135deg, #fce7eb 0%, #fbf8f9 50%, #ffffff 100%);
   color: var(--reception-main);
 }
 
@@ -110,13 +110,13 @@ html[data-theme="dark"] {
   border: 1px solid var(--reception-purple);
   background: var(--reception-purple);
   color: #ffffff;
-  box-shadow: 0 8px 18px rgba(124, 58, 237, 0.16);
+  box-shadow: 0 8px 18px rgba(139, 18, 48, 0.16);
 }
 
 .reception-action-btn.primary:hover:not(:disabled) {
-  background: #6a26ea;
+  background: #730c26;
   transform: translateY(-1px);
-  box-shadow: 0 12px 24px rgba(124, 58, 237, 0.2);
+  box-shadow: 0 12px 24px rgba(139, 18, 48, 0.2);
 }
 
 .reception-action-btn.amber {
@@ -178,8 +178,8 @@ html[data-theme="dark"] {
 }
 
 .quick-action-card:hover {
-  border-color: rgba(124, 58, 237, 0.22);
-  box-shadow: 0 14px 32px rgba(124, 58, 237, 0.12);
+  border-color: rgba(139, 18, 48, 0.22);
+  box-shadow: 0 14px 32px rgba(139, 18, 48, 0.12);
   transform: translateY(-2px);
 }
 
@@ -198,8 +198,8 @@ html[data-theme="dark"] {
 }
 
 .quick-action-card:nth-child(1) .quick-action-icon {
-  background: #f3efff;
-  color: #7c3aed;
+  background: #fce7eb;
+  color: #8b1230;
 }
 
 .quick-action-card:nth-child(2) .quick-action-icon {
@@ -267,7 +267,7 @@ html[data-theme="dark"] {
 
 .reception-stat-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(124, 58, 237, 0.12);
+  box-shadow: 0 14px 32px rgba(139, 18, 48, 0.12);
 }
 
 .reception-stat-icon {
@@ -308,8 +308,8 @@ html[data-theme="dark"] {
   margin-top: 10px;
   padding: 5px 8px;
   border-radius: 9999px;
-  background: #f3efff;
-  color: #7c3aed;
+  background: #fce7eb;
+  color: #8b1230;
   font-size: 9px;
   font-weight: 700;
 }
@@ -354,12 +354,12 @@ html[data-theme="dark"] {
   border-radius: 12px;
   background: var(--reception-card);
   color: var(--reception-faint);
-  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.04);
+  box-shadow: 0 6px 18px rgba(139, 18, 48, 0.04);
 }
 
 .reception-search-bar:focus-within {
-  border-color: rgba(124, 58, 237, 0.42);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+  border-color: rgba(139, 18, 48, 0.42);
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.1);
 }
 
 .reception-search-bar svg {
@@ -412,7 +412,7 @@ html[data-theme="dark"] {
 
 .reception-filter-select:focus {
   border-color: var(--reception-purple);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.1);
 }
 
 .reception-table-card {
@@ -450,7 +450,7 @@ html[data-theme="dark"] {
 
 .reception-table td {
   padding: 16px;
-  border-bottom: 1px solid rgba(124, 58, 237, 0.07);
+  border-bottom: 1px solid rgba(139, 18, 48, 0.07);
   color: var(--reception-muted);
   font-size: 11.5px;
   line-height: 1.4;
@@ -539,8 +539,8 @@ html[data-theme="dark"] {
   min-width: 34px;
   padding: 5px 8px;
   border-radius: 12px;
-  background: #f3efff;
-  color: #7c3aed;
+  background: #fce7eb;
+  color: #8b1230;
   font-size: 10px;
   font-weight: 800;
 }
@@ -560,8 +560,8 @@ html[data-theme="dark"] {
 }
 
 .status-checked-in {
-  background: #f2eaff;
-  color: #7c3aed;
+  background: #fdf2f4;
+  color: #8b1230;
 }
 
 .status-parked {
@@ -610,11 +610,11 @@ html[data-theme="dark"] {
   justify-content: center;
   flex-shrink: 0;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7c3aed, #6a26ea);
+  background: linear-gradient(135deg, #8b1230, #730c26);
   color: #ffffff;
   font-size: 18px;
   font-weight: 800;
-  box-shadow: 0 8px 18px rgba(124, 58, 237, 0.2);
+  box-shadow: 0 8px 18px rgba(139, 18, 48, 0.2);
 }
 
 .reception-profile-card h3 {
@@ -634,8 +634,8 @@ html[data-theme="dark"] {
   display: inline-flex;
   padding: 6px 10px;
   border-radius: 9999px;
-  background: #f2eaff;
-  color: #7c3aed;
+  background: #fdf2f4;
+  color: #8b1230;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.4px;
@@ -706,7 +706,7 @@ html[data-theme="dark"] {
 .reception-modal select:focus,
 .reception-modal textarea:focus {
   border-color: var(--reception-purple) !important;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.1) !important;
 }
 
 html[data-theme="dark"] .reception-layout {
@@ -726,7 +726,7 @@ html[data-theme="dark"] .reception-modal select,
 html[data-theme="dark"] .reception-modal textarea {
   background: #211a2c !important;
   color: #f8f5fc !important;
-  border-color: rgba(172, 148, 255, 0.18) !important;
+  border-color: rgba(201, 59, 93, 0.18) !important;
 }
 
 @media (max-width: 1200px) {
@@ -805,9 +805,9 @@ html[data-theme="dark"] .reception-modal textarea {
 .reception-table-card,
 .reception-profile-card {
   background: var(--bg-card, #ffffff);
-  border: 1px solid rgba(124, 58, 237, 0.10);
+  border: 1px solid rgba(139, 18, 48, 0.10);
   border-radius: 18px;
-  box-shadow: 0 4px 20px -2px rgba(124, 58, 237, 0.05);
+  box-shadow: 0 4px 20px -2px rgba(139, 18, 48, 0.05);
 }
 
 .quick-action-card,
@@ -823,7 +823,7 @@ html[data-theme="dark"] .reception-modal textarea {
   right: 0;
   left: 0;
   height: 3px;
-  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  background: linear-gradient(90deg, #8b1230, #a855f7);
 }
 
 .quick-action-card:hover,
@@ -831,13 +831,13 @@ html[data-theme="dark"] .reception-modal textarea {
 .reception-table-card:hover,
 .reception-profile-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(124, 58, 237, 0.16);
-  box-shadow: 0 12px 28px -6px rgba(124, 58, 237, 0.16);
+  border-color: rgba(139, 18, 48, 0.16);
+  box-shadow: 0 12px 28px -6px rgba(139, 18, 48, 0.16);
 }
 
 .quick-action-card:nth-child(1) .quick-action-icon {
-  background: #f3efff !important;
-  color: #7c3aed !important;
+  background: #fce7eb !important;
+  color: #8b1230 !important;
 }
 
 .quick-action-card:nth-child(2) .quick-action-icon {
@@ -871,8 +871,8 @@ html[data-theme="dark"] .reception-modal textarea {
 }
 
 .reception-stat-card:nth-child(1) .reception-stat-sub {
-  background: #f3efff;
-  color: #7c3aed;
+  background: #fce7eb;
+  color: #8b1230;
 }
 
 .reception-stat-card:nth-child(2) .reception-stat-sub {
@@ -906,7 +906,7 @@ html[data-theme="dark"] .reception-modal textarea {
 }
 
 .reception-table th {
-  border-bottom-color: rgba(124, 58, 237, 0.08);
+  border-bottom-color: rgba(139, 18, 48, 0.08);
   color: #8b7ba8;
 }
 
@@ -944,7 +944,7 @@ html[data-theme="dark"] {
   --reception-surface-muted: #211a2c;
   --reception-text: #f8f5fc;
   --reception-muted-text: #b8afc8;
-  --reception-line: rgba(172, 148, 255, .18);
+  --reception-line: rgba(201, 59, 93, .18);
 }
 
 .reception-layout {
@@ -979,7 +979,7 @@ html[data-theme="dark"] .reception-layout {
 }
 
 .reception-eyebrow {
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .reception-action-btn {
@@ -988,8 +988,8 @@ html[data-theme="dark"] .reception-layout {
 }
 
 .reception-action-btn.primary {
-  background: #7c3aed;
-  border-color: #7c3aed;
+  background: #8b1230;
+  border-color: #8b1230;
 }
 
 .reception-quick-actions,
@@ -1009,7 +1009,7 @@ html[data-theme="dark"] .reception-layout {
 
 .quick-action-card::before {
   height: 2px;
-  background: #7c3aed;
+  background: #8b1230;
 }
 
 .quick-action-card:hover,
@@ -1194,8 +1194,8 @@ html[data-theme="dark"] .reception-layout {
 }
 
 .timeline-item.occurred .timeline-dot {
-  background: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+  background: #8b1230;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.12);
 }
 
 .timeline-item strong,
@@ -1307,7 +1307,7 @@ html[data-theme="dark"] .reception-layout {
   background: #ffffff;
   border: 1px solid #e9d5ff;
   border-radius: 14px;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.06);
+  box-shadow: 0 4px 14px rgba(139, 18, 48, 0.06);
 }
 
 .reception-recent-header {
@@ -1340,7 +1340,7 @@ html[data-theme="dark"] .reception-layout {
   border: 1px solid #ddd6fe;
   border-radius: 999px;
   background: #f5f3ff;
-  color: #7c3aed;
+  color: #8b1230;
   font-size: 12px;
   font-weight: 700;
 }
@@ -1391,7 +1391,7 @@ html[data-theme="dark"] .reception-layout {
 .reception-operation-row:hover {
   border-color: #ddd6fe;
   background: #faf5ff;
-  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.05);
+  box-shadow: 0 3px 10px rgba(139, 18, 48, 0.05);
 }
 
 .reception-operation-row > span:first-child {
@@ -1440,7 +1440,7 @@ html[data-theme="dark"] .reception-layout {
 .reception-status-tag.status-retrieval {
   border: 1px solid #ddd6fe;
   background: #f5f3ff;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 /* =========================================================
@@ -1454,9 +1454,9 @@ html[data-theme="dark"] .reception-layout {
   flex-shrink: 0;
   min-height: 32px;
   padding: 7px 13px;
-  border: 1px solid #7c3aed;
+  border: 1px solid #8b1230;
   border-radius: 8px;
-  background: #7c3aed;
+  background: #8b1230;
   color: #ffffff;
   font-size: 11px;
   font-weight: 650;
@@ -1471,7 +1471,7 @@ html[data-theme="dark"] .reception-layout {
 .reception-action-btn.small.primary:hover {
   border-color: #6d28d9;
   background: #6d28d9;
-  box-shadow: 0 3px 8px rgba(124, 58, 237, 0.18);
+  box-shadow: 0 3px 8px rgba(139, 18, 48, 0.18);
 }
 
 .reception-action-btn.small.primary:active {
@@ -1479,7 +1479,7 @@ html[data-theme="dark"] .reception-layout {
 }
 
 .reception-action-btn.small.primary:focus-visible {
-  outline: 2px solid #a78bfa;
+  outline: 2px solid #c93b5d;
   outline-offset: 2px;
 }
 

@@ -40,7 +40,7 @@
   border-radius: 12px;
   display: grid;
   place-items: center;
-  color: #7c3aed;
+  color: #8b1230;
   background: #f1eaff;
   border: 1px solid #e5d9ff;
   flex: 0 0 auto;
@@ -85,9 +85,9 @@
 
 .key-primary-btn {
   color: #fff;
-  border: 1px solid #7c3aed;
-  background: #7c3aed;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+  border: 1px solid #8b1230;
+  background: #8b1230;
+  box-shadow: 0 4px 12px rgba(139, 18, 48, 0.15);
 }
 
 .key-primary-btn:hover:not(:disabled) {
@@ -203,7 +203,7 @@
   flex: 0 0 auto;
 }
 
-.key-summary-icon.purple { color: #7c3aed; background: #f1eaff; }
+.key-summary-icon.purple { color: #8b1230; background: #f1eaff; }
 .key-summary-icon.green { color: #059669; background: #ecfdf5; }
 .key-summary-icon.blue { color: #2563eb; background: #eff6ff; }
 .key-summary-icon.amber { color: #d97706; background: #fffbeb; }
@@ -244,8 +244,8 @@
 }
 
 .key-search:focus-within {
-  border-color: #a78bfa;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+  border-color: #c93b5d;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.08);
 }
 
 .key-search input {
@@ -333,7 +333,7 @@
   display: grid;
   place-items: center;
   border-radius: 8px;
-  color: #7c3aed;
+  color: #8b1230;
   background: #f4efff;
 }
 
@@ -395,7 +395,7 @@
 .key-status-stored { color: #475569; background: #f1f5f9; }
 .key-status-assigned { color: #2563eb; background: #eff6ff; }
 .key-status-in-use { color: #b45309; background: #fffbeb; }
-.key-status-returned { color: #7c3aed; background: #f3efff; }
+.key-status-returned { color: #8b1230; background: #fce7eb; }
 .key-status-lost { color: #b91c1c; background: #fef2f2; }
 .key-status-default { color: #6b7280; background: #f3f4f6; }
 
@@ -439,7 +439,7 @@
 }
 
 .key-more-btn:hover {
-  color: #7c3aed;
+  color: #8b1230;
   background: #f7f3ff;
   border-color: #ddd1f7;
 }
@@ -580,8 +580,8 @@
 .key-form input:focus,
 .key-form select:focus,
 .key-form textarea:focus {
-  border-color: #a78bfa;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+  border-color: #c93b5d;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.08);
 }
 
 .key-form-actions {
@@ -723,8 +723,8 @@
   height: 9px;
   margin-top: 4px;
   border-radius: 50%;
-  background: #7c3aed;
-  box-shadow: 0 0 0 4px #f2edff;
+  background: #8b1230;
+  box-shadow: 0 0 0 4px #fce7eb;
 }
 
 .key-timeline-item strong,

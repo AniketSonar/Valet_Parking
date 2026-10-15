@@ -9,9 +9,9 @@
   padding: 22px 14px 18px;
   margin: 0 0 14px 14px;
   background: #ffffff;
-  border: 1px solid rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(139, 18, 48, 0.12);
   border-radius: 20px;
-  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.08);
+  box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08);
   z-index: 10;
   transition: width 0.3s ease;
 }
@@ -25,17 +25,17 @@
   min-height: 52px;
   padding: 0 8px 16px;
   margin-bottom: 26px;
-  border-bottom: 1px solid rgba(124, 58, 237, 0.12);
+  border-bottom: 1px solid rgba(139, 18, 48, 0.12);
 }
 
-.sidebar-logo { width: 42px; height: 42px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #f3efff; color: #7c3aed; }
+.sidebar-logo { width: 42px; height: 42px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #fce7eb; color: #8b1230; }
 .sidebar-brand-text { margin-left: 12px; overflow: hidden; white-space: nowrap; transition: opacity 0.2s ease, width 0.2s ease, margin 0.2s ease; }
 .sidebar-brand-text h2 { margin: 0; color: #171324; font-size: 1.1rem; font-weight: 800; letter-spacing: 0.18em; line-height: 1; }
 .sidebar-brand-text span { display: block; margin-top: 5px; color: #8a8398; font-size: 0.56rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
 .sidebar-collapsed .sidebar-brand-text { width: 0; margin-left: 0; opacity: 0; }
 
-.sidebar-collapse-button { position: absolute; top: 8px; right: -10px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(124, 58, 237, 0.12); border-radius: 50%; background: #ffffff; color: #6b647b; cursor: pointer; box-shadow: 0 5px 15px rgba(124, 58, 237, 0.08); }
-.sidebar-collapse-button:hover { background: #f2eaff; color: #7c3aed; }
+.sidebar-collapse-button { position: absolute; top: 8px; right: -10px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(139, 18, 48, 0.12); border-radius: 50%; background: #ffffff; color: #6b647b; cursor: pointer; box-shadow: 0 5px 15px rgba(139, 18, 48, 0.08); }
+.sidebar-collapse-button:hover { background: #fdf2f4; color: #8b1230; }
 .sidebar-nav { display: flex; flex-direction: column; gap: 6px; }
 .nav-label { padding: 0 12px; margin: 12px 0 8px; color: #8a8398; font-size: 9px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap; }
 .nav-label-space { margin-top: 14px; }
@@ -45,7 +45,7 @@
 .nav-icon { width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: currentColor; border-radius: 7px; }
 .nav-text { overflow: hidden; transition: opacity 0.2s ease, width 0.2s ease; }
 .nav-item:hover { background: #f9f7ff; color: #171324; transform: translateX(2px); }
-.nav-item.active { background: #7c3aed; color: #ffffff; box-shadow: 0 8px 18px rgba(124, 58, 237, 0.18); }
+.nav-item.active { background: #8b1230; color: #ffffff; box-shadow: 0 8px 18px rgba(139, 18, 48, 0.18); }
 .sidebar-collapsed .nav-item { justify-content: center; padding: 10px 8px; gap: 0; }
 .sidebar-collapsed .nav-text { width: 0; opacity: 0; }
 .sidebar-collapsed .nav-item::after { content: attr(data-tooltip); position: absolute; left: calc(100% + 12px); top: 50%; padding: 7px 10px; border-radius: 12px; background: #231f33; color: #ffffff; font-size: 0.68rem; font-weight: 600; white-space: nowrap; opacity: 0; visibility: hidden; transform: translateY(-50%) translateX(-4px); transition: opacity 0.15s ease, transform 0.15s ease; pointer-events: none; z-index: 1200; }
@@ -56,7 +56,7 @@
 .sidebar-status-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12); }
 .logout { margin-top: 4px; }
 
-html[data-theme="dark"] .dashboard-sidebar { background: #17111f; border-color: rgba(172, 148, 255, 0.18); }
+html[data-theme="dark"] .dashboard-sidebar { background: #17111f; border-color: rgba(201, 59, 93, 0.18); }
 html[data-theme="dark"] .sidebar-brand-text h2 { color: #f8f5fc; }
 html[data-theme="dark"] .sidebar-collapse-button { background: #211a2c; color: #b8afc8; }
 html[data-theme="dark"] .nav-item { color: #b8afc8; }

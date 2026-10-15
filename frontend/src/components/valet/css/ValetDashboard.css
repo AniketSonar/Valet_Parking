@@ -322,7 +322,7 @@
   justify-content: center;
   padding: 0 9px;
   border-radius: 8px;
-  background: #f2edff;
+  background: #fce7eb;
   color: #6e39d1;
   font-size: 12px;
   font-weight: 700;
@@ -409,7 +409,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: #f2edff;
+  background: #fce7eb;
   color: #713bd2;
 }
 
@@ -623,7 +623,7 @@
 
 .secondary-action:hover {
   border-color: #d7ccef;
-  background: #faf8ff;
+  background: #fdf7f8;
   color: #6732c5;
 }
 
@@ -668,7 +668,7 @@
   justify-content: center;
   margin-bottom: 13px;
   border-radius: 12px;
-  background: #f2edff;
+  background: #fce7eb;
   color: #7541d1;
 }
 
@@ -929,13 +929,13 @@
 
 .slot-option:hover {
   border-color: #cfc1ed;
-  background: #faf8ff;
+  background: #fdf7f8;
   color: #6c35cb;
 }
 
 .slot-option.selected {
   border-color: #773bd6;
-  background: #f2edff;
+  background: #fce7eb;
   color: #6d32ca;
 }
 

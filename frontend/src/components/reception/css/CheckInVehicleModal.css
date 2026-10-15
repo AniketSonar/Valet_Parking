@@ -596,12 +596,12 @@
 }
 
 .inspection-condition-toggle .type-btn.active {
-  border-color: #7c3aed;
+  border-color: #8b1230;
   background: #f5effd;
   color: #6d28d9;
   box-shadow:
-    0 0 0 2px rgba(124, 58, 237, 0.08),
-    0 4px 12px rgba(124, 58, 237, 0.06);
+    0 0 0 2px rgba(139, 18, 48, 0.08),
+    0 4px 12px rgba(139, 18, 48, 0.06);
 }
 
 .inspection-condition-toggle .type-btn.active.damaged {
@@ -657,7 +657,7 @@
   border-color: #9b6bd3;
   background: #ffffff;
   box-shadow:
-    0 0 0 3px rgba(124, 58, 237, 0.08);
+    0 0 0 3px rgba(139, 18, 48, 0.08);
 }
 
 .inspection-fields textarea:first-of-type {
@@ -725,7 +725,7 @@
   border-radius: 8px;
 
   background: #f0e7fa;
-  color: #7c3aed;
+  color: #8b1230;
 
   font-size: 18px;
   font-weight: 500;
@@ -739,7 +739,7 @@
   border-color: #a879d2;
   background: #faf7fd;
   box-shadow:
-    0 5px 15px rgba(124, 58, 237, 0.07);
+    0 5px 15px rgba(139, 18, 48, 0.07);
 }
 
 .inspection-upload-label:hover::before {

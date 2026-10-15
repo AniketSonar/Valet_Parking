@@ -1,6 +1,6 @@
 .customer-auth-page {
   min-height: 100vh;
-  background: #faf8ff;
+  background: #fdf7f8;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +55,7 @@
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .customer-auth-card {
@@ -71,7 +71,7 @@
 }
 
 .customer-auth-kicker {
-  color: #7c3aed;
+  color: #8b1230;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -121,8 +121,8 @@
 }
 
 .customer-input-group input:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+  border-color: #8b1230;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.1);
 }
 
 .customer-input-group input::placeholder {
@@ -144,7 +144,7 @@
   transform: translateY(-50%);
   border: 0;
   background: transparent;
-  color: #7c3aed;
+  color: #8b1230;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -156,7 +156,7 @@
   margin-top: 6px;
   border: 0;
   border-radius: 12px;
-  background: #7c3aed;
+  background: #8b1230;
   color: white;
   font-size: 14px;
   font-weight: 700;
@@ -169,7 +169,7 @@
 
 .customer-primary-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.22);
+  box-shadow: 0 8px 20px rgba(139, 18, 48, 0.22);
 }
 
 .customer-primary-button:disabled {
@@ -208,7 +208,7 @@
   border: 0;
   background: transparent;
   padding: 0;
-  color: #7c3aed;
+  color: #8b1230;
   font-weight: 700;
   cursor: pointer;
 }
@@ -224,7 +224,7 @@
 }
 
 .customer-back-button:hover {
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .customer-auth-error,

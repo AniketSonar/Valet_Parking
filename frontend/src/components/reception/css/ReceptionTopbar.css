@@ -8,8 +8,8 @@
     justify-content: space-between;
     padding: 0 34px;
     background: rgba(255, 255, 255, 0.74);
-    border-bottom: 1px solid rgba(124, 58, 237, 0.1);
-    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.04);
+    border-bottom: 1px solid rgba(139, 18, 48, 0.1);
+    box-shadow: 0 8px 24px rgba(139, 18, 48, 0.04);
     backdrop-filter: blur(14px);
     border-radius: 0 0 14px 14px;
 }
@@ -47,22 +47,22 @@
     align-items: center;
     padding: 0 13px;
     background: #f9f7ff;
-    border: 1px solid rgba(124, 58, 237, 0.12);
+    border: 1px solid rgba(139, 18, 48, 0.12);
     border-radius: 9999px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .search-bar:focus-within {
     background: #ffffff;
-    border-color: rgba(124, 58, 237, 0.42);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    border-color: rgba(139, 18, 48, 0.42);
+    box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.1);
 }
 
 .search-icon {
     width: 22px;
     display: flex;
     align-items: center;
-    color: #7c3aed;
+    color: #8b1230;
 }
 
 .search-bar input {
@@ -87,7 +87,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(124, 58, 237, 0.12);
+    border: 1px solid rgba(139, 18, 48, 0.12);
     border-radius: 50%;
     background: #ffffff;
     color: #6b647b;
@@ -95,8 +95,8 @@
 }
 
 .notification-bell:hover {
-    background: #f2eaff;
-    color: #7c3aed;
+    background: #fdf2f4;
+    color: #8b1230;
 }
 
 .notification-bell svg {
@@ -130,7 +130,7 @@
 
 .profile-chip:hover {
     background: #f9f7ff;
-    border-color: rgba(124, 58, 237, 0.12);
+    border-color: rgba(139, 18, 48, 0.12);
 }
 
 .profile-avatar {
@@ -141,7 +141,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: linear-gradient(135deg, #7c3aed, #6a26ea);
+    background: linear-gradient(135deg, #8b1230, #730c26);
     color: #ffffff;
     font-size: 11px;
     font-weight: 800;
@@ -181,7 +181,7 @@
 
 html[data-theme="dark"] .aura-topbar {
     background: rgba(15, 11, 22, 0.84);
-    border-color: rgba(172, 148, 255, 0.18);
+    border-color: rgba(201, 59, 93, 0.18);
 }
 
 html[data-theme="dark"] .breadcrumb strong,
@@ -192,7 +192,7 @@ html[data-theme="dark"] .profile-meta strong {
 html[data-theme="dark"] .search-bar,
 html[data-theme="dark"] .notification-bell {
     background: #17111f;
-    border-color: rgba(172, 148, 255, 0.18);
+    border-color: rgba(201, 59, 93, 0.18);
 }
 
 html[data-theme="dark"] .search-bar input {
@@ -238,7 +238,7 @@ html[data-theme="dark"] .profile-chip:hover {
 
 html[data-theme="dark"] .aura-topbar {
     background: rgba(15, 11, 22, .9);
-    border-bottom-color: rgba(172, 148, 255, .18);
+    border-bottom-color: rgba(201, 59, 93, .18);
 }
 
 html[data-theme="dark"] .search-bar,

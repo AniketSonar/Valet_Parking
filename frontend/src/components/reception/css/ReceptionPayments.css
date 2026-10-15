@@ -53,7 +53,7 @@
 
 .reception-payments-eyebrow {
   margin: 0 0 7px;
-  color: #7c3aed;
+  color: #8b1230;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -94,7 +94,7 @@
   border: 1px solid #e6dcf7;
   border-radius: 15px;
   background: #f5efff;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 /* ============================================================
@@ -135,7 +135,7 @@
 
 .reception-payments-search:focus-within {
   border-color: #a979f5;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.09);
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.09);
 }
 
 .reception-payments-search svg {
@@ -301,7 +301,7 @@
   border: 0;
   border-radius: 9px;
 
-  background: #7c3aed;
+  background: #8b1230;
   color: #ffffff;
 
   font-size: 12px;
@@ -309,7 +309,7 @@
 
   cursor: pointer;
 
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.18);
+  box-shadow: 0 4px 12px rgba(139, 18, 48, 0.18);
 
   transition:
     transform 0.18s ease,
@@ -319,7 +319,7 @@
 
 .reception-payment-process-button:hover {
   background: #6d28d9;
-  box-shadow: 0 6px 15px rgba(124, 58, 237, 0.23);
+  box-shadow: 0 6px 15px rgba(139, 18, 48, 0.23);
   transform: translateY(-1px);
 }
 
@@ -499,7 +499,7 @@
 }
 
 .reception-payments-back-button:hover {
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .reception-payments-back-button:disabled {
@@ -611,7 +611,7 @@
   border-radius: 11px;
   background: #f7f1ff;
 
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .reception-payment-card-title h3 {
@@ -675,7 +675,7 @@
 
 .reception-payment-input-wrapper:focus-within {
   border-color: #a979f5;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.08);
 }
 
 .reception-payment-input-wrapper input {
@@ -758,7 +758,7 @@
   border-color: #a978f0;
   background: #f8f2ff;
   color: #6d2ed0;
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.06);
+  box-shadow: 0 0 0 2px rgba(139, 18, 48, 0.06);
 }
 
 .reception-payment-method > svg {
@@ -807,7 +807,7 @@
   border: 0;
   border-radius: 10px;
 
-  background: #7c3aed;
+  background: #8b1230;
   color: #ffffff;
 
   font-size: 13px;
@@ -815,7 +815,7 @@
 
   cursor: pointer;
 
-  box-shadow: 0 6px 15px rgba(124, 58, 237, 0.18);
+  box-shadow: 0 6px 15px rgba(139, 18, 48, 0.18);
 
   transition:
     background 0.2s ease,
@@ -825,7 +825,7 @@
 
 .reception-payment-submit-button:hover:not(:disabled) {
   background: #6d28d9;
-  box-shadow: 0 8px 18px rgba(124, 58, 237, 0.24);
+  box-shadow: 0 8px 18px rgba(139, 18, 48, 0.24);
   transform: translateY(-1px);
 }
 
@@ -1111,11 +1111,11 @@
 }
 
 .reception-payment-download-button {
-  border: 1px solid #7c3aed;
-  background: #7c3aed;
+  border: 1px solid #8b1230;
+  background: #8b1230;
   color: #ffffff;
 
-  box-shadow: 0 5px 13px rgba(124, 58, 237, 0.16);
+  box-shadow: 0 5px 13px rgba(139, 18, 48, 0.16);
 }
 
 .reception-payment-download-button:hover:not(:disabled) {

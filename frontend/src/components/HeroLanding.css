@@ -56,12 +56,12 @@
 .brand-logo-wrapper {
   width: 42px;
   height: 42px;
-  background: #7c3aed;
+  background: #8b1230;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 4px 14px rgba(139, 18, 48, 0.4);
 }
 
 .brand-logo {
@@ -208,7 +208,7 @@
 .slot.available { background: rgba(52, 211, 153, 0.25); color: #a7f3d0; }
 .slot.retrieval { background: rgba(248, 113, 113, 0.25); color: #fecaca; }
 .slot.reserved { background: rgba(251, 191, 36, 0.25); color: #fef08a; }
-.slot.ready { background: rgba(167, 139, 250, 0.25); color: #ddd6fe; }
+.slot.ready { background: rgba(201, 59, 93, 0.25); color: #ddd6fe; }
 
 .floating-card {
   position: absolute;
@@ -221,7 +221,7 @@
   flex-direction: column;
 }
 
-.card-kicker { font-size: 0.65rem; color: #a78bfa; text-transform: uppercase; }
+.card-kicker { font-size: 0.65rem; color: #c93b5d; text-transform: uppercase; }
 .floating-card strong { font-size: 0.85rem; margin: 2px 0; }
 .floating-card small { font-size: 0.7rem; color: rgba(255, 255, 255, 0.6); }
 
@@ -241,7 +241,7 @@
   border-radius: 24px;
   padding: 2.5rem 2rem;
   color: #1e1b4b;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(124, 58, 237, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(139, 18, 48, 0.15);
 }
 
 .login-heading h1 {
@@ -298,8 +298,8 @@
 }
 
 .input-wrapper input:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  border-color: #8b1230;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.15);
   background: #ffffff;
 }
 
@@ -337,7 +337,7 @@
 }
 
 .password-options a {
-  color: #7c3aed;
+  color: #8b1230;
   text-decoration: none;
   font-weight: 600;
 }
@@ -357,7 +357,7 @@
 .login-button {
   width: 100%;
   padding: 12px;
-  background: #7c3aed;
+  background: #8b1230;
   color: #ffffff;
   border: none;
   border-radius: 10px;

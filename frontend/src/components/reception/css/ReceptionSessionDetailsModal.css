@@ -194,7 +194,7 @@
 
 .reception-session-modal .session-details-body > h4 svg {
   flex: 0 0 auto;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 /* ---------------------------------------------------------
@@ -242,10 +242,10 @@
 }
 
 .timeline-item.occurred .timeline-dot {
-  background: #7c3aed;
+  background: #8b1230;
   box-shadow:
-    0 0 0 1px #7c3aed,
-    0 0 0 4px rgba(124, 58, 237, 0.08);
+    0 0 0 1px #8b1230,
+    0 0 0 4px rgba(139, 18, 48, 0.08);
 }
 
 .timeline-item.pending .timeline-dot {
@@ -456,7 +456,7 @@
 
 .inspection-info-title svg {
   flex: 0 0 auto;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .inspection-info-title strong {
@@ -562,7 +562,7 @@
   gap: 16px;
   margin-bottom: 18px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(124, 58, 237, 0.12);
+  border-bottom: 1px solid rgba(139, 18, 48, 0.12);
 }
 
 .inspection-section-heading strong {
@@ -887,7 +887,7 @@
    --------------------------------------------------------- */
 
 .reception-session-modal button:focus-visible {
-  outline: 2px solid #8b5cf6;
+  outline: 2px solid #a82042;
   outline-offset: 2px;
 }
 

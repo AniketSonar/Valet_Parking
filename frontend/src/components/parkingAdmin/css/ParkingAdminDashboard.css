@@ -60,7 +60,7 @@
     --admin-text: #17131f;
     --admin-muted: #6b6472;
     --admin-border: #e9e5ef;
-    --admin-purple: #7c3aed;
+    --admin-purple: #8b1230;
     --admin-shadow: 0 12px 32px rgba(55, 38, 91, .07);
 }
 
@@ -70,7 +70,7 @@ html[data-theme="dark"] {
     --admin-surface-muted: #211a2c;
     --admin-text: #f8f5fc;
     --admin-muted: #b8afc8;
-    --admin-border: rgba(172, 148, 255, .18);
+    --admin-border: rgba(201, 59, 93, .18);
     --admin-shadow: 0 16px 36px rgba(0, 0, 0, .26);
 }
 
@@ -123,7 +123,7 @@ html[data-theme="dark"] .parking-admin-layout {
 }
 
 .parking-admin-layout .brand-badge {
-    background: #f3efff;
+    background: #fce7eb;
     color: var(--admin-purple);
     box-shadow: none;
 }
@@ -152,7 +152,7 @@ html[data-theme="dark"] .parking-admin-layout {
 .parking-admin-layout .menu-item.active {
     background: var(--admin-purple);
     color: #fff;
-    box-shadow: 0 8px 18px rgba(124, 58, 237, .18);
+    box-shadow: 0 8px 18px rgba(139, 18, 48, .18);
 }
 
 .parking-admin-layout .sidebar-collapse-btn {
@@ -237,7 +237,7 @@ html[data-theme="dark"] .parking-admin-layout {
 }
 
 .parking-admin-layout .profile-avatar {
-    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    background: linear-gradient(135deg, #8b1230, #6d28d9);
 }
 
 html[data-theme="dark"] .parking-admin-layout .aura-topbar {
@@ -358,7 +358,7 @@ html[data-theme="dark"] .parking-admin-layout .aura-topbar {
 }
 
 .card-subtext {
-    background: #f3efff;
+    background: #fce7eb;
     color: var(--admin-purple);
 }
 
@@ -492,7 +492,7 @@ html[data-theme="dark"] .parking-admin-layout .aura-topbar {
     border: 1px solid var(--admin-border);
     border-left: 0;
     border-right: 0;
-    background: repeating-linear-gradient(90deg, var(--admin-surface-muted) 0, var(--admin-surface-muted) 36px, rgba(124, 58, 237, .06) 36px, rgba(124, 58, 237, .06) 72px);
+    background: repeating-linear-gradient(90deg, var(--admin-surface-muted) 0, var(--admin-surface-muted) 36px, rgba(139, 18, 48, .06) 36px, rgba(139, 18, 48, .06) 72px);
 }
 
 .parking-slots-page .parking-central-driveway span {
@@ -596,7 +596,7 @@ html[data-theme="dark"] .parking-admin-layout .aura-topbar {
 .parking-admin-layout input:focus,
 .parking-admin-layout select:focus {
     border-color: var(--admin-purple);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, .1);
+    box-shadow: 0 0 0 3px rgba(139, 18, 48, .1);
 }
 
 .parking-admin-layout .parking-slot-modal-overlay,
@@ -1183,7 +1183,7 @@ html[data-theme="dark"] .parking-admin-layout .profile-panel {
             #f7f1fa,
             #f1e8f5);
 
-    color: #7c3aed;
+    color: #8b1230;
 }
 
 .retrieval-icon {
@@ -1238,7 +1238,7 @@ html[data-theme="dark"] .parking-admin-layout .profile-panel {
 
     background: transparent;
 
-    color: #7c3aed;
+    color: #8b1230;
 
     font-family: inherit;
 
@@ -1311,7 +1311,7 @@ html[data-theme="dark"] .parking-admin-layout .profile-panel {
 .circle-fill {
     fill: none;
 
-    stroke: #7c3aed;
+    stroke: #8b1230;
 
     stroke-width: 3.6;
 
@@ -1841,7 +1841,7 @@ html[data-theme="dark"] .parking-admin-layout .profile-panel {
     width: 100%;
     min-height: 100vh;
     overflow: visible;
-    background: var(--bg-app, linear-gradient(135deg, #f3efff 0%, #f8f6ff 50%, #ffffff 100%));
+    background: var(--bg-app, linear-gradient(135deg, #fce7eb 0%, #fbf8f9 50%, #ffffff 100%));
 }
 
 .parking-admin-main {
@@ -1870,10 +1870,10 @@ html[data-theme="dark"] .parking-admin-layout .profile-panel {
 
 .dashboard-refresh-btn,
 .today-date-badge {
-    border-color: var(--border-color, rgba(124, 58, 237, 0.12));
+    border-color: var(--border-color, rgba(139, 18, 48, 0.12));
     border-radius: 9999px;
     background: var(--bg-card, #ffffff);
-    color: var(--accent-purple, #7c3aed);
+    color: var(--accent-purple, #8b1230);
 }
 
 .today-date-badge {
@@ -1885,10 +1885,10 @@ html[data-theme="dark"] .parking-admin-layout .profile-panel {
 }
 
 .dashboard-widget-card {
-    border: 1px solid var(--border-color, rgba(124, 58, 237, 0.12));
+    border: 1px solid var(--border-color, rgba(139, 18, 48, 0.12));
     border-radius: 18px;
     background: var(--bg-card, #ffffff);
-    box-shadow: 0 8px 24px -4px rgba(124, 58, 237, 0.08);
+    box-shadow: 0 8px 24px -4px rgba(139, 18, 48, 0.08);
 }
 
 .dashboard-widget-card::after {
@@ -1920,9 +1920,9 @@ html[data-theme="dark"] .parking-admin-layout .profile-panel {
 .parking-admin-layout .parking-staff-summary-card,
 .parking-admin-layout .history-summary-card {
     background: var(--bg-card, #ffffff);
-    border: 1px solid var(--border-color, rgba(124, 58, 237, 0.12));
+    border: 1px solid var(--border-color, rgba(139, 18, 48, 0.12));
     border-radius: 18px;
-    box-shadow: 0 8px 24px -4px rgba(124, 58, 237, 0.08);
+    box-shadow: 0 8px 24px -4px rgba(139, 18, 48, 0.08);
 }
 
 .parking-admin-layout .profile-panel:hover,
@@ -1932,7 +1932,7 @@ html[data-theme="dark"] .parking-admin-layout .profile-panel {
 .parking-admin-layout .parking-history-card:hover,
 .parking-admin-layout .report-panel:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px -6px rgba(124, 58, 237, 0.12);
+    box-shadow: 0 12px 28px -6px rgba(139, 18, 48, 0.12);
 }
 
 html[data-theme="dark"] .parking-admin-layout .profile-panel,

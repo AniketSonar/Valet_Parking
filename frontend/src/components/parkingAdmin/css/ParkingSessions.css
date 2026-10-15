@@ -45,7 +45,7 @@
 
   background: linear-gradient(
     135deg,
-    #f2eaff,
+    #fdf2f4,
     #e9dcff
   );
 
@@ -150,7 +150,7 @@
 
   background: linear-gradient(
     135deg,
-    #7c3aed,
+    #8b1230,
     #8b3bc4
   );
 
@@ -809,7 +809,7 @@
   background: #ffffff;
   border: 1px solid #e9d5ff;
   border-radius: 14px;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.06);
+  box-shadow: 0 4px 14px rgba(139, 18, 48, 0.06);
 }
 
 /* Header */
@@ -853,7 +853,7 @@
   border-radius: 8px;
 
   background: #faf5ff;
-  color: #7c3aed;
+  color: #8b1230;
 
   cursor: pointer;
   transition:
@@ -921,7 +921,7 @@
 
 .no-slots-message svg {
   flex-shrink: 0;
-  color: #8b5cf6;
+  color: #a82042;
 }
 
 /* Available slots grid */
@@ -961,10 +961,10 @@
 }
 
 .available-slot:hover {
-  border-color: #a78bfa;
+  border-color: #c93b5d;
   background: #faf5ff;
-  color: #7c3aed;
-  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.08);
+  color: #8b1230;
+  box-shadow: 0 3px 10px rgba(139, 18, 48, 0.08);
   transform: translateY(-1px);
 }
 
@@ -975,7 +975,7 @@
 /* Slot icon */
 
 .available-slot svg {
-  color: #8b5cf6;
+  color: #a82042;
   transition: color 0.2s ease;
 }
 
@@ -994,16 +994,16 @@
 /* Selected slot */
 
 .available-slot.selected {
-  border-color: #7c3aed;
+  border-color: #8b1230;
   background: #f5f3ff;
-  color: #7c3aed;
+  color: #8b1230;
   box-shadow:
-    0 0 0 2px rgba(124, 58, 237, 0.10),
-    0 4px 12px rgba(124, 58, 237, 0.10);
+    0 0 0 2px rgba(139, 18, 48, 0.10),
+    0 4px 12px rgba(139, 18, 48, 0.10);
 }
 
 .available-slot.selected svg {
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .available-slot.selected strong {
@@ -1011,14 +1011,14 @@
 }
 
 .available-slot.selected span {
-  color: #8b5cf6;
+  color: #a82042;
 }
 
 /* Keyboard accessibility */
 
 .available-slot:focus-visible,
 .slot-refresh-button:focus-visible {
-  outline: 2px solid #8b5cf6;
+  outline: 2px solid #a82042;
   outline-offset: 2px;
 }
 

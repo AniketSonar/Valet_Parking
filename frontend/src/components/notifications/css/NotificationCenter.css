@@ -40,14 +40,14 @@
 }
 
 .notification-trigger:hover {
-  color: #7c3aed;
+  color: #8b1230;
   border-color: #d8c9f0;
-  background: #faf8ff;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.1);
+  background: #fdf7f8;
+  box-shadow: 0 4px 14px rgba(139, 18, 48, 0.1);
 }
 
 .notification-trigger.is-active {
-  color: #7c3aed;
+  color: #8b1230;
   border-color: #d8c9f0;
   background: #f6f1ff;
 }
@@ -68,7 +68,7 @@
   border: 2px solid #ffffff;
   border-radius: 999px;
 
-  background: #7c3aed;
+  background: #8b1230;
   color: #ffffff;
 
   font-size: 10px;
@@ -131,7 +131,7 @@
 
   padding: 18px 18px 16px;
 
-  border-bottom: 1px solid #eee9f5;
+  border-bottom: 1px solid #ebd5da;
 }
 
 .notification-panel-header h3 {
@@ -184,7 +184,7 @@
 .notification-icon-button:hover:not(:disabled) {
   background: #f6f1ff;
   border-color: #e5d9f4;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .notification-icon-button:disabled {
@@ -272,7 +272,7 @@
   border-radius: 11px;
 
   background: #f2ebff;
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 .notification-item-content {
@@ -310,7 +310,7 @@
 
   border-radius: 50%;
 
-  background: #7c3aed;
+  background: #8b1230;
 }
 
 /* ============================================================
@@ -443,7 +443,7 @@
   border: 0;
   border-radius: 9px;
 
-  background: #7c3aed;
+  background: #8b1230;
   color: #ffffff;
 
   font-size: 12px;
@@ -470,7 +470,7 @@
 
   padding: 11px 18px;
 
-  border-top: 1px solid #eee9f5;
+  border-top: 1px solid #ebd5da;
 
   background: #fbf9fd;
 

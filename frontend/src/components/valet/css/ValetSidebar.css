@@ -20,16 +20,16 @@
 
   flex-shrink: 0;
 
-  background: var(--bg-sidebar, #f8f6fc);
+  background: var(--bg-sidebar, #fdfbfc);
 
   color: var(--text-main, #171324);
 
-  border: 1px solid rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(139, 18, 48, 0.08);
 
   border-radius: 20px;
 
   box-shadow:
-    0 10px 30px -5px rgba(124, 58, 237, 0.08);
+    0 10px 30px -5px rgba(139, 18, 48, 0.08);
 
   overflow: hidden;
 
@@ -56,7 +56,7 @@
   margin-bottom: 22px;
 
   border-bottom:
-    1px solid rgba(124, 58, 237, 0.1);
+    1px solid rgba(139, 18, 48, 0.1);
 }
 
 
@@ -72,7 +72,7 @@
 
   border-radius: 12px;
 
-  background: #f3efff;
+  background: #fce7eb;
 
   overflow: hidden;
 }
@@ -260,7 +260,7 @@
 
 .valet-menu-item:hover .valet-item-icon,
 .valet-collapse-btn:hover .valet-item-icon {
-  color: #7c3aed;
+  color: #8b1230;
 }
 
 
@@ -269,14 +269,14 @@
 ============================================================ */
 
 .valet-menu-item.active {
-  background: #7c3aed;
+  background: #8b1230;
 
   color: #ffffff;
 
   font-weight: 700;
 
   box-shadow:
-    0 8px 18px rgba(124, 58, 237, 0.18);
+    0 8px 18px rgba(139, 18, 48, 0.18);
 }
 
 
@@ -311,7 +311,7 @@
   padding-top: 15px;
 
   border-top:
-    1px solid rgba(124, 58, 237, 0.1);
+    1px solid rgba(139, 18, 48, 0.1);
 }
 
 

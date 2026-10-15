@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    color: #7c3aed;
+    color: #8b1230;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: .12em;
@@ -59,9 +59,9 @@
 }
 
 .incident-primary-btn {
-    background: #7c3aed;
+    background: #8b1230;
     color: #fff;
-    box-shadow: 0 7px 18px rgba(124, 58, 237, .18)
+    box-shadow: 0 7px 18px rgba(139, 18, 48, .18)
 }
 
 .incident-primary-btn:hover {
@@ -190,7 +190,7 @@
 
 .stat-icon.total {
     background: #f0eaff;
-    color: #7c3aed
+    color: #8b1230
 }
 
 .stat-icon.open {
@@ -347,7 +347,7 @@
     place-items: center;
     flex: 0 0 auto;
     background: #f0eaff;
-    color: #7c3aed
+    color: #8b1230
 }
 
 .type-vehicle_damage {
@@ -361,7 +361,7 @@
 }
 
 .type-dispute {
-    background: #f2edff;
+    background: #fce7eb;
     color: #7250c7
 }
 
@@ -547,7 +547,7 @@
     font-size: 10px;
     font-weight: 800;
     letter-spacing: .1em;
-    color: #7c3aed
+    color: #8b1230
 }
 
 .report-modal form {
@@ -592,7 +592,7 @@
 .report-modal select:focus,
 .report-modal textarea:focus {
     border-color: #9b76dc;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, .08)
+    box-shadow: 0 0 0 3px rgba(139, 18, 48, .08)
 }
 
 .modal-footer {
@@ -667,8 +667,8 @@
 }
 
 .details-status-actions button.next-status {
-    background: #7c3aed;
-    border-color: #7c3aed;
+    background: #8b1230;
+    border-color: #8b1230;
     color: #fff;
     cursor: pointer
 }
@@ -704,7 +704,7 @@
     height: 30px;
     border-radius: 50%;
     background: #f0eaff;
-    color: #7c3aed;
+    color: #8b1230;
     display: grid;
     place-items: center;
     font-size: 11px;
@@ -733,7 +733,7 @@
     height: 9px;
     border-radius: 50%;
     margin-top: 5px;
-    background: #7c3aed;
+    background: #8b1230;
     z-index: 1;
     box-shadow: 0 0 0 4px #f1ebff
 }

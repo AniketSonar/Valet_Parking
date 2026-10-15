@@ -11,6 +11,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ParkingSlots.css";
 import apiClient from "../../api/apiClient";
 
@@ -321,9 +322,9 @@ const ParkingSlots = () => {
     parking_type: "car",
   });
 
-  const fetchSlots = useCallback(async () => {
+  const fetchSlots = useCallback(async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       setError("");
 
       const response = await apiClient("/api/parking-slots");
@@ -342,19 +343,29 @@ const ParkingSlots = () => {
     } catch (err) {
       console.error("Fetch parking slots error:", err);
 
-      setError(
-        err?.message || "Failed to fetch parking slots."
-      );
+      if (!silent) {
+        setError(
+          err?.message || "Failed to fetch parking slots."
+        );
+      }
 
       setSlots([]);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, []);
 
   useEffect(() => {
     fetchSlots();
   }, [fetchSlots]);
+
+  useRealtimeSync({
+    tables: ["parking_slots", "parking_sessions"],
+    onUpdate: () => {
+      fetchSlots(true);
+    },
+    interval: 3500,
+  });
 
   const availableZones = useMemo(() => {
     const zoneMap = new Map();

@@ -22,6 +22,7 @@ import {
   CircleParking,
 } from "lucide-react";
 
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ParkingSessions.css";
 import apiClient from "../../api/apiClient";
 
@@ -51,9 +52,9 @@ const ParkingSessions = () => {
   // FETCH SESSIONS
   // ============================================================
 
-  const fetchSessions = useCallback(async () => {
+  const fetchSessions = useCallback(async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       setError("");
 
       const params = new URLSearchParams();
@@ -87,9 +88,9 @@ const ParkingSessions = () => {
       setSessions(response.sessions || []);
     } catch (err) {
       console.error("Fetch parking sessions error:", err);
-      setError(err.message || "Failed to fetch parking sessions.");
+      if (!silent) setError(err.message || "Failed to fetch parking sessions.");
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, [search, statusFilter, parkingTypeFilter]);
 
@@ -126,6 +127,14 @@ const ParkingSessions = () => {
   useEffect(() => {
     fetchSessions();
   }, [fetchSessions]);
+
+  useRealtimeSync({
+    tables: ["parking_sessions", "parking_slots"],
+    onUpdate: () => {
+      fetchSessions(true);
+    },
+    interval: 3500,
+  });
 
   const handleAssignSlot = async () => {
     if (!selectedSession || !selectedSlot) {

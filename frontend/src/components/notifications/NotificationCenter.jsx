@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { getMyNotifications } from "../../api/parkingApi";
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/NotificationCenter.css";
 
 const formatDateTime = (value) => {
@@ -187,6 +188,14 @@ const NotificationCenter = ({
   useEffect(() => {
     fetchNotifications();
   }, []);
+
+  useRealtimeSync({
+    tables: ["notifications"],
+    onUpdate: () => {
+      fetchNotifications(false);
+    },
+    interval: 4000,
+  });
 
   useEffect(() => {
     const handleOutsideClick = (event) => {

@@ -24,6 +24,7 @@ import {
   completeReturn,
 } from "../../api/parkingApi";
 
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ValetDashboard.css";
 
 const STATUS_LABELS = {
@@ -132,6 +133,15 @@ function ValetDashboard() {
     loadDashboard();
     loadSlots();
   }, [loadDashboard, loadSlots]);
+
+  useRealtimeSync({
+    tables: ["parking_sessions", "parking_slots", "retrieval_requests"],
+    onUpdate: () => {
+      loadDashboard(false);
+      loadSlots();
+    },
+    interval: 3500,
+  });
 
   useEffect(() => {
     if (!successMessage) return;

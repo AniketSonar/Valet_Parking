@@ -6,6 +6,7 @@ import {
   markReadyForPickup,
   completeReturn,
 } from "../../api/parkingApi";
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/RetrievalRequests.css";
 
 const RetrievalRequests = () => {
@@ -17,9 +18,9 @@ const RetrievalRequests = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [message, setMessage] = useState("");
 
-  const fetchRequests = useCallback(async () => {
+  const fetchRequests = useCallback(async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       setError("");
 
       const params = {};
@@ -38,15 +39,23 @@ const RetrievalRequests = () => {
       }
     } catch (err) {
       console.error("Fetch retrieval requests error:", err);
-      setError(err.message || "Failed to load retrieval requests.");
+      if (!silent) setError(err.message || "Failed to load retrieval requests.");
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, [statusFilter, searchTerm]);
 
   useEffect(() => {
     fetchRequests();
   }, [fetchRequests]);
+
+  useRealtimeSync({
+    tables: ["parking_sessions", "parking_slots"],
+    onUpdate: () => {
+      fetchRequests(true);
+    },
+    interval: 3500,
+  });
 
   const handleAction = async (id, actionFn, successText) => {
     try {

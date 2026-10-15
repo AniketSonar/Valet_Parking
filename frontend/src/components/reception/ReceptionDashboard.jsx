@@ -34,6 +34,7 @@ import {
   getReceptionNotifications,
 } from "../../api/receptionApi";
 
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ReceptionDashboard.css";
 
 // ============================================================
@@ -471,9 +472,9 @@ const ReceptionDashboard = () => {
     navigate("/", { replace: true });
   };
 
-  const fetchSessions = useCallback(async () => {
+  const fetchSessions = useCallback(async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       setError("");
       const res = await getReceptionSessions();
       if (res && res.success) {
@@ -486,9 +487,9 @@ const ReceptionDashboard = () => {
         throw new Error(res?.message || "Failed to fetch sessions.");
       }
     } catch (err) {
-      setError(err.message || "Failed to load parking sessions.");
+      if (!silent) setError(err.message || "Failed to load parking sessions.");
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, []);
 
@@ -496,6 +497,15 @@ const ReceptionDashboard = () => {
     fetchSessions();
     getReceptionNotifications().then((response) => setNotifications(response?.notifications || [])).catch(() => setNotifications([]));
   }, [fetchSessions]);
+
+  useRealtimeSync({
+    tables: ["parking_sessions", "parking_slots", "notifications", "keys"],
+    onUpdate: () => {
+      fetchSessions(true);
+      getReceptionNotifications().then((response) => setNotifications(response?.notifications || [])).catch(() => {});
+    },
+    interval: 3500,
+  });
 
   // KPI derived stats
   const stats = useMemo(() => {

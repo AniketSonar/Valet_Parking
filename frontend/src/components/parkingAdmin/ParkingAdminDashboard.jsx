@@ -28,6 +28,7 @@ import ParkingReports from "./ParkingReports";
 import ParkingAdminProfile from "./ParkingAdminProfile";
 import ParkingSessions from "./ParkingSessions";
 import IncidentManagement from "./IncidentManagement";
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import FeedbackManagement from "./FeedbackManagement";
 
 import apiClient from "../../api/apiClient";
@@ -68,9 +69,9 @@ const ParkingAdminDashboard = ({ onLogout }) => {
   // FETCH DASHBOARD DATA
   // ============================================================
 
-  const fetchDashboardStats = async () => {
+  const fetchDashboardStats = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       setError("");
 
       const data = await apiClient(
@@ -104,18 +105,28 @@ const ParkingAdminDashboard = ({ onLogout }) => {
         err
       );
 
-      setError(
-        err?.message ||
-        "Unable to load dashboard statistics."
-      );
+      if (!silent) {
+        setError(
+          err?.message ||
+          "Unable to load dashboard statistics."
+        );
+      }
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchDashboardStats();
   }, []);
+
+  useRealtimeSync({
+    tables: ["parking_sessions", "parking_slots", "payments", "retrieval_requests"],
+    onUpdate: () => {
+      fetchDashboardStats(true);
+    },
+    interval: 4000,
+  });
 
   // ============================================================
   // OCCUPANCY

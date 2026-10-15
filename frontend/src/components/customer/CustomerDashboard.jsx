@@ -14,6 +14,7 @@ import {
   getCustomerDashboard,
   requestVehicleRetrieval,
 } from "../../api/customerApi";
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/CustomerPortal.css";
 
 const labels = {
@@ -68,6 +69,14 @@ function CustomerDashboard({ onNavigate, onCustomerLoaded }) {
   useEffect(() => {
     load(true);
   }, [load]);
+
+  useRealtimeSync({
+    tables: ["parking_sessions", "parking_bookings", "retrieval_requests"],
+    onUpdate: () => {
+      load(false);
+    },
+    interval: 3500,
+  });
 
   const runRetrievalAction = async (session, type) => {
     try {

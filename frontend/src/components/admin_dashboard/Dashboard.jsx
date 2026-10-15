@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 import { getDashboardStats } from "../../api/adminApi";
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 
 import "./Dashboard.css";
 
@@ -47,9 +48,9 @@ function Dashboard() {
   const [dashboardLoading, setDashboardLoading] = useState(false);
   const [dashboardError, setDashboardError] = useState("");
 
-  const loadDashboardStats = async () => {
+  const loadDashboardStats = async (silent = false) => {
     try {
-      setDashboardLoading(true);
+      if (!silent) setDashboardLoading(true);
       setDashboardError("");
 
       const response = await getDashboardStats();
@@ -86,12 +87,14 @@ function Dashboard() {
         error
       );
 
-      setDashboardError(
-        error?.message ||
-        "Failed to load dashboard statistics."
-      );
+      if (!silent) {
+        setDashboardError(
+          error?.message ||
+          "Failed to load dashboard statistics."
+        );
+      }
     } finally {
-      setDashboardLoading(false);
+      if (!silent) setDashboardLoading(false);
     }
   };
 
@@ -100,6 +103,17 @@ function Dashboard() {
       loadDashboardStats();
     }
   }, [activePage]);
+
+  useRealtimeSync({
+    tables: ["parking_sessions", "parking_slots", "payments", "users"],
+    onUpdate: () => {
+      if (activePage === "dashboard") {
+        loadDashboardStats(true);
+      }
+    },
+    interval: 4000,
+    enabled: activePage === "dashboard",
+  });
 
   const formattedRevenue =
     Number(

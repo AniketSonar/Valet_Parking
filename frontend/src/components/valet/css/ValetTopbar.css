@@ -1,0 +1,201 @@
+.valet-topbar {
+  position: sticky;
+    top: 0;
+    z-index: 90;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 34px;
+    background: rgba(255, 255, 255, 0.74);
+    border-bottom: 1px solid rgba(139, 18, 48, 0.1);
+    box-shadow: 0 8px 24px rgba(139, 18, 48, 0.04);
+    backdrop-filter: blur(14px);
+    border-radius: 0 0 14px 14px;
+}
+
+
+.valet-topbar-search {
+  width: min(420px, 45%);
+
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 0 14px;
+
+  background: var(--bg-card, #ffffff);
+
+  border: 1px solid var(--border-color, #edd8dc);
+
+  border-radius: 11px;
+
+  color: #8b7ba8;
+}
+
+
+.valet-topbar-search input {
+  width: 100%;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: var(--text-main, #171324);
+
+  font-family: inherit;
+
+  font-size: 13px;
+}
+
+
+.valet-topbar-search input::placeholder {
+  color: #a49bb2;
+}
+
+
+.valet-topbar-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+.valet-notification-btn {
+  position: relative;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--border-color, #edd8dc);
+
+  border-radius: 10px;
+
+  background: var(--bg-card, #ffffff);
+
+  color: var(--text-muted, #6b647b);
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.valet-notification-btn:hover {
+  background: #f9f7ff;
+
+  color: #8b1230;
+}
+
+
+.notification-dot {
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #8b1230;
+}
+
+
+.valet-profile-chip {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 5px 8px 5px 5px;
+
+  border: 1px solid var(--border-color, #edd8dc);
+
+  border-radius: 12px;
+
+  background: var(--bg-card, #ffffff);
+
+  color: var(--text-main, #171324);
+
+  cursor: pointer;
+}
+
+
+.valet-avatar {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #fce7eb;
+
+  color: #8b1230;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+
+.valet-profile-text {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  min-width: 80px;
+}
+
+
+.valet-profile-text strong {
+  font-size: 12px;
+
+  line-height: 1.3;
+}
+
+
+.valet-profile-text small {
+  color: #8b7ba8;
+
+  font-size: 10px;
+}
+
+
+@media (max-width: 700px) {
+  .valet-topbar-search {
+    width: 42px;
+
+    padding: 0;
+
+    justify-content: center;
+  }
+
+  .valet-topbar-search input {
+    display: none;
+  }
+
+  .valet-profile-text {
+    display: none;
+  }
+
+  .valet-profile-chip {
+    padding: 3px;
+  }
+}

@@ -1,0 +1,566 @@
+/* ============================================================
+   VALET SIDEBAR
+============================================================ */
+
+.valet-sidebar {
+  position: sticky;
+  top: 14px;
+
+  width: 260px;
+  height: calc(100vh - 28px);
+  min-height: 0;
+
+  margin: 0 0 14px 14px;
+  padding: 20px 14px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  flex-shrink: 0;
+
+  background: var(--bg-sidebar, #fdfbfc);
+
+  color: var(--text-main, #171324);
+
+  border: 1px solid rgba(139, 18, 48, 0.08);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 30px -5px rgba(139, 18, 48, 0.08);
+
+  overflow: hidden;
+
+  transition:
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.3s ease;
+}
+
+
+/* ============================================================
+   BRAND
+============================================================ */
+
+.valet-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 52px;
+
+  padding: 0 9px 20px;
+
+  margin-bottom: 22px;
+
+  border-bottom:
+    1px solid rgba(139, 18, 48, 0.1);
+}
+
+
+.valet-brand-logo {
+  width: 42px;
+  height: 42px;
+
+  flex: 0 0 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #fce7eb;
+
+  overflow: hidden;
+}
+
+
+.valet-brand-logo img {
+  width: 34px;
+  height: 34px;
+
+  object-fit: contain;
+}
+
+
+.valet-brand-title {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  transition:
+    opacity 0.2s ease,
+    width 0.25s ease;
+}
+
+
+.valet-brand-title h2 {
+  margin: 0;
+
+  color: var(--text-main, #171324);
+
+  font-size: 20px;
+  line-height: 1.1;
+
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+
+.valet-brand-title span {
+  margin-top: 4px;
+
+  color: #8b7ba8;
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.17em;
+}
+
+
+/* ============================================================
+   SECTION
+============================================================ */
+
+.valet-sidebar-section {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.valet-section-label {
+  margin: 0 0 4px;
+
+  padding: 0 12px;
+
+  color: #8b7ba8;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+.valet-menu-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+
+/* ============================================================
+   MENU ITEM
+============================================================ */
+
+.valet-menu-item,
+.valet-collapse-btn,
+.valet-logout-btn {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+  min-height: 44px;
+
+  padding: 11px 13px;
+
+  box-sizing: border-box;
+
+  border: 1px solid transparent;
+
+  border-radius: 12px;
+
+  background: transparent;
+
+  color: var(--text-muted, #6b647b);
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.valet-item-icon {
+  width: 24px;
+  height: 24px;
+
+  flex: 0 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #8b7ba8;
+}
+
+
+.valet-item-icon svg {
+  flex-shrink: 0;
+}
+
+
+.valet-item-text {
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  transition:
+    opacity 0.2s ease,
+    width 0.25s ease;
+}
+
+
+.valet-menu-item:hover,
+.valet-collapse-btn:hover {
+  background: #f9f7ff;
+
+  color: var(--text-main, #171324);
+
+  transform: translateX(2px);
+}
+
+
+.valet-menu-item:hover .valet-item-icon,
+.valet-collapse-btn:hover .valet-item-icon {
+  color: #8b1230;
+}
+
+
+/* ============================================================
+   ACTIVE
+============================================================ */
+
+.valet-menu-item.active {
+  background: #8b1230;
+
+  color: #ffffff;
+
+  font-weight: 700;
+
+  box-shadow:
+    0 8px 18px rgba(139, 18, 48, 0.18);
+}
+
+
+.valet-menu-item.active .valet-item-icon {
+  color: #ffffff;
+}
+
+
+/* ============================================================
+   ACCOUNT
+============================================================ */
+
+.valet-account-section {
+  margin-top: 10px;
+
+  padding-top: 10px;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.valet-sidebar-footer {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  margin-top: auto;
+
+  padding-top: 15px;
+
+  border-top:
+    1px solid rgba(139, 18, 48, 0.1);
+}
+
+
+.valet-collapse-btn {
+  color: var(--text-muted, #6b647b);
+}
+
+
+.valet-logout-btn {
+  color: var(--text-muted, #6b647b);
+}
+
+
+.valet-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.08);
+
+  color: #dc2626;
+}
+
+
+.valet-logout-btn:hover .valet-item-icon {
+  color: #dc2626;
+}
+
+
+/* ============================================================
+   COLLAPSED
+============================================================ */
+
+.valet-sidebar.is-collapsed {
+  width: 78px;
+
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+.valet-sidebar.is-collapsed .valet-brand {
+  justify-content: center;
+
+  padding-left: 0;
+  padding-right: 0;
+}
+
+
+.valet-sidebar.is-collapsed .valet-brand-title {
+  width: 0;
+
+  opacity: 0;
+}
+
+
+.valet-sidebar.is-collapsed .valet-section-label {
+  width: 0;
+  height: 0;
+
+  margin: 0;
+  padding: 0;
+
+  opacity: 0;
+
+  overflow: hidden;
+}
+
+
+.valet-sidebar.is-collapsed
+.valet-menu-item,
+.valet-sidebar.is-collapsed
+.valet-collapse-btn,
+.valet-sidebar.is-collapsed
+.valet-logout-btn {
+  justify-content: center;
+
+  padding-left: 0;
+  padding-right: 0;
+
+  gap: 0;
+}
+
+
+.valet-sidebar.is-collapsed .valet-item-text {
+  width: 0;
+
+  opacity: 0;
+}
+
+
+/* ============================================================
+   TOOLTIP
+============================================================ */
+
+.valet-sidebar.is-collapsed
+.valet-menu-item::before,
+.valet-sidebar.is-collapsed
+.valet-logout-btn::before,
+.valet-sidebar.is-collapsed
+.valet-collapse-btn::before {
+  content: attr(title);
+
+  position: absolute;
+
+  left: calc(100% + 10px);
+
+  top: 50%;
+
+  transform:
+    translateY(-50%)
+    translateX(-4px);
+
+  padding: 7px 10px;
+
+  border-radius: 7px;
+
+  background: #2b1738;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  pointer-events: none;
+
+  z-index: 2000;
+
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+
+.valet-sidebar.is-collapsed
+.valet-menu-item:hover::before,
+.valet-sidebar.is-collapsed
+.valet-logout-btn:hover::before,
+.valet-sidebar.is-collapsed
+.valet-collapse-btn:hover::before {
+  opacity: 1;
+
+  visibility: visible;
+
+  transform:
+    translateY(-50%)
+    translateX(0);
+}
+
+
+/* ============================================================
+   DARK THEME
+============================================================ */
+
+html[data-theme="dark"]
+.valet-sidebar {
+  background: var(--bg-sidebar, #17111f);
+
+  border-color: #30263a;
+}
+
+
+html[data-theme="dark"]
+.valet-brand-title h2 {
+  color: #f8f5fc;
+}
+
+
+html[data-theme="dark"]
+.valet-menu-item {
+  color: #b8afc8;
+}
+
+
+html[data-theme="dark"]
+.valet-menu-item:hover,
+html[data-theme="dark"]
+.valet-collapse-btn:hover {
+  background: #211a2c;
+
+  color: #ffffff;
+}
+
+
+html[data-theme="dark"]
+.valet-sidebar-footer {
+  border-top-color: #30263a;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 900px) {
+  .valet-sidebar {
+    width: 78px;
+
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .valet-brand {
+    justify-content: center;
+
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .valet-brand-title,
+  .valet-section-label {
+    display: none;
+  }
+
+  .valet-menu-item,
+  .valet-collapse-btn,
+  .valet-logout-btn {
+    justify-content: center;
+
+    padding-left: 0;
+    padding-right: 0;
+
+    gap: 0;
+  }
+
+  .valet-item-text {
+    width: 0;
+
+    opacity: 0;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .valet-sidebar {
+    position: fixed;
+
+    top: 10px;
+    left: 10px;
+
+    bottom: 10px;
+
+    height: calc(100vh - 20px);
+
+    margin: 0;
+
+    z-index: 1200;
+  }
+}

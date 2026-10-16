@@ -116,6 +116,3 @@ Open the frontend URL (typically `http://localhost:5173`) in your web browser.
    - Output Directory: `dist`
    - Environment Variables:
      - `VITE_API_URL=<your_deployed_backend_url>`
-   - For Vercel, keep `frontend/vercel.json` in the deployed project so
-     browser refreshes on routes such as `/admin-dashboard` are rewritten to
-     the React application entry point.

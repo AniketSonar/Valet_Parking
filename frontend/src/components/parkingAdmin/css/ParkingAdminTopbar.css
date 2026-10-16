@@ -1,0 +1,411 @@
+/* ================================
+   PARKING ADMIN TOPBAR
+================================ */
+
+.aura-topbar {
+  width: 100%;
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 32px;
+
+  background: #f3f0f7;
+  border-bottom: 1px solid #e6e0eb;
+
+  box-sizing: border-box;
+}
+
+
+/* ================================
+   BREADCRUMB
+================================ */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #8c7f9e;
+
+  white-space: nowrap;
+}
+
+.breadcrumb strong {
+  color: #231633;
+  font-weight: 700;
+}
+
+.breadcrumb .capitalize {
+  text-transform: capitalize;
+}
+
+
+/* ================================
+   TOPBAR RIGHT
+================================ */
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+
+/* ================================
+   SEARCH BAR
+================================ */
+
+.search-bar {
+  width: 220px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 0 13px;
+
+  background: #e9e4f0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  box-sizing: border-box;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search-bar:hover {
+  background: #e5dfec;
+}
+
+.search-bar:focus-within {
+  background: #ffffff;
+  border-color: #d7cde1;
+  box-shadow: 0 0 0 3px rgba(35, 22, 51, 0.05);
+}
+
+.search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  opacity: 0.65;
+}
+
+.search-bar input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #231633;
+  font-size: 12.5px;
+  font-family: inherit;
+}
+
+.search-bar input::placeholder {
+  color: #9b90a7;
+}
+
+
+/* ================================
+   NOTIFICATION
+================================ */
+
+.notification-bell {
+  position: relative;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  background: #e9e4f0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  color: #231633;
+  font-size: 15px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.notification-bell:hover {
+  background: #e2dbe9;
+  border-color: #d7cde1;
+  transform: translateY(-1px);
+}
+
+.notification-bell:active {
+  transform: translateY(0);
+}
+
+
+/* Notification indicator */
+
+.bell-badge {
+  position: absolute;
+
+  top: 5px;
+  right: 8px;
+
+  width: 6px;
+  height: 6px;
+
+  background: #ef4444;
+  border: 2px solid #e9e4f0;
+  border-radius: 50%;
+
+  box-sizing: content-box;
+}
+
+
+/* ================================
+   PROFILE CHIP
+================================ */
+
+.profile-chip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  min-height: 42px;
+
+  padding: 3px 7px 3px 4px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.profile-chip:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+
+/* ================================
+   PROFILE AVATAR
+================================ */
+
+.profile-avatar {
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #231633;
+  color: white;
+
+  border-radius: 10px;
+
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+
+  box-shadow: 0 2px 5px rgba(35, 22, 51, 0.12);
+}
+
+
+/* ================================
+   PROFILE META
+================================ */
+
+.profile-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  min-width: 90px;
+
+  line-height: 1.2;
+}
+
+.profile-meta strong {
+  margin-bottom: 3px;
+
+  color: #231633;
+
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.profile-meta span {
+  color: #8c7f9e;
+
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+
+/* ================================
+   DROPDOWN ARROW
+================================ */
+
+.dropdown-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 2px;
+
+  color: #8c7f9e;
+  font-size: 11px;
+
+  transition: transform 0.2s ease;
+}
+
+.profile-chip:hover .dropdown-arrow {
+  transform: translateY(1px);
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+  .aura-topbar {
+    padding: 14px 22px;
+  }
+
+  .search-bar {
+    width: 180px;
+  }
+
+  .profile-meta {
+    display: none;
+  }
+}
+
+
+@media (max-width: 650px) {
+  .aura-topbar {
+    min-height: 64px;
+    padding: 12px 16px;
+  }
+
+  .breadcrumb {
+    font-size: 11.5px;
+  }
+
+  .topbar-right {
+    gap: 8px;
+  }
+
+  .search-bar {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+
+    justify-content: center;
+  }
+
+  .search-bar input {
+    display: none;
+  }
+
+  .search-icon {
+    font-size: 14px;
+  }
+
+  .notification-bell {
+    width: 38px;
+    height: 38px;
+  }
+
+  .profile-chip {
+    padding: 2px;
+  }
+
+  .dropdown-arrow {
+    display: none;
+  }
+}
+
+
+@media (max-width: 450px) {
+  .breadcrumb span {
+    display: none;
+  }
+
+  .breadcrumb {
+    font-size: 11px;
+  }
+}
+
+.parking-admin-layout .aura-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  min-height: 76px;
+  padding: 0 34px;
+  background: rgba(255, 255, 255, 0.74);
+  border-bottom: 1px solid rgba(139, 18, 48, 0.1);
+  box-shadow: 0 8px 24px rgba(139, 18, 48, 0.04);
+  backdrop-filter: blur(14px);
+}
+
+.parking-admin-layout .breadcrumb strong {
+  color: var(--text-main, #171324);
+}
+
+.parking-admin-layout .search-bar {
+  border-color: rgba(139, 18, 48, 0.12);
+  border-radius: 9999px;
+  background: var(--bg-card-secondary, #fdfbfc);
+}
+
+.parking-admin-layout .notification-bell {
+  border-color: rgba(139, 18, 48, 0.12);
+  border-radius: 50%;
+  background: var(--bg-card, #ffffff);
+}
+
+.parking-admin-layout .profile-chip {
+  border-radius: 9999px;
+}
+
+.parking-admin-layout .profile-avatar {
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b1230, #730c26);
+}
+
+html[data-theme="dark"] .parking-admin-layout .aura-topbar {
+  background: rgba(15, 11, 22, 0.84);
+  border-color: #30263a;
+}
+
+html[data-theme="dark"] .parking-admin-layout .breadcrumb strong {
+  color: #f8f5fc;
+}
+
+html[data-theme="dark"] .parking-admin-layout .search-bar,
+html[data-theme="dark"] .parking-admin-layout .notification-bell {
+  background: #17111f;
+}

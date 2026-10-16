@@ -1,0 +1,481 @@
+/* ============================================================
+   CUSTOMER PAYMENTS
+   ============================================================ */
+
+.customer-payments-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4px 0 32px;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.customer-payments-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.customer-payments-header h1 {
+  margin: 0;
+  color: #1f1b2d;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+.customer-payments-header p {
+  margin: 7px 0 0;
+  color: #777187;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.customer-payments-refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid #e5def4;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #5b21b6;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.customer-payments-refresh:hover {
+  background: #fdf7f8;
+  border-color: #cfc0ee;
+  box-shadow: 0 3px 10px rgba(76, 29, 149, 0.06);
+}
+
+.customer-payments-refresh:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   PAYMENT LIST
+   ============================================================ */
+
+.customer-payments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ============================================================
+   PAYMENT CARD
+   ============================================================ */
+
+.customer-payment-card {
+  overflow: hidden;
+  border: 1px solid #f2e1e5;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(51, 33, 82, 0.05);
+}
+
+.customer-payment-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+}
+
+.customer-payment-icon {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #f3effd;
+  color: #8b1230;
+}
+
+.customer-payment-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.customer-payment-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.customer-payment-title-row h3 {
+  margin: 0;
+  color: #272231;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.customer-payment-plate {
+  display: inline-block;
+  margin-top: 4px;
+  color: #81798e;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* ============================================================
+   STATUS
+   ============================================================ */
+
+.customer-payment-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.customer-payment-status.paid {
+  background: #ecfdf3;
+  color: #15803d;
+}
+
+.customer-payment-status.pending {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+/* ============================================================
+   PAYMENT DETAILS
+   ============================================================ */
+
+.customer-payment-details {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.customer-payment-details div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.customer-payment-details span {
+  color: #91899b;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.customer-payment-details strong {
+  overflow: hidden;
+  color: #40394b;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   AMOUNT
+   ============================================================ */
+
+.customer-payment-amount {
+  flex: 0 0 auto;
+  min-width: 125px;
+  padding-left: 16px;
+  text-align: right;
+}
+
+.customer-payment-amount span {
+  display: block;
+  margin-bottom: 5px;
+  color: #91899b;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.customer-payment-amount strong {
+  color: #5b21b6;
+  font-size: 19px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   CARD FOOTER
+   ============================================================ */
+
+.customer-payment-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 20px;
+  border-top: 1px solid #f0ecf6;
+  background: #fcfbfe;
+}
+
+.customer-payment-breakdown {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.customer-payment-breakdown span {
+  color: #766e81;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.customer-payment-invoice-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #8b1230;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.customer-payment-invoice-btn:hover {
+  background: #6d28d9;
+  box-shadow: 0 4px 12px rgba(139, 18, 48, 0.18);
+}
+
+.customer-payment-invoice-btn:active {
+  transform: translateY(1px);
+}
+
+.customer-payment-invoice-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ============================================================
+   LOADING STATE
+   ============================================================ */
+
+.customer-payments-state {
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #f2e1e5;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #777187;
+  font-size: 13px;
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.customer-payments-empty {
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 40px 20px;
+  border: 1px solid #f2e1e5;
+  border-radius: 14px;
+  background: #ffffff;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(51, 33, 82, 0.04);
+}
+
+.customer-payments-empty-icon {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: #f3effd;
+  color: #8b1230;
+}
+
+.customer-payments-empty h3 {
+  margin: 0;
+  color: #302a3a;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.customer-payments-empty p {
+  max-width: 360px;
+  margin: 7px 0 0;
+  color: #827a8c;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   ERROR
+   ============================================================ */
+
+.customer-payments-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid #f3d1d1;
+  border-radius: 10px;
+  background: #fff8f8;
+}
+
+.customer-payments-error > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.customer-payments-error strong {
+  color: #a33a3a;
+  font-size: 13px;
+}
+
+.customer-payments-error span {
+  color: #9a6b6b;
+  font-size: 12px;
+}
+
+.customer-payments-error button {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: #8b1230;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+/* ============================================================
+   SPINNER
+   ============================================================ */
+
+.customer-payments-spinner {
+  animation: customerPaymentsSpin 0.9s linear infinite;
+}
+
+@keyframes customerPaymentsSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .customer-payment-card-top {
+    flex-wrap: wrap;
+  }
+
+  .customer-payment-main {
+    width: calc(100% - 58px);
+    flex-basis: calc(100% - 58px);
+  }
+
+  .customer-payment-amount {
+    width: 100%;
+    padding-left: 58px;
+    text-align: left;
+  }
+
+  .customer-payment-details {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .customer-payments-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .customer-payments-refresh {
+    align-self: flex-start;
+  }
+
+  .customer-payment-card-top {
+    padding: 16px;
+  }
+
+  .customer-payment-title-row {
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .customer-payment-status {
+    align-self: flex-start;
+  }
+
+  .customer-payment-details {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .customer-payment-card-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 14px 16px;
+  }
+
+  .customer-payment-invoice-btn {
+    width: 100%;
+  }
+
+  .customer-payment-breakdown {
+    gap: 7px 14px;
+  }
+}
+
+@media (max-width: 430px) {
+  .customer-payment-details {
+    grid-template-columns: 1fr;
+  }
+
+  .customer-payment-amount {
+    padding-left: 0;
+  }
+}

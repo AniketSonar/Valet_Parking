@@ -1,0 +1,91 @@
+.retrievals-container {
+  max-width: 1600px;
+  padding: 30px 34px 48px;
+}
+
+.retrievals-header h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1024;
+  margin: 0;
+}
+
+.retrievals-header p {
+  font-size: 13px;
+  color: #6c6377;
+  margin: 4px 0 20px;
+}
+
+.table-card {
+  background: #ffffff;
+  border: 1px solid #e8e4ee;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(26, 16, 36, 0.03);
+}
+
+.retrieval-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.retrieval-table th {
+  background: #faf8fd;
+  padding: 16px 20px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #7b7389;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e8e4ee;
+}
+
+.retrieval-table td {
+  padding: 16px 20px;
+  font-size: 13px;
+  border-bottom: 1px solid #f1edfa;
+  color: #1a1024;
+}
+
+.slot-badge {
+  font-family: monospace;
+  font-weight: 800;
+  background: #f4eef8;
+  color: #5e3573;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status-tag {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status-tag.requested { background: #fffbe3; color: #b45309; }
+.status-tag.in-retrieval { background: #eff6ff; color: #1d4ed8; }
+.status-tag.ready { background: #ecfdf5; color: #047857; }
+.status-tag.completed { background: #f4eef8; color: #5e3573; }
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.act-btn {
+  height: 32px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.act-btn.primary { background: #5e3573; }
+.act-btn.amber { background: #f59e0b; }
+.act-btn.success { background: #10b981; }

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ValetSidebar from "./ValetSidebar";
-import ValetTopbar from "./ValetTopbar";
+import DashboardLayout from "../layout/DashboardLayout";
+import { valetConfig } from "../layout/dashboardConfigs";
 
 import ValetDashboard from "./ValetDashboard";
 import MyVehicles from "./MyVehicles";
@@ -11,16 +11,11 @@ import ParkingSlots from "./ParkingSlots";
 import CompletedReturns from "./CompletedReturns";
 import ValetProfile from "./ValetProfile";
 
-import "./css/ValetLayout.css";
-
 const ValetLayout = () => {
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] =
     useState("dashboard");
-
-  const [collapsed, setCollapsed] =
-    useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
@@ -29,10 +24,6 @@ const ValetLayout = () => {
     navigate("/", {
       replace: true,
     });
-  };
-
-  const handleProfile = () => {
-    setActiveTab("profile");
   };
 
   const renderPage = () => {
@@ -59,32 +50,14 @@ const ValetLayout = () => {
   };
 
   return (
-    <div className="valet-layout">
-      <ValetSidebar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onLogout={handleLogout}
-        collapsed={collapsed}
-        setCollapsed={setCollapsed}
-      />
-
-      <main
-        className={`valet-main ${
-          collapsed ? "sidebar-collapsed" : ""
-        }`}
-      >
-        <ValetTopbar
-          onProfile={handleProfile}
-          onNotifications={() =>
-            setActiveTab("retrieval-requests")
-          }
-        />
-
-        <div className="valet-page-content">
-          {renderPage()}
-        </div>
-      </main>
-    </div>
+    <DashboardLayout
+      config={valetConfig}
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
+      onLogout={handleLogout}
+    >
+      {renderPage()}
+    </DashboardLayout>
   );
 };
 

@@ -6,6 +6,7 @@
     box-sizing: border-box
 }
 
+
 .incident-header {
     display: flex;
     justify-content: space-between;
@@ -13,6 +14,7 @@
     align-items: flex-end;
     margin-bottom: 24px
 }
+
 
 .incident-eyebrow {
     display: flex;
@@ -25,6 +27,7 @@
     margin-bottom: 7px
 }
 
+
 .incident-header h1 {
     margin: 0;
     font-size: 28px;
@@ -32,11 +35,13 @@
     letter-spacing: -.03em
 }
 
+
 .incident-header p {
     margin: 8px 0 0;
     color: #756e7f;
     font-size: 14px
 }
+
 
 .incident-header-actions,
 .modal-footer {
@@ -44,6 +49,7 @@
     gap: 10px;
     align-items: center
 }
+
 
 .incident-primary-btn,
 .incident-secondary-btn {
@@ -58,15 +64,18 @@
     transition: .18s ease
 }
 
+
 .incident-primary-btn {
     background: #8b1230;
     color: #fff;
     box-shadow: 0 7px 18px rgba(139, 18, 48, .18)
 }
 
+
 .incident-primary-btn:hover {
     background: #6d28d9
 }
+
 
 .incident-secondary-btn {
     background: #fff;
@@ -74,16 +83,19 @@
     border-color: #e9e5ef
 }
 
+
 .incident-secondary-btn:hover {
     border-color: #cfc5dd;
     background: #fbfaff
 }
+
 
 .incident-primary-btn:disabled,
 .incident-secondary-btn:disabled {
     opacity: .55;
     cursor: not-allowed
 }
+
 
 .incident-notification {
     display: flex;
@@ -97,9 +109,11 @@
     color: #4c2a91
 }
 
+
 .incident-notification>svg {
     flex: 0 0 auto
 }
+
 
 .incident-notification div {
     display: flex;
@@ -108,9 +122,11 @@
     min-width: 0
 }
 
+
 .incident-notification strong {
     font-size: 13px
 }
+
 
 .incident-notification span {
     font-size: 12px;
@@ -120,11 +136,13 @@
     text-overflow: ellipsis
 }
 
+
 .incident-notification small {
     margin-left: auto;
     color: #806fa0;
     white-space: nowrap
 }
+
 
 .incident-alert {
     display: flex;
@@ -136,17 +154,20 @@
     font-size: 13px
 }
 
+
 .incident-alert.error {
     background: #fff3f3;
     border: 1px solid #f4cccc;
     color: #b42318
 }
 
+
 .incident-alert.success {
     background: #ecfdf5;
     border: 1px solid #b7e5cf;
     color: #087443
 }
+
 
 .incident-alert button {
     margin-left: auto;
@@ -156,12 +177,14 @@
     cursor: pointer
 }
 
+
 .incident-stat-grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 14px;
     margin-bottom: 18px
 }
+
 
 .incident-stat-card {
     background: #fff;
@@ -175,6 +198,7 @@
     align-items: center
 }
 
+
 .incident-stat-card .stat-icon {
     width: 40px;
     height: 40px;
@@ -184,39 +208,47 @@
     grid-row: span 2
 }
 
+
 .stat-icon svg {
     width: 19px
 }
+
 
 .stat-icon.total {
     background: #f0eaff;
     color: #8b1230
 }
 
+
 .stat-icon.open {
     background: #fff0ef;
     color: #dc4a43
 }
+
 
 .stat-icon.review {
     background: #fff8e8;
     color: #b7791f
 }
 
+
 .stat-icon.resolved {
     background: #eafaf2;
     color: #159765
 }
+
 
 .stat-icon.closed {
     background: #eef2f6;
     color: #5b6470
 }
 
+
 .incident-stat-card span:not(.stat-icon) {
     font-size: 12px;
     color: #766e7e
 }
+
 
 .incident-stat-card strong {
     font-size: 23px;
@@ -224,12 +256,14 @@
     margin-top: 3px
 }
 
+
 .incident-toolbar {
     display: grid;
     grid-template-columns: minmax(240px, 1fr) 180px 190px;
     gap: 10px;
     margin-bottom: 14px
 }
+
 
 .incident-search,
 .incident-toolbar select {
@@ -240,6 +274,7 @@
     box-sizing: border-box
 }
 
+
 .incident-search {
     display: flex;
     align-items: center;
@@ -247,6 +282,7 @@
     gap: 9px;
     color: #8a8292
 }
+
 
 .incident-search input {
     border: 0;
@@ -257,11 +293,13 @@
     background: transparent
 }
 
+
 .incident-toolbar select {
     padding: 0 12px;
     color: #3e3746;
     outline: 0
 }
+
 
 .incident-table-card {
     background: #fff;
@@ -271,6 +309,7 @@
     overflow: hidden
 }
 
+
 .incident-table-heading {
     padding: 17px 19px;
     display: flex;
@@ -279,15 +318,18 @@
     border-bottom: 1px solid #eeeaf2
 }
 
+
 .incident-table-heading h2 {
     margin: 0;
     font-size: 16px
 }
 
+
 .incident-table-heading span:not(.live-data) {
     color: #81798a;
     font-size: 12px
 }
+
 
 .live-data {
     display: inline-flex;
@@ -298,6 +340,7 @@
     font-weight: 700
 }
 
+
 .live-data>span {
     width: 7px;
     height: 7px;
@@ -305,15 +348,18 @@
     background: #25a56e
 }
 
+
 .incident-table-wrap {
     overflow-x: auto
 }
+
 
 .incident-table {
     width: 100%;
     border-collapse: collapse;
     min-width: 1080px
 }
+
 
 .incident-table th {
     padding: 11px 16px;
@@ -326,6 +372,7 @@
     font-weight: 800
 }
 
+
 .incident-table td {
     padding: 14px 16px;
     border-top: 1px solid #f0edf3;
@@ -333,11 +380,13 @@
     vertical-align: middle
 }
 
+
 .incident-type-cell {
     display: flex;
     gap: 10px;
     min-width: 240px
 }
+
 
 .type-mark {
     width: 31px;
@@ -350,30 +399,36 @@
     color: #8b1230
 }
 
+
 .type-vehicle_damage {
     background: #fff0ef;
     color: #d34b43
 }
+
 
 .type-lost_ticket {
     background: #fff7e8;
     color: #b7791f
 }
 
+
 .type-dispute {
     background: #fce7eb;
     color: #7250c7
 }
+
 
 .type-theft {
     background: #ffeef2;
     color: #c03961
 }
 
+
 .incident-type-cell strong {
     display: block;
     font-size: 12px
 }
+
 
 .incident-type-cell p {
     margin: 3px 0 0;
@@ -386,6 +441,7 @@
     overflow: hidden
 }
 
+
 .incident-table td small,
 .reporter-name+small {
     display: block;
@@ -394,14 +450,17 @@
     margin-top: 4px
 }
 
+
 .session-primary {
     font-weight: 700;
     color: #342d3d
 }
 
+
 .reporter-name {
     font-size: 12px
 }
+
 
 .incident-status {
     display: inline-flex;
@@ -413,31 +472,37 @@
     white-space: nowrap
 }
 
+
 .status-open {
     background: #fff0ef;
     color: #c53d35
 }
+
 
 .status-in_review {
     background: #fff7e7;
     color: #9a670c
 }
 
+
 .status-resolved {
     background: #eaf8f1;
     color: #138657
 }
+
 
 .status-closed {
     background: #eef1f4;
     color: #5d6671
 }
 
+
 .row-actions {
     display: flex;
     gap: 6px;
     flex-wrap: wrap
 }
+
 
 .row-actions button {
     border: 1px solid #e5e0e9;
@@ -450,14 +515,17 @@
     cursor: pointer
 }
 
+
 .row-actions button:hover {
     border-color: #cfc4dc;
     color: #6d28d9
 }
 
+
 .row-actions button:disabled {
     opacity: .5
 }
+
 
 .incident-state {
     min-height: 260px;
@@ -469,11 +537,13 @@
     gap: 8px
 }
 
+
 .incident-state svg {
     width: 30px;
     height: 30px;
     color: #9a8aaa
 }
+
 
 .incident-state h3 {
     margin: 4px 0 0;
@@ -481,14 +551,17 @@
     font-size: 15px
 }
 
+
 .incident-state p {
     margin: 0;
     font-size: 12px
 }
 
+
 .incident-state.compact {
     min-height: 180px
 }
+
 
 .incident-modal-backdrop {
     position: fixed;
@@ -500,6 +573,7 @@
     padding: 20px
 }
 
+
 .incident-modal {
     width: min(680px, 100%);
     max-height: 90vh;
@@ -510,6 +584,7 @@
     box-shadow: 0 24px 70px rgba(35, 20, 50, .22)
 }
 
+
 .modal-head {
     display: flex;
     justify-content: space-between;
@@ -518,10 +593,12 @@
     border-bottom: 1px solid #eeeaf2
 }
 
+
 .modal-head h2 {
     margin: 3px 0 5px;
     font-size: 21px
 }
+
 
 .modal-head p {
     margin: 0;
@@ -529,6 +606,7 @@
     font-size: 12px;
     line-height: 1.5
 }
+
 
 .modal-head>button {
     width: 34px;
@@ -543,6 +621,7 @@
     flex: 0 0 auto
 }
 
+
 .modal-kicker {
     font-size: 10px;
     font-weight: 800;
@@ -550,9 +629,11 @@
     color: #8b1230
 }
 
+
 .report-modal form {
     padding: 20px 23px
 }
+
 
 .report-modal label {
     display: block;
@@ -562,12 +643,14 @@
     margin-bottom: 16px
 }
 
+
 .report-modal label span {
     font-size: 10px;
     color: #9b93a2;
     font-weight: 500;
     margin-left: 5px
 }
+
 
 .report-modal select,
 .report-modal textarea {
@@ -584,10 +667,12 @@
     font: 400 13px inherit
 }
 
+
 .report-modal textarea {
     resize: vertical;
     min-height: 120px
 }
+
 
 .report-modal select:focus,
 .report-modal textarea:focus {
@@ -595,14 +680,17 @@
     box-shadow: 0 0 0 3px rgba(139, 18, 48, .08)
 }
 
+
 .modal-footer {
     justify-content: flex-end;
     margin-top: 4px
 }
 
+
 .details-modal {
     width: min(760px, 100%)
 }
+
 
 .details-grid {
     padding: 20px 23px;
@@ -611,12 +699,14 @@
     gap: 15px
 }
 
+
 .details-grid>div {
     padding: 12px 13px;
     border: 1px solid #eeeaf2;
     border-radius: 11px;
     background: #fcfbfe
 }
+
 
 .details-grid>div>span {
     display: block;
@@ -627,14 +717,17 @@
     margin-bottom: 5px
 }
 
+
 .details-grid>div>strong {
     font-size: 12px;
     color: #352e3c
 }
 
+
 .detail-description {
     grid-column: 1/-1
 }
+
 
 .detail-description p {
     margin: 0;
@@ -643,15 +736,18 @@
     line-height: 1.6
 }
 
+
 .details-status-actions {
     grid-column: 1/-1
 }
+
 
 .details-status-actions>div {
     display: flex;
     gap: 7px;
     flex-wrap: wrap
 }
+
 
 .details-status-actions button {
     border: 1px solid #e4dfea;
@@ -666,6 +762,7 @@
     gap: 4px
 }
 
+
 .details-status-actions button.next-status {
     background: #8b1230;
     border-color: #8b1230;
@@ -673,13 +770,16 @@
     cursor: pointer
 }
 
+
 .details-status-actions button.next-status:hover {
     background: #6d28d9
 }
 
+
 .session-history {
     padding: 20px 23px
 }
+
 
 .history-heading {
     display: flex;
@@ -688,16 +788,19 @@
     margin-bottom: 16px
 }
 
+
 .history-heading h3 {
     margin: 0;
     font-size: 15px
 }
+
 
 .history-heading p {
     margin: 3px 0 0;
     color: #8b8391;
     font-size: 11px
 }
+
 
 .history-heading>span {
     width: 30px;
@@ -711,12 +814,14 @@
     font-weight: 800
 }
 
+
 .history-item {
     position: relative;
     display: flex;
     gap: 12px;
     padding: 0 0 17px 5px
 }
+
 
 .history-item:not(:last-child):before {
     content: "";
@@ -728,6 +833,7 @@
     background: #e7e1ee
 }
 
+
 .history-dot {
     width: 9px;
     height: 9px;
@@ -738,9 +844,11 @@
     box-shadow: 0 0 0 4px #f1ebff
 }
 
+
 .history-item strong {
     font-size: 12px
 }
+
 
 .history-item p {
     margin: 3px 0;
@@ -749,10 +857,12 @@
     line-height: 1.45
 }
 
+
 .history-item small {
     color: #8a8290;
     font-size: 10px
 }
+
 
 .empty-history {
     padding: 35px;
@@ -763,9 +873,11 @@
     border-radius: 11px
 }
 
+
 .spin {
     animation: incidentSpin .9s linear infinite
 }
+
 
 @keyframes incidentSpin {
     to {
@@ -778,78 +890,98 @@
         grid-template-columns: repeat(3, 1fr)
     }
 
+
     .incident-toolbar {
         grid-template-columns: 1fr 1fr
     }
 
+
     .incident-search {
         grid-column: 1/-1
     }
+
 }
+
 
 @media(max-width:720px) {
     .incident-page {
         padding: 22px 16px 30px
     }
 
+
     .incident-header {
         align-items: flex-start;
         flex-direction: column
     }
 
+
     .incident-header-actions {
         width: 100%
     }
+
 
     .incident-header-actions button {
         flex: 1;
         justify-content: center
     }
 
+
     .incident-stat-grid {
         grid-template-columns: repeat(2, 1fr)
     }
+
 
     .incident-toolbar {
         grid-template-columns: 1fr
     }
 
+
     .incident-search {
         grid-column: auto
     }
+
 
     .details-grid {
         grid-template-columns: 1fr
     }
 
+
     .detail-description,
-    .details-status-actions {
+.details-status-actions {
         grid-column: auto
     }
+
 
     .incident-notification {
         align-items: flex-start
     }
 
+
     .incident-notification small {
         display: none
     }
+
 }
+
 
 @media(max-width:430px) {
     .incident-stat-grid {
         grid-template-columns: 1fr
     }
 
+
     .incident-header h1 {
         font-size: 24px
     }
+
 }
+
 
 html[data-theme="dark"] .incident-page {
     background: #0f0b16;
     color: #f8f5fc
 }
+
 
 html[data-theme="dark"] .incident-stat-card,
 html[data-theme="dark"] .incident-table-card,
@@ -858,21 +990,24 @@ html[data-theme="dark"] .incident-modal,
 html[data-theme="dark"] .incident-toolbar select,
 html[data-theme="dark"] .incident-search,
 html[data-theme="dark"] .modal-head>button,
-.parking-admin-layout html[data-theme="dark"] .incident-secondary-btn {
+.parking-admin-body html[data-theme="dark"] .incident-secondary-btn {
     background: #17111f;
     border-color: #30263a;
     color: #f8f5fc
 }
 
+
 html[data-theme="dark"] .incident-table th {
     background: #211a2c
 }
+
 
 html[data-theme="dark"] .incident-table td,
 html[data-theme="dark"] .incident-table-heading,
 html[data-theme="dark"] .modal-head {
     border-color: #30263a
 }
+
 
 html[data-theme="dark"] .incident-header p,
 html[data-theme="dark"] .incident-type-cell p,

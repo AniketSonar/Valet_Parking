@@ -16,8 +16,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import ParkingAdminSidebar from "./ParkingAdminSidebar";
-import ParkingAdminTopbar from "./ParkingAdminTopbar";
+import DashboardLayout from "../layout/DashboardLayout";
+import { parkingAdminConfig } from "../layout/dashboardConfigs";
 import ParkingAdminStatcard from "./ParkingAdminStatcard";
 import ParkingSlots from "./ParkingSlots";
 import VehicleOperations from "./VehicleOperations";
@@ -38,7 +38,6 @@ import "./css/ParkingAdminDashboard.css";
 const ParkingAdminDashboard = ({ onLogout }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
@@ -711,31 +710,16 @@ const ParkingAdminDashboard = ({ onLogout }) => {
   // ============================================================
 
   return (
-    <div className={`parking-admin-layout ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
-
-      <ParkingAdminSidebar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onLogout={handleLogout}
-        collapsed={sidebarCollapsed}
-        setCollapsed={setSidebarCollapsed}
-      />
-
-      <div className="parking-admin-main">
-
-        <ParkingAdminTopbar
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          onLogout={handleLogout}
-        />
-
-        <main className="parking-admin-body">
-          {renderView()}
-        </main>
-
+    <DashboardLayout
+      config={parkingAdminConfig}
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
+      onLogout={handleLogout}
+    >
+      <div className="parking-admin-body">
+        {renderView()}
       </div>
-
-    </div>
+    </DashboardLayout>
   );
 };
 

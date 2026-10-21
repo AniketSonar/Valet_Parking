@@ -189,6 +189,31 @@ html[data-theme="dark"]
 }
 
 
+.dash-sidebar-content {
+  min-height: 0;
+
+  flex: 1;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 18, 48, 0.3) transparent;
+}
+
+
+.dash-sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+
+.dash-sidebar-content::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background: rgba(139, 18, 48, 0.3);
+}
+
+
 /* ============================================================
    SECTION
 ============================================================ */

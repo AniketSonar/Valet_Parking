@@ -1,261 +1,4 @@
-/* ============================================================
-   AURA — CUSTOMER PORTAL
-   Customer Dashboard / Shared Portal Styles
-   ============================================================ */
 
-.customer-layout {
-  min-height: 100vh;
-  display: flex;
-  background: #fbf8f9;
-  color: #171324;
-}
-
-/* ============================================================
-   SIDEBAR
-   ============================================================ */
-
-.customer-sidebar {
-  position: sticky;
-  top: 14px;
-  width: 260px;
-  height: calc(100vh - 28px);
-  flex: 0 0 260px;
-
-  display: flex;
-  flex-direction: column;
-
-  margin: 0 0 14px 14px;
-  padding: 20px 14px;
-
-  box-sizing: border-box;
-  overflow: hidden;
-
-  border: 1px solid #f2e1e5;
-  border-radius: 20px;
-  background: #ffffff;
-
-  box-shadow:
-    0 8px 24px rgba(80, 18, 35, 0.06),
-    0 1px 3px rgba(50, 12, 22, 0.03);
-
-  transition:
-    width 0.25s ease,
-    flex-basis 0.25s ease;
-}
-
-.customer-sidebar.is-collapsed {
-  width: 76px;
-  flex-basis: 76px;
-  padding-inline: 9px;
-}
-
-.customer-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  min-height: 52px;
-  padding: 0 9px 20px;
-  margin-bottom: 22px;
-
-  border-bottom: 1px solid #ebd5da;
-}
-
-.customer-brand-logo {
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 12px;
-  background: #fce7eb;
-  overflow: hidden;
-}
-
-.customer-brand-logo img {
-  width: 34px;
-  height: 34px;
-  object-fit: contain;
-}
-
-.customer-brand-title {
-  min-width: 0;
-
-  display: flex;
-  flex-direction: column;
-
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.customer-brand-title strong {
-  color: #21182d;
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.customer-brand-title span,
-.customer-section-label {
-  color: #9688aa;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-}
-
-.customer-sidebar-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.customer-section-label {
-  padding: 0 12px;
-  font-size: 9px;
-  text-transform: uppercase;
-}
-
-.customer-menu-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.customer-menu-item {
-  width: 100%;
-  min-height: 44px;
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 0 13px;
-
-  border: 1px solid transparent;
-  border-radius: 12px;
-
-  background: transparent;
-  color: #6d6678;
-
-  font: 600 13px inherit;
-  text-align: left;
-
-  cursor: pointer;
-  white-space: nowrap;
-
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.customer-menu-item:hover {
-  background: #fdf7f8;
-  color: #21182d;
-}
-
-.customer-menu-item.active {
-  background: #8b1230;
-  color: #ffffff;
-  box-shadow: 0 7px 16px rgba(139, 18, 48, 0.18);
-}
-
-.customer-sidebar-account {
-  margin-top: auto;
-  padding-top: 20px;
-}
-
-.customer-sidebar-footer {
-  padding-top: 14px;
-  margin-top: 14px;
-  border-top: 1px solid #ebd5da;
-}
-
-.customer-logout:hover {
-  background: #fff4f4;
-  color: #b91c1c;
-}
-
-.customer-sidebar.is-collapsed .customer-brand-title,
-.customer-sidebar.is-collapsed .customer-section-label,
-.customer-sidebar.is-collapsed .customer-menu-item span {
-  display: none;
-}
-
-.customer-sidebar.is-collapsed .customer-brand,
-.customer-sidebar.is-collapsed .customer-menu-item {
-  justify-content: center;
-}
-
-/* ============================================================
-   MAIN / TOPBAR
-   ============================================================ */
-
-.customer-main {
-  min-width: 0;
-  flex: 1;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.customer-topbar {
-  min-height: 72px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 20px;
-  padding: 0 34px;
-}
-
-.customer-breadcrumb {
-  color: #8d8698;
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.customer-breadcrumb strong {
-  color: #21182d;
-}
-
-.customer-topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.customer-topbar-search {
-  width: 245px;
-  height: 40px;
-
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  padding: 0 13px;
-
-  border: 1px solid #edd8dc;
-  border-radius: 9999px;
-
-  background: #ffffff;
-  color: #8b1230;
-}
-
-.customer-topbar-search input {
-  width: 100%;
-
-  border: 0;
-  outline: 0;
-
-  background: transparent;
-  color: #21182d;
-
-  font: 500 11px inherit;
-}
 
 .customer-icon-button {
   width: 40px;
@@ -278,34 +21,14 @@
     color 0.2s ease;
 }
 
+
 .customer-icon-button:hover {
   border-color: #e5c5cc;
   background: #fdf7f8;
   color: #8b1230;
 }
 
-.customer-profile-chip {
-  display: flex;
-  align-items: center;
-  gap: 9px;
 
-  padding: 4px 9px 4px 5px;
-
-  border: 1px solid transparent;
-  border-radius: 9999px;
-
-  background: transparent;
-  color: #21182d;
-
-  cursor: pointer;
-}
-
-.customer-profile-chip:hover {
-  background: #fdf7f8;
-  border-color: #edd8dc;
-}
-
-.customer-avatar,
 .customer-large-avatar {
   display: grid;
   place-items: center;
@@ -318,35 +41,6 @@
   font-weight: 800;
 }
 
-.customer-avatar {
-  width: 36px;
-  height: 36px;
-  font-size: 11px;
-}
-
-.customer-profile-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  min-width: 82px;
-}
-
-.customer-profile-meta strong {
-  max-width: 130px;
-
-  overflow: hidden;
-
-  font-size: 11px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.customer-profile-meta small {
-  margin-top: 2px;
-  color: #8d8698;
-  font-size: 9px;
-}
 
 /* ============================================================
    PAGE
@@ -362,6 +56,7 @@
   box-sizing: border-box;
 }
 
+
 /* ============================================================
    PAGE HEADER
    ============================================================ */
@@ -375,9 +70,11 @@
   margin-bottom: 32px;
 }
 
+
 .customer-page-heading {
   min-width: 0;
 }
+
 
 .customer-eyebrow {
   display: block;
@@ -389,6 +86,7 @@
   font-weight: 800;
   letter-spacing: 0.18em;
 }
+
 
 .customer-page-header h1 {
   margin: 0;
@@ -402,9 +100,11 @@
   letter-spacing: -0.045em;
 }
 
+
 .customer-page-header h1 span {
   color: #8b1230;
 }
+
 
 .customer-page-header p {
   margin: 9px 0 0;
@@ -414,6 +114,7 @@
   font-size: 13px;
   line-height: 1.5;
 }
+
 
 /* ============================================================
    BUTTONS
@@ -442,6 +143,7 @@
     border-color 0.2s ease;
 }
 
+
 .customer-action-button.primary {
   border: 1px solid #8b1230;
   background: #8b1230;
@@ -450,34 +152,41 @@
   box-shadow: 0 7px 16px rgba(139, 18, 48, 0.15);
 }
 
+
 .customer-action-button.secondary {
   border: 1px solid #e2d9ef;
   background: #ffffff;
   color: #63378a;
 }
 
+
 .customer-action-button:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(139, 18, 48, 0.15);
 }
 
+
 .customer-action-button.primary:hover:not(:disabled) {
   background: #6d28d9;
 }
+
 
 .customer-action-button.secondary:hover:not(:disabled) {
   border-color: #d2c3e6;
   background: #fdf7f8;
 }
 
+
 .customer-action-button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
 
+
 .customer-refresh-button {
   min-width: 96px;
 }
+
 
 /* ============================================================
    ALERTS
@@ -496,6 +205,7 @@
   font-size: 13px;
 }
 
+
 .customer-alert button {
   display: grid;
   place-items: center;
@@ -509,17 +219,20 @@
   cursor: pointer;
 }
 
+
 .customer-alert.error {
   border: 1px solid #fecaca;
   background: #fff5f5;
   color: #b91c1c;
 }
 
+
 .customer-alert.success {
   border: 1px solid #b7ebca;
   background: #f0fdf7;
   color: #047857;
 }
+
 
 /* ============================================================
    SECTION HEADING
@@ -529,6 +242,7 @@
   width: 100%;
 }
 
+
 .customer-section-heading {
   display: flex;
   align-items: flex-end;
@@ -536,6 +250,7 @@
 
   margin-bottom: 15px;
 }
+
 
 .customer-section-kicker {
   display: block;
@@ -548,6 +263,7 @@
   letter-spacing: 0.14em;
 }
 
+
 .customer-section-heading h2 {
   margin: 0;
 
@@ -558,12 +274,14 @@
   letter-spacing: -0.02em;
 }
 
+
 .customer-section-heading p {
   margin: 5px 0 0;
 
   color: #7c7489;
   font-size: 12px;
 }
+
 
 /* ============================================================
    SESSION CARD
@@ -583,6 +301,7 @@
     0 2px 5px rgba(32, 20, 50, 0.025);
 }
 
+
 .customer-session-card::before {
   content: "";
 
@@ -596,6 +315,7 @@
 
   background: #8b1230;
 }
+
 
 /* ============================================================
    SESSION TOP
@@ -613,6 +333,7 @@
   padding: 24px 25px 21px;
 }
 
+
 .customer-session-vehicle {
   min-width: 0;
 
@@ -621,6 +342,7 @@
 
   gap: 14px;
 }
+
 
 .customer-vehicle-mark {
   width: 48px;
@@ -637,9 +359,11 @@
   color: #8b1230;
 }
 
+
 .customer-session-vehicle-copy {
   min-width: 0;
 }
+
 
 .customer-ticket {
   display: block;
@@ -654,6 +378,7 @@
   text-transform: uppercase;
 }
 
+
 .customer-session-vehicle-copy h3 {
   margin: 0;
 
@@ -665,6 +390,7 @@
   font-weight: 800;
   letter-spacing: -0.025em;
 }
+
 
 .customer-session-vehicle-copy p {
   margin: 5px 0 0;
@@ -678,6 +404,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 
 /* ============================================================
    STATUS
@@ -703,6 +430,7 @@
   white-space: nowrap;
 }
 
+
 .customer-status-dot {
   width: 6px;
   height: 6px;
@@ -712,30 +440,36 @@
   background: currentColor;
 }
 
+
 .customer-status.status-parked {
   background: #fce7eb;
   color: #6d28d9;
 }
+
 
 .customer-status.status-retrieval_requested {
   background: #fff6e8;
   color: #a16207;
 }
 
+
 .customer-status.status-retrieving {
   background: #eff6ff;
   color: #1d4ed8;
 }
+
 
 .customer-status.status-ready_for_pickup {
   background: #ecfdf5;
   color: #047857;
 }
 
+
 .customer-status.status-checked_in {
   background: #f1f5f9;
   color: #475569;
 }
+
 
 /* ============================================================
    DETAIL GRID
@@ -754,6 +488,7 @@
   border-bottom: 1px solid #eee9f2;
 }
 
+
 .customer-detail-item {
   min-width: 0;
 
@@ -766,14 +501,17 @@
   border-right: 1px solid #f0edf4;
 }
 
+
 .customer-detail-item:first-child {
   padding-left: 0;
 }
+
 
 .customer-detail-item:last-child {
   padding-right: 0;
   border-right: 0;
 }
+
 
 .customer-detail-icon {
   width: 30px;
@@ -789,6 +527,7 @@
   color: #8b1230;
 }
 
+
 .customer-detail-item > span {
   min-width: 0;
 
@@ -798,12 +537,14 @@
   gap: 5px;
 }
 
+
 .customer-detail-item small {
   color: #91889e;
 
   font-size: 9.5px;
   font-weight: 600;
 }
+
 
 .customer-detail-item strong {
   min-width: 0;
@@ -819,6 +560,7 @@
   white-space: nowrap;
 }
 
+
 /* ============================================================
    VALET CONTACT
    ============================================================ */
@@ -832,6 +574,7 @@
   margin: 0 25px;
   padding: 16px 0;
 }
+
 
 .customer-valet-contact-icon {
   width: 32px;
@@ -847,6 +590,7 @@
   color: #8b1230;
 }
 
+
 .customer-valet-contact > div:nth-child(2) {
   min-width: 0;
 
@@ -856,12 +600,14 @@
   gap: 3px;
 }
 
+
 .customer-valet-contact small {
   color: #91889e;
 
   font-size: 9px;
   font-weight: 700;
 }
+
 
 .customer-valet-contact > div:nth-child(2) > span {
   color: #30273a;
@@ -870,10 +616,12 @@
   font-weight: 700;
 }
 
+
 .customer-contact-separator {
   margin: 0 5px;
   color: #b0a7ba;
 }
+
 
 .customer-call-button {
   min-height: 32px;
@@ -902,10 +650,12 @@
     border-color 0.2s ease;
 }
 
+
 .customer-call-button:hover {
   background: #f8f5ff;
   border-color: #d5c7e8;
 }
+
 
 /* ============================================================
    SESSION ACTION AREA
@@ -925,6 +675,7 @@
   background: #fbfaff;
 }
 
+
 .customer-action-state {
   min-width: 0;
 
@@ -933,6 +684,7 @@
 
   gap: 11px;
 }
+
 
 .customer-action-state-icon {
   width: 34px;
@@ -948,25 +700,30 @@
   color: #8b1230;
 }
 
+
 .customer-action-state-icon.neutral {
   background: #f1f5f9;
   color: #64748b;
 }
+
 
 .customer-action-state-icon.warning {
   background: #fff4e5;
   color: #b7791f;
 }
 
+
 .customer-action-state-icon.blue {
   background: #eff6ff;
   color: #2563eb;
 }
 
+
 .customer-action-state-icon.success {
   background: #ecfdf5;
   color: #059669;
 }
+
 
 .customer-action-state > div:last-child {
   min-width: 0;
@@ -977,12 +734,14 @@
   gap: 3px;
 }
 
+
 .customer-action-state strong {
   color: #27202f;
 
   font-size: 11.5px;
   font-weight: 800;
 }
+
 
 .customer-action-state span {
   color: #777080;
@@ -991,9 +750,11 @@
   line-height: 1.45;
 }
 
+
 .customer-session-action .customer-action-button {
   flex: 0 0 auto;
 }
+
 
 /* ============================================================
    EMPTY STATE
@@ -1021,6 +782,7 @@
   text-align: center;
 }
 
+
 .customer-empty-icon {
   width: 62px;
   height: 62px;
@@ -1035,6 +797,7 @@
   color: #8b1230;
 }
 
+
 .customer-empty-kicker {
   margin-top: 18px;
 
@@ -1045,6 +808,7 @@
   letter-spacing: 0.15em;
 }
 
+
 .customer-empty-state h3 {
   margin: 7px 0 5px;
 
@@ -1053,6 +817,7 @@
   font-size: 17px;
   font-weight: 800;
 }
+
 
 .customer-empty-state p {
   max-width: 300px;
@@ -1064,6 +829,7 @@
   font-size: 11.5px;
   line-height: 1.5;
 }
+
 
 /* ============================================================
    LOADING / ERROR STATE
@@ -1089,6 +855,7 @@
   text-align: center;
 }
 
+
 .customer-state-icon {
   width: 52px;
   height: 52px;
@@ -1104,10 +871,12 @@
   color: #8b1230;
 }
 
+
 .customer-state-icon-error {
   background: #fff2f2;
   color: #b91c1c;
 }
+
 
 .customer-state h3 {
   margin: 0;
@@ -1117,6 +886,7 @@
   font-size: 15px;
   font-weight: 800;
 }
+
 
 .customer-state p {
   max-width: 360px;
@@ -1129,6 +899,7 @@
   line-height: 1.5;
 }
 
+
 /* ============================================================
    SHARED VEHICLE / HISTORY / PROFILE
    ============================================================ */
@@ -1138,6 +909,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
+
 
 .customer-session-card,
 .customer-vehicle-card,
@@ -1151,9 +923,11 @@
   box-shadow: 0 8px 24px rgba(80, 18, 35, 0.055);
 }
 
+
 .customer-vehicle-card {
   padding: 20px;
 }
+
 
 .customer-vehicle-card-top,
 .customer-profile-hero {
@@ -1161,6 +935,7 @@
   align-items: center;
   gap: 14px;
 }
+
 
 .customer-vehicle-card h3,
 .customer-profile-hero h2 {
@@ -1170,6 +945,7 @@
   font-size: 19px;
 }
 
+
 .customer-vehicle-card p,
 .customer-profile-hero span {
   margin: 4px 0 0;
@@ -1177,6 +953,7 @@
   color: #6b647b;
   font-size: 12px;
 }
+
 
 .customer-vehicle-info {
   display: grid;
@@ -1190,6 +967,7 @@
   border-top: 1px solid #eee9f2;
 }
 
+
 .customer-vehicle-info span {
   min-width: 0;
 
@@ -1199,10 +977,12 @@
   gap: 5px;
 }
 
+
 .customer-vehicle-info small {
   color: #8a8398;
   font-size: 10px;
 }
+
 
 .customer-vehicle-info strong {
   overflow: hidden;
@@ -1215,17 +995,21 @@
   white-space: nowrap;
 }
 
+
 .customer-muted {
   color: #8a8398 !important;
 }
+
 
 .customer-history-card {
   overflow: hidden;
 }
 
+
 .customer-history-table-wrap {
   overflow-x: auto;
 }
+
 
 .customer-history-table {
   width: 100%;
@@ -1233,6 +1017,7 @@
 
   border-collapse: collapse;
 }
+
 
 .customer-history-table th,
 .customer-history-table td {
@@ -1248,6 +1033,7 @@
   white-space: nowrap;
 }
 
+
 .customer-history-table th {
   background: #fbfaff;
 
@@ -1258,12 +1044,14 @@
   letter-spacing: 0.08em;
 }
 
+
 .customer-history-table strong {
   display: block;
 
   color: #171324;
   font-size: 12px;
 }
+
 
 .customer-history-table small {
   display: block;
@@ -1274,6 +1062,7 @@
   font-size: 10px;
 }
 
+
 .customer-history-footer {
   padding: 14px 18px;
 
@@ -1281,10 +1070,12 @@
   font-size: 11px;
 }
 
+
 .customer-profile-card {
   max-width: 760px;
   padding: 24px;
 }
+
 
 .customer-profile-hero {
   padding-bottom: 22px;
@@ -1292,12 +1083,14 @@
   border-bottom: 1px solid #eee9f2;
 }
 
+
 .customer-large-avatar {
   width: 56px;
   height: 56px;
 
   font-size: 18px;
 }
+
 
 .customer-profile-grid {
   display: grid;
@@ -1309,16 +1102,19 @@
   padding-top: 22px;
 }
 
+
 .customer-profile-grid > div {
   display: flex;
   align-items: flex-start;
   gap: 9px;
 }
 
+
 .customer-profile-grid svg {
   flex: 0 0 auto;
   color: #8b1230;
 }
+
 
 .customer-profile-grid span {
   min-width: 0;
@@ -1329,15 +1125,18 @@
   gap: 5px;
 }
 
+
 .customer-profile-grid small {
   color: #8a8398;
   font-size: 10px;
 }
 
+
 .customer-profile-grid strong {
   color: #171324;
   font-size: 12px;
 }
+
 
 /* ============================================================
    SPINNER
@@ -1347,22 +1146,13 @@
   animation: customerSpin 0.9s linear infinite;
 }
 
+
 @keyframes customerSpin {
   to {
     transform: rotate(360deg);
   }
 }
 
-/* ============================================================
-   DARK THEME
-   ============================================================ */
-
-html[data-theme="dark"] .customer-layout {
-  background: #0f0b16;
-  color: #f8f5fc;
-}
-
-html[data-theme="dark"] .customer-sidebar,
 html[data-theme="dark"] .customer-session-card,
 html[data-theme="dark"] .customer-vehicle-card,
 html[data-theme="dark"] .customer-history-card,
@@ -1374,6 +1164,7 @@ html[data-theme="dark"] .customer-icon-button {
   border-color: rgba(201, 59, 93, 0.18);
   color: #f8f5fc;
 }
+
 
 html[data-theme="dark"] .customer-page-header h1,
 html[data-theme="dark"] .customer-section-heading h2,
@@ -1388,6 +1179,7 @@ html[data-theme="dark"] .customer-action-state strong {
   color: #f8f5fc;
 }
 
+
 html[data-theme="dark"] .customer-page-header p,
 html[data-theme="dark"] .customer-section-heading p,
 html[data-theme="dark"] .customer-session-vehicle-copy p,
@@ -1399,9 +1191,11 @@ html[data-theme="dark"] .customer-state p {
   color: #aaa0b7;
 }
 
+
 html[data-theme="dark"] .customer-session-card::before {
   background: #a82042;
 }
+
 
 html[data-theme="dark"] .customer-vehicle-mark,
 html[data-theme="dark"] .customer-detail-icon,
@@ -1412,38 +1206,46 @@ html[data-theme="dark"] .customer-state-icon {
   color: #c93b5d;
 }
 
+
 html[data-theme="dark"] .customer-detail-grid,
 html[data-theme="dark"] .customer-valet-contact {
   border-color: rgba(201, 59, 93, 0.13);
 }
 
+
 html[data-theme="dark"] .customer-detail-item {
   border-color: rgba(201, 59, 93, 0.11);
 }
 
+
 html[data-theme="dark"] .customer-session-action {
   background: #1d1627;
 }
+
 
 html[data-theme="dark"] .customer-action-state-icon.neutral {
   background: #25212c;
   color: #a1a1aa;
 }
 
+
 html[data-theme="dark"] .customer-action-state-icon.warning {
   background: #352717;
   color: #fbbf24;
 }
+
 
 html[data-theme="dark"] .customer-action-state-icon.blue {
   background: #17253a;
   color: #60a5fa;
 }
 
+
 html[data-theme="dark"] .customer-action-state-icon.success {
   background: #142b23;
   color: #34d399;
 }
+
 
 html[data-theme="dark"] .customer-call-button,
 html[data-theme="dark"] .customer-action-button.secondary {
@@ -1452,43 +1254,24 @@ html[data-theme="dark"] .customer-action-button.secondary {
   color: #c4b5fd;
 }
 
+
 html[data-theme="dark"]
   .customer-action-button.secondary:hover:not(:disabled),
 html[data-theme="dark"] .customer-call-button:hover {
   background: #251c31;
 }
 
+
 html[data-theme="dark"] .customer-history-table th {
   background: #211a2c;
 }
+
 
 html[data-theme="dark"] .customer-history-table th,
 html[data-theme="dark"] .customer-history-table td {
   border-color: rgba(201, 59, 93, 0.1);
 }
 
-html[data-theme="dark"] .customer-menu-item:hover {
-  background: #211a2c;
-  color: #f8f5fc;
-}
-
-html[data-theme="dark"] .customer-topbar-search {
-  background: #17111f;
-  border-color: rgba(201, 59, 93, 0.15);
-}
-
-html[data-theme="dark"] .customer-topbar-search input {
-  color: #f8f5fc;
-}
-
-html[data-theme="dark"] .customer-brand {
-  border-color: rgba(201, 59, 93, 0.12);
-}
-
-html[data-theme="dark"] .customer-brand-title strong,
-html[data-theme="dark"] .customer-breadcrumb strong {
-  color: #f8f5fc;
-}
 
 /* ============================================================
    RESPONSIVE — TABLET
@@ -1500,65 +1283,29 @@ html[data-theme="dark"] .customer-breadcrumb strong {
     gap: 20px 0;
   }
 
+
   .customer-detail-item:nth-child(2) {
     border-right: 0;
   }
 
+
   .customer-detail-item:nth-child(3) {
     padding-left: 0;
   }
+
 }
+
 
 /* ============================================================
    RESPONSIVE — MOBILE / COMPACT SIDEBAR
    ============================================================ */
 
 @media (max-width: 760px) {
-  .customer-sidebar {
-    width: 76px;
-    flex-basis: 76px;
-
-    margin-left: 8px;
-    padding-inline: 9px;
-  }
-
-  .customer-sidebar .customer-brand-title,
-  .customer-sidebar .customer-section-label,
-  .customer-sidebar .customer-menu-item span {
-    display: none;
-  }
-
-  .customer-sidebar .customer-brand,
-  .customer-sidebar .customer-menu-item {
-    justify-content: center;
-  }
-
-  .customer-topbar {
-    padding: 0 16px;
-  }
-
-  .customer-breadcrumb {
-    display: none;
-  }
-
-  .customer-topbar-search {
-    width: 42px;
-    padding: 0;
-
-    justify-content: center;
-  }
-
-  .customer-topbar-search input {
-    display: none;
-  }
-
-  .customer-profile-meta {
-    display: none;
-  }
 
   .customer-page {
     padding: 24px 16px 38px;
   }
+
 
   .customer-page-header {
     align-items: flex-start;
@@ -1567,32 +1314,40 @@ html[data-theme="dark"] .customer-breadcrumb strong {
     margin-bottom: 28px;
   }
 
+
   .customer-refresh-button {
     width: 100%;
   }
+
 
   .customer-session-top {
     align-items: flex-start;
     flex-direction: column;
   }
 
+
   .customer-status {
     margin-left: 0;
   }
 
+
   .customer-valet-contact {
     align-items: flex-start;
   }
+
 
   .customer-session-action {
     align-items: flex-start;
     flex-direction: column;
   }
 
+
   .customer-session-action .customer-action-button {
     width: 100%;
   }
+
 }
+
 
 /* ============================================================
    RESPONSIVE — SMALL MOBILE
@@ -1603,21 +1358,26 @@ html[data-theme="dark"] .customer-breadcrumb strong {
     padding-inline: 13px;
   }
 
+
   .customer-page-header h1 {
     font-size: 1.75rem;
   }
+
 
   .customer-session-card {
     border-radius: 15px;
   }
 
+
   .customer-session-top {
     padding: 21px 18px 18px;
   }
 
+
   .customer-session-vehicle {
     width: 100%;
   }
+
 
   .customer-vehicle-mark {
     width: 43px;
@@ -1625,9 +1385,11 @@ html[data-theme="dark"] .customer-breadcrumb strong {
     flex-basis: 43px;
   }
 
+
   .customer-session-vehicle-copy h3 {
     font-size: 17px;
   }
+
 
   .customer-detail-grid {
     grid-template-columns: 1fr;
@@ -1636,99 +1398,98 @@ html[data-theme="dark"] .customer-breadcrumb strong {
     padding: 17px 0;
   }
 
+
   .customer-detail-item,
-  .customer-detail-item:nth-child(3) {
+.customer-detail-item:nth-child(3) {
     padding: 0 0 14px;
 
     border-right: 0;
     border-bottom: 1px solid #f0edf4;
   }
 
+
   .customer-detail-item:last-child {
     padding-bottom: 0;
     border-bottom: 0;
   }
+
 
   .customer-valet-contact {
     margin: 0 18px;
     padding: 15px 0;
   }
 
+
   .customer-call-button {
     display: none;
   }
+
 
   .customer-session-action {
     padding: 17px 18px;
   }
 
+
   .customer-action-state {
     align-items: flex-start;
   }
+
 
   .customer-empty-state {
     min-height: 275px;
     padding: 28px 20px;
   }
 
+
   .customer-vehicle-grid,
-  .customer-profile-grid,
-  .customer-vehicle-info {
+.customer-profile-grid,
+.customer-vehicle-info {
     grid-template-columns: 1fr;
   }
+
 
   .customer-section-heading h2 {
     font-size: 17px;
   }
+
 }
+
 
 /* ============================================================
    RESPONSIVE — EXTRA SMALL DEVICES
    ============================================================ */
 
 @media (max-width: 420px) {
-  .customer-sidebar {
-    width: 64px;
-    flex-basis: 64px;
-  }
-
-  .customer-topbar {
-    min-height: 64px;
-    padding: 0 11px;
-  }
-
-  .customer-topbar-actions {
-    gap: 7px;
-  }
 
   .customer-icon-button {
     width: 36px;
     height: 36px;
   }
 
-  .customer-avatar {
-    width: 34px;
-    height: 34px;
-  }
 
   .customer-page {
     padding-top: 20px;
   }
 
+
   .customer-page-header h1 {
     font-size: 1.6rem;
   }
+
 
   .customer-session-top {
     gap: 14px;
   }
 
+
   .customer-session-vehicle-copy p {
     white-space: normal;
   }
+
 
   .customer-alert {
     align-items: flex-start;
     font-size: 11.5px;
   }
+
 }

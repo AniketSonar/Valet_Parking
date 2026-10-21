@@ -15,8 +15,8 @@ import {
   Bell,
 } from "lucide-react";
 
-import ReceptionSidebar from "./ReceptionSidebar";
-import ReceptionTopbar from "./ReceptionTopbar";
+import DashboardLayout from "../layout/DashboardLayout";
+import { receptionConfig } from "../layout/dashboardConfigs";
 import ReceptionStatCard from "./ReceptionStatCard";
 import RegisterCustomerModal from "./RegisterCustomerModal";
 import RegisterVehicleModal from "./RegisterVehicleModal";
@@ -451,7 +451,6 @@ const SessionsView = ({ sessions, loading, onRefresh, onRequestRetrieval, onView
 const ReceptionDashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -764,23 +763,14 @@ const ReceptionDashboard = () => {
 
 
   return (
-    <div className={`reception-layout ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
-      <ReceptionSidebar
+    <div className="reception-root">
+      <DashboardLayout
+        config={receptionConfig}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onLogout={handleLogout}
-        collapsed={sidebarCollapsed}
-        setCollapsed={setSidebarCollapsed}
-      />
-
-      <div className="reception-main">
-        <ReceptionTopbar
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          onLogout={handleLogout}
-        />
-
-        <main className="reception-body">
+      >
+        <div className="reception-body">
           {/* Global Messages */}
           {error && (
             <div className="reception-global-error">
@@ -795,8 +785,8 @@ const ReceptionDashboard = () => {
           )}
 
           {renderView()}
-        </main>
-      </div>
+        </div>
+      </DashboardLayout>
 
       {/* MODALS */}
       {modal === "customer" && (

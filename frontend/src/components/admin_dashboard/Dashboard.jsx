@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from "react";
 
-import Sidebar from "./Sidebar";
-import Topbar from "./Topbar";
+import DashboardLayout from "../layout/DashboardLayout";
+import { adminConfig } from "../layout/dashboardConfigs";
 import StatCard from "./StatCard";
 import StaffManagement from "./StaffManagement";
 import Reports from "./Reports";
@@ -121,18 +121,12 @@ function Dashboard() {
     ).toLocaleString("en-IN");
 
   return (
-    <div className="dashboard">
-      <Sidebar
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
-
-      <div className="dashboard-main">
-        <Topbar
-          setActivePage={setActivePage}
-        />
-
-        <main className="dashboard-content">
+    <DashboardLayout
+      config={adminConfig}
+      activeTab={activePage}
+      setActiveTab={setActivePage}
+    >
+        <div className="dashboard-content">
           {activePage === "dashboard" && (
             <>
               <section className="dashboard-header">
@@ -522,9 +516,8 @@ function Dashboard() {
           {activePage === "profile" && (
             <Profile />
           )}
-        </main>
-      </div>
-    </div>
+        </div>
+    </DashboardLayout>
   );
 }
 

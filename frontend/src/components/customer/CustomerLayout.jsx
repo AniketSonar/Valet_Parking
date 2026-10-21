@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import CustomerSidebar from "./CustomerSidebar";
-import CustomerTopbar from "./CustomerTopbar";
+import DashboardLayout from "../layout/DashboardLayout";
+import { customerConfig } from "../layout/dashboardConfigs";
 import CustomerDashboard from "./CustomerDashboard";
 import MyVehicles from "./MyVehicles";
 import ParkingHistory from "./ParkingHistory";
@@ -16,7 +16,6 @@ function CustomerLayout() {
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("dashboard");
-  const [collapsed, setCollapsed] = useState(false);
 
   const [authUser] = useState(() => {
     try {
@@ -76,26 +75,15 @@ function CustomerLayout() {
   };
 
   return (
-    <div className="customer-layout">
-      <CustomerSidebar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        collapsed={collapsed}
-        setCollapsed={setCollapsed}
-        onLogout={logout}
-      />
-
-      <div className="customer-main">
-        <CustomerTopbar
-          customer={customer}
-          onProfile={() => setActiveTab("profile")}
-        />
-
-        <div className="customer-content">
-          {renderPage()}
-        </div>
-      </div>
-    </div>
+    <DashboardLayout
+      config={customerConfig}
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
+      onLogout={logout}
+      user={customer}
+    >
+      {renderPage()}
+    </DashboardLayout>
   );
 }
 

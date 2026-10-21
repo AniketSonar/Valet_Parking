@@ -36,58 +36,60 @@ const DashboardSidebar = ({
         </div>
       </div>
 
-      {/* MAIN MENU */}
-      <div className="dash-sidebar-section">
-        <span className="dash-section-label">
-          {config.menuLabel || "MAIN MENU"}
-        </span>
-
-        <nav className="dash-menu-list">
-          {config.menu.map((item) => {
-            const Icon = item.icon;
-            const active = activeTab === item.id;
-
-            return (
-              <button
-                key={item.id}
-                type="button"
-                className={`dash-menu-item ${active ? "active" : ""}`}
-                onClick={() => setActiveTab(item.id)}
-                title={collapsed ? item.label : undefined}
-                aria-current={active ? "page" : undefined}
-              >
-                <span className="dash-item-icon">
-                  <Icon size={18} strokeWidth={active ? 2.2 : 1.9} />
-                </span>
-
-                <span className="dash-item-text">{item.label}</span>
-              </button>
-            );
-          })}
-        </nav>
-      </div>
-
-      {/* ACCOUNT */}
-      <div className="dash-sidebar-section dash-account-section">
-        <span className="dash-section-label">ACCOUNT</span>
-
-        <button
-          type="button"
-          className={`dash-menu-item ${
-            activeTab === profileId ? "active" : ""
-          }`}
-          onClick={() => setActiveTab(profileId)}
-          title={collapsed ? "Profile" : undefined}
-        >
-          <span className="dash-item-icon">
-            <UserRoundPen
-              size={18}
-              strokeWidth={activeTab === profileId ? 2.2 : 1.9}
-            />
+      <div className="dash-sidebar-content">
+        {/* MAIN MENU */}
+        <div className="dash-sidebar-section">
+          <span className="dash-section-label">
+            {config.menuLabel || "MAIN MENU"}
           </span>
 
-          <span className="dash-item-text">Profile</span>
-        </button>
+          <nav className="dash-menu-list">
+            {config.menu.map((item) => {
+              const Icon = item.icon;
+              const active = activeTab === item.id;
+
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`dash-menu-item ${active ? "active" : ""}`}
+                  onClick={() => setActiveTab(item.id)}
+                  title={collapsed ? item.label : undefined}
+                  aria-current={active ? "page" : undefined}
+                >
+                  <span className="dash-item-icon">
+                    <Icon size={18} strokeWidth={active ? 2.2 : 1.9} />
+                  </span>
+
+                  <span className="dash-item-text">{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* ACCOUNT */}
+        <div className="dash-sidebar-section dash-account-section">
+          <span className="dash-section-label">ACCOUNT</span>
+
+          <button
+            type="button"
+            className={`dash-menu-item ${
+              activeTab === profileId ? "active" : ""
+            }`}
+            onClick={() => setActiveTab(profileId)}
+            title={collapsed ? "Profile" : undefined}
+          >
+            <span className="dash-item-icon">
+              <UserRoundPen
+                size={18}
+                strokeWidth={activeTab === profileId ? 2.2 : 1.9}
+              />
+            </span>
+
+            <span className="dash-item-text">Profile</span>
+          </button>
+        </div>
       </div>
 
       {/* FOOTER */}

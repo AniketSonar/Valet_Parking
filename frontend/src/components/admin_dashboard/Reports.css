@@ -1,0 +1,1519 @@
+/* ============================================================
+   AURA VALET PARKING
+   REPORTS & SYSTEM OVERVIEW
+   Premium Light Purple Dashboard Theme
+   ============================================================ */
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+
+.reports-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 32px 40px;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.reports-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.reports-header > div:first-child {
+  min-width: 0;
+}
+
+.reports-eyebrow {
+  margin: 0 0 6px;
+  color: #806d8d;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.reports-header h2 {
+  margin: 0;
+  color: #1a1024;
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.reports-description {
+  max-width: 680px;
+  margin: 7px 0 0;
+  color: #716779;
+  font-size: 12.5px;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* ============================================================
+   HEADER CONTROLS
+   ============================================================ */
+
+.reports-controls {
+  flex-shrink: 0;
+}
+
+.reports-controls .act-btn {
+  box-sizing: border-box;
+  height: 40px !important;
+  padding: 0 15px !important;
+  border: 1px solid #5e3573 !important;
+  border-radius: 10px !important;
+  background: #5e3573 !important;
+  color: #ffffff !important;
+  font-family: inherit;
+  font-size: 11.5px !important;
+  font-weight: 750 !important;
+  box-shadow: 0 5px 14px rgba(94, 53, 115, 0.14);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.reports-controls .act-btn:hover:not(:disabled) {
+  background: #4e2b61 !important;
+  border-color: #4e2b61 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(94, 53, 115, 0.19);
+}
+
+.reports-controls .act-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.reports-controls .act-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.refresh-spinning {
+  animation: reports-refresh-spin 0.9s linear infinite;
+}
+
+@keyframes reports-refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   DATE RANGE
+   ============================================================ */
+
+.date-range {
+  height: 40px;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 12px;
+  box-sizing: border-box;
+
+  background: #ffffff;
+  border: 1px solid #e4dce9;
+  border-radius: 10px;
+
+  box-shadow:
+    0 2px 8px rgba(26, 16, 36, 0.025),
+    0 1px 2px rgba(26, 16, 36, 0.02);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.date-range:hover {
+  border-color: #cbb9d6;
+  background: #fcfaff;
+  box-shadow: 0 4px 12px rgba(94, 53, 115, 0.06);
+}
+
+.range-icon {
+  flex-shrink: 0;
+  color: #5e3573;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.date-range select {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  appearance: auto;
+
+  background: transparent;
+  color: #2a2033;
+
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* ============================================================
+   ERROR MESSAGE
+   ============================================================ */
+
+.reports-page > div[style*="fef2f2"] {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  box-sizing: border-box;
+
+  margin-bottom: 18px !important;
+  padding: 11px 15px !important;
+
+  background: #fff7f7 !important;
+  border: 1px solid #f2dddd;
+  border-radius: 11px !important;
+
+  color: #b42318 !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+
+  box-shadow: 0 3px 10px rgba(180, 35, 24, 0.035);
+}
+
+/* ============================================================
+   KPI GRID
+   ============================================================ */
+
+.report-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+  margin-bottom: 22px;
+}
+
+/* ============================================================
+   KPI CARD
+   ============================================================ */
+
+.report-kpi-card {
+  position: relative;
+  min-width: 0;
+  min-height: 164px;
+  padding: 19px 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  background: #ffffff;
+  border: 1px solid #e8e2ed;
+  border-radius: 16px;
+
+  box-shadow:
+    0 4px 15px rgba(35, 27, 50, 0.025),
+    0 1px 2px rgba(35, 27, 50, 0.025);
+
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Decorative AURA circles */
+.report-kpi-card::before {
+  content: "";
+  position: absolute;
+  width: 135px;
+  height: 135px;
+  top: -70px;
+  right: -52px;
+
+  border-radius: 50%;
+  background: #f8f2fb;
+
+  pointer-events: none;
+  transition: transform 0.35s ease;
+}
+
+.report-kpi-card::after {
+  content: "";
+  position: absolute;
+  width: 95px;
+  height: 95px;
+  right: -34px;
+  bottom: -48px;
+
+  border-radius: 50%;
+  background: #f4edf8;
+
+  pointer-events: none;
+  transition: transform 0.35s ease;
+}
+
+.report-kpi-card:hover {
+  transform: translateY(-4px);
+  border-color: #d8c9e1;
+
+  box-shadow:
+    0 13px 28px rgba(94, 53, 115, 0.075),
+    0 3px 8px rgba(26, 16, 36, 0.025);
+}
+
+.report-kpi-card:hover::before {
+  transform: scale(1.12);
+}
+
+.report-kpi-card:hover::after {
+  transform: scale(1.12);
+}
+
+/* ============================================================
+   KPI TOP
+   ============================================================ */
+
+.report-kpi-top {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* ============================================================
+   KPI ICONS
+   ============================================================ */
+
+.report-kpi-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 800;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.report-kpi-card:hover .report-kpi-icon {
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* Revenue */
+
+.report-kpi-icon.revenue {
+  background: #f0e6f5;
+  color: #5e3573;
+  box-shadow: inset 0 0 0 1px rgba(94, 53, 115, 0.04);
+}
+
+.report-kpi-card:has(.report-kpi-icon.revenue)::before {
+  background: #f8f2fb;
+}
+
+/* Parking */
+
+.report-kpi-icon.parking {
+  background: #fff1d2;
+  color: #bd7305;
+  box-shadow: inset 0 0 0 1px rgba(189, 115, 5, 0.04);
+}
+
+.report-kpi-card:has(.report-kpi-icon.parking)::before {
+  background: #fffaf0;
+}
+
+.report-kpi-card:has(.report-kpi-icon.parking)::after {
+  background: #fff6e4;
+}
+
+/* Customers */
+
+.report-kpi-icon.customers {
+  background: #eee5f5;
+  color: #79508f;
+  box-shadow: inset 0 0 0 1px rgba(121, 80, 143, 0.04);
+}
+
+.report-kpi-card:has(.report-kpi-icon.customers)::before {
+  background: #f7f2fa;
+}
+
+/* Incidents */
+
+.report-kpi-icon.incidents {
+  background: #fee8e8;
+  color: #d13b3b;
+  box-shadow: inset 0 0 0 1px rgba(209, 59, 59, 0.04);
+}
+
+.report-kpi-card:has(.report-kpi-icon.incidents)::before {
+  background: #fff7f7;
+}
+
+.report-kpi-card:has(.report-kpi-icon.incidents)::after {
+  background: #fff0f0;
+}
+
+/* ============================================================
+   KPI TREND BADGES
+   ============================================================ */
+
+.kpi-trend {
+  position: relative;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 23px;
+  padding: 4px 8px;
+  box-sizing: border-box;
+
+  border-radius: 7px;
+
+  font-size: 9.5px;
+  line-height: 1;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.kpi-trend.positive {
+  color: #087f5b;
+  background: #eaf8f2;
+}
+
+.kpi-trend.neutral {
+  color: #756b7e;
+  background: #f4f1f6;
+}
+
+/* ============================================================
+   KPI CONTENT
+   ============================================================ */
+
+.report-kpi-card p {
+  position: relative;
+  z-index: 2;
+
+  margin: 15px 0 0;
+
+  color: #756b7e;
+
+  font-size: 10px;
+  line-height: 1.3;
+  font-weight: 750;
+
+  letter-spacing: 0.65px;
+  text-transform: uppercase;
+}
+
+.report-kpi-card h3 {
+  position: relative;
+  z-index: 2;
+
+  margin: 5px 0 0;
+
+  color: #1a1024;
+
+  font-size: 27px;
+  line-height: 1.05;
+  font-weight: 800;
+
+  letter-spacing: -0.8px;
+}
+
+.report-kpi-card > span:last-child {
+  position: relative;
+  z-index: 2;
+
+  display: block;
+
+  margin-top: 8px;
+
+  color: #968e9e;
+
+  font-size: 9.5px;
+  line-height: 1.45;
+  font-weight: 550;
+}
+
+/* ============================================================
+   MAIN REPORT GRID
+   ============================================================ */
+
+.reports-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(300px, 1fr);
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+/* ============================================================
+   GENERIC REPORT PANEL
+   ============================================================ */
+
+.report-panel {
+  min-width: 0;
+  padding: 23px;
+  box-sizing: border-box;
+
+  background: #ffffff;
+  border: 1px solid #e8e2ed;
+  border-radius: 16px;
+
+  box-shadow:
+    0 4px 18px rgba(35, 27, 50, 0.025),
+    0 1px 2px rgba(35, 27, 50, 0.02);
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.report-panel:hover {
+  border-color: #ded3e6;
+  box-shadow:
+    0 8px 24px rgba(94, 53, 115, 0.055),
+    0 2px 5px rgba(35, 27, 50, 0.02);
+}
+
+/* ============================================================
+   PANEL HEADER
+   ============================================================ */
+
+.report-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.report-panel-header > div {
+  min-width: 0;
+}
+
+.report-panel-header h3 {
+  margin: 0;
+
+  color: #1a1024;
+
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -0.15px;
+}
+
+.report-panel-header p {
+  margin: 4px 0 0;
+
+  color: #817789;
+
+  font-size: 10.5px;
+  line-height: 1.45;
+  font-weight: 550;
+}
+
+/* ============================================================
+   PANEL MENU
+   ============================================================ */
+
+.panel-menu {
+  width: 31px;
+  height: 31px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+  color: #887c91;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.panel-menu:hover {
+  background: #f4eef8;
+  color: #5e3573;
+}
+
+/* ============================================================
+   REVENUE SUMMARY
+   ============================================================ */
+
+.revenue-summary {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-top: 17px;
+}
+
+.revenue-summary strong {
+  color: #1a1024;
+
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.revenue-summary span {
+  color: #817789;
+
+  font-size: 10px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+/* ============================================================
+   REVENUE CHART
+   ============================================================ */
+
+.revenue-chart {
+  height: 235px;
+
+  display: flex;
+
+  margin-top: 14px;
+}
+
+.chart-y-axis {
+  width: 49px;
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 4px 8px 29px 0;
+  box-sizing: border-box;
+
+  color: #918898;
+
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 650;
+}
+
+.chart-area {
+  position: relative;
+
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+
+  overflow: hidden;
+
+  border-radius: 8px;
+}
+
+/* ============================================================
+   CHART GRID
+   ============================================================ */
+
+.chart-grid-lines {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding-bottom: 29px;
+  box-sizing: border-box;
+}
+
+.chart-grid-lines span {
+  width: 100%;
+
+  border-top: 1px dashed #ebe6ef;
+}
+
+/* ============================================================
+   REVENUE LINE
+   ============================================================ */
+
+.revenue-line {
+  position: absolute;
+
+  left: 0;
+  top: 3px;
+
+  width: 100%;
+  height: calc(100% - 32px);
+
+  overflow: visible;
+
+  color: #8b1230;
+
+  filter: drop-shadow(0 4px 5px rgba(94, 53, 115, 0.09));
+}
+
+/* ============================================================
+   CHART POINTS
+   ============================================================ */
+
+.chart-points {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 29px;
+}
+
+.chart-point {
+  position: absolute;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 6px;
+}
+
+.chart-point span {
+  display: block;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #5e3573;
+
+  box-shadow:
+    0 0 0 3px rgba(94, 53, 115, 0.13),
+    0 2px 5px rgba(94, 53, 115, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.chart-point:hover span {
+  transform: scale(1.35);
+
+  box-shadow:
+    0 0 0 4px rgba(94, 53, 115, 0.12),
+    0 3px 7px rgba(94, 53, 115, 0.2);
+}
+
+.chart-point label {
+  color: #817789;
+
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 650;
+}
+
+/* ============================================================
+   PARKING / FACILITY UTILIZATION
+   ============================================================ */
+
+.parking-activity-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   OCCUPANCY DONUT
+   ============================================================ */
+
+.parking-circle {
+  position: relative;
+
+  width: 162px;
+  height: 162px;
+
+  margin: 24px auto 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    conic-gradient(
+      #8b1230 0 74%,
+      #9b37ce 74% 91%,
+      #ebe6ef 91% 100%
+    );
+
+  box-shadow:
+    0 8px 22px rgba(94, 53, 115, 0.09),
+    0 2px 6px rgba(26, 16, 36, 0.03);
+}
+
+/* Inner ring */
+
+.parking-circle::before {
+  content: "";
+
+  position: absolute;
+
+  width: 134px;
+  height: 134px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+}
+
+.circle-inner {
+  position: relative;
+  z-index: 2;
+
+  width: 116px;
+  height: 116px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    inset 0 1px 5px rgba(26, 16, 36, 0.025);
+}
+
+.circle-inner strong {
+  color: #1a1024;
+
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.circle-inner span {
+  margin-top: 5px;
+
+  color: #817789;
+
+  font-size: 9px;
+  line-height: 1.2;
+  font-weight: 750;
+
+  letter-spacing: 0.65px;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   PARKING LEGEND
+   ============================================================ */
+
+.parking-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+
+  margin-top: auto;
+}
+
+.parking-legend > div {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+
+  color: #6f6678;
+
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.parking-legend strong {
+  color: #1a1024;
+
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+}
+
+/* Purple occupied */
+
+.legend-dot.completed {
+  background: #5e3573;
+  box-shadow: 0 0 0 3px rgba(94, 53, 115, 0.1);
+}
+
+/* Lilac capacity */
+
+.legend-dot.active {
+  background: #9b37ce;
+  box-shadow: 0 0 0 3px rgba(155, 55, 206, 0.11);
+}
+
+/* Neutral check-ins */
+
+.legend-dot.cancelled {
+  background: #cfc7d5;
+  box-shadow: 0 0 0 3px rgba(207, 199, 213, 0.22);
+}
+
+/* ============================================================
+   BOTTOM GRID
+   ============================================================ */
+
+.reports-bottom-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* ============================================================
+   WORKFORCE ACTIVITY
+   ============================================================ */
+
+.staff-activity {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+
+  margin-top: 19px;
+}
+
+.activity-stat {
+  min-width: 0;
+
+  padding: 15px;
+  box-sizing: border-box;
+
+  border: 1px solid #ebe5ef;
+  border-radius: 12px;
+
+  background: #faf8fc;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.activity-stat:hover {
+  transform: translateY(-2px);
+
+  background: #ffffff;
+  border-color: #dcd0e5;
+
+  box-shadow:
+    0 6px 15px rgba(94, 53, 115, 0.055);
+}
+
+.activity-stat span {
+  display: block;
+
+  color: #817789;
+
+  font-size: 9.5px;
+  line-height: 1.3;
+  font-weight: 750;
+
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.activity-stat strong {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #1a1024;
+
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.green-text {
+  color: #059669 !important;
+}
+
+/* ============================================================
+   INCIDENT / OPERATIONS HEADER
+   ============================================================ */
+
+.incident-count {
+  flex-shrink: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 25px;
+  padding: 4px 9px !important;
+  box-sizing: border-box;
+
+  border-radius: 7px;
+
+  font-size: 9.5px !important;
+  line-height: 1;
+  font-weight: 750 !important;
+
+  white-space: nowrap;
+}
+
+/* ============================================================
+   INCIDENT LIST
+   ============================================================ */
+
+.incident-list {
+  margin-top: 14px;
+}
+
+.incident-item {
+  min-height: 53px;
+
+  display: grid;
+  grid-template-columns: 9px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+
+  padding: 8px 0;
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #f0ebf3;
+}
+
+.incident-item:last-child {
+  border-bottom: none;
+}
+
+.incident-item > div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.incident-item strong {
+  overflow: hidden;
+
+  color: #21162b;
+
+  font-size: 11.5px;
+  line-height: 1.3;
+  font-weight: 750;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.incident-item span {
+  overflow: hidden;
+
+  color: #82788a;
+
+  font-size: 9.5px;
+  line-height: 1.35;
+  font-weight: 550;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.incident-item small {
+  font-size: 9.5px !important;
+  line-height: 1;
+  font-weight: 750 !important;
+
+  white-space: nowrap;
+}
+
+.incident-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+}
+
+/* Operational */
+
+.incident-dot.low {
+  background: #10b981;
+
+  box-shadow:
+    0 0 0 3px rgba(16, 185, 129, 0.11);
+}
+
+/* Warning */
+
+.incident-dot.medium {
+  background: #f59e0b;
+
+  box-shadow:
+    0 0 0 3px rgba(245, 158, 11, 0.11);
+}
+
+/* Critical */
+
+.incident-dot.high {
+  background: #ef4444;
+
+  box-shadow:
+    0 0 0 3px rgba(239, 68, 68, 0.11);
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+.reports-controls .act-btn:focus-visible,
+.date-range:focus-within,
+.date-range select:focus-visible,
+.panel-menu:focus-visible {
+  outline: 2px solid #a82042;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .report-kpi-card,
+  .report-kpi-card::before,
+  .report-kpi-card::after,
+  .report-kpi-icon,
+  .report-panel,
+  .activity-stat,
+  .chart-point span,
+  .reports-controls .act-btn,
+  .refresh-spinning {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .report-kpi-card:hover {
+    transform: none;
+  }
+
+  .activity-stat:hover {
+    transform: none;
+  }
+
+  .report-kpi-card:hover .report-kpi-icon {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   LARGE DESKTOP
+   ============================================================ */
+
+@media (max-width: 1250px) {
+  .reports-page {
+    padding: 28px 26px 36px;
+  }
+
+  .report-kpi-grid {
+    gap: 15px;
+  }
+
+  .reports-main-grid,
+  .reports-bottom-grid {
+    gap: 17px;
+  }
+
+  .report-panel {
+    padding: 21px;
+  }
+}
+
+/* ============================================================
+   TABLET / SMALL LAPTOP
+   ============================================================ */
+
+@media (max-width: 1100px) {
+  .report-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reports-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .parking-activity-panel {
+    min-height: 380px;
+  }
+
+  .parking-circle {
+    margin-top: 22px;
+  }
+}
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .reports-page {
+    padding: 25px 22px 32px;
+  }
+
+  .reports-header {
+    align-items: flex-start;
+  }
+
+  .reports-header h2 {
+    font-size: 26px;
+  }
+
+  .reports-description {
+    font-size: 12px;
+  }
+
+  .report-kpi-card {
+    min-height: 158px;
+  }
+
+  .report-panel {
+    padding: 20px;
+  }
+
+  .reports-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+  .reports-page {
+    padding: 21px 17px 28px;
+  }
+
+  .reports-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 17px;
+
+    margin-bottom: 21px;
+  }
+
+  .reports-header h2 {
+    font-size: 24px;
+    letter-spacing: -0.5px;
+  }
+
+  .reports-description {
+    max-width: 100%;
+    margin-top: 6px;
+    font-size: 11.5px;
+  }
+
+  .reports-controls {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .reports-controls .act-btn {
+    flex: 1;
+    min-width: 110px;
+  }
+
+  .date-range {
+    flex: 1;
+    min-width: 145px;
+  }
+
+  .report-kpi-grid {
+    grid-template-columns: 1fr;
+    gap: 13px;
+    margin-bottom: 17px;
+  }
+
+  .report-kpi-card {
+    min-height: 150px;
+  }
+
+  .reports-main-grid {
+    gap: 17px;
+    margin-bottom: 17px;
+  }
+
+  .report-panel {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .report-panel-header h3 {
+    font-size: 14px;
+  }
+
+  .report-panel-header p {
+    font-size: 10px;
+  }
+
+  .revenue-chart {
+    height: 215px;
+  }
+
+  .parking-activity-panel {
+    min-height: auto;
+  }
+
+  .parking-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .parking-circle::before {
+    width: 124px;
+    height: 124px;
+  }
+
+  .circle-inner {
+    width: 108px;
+    height: 108px;
+  }
+
+  .circle-inner strong {
+    font-size: 25px;
+  }
+
+  .reports-bottom-grid {
+    gap: 17px;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 500px) {
+  .reports-page {
+    padding: 18px 14px 24px;
+  }
+
+  .reports-header h2 {
+    font-size: 22px;
+  }
+
+  .reports-controls {
+    gap: 8px !important;
+  }
+
+  .reports-controls .act-btn {
+    height: 38px !important;
+    padding: 0 12px !important;
+  }
+
+  .date-range {
+    height: 38px;
+    min-width: 135px;
+    padding: 0 10px;
+  }
+
+  .date-range select {
+    font-size: 10.5px;
+  }
+
+  .report-kpi-card {
+    min-height: 145px;
+    padding: 17px 18px;
+    border-radius: 14px;
+  }
+
+  .report-kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+
+  .report-kpi-card p {
+    margin-top: 13px;
+    font-size: 9.5px;
+  }
+
+  .report-kpi-card h3 {
+    font-size: 25px;
+  }
+
+  .report-kpi-card > span:last-child {
+    font-size: 9px;
+  }
+
+  .report-panel {
+    padding: 17px;
+  }
+
+  .revenue-summary strong {
+    font-size: 22px;
+  }
+
+  .revenue-summary span {
+    font-size: 9.5px;
+  }
+
+  .revenue-chart {
+    height: 195px;
+  }
+
+  .chart-y-axis {
+    width: 42px;
+    font-size: 8px;
+  }
+
+  .chart-point label {
+    font-size: 8px;
+  }
+
+  .parking-circle {
+    width: 140px;
+    height: 140px;
+    margin-top: 20px;
+  }
+
+  .parking-circle::before {
+    width: 116px;
+    height: 116px;
+  }
+
+  .circle-inner {
+    width: 100px;
+    height: 100px;
+  }
+
+  .circle-inner strong {
+    font-size: 23px;
+  }
+
+  .circle-inner span {
+    font-size: 8px;
+  }
+
+  .staff-activity {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .activity-stat {
+    padding: 13px 14px;
+  }
+
+  .activity-stat strong {
+    font-size: 20px;
+  }
+
+  .incident-item {
+    grid-template-columns: 8px minmax(0, 1fr) auto;
+    gap: 9px;
+  }
+
+  .incident-item strong {
+    font-size: 11px;
+  }
+
+  .incident-item span {
+    font-size: 9px;
+  }
+
+  .incident-item small {
+    font-size: 8.5px !important;
+  }
+}
+
+/* ============================================================
+   VERY SMALL DEVICES
+   ============================================================ */
+
+@media (max-width: 370px) {
+  .reports-page {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
+  .reports-controls {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .reports-controls .act-btn,
+  .date-range {
+    width: 100%;
+    flex: none;
+  }
+
+  .report-panel {
+    padding: 15px;
+  }
+
+  .report-kpi-card {
+    padding: 16px;
+  }
+
+  .parking-circle {
+    width: 132px;
+    height: 132px;
+  }
+
+  .parking-circle::before {
+    width: 110px;
+    height: 110px;
+  }
+
+  .circle-inner {
+    width: 94px;
+    height: 94px;
+  }
+}
+
+.reports-page { max-width: 1500px; padding: 30px 34px 48px; }
+.reports-header h2 { color: #171324; }.reports-description { color: #6b647b; }.reports-controls .act-btn { border-radius: 9999px !important; background: #8b1230 !important; border-color: #8b1230 !important; }
+.date-range, .report-panel, .report-kpi-card { border-color: rgba(139, 18, 48, 0.12); border-radius: 20px; background: #ffffff; box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08); }
+.date-range { border-radius: 12px; box-shadow: none; }.report-table th { color: #8a8398; text-transform: uppercase; letter-spacing: 0.08em; }.report-table tr:hover { background: #f9f7ff; }
+html[data-theme="dark"] .reports-header h2 { color: #f8f5fc; } html[data-theme="dark"] .reports-description { color: #b8afc8; } html[data-theme="dark"] .date-range, html[data-theme="dark"] .report-panel, html[data-theme="dark"] .report-kpi-card { background: #17111f; border-color: rgba(201, 59, 93, 0.18); } html[data-theme="dark"] .report-table tr:hover { background: #211a2c; }

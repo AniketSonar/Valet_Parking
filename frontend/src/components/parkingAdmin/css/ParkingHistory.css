@@ -1,0 +1,462 @@
+.parking-history-page {
+  width: 100%;
+  animation: historyFadeIn 0.3s ease;
+}
+
+@keyframes historyFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.parking-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 28px;
+}
+
+.parking-history-eyebrow {
+  margin: 0 0 7px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #71809d;
+}
+
+.parking-history-header h1 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #17213d;
+}
+
+.parking-history-header p:not(.parking-history-eyebrow) {
+  margin: 8px 0 0;
+  color: #7b879e;
+  font-size: 14px;
+}
+
+.history-summary {
+  min-width: 140px;
+  padding: 14px 18px;
+  border: 1px solid #e6eaf1;
+  border-radius: 12px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-summary span {
+  font-size: 12px;
+  color: #8490a6;
+}
+
+.history-summary strong {
+  font-size: 22px;
+  color: #17213d;
+}
+
+
+/* ============================================================
+   SUMMARY
+============================================================ */
+
+.history-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.history-summary-card {
+  min-height: 92px;
+  padding: 18px;
+  border: 1px solid #e7ebf2;
+  border-radius: 14px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.history-summary-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #f1f4f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #33415f;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.history-summary-card div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.history-summary-card div span {
+  font-size: 12px;
+  color: #7d899f;
+}
+
+.history-summary-card div strong {
+  font-size: 21px;
+  color: #17213d;
+}
+
+
+/* ============================================================
+   TABLE CARD
+============================================================ */
+
+.parking-history-card {
+  border: 1px solid #e5e9f0;
+  border-radius: 15px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   TOOLBAR
+============================================================ */
+
+.parking-history-toolbar {
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.parking-history-search {
+  width: min(420px, 100%);
+  height: 42px;
+  border: 1px solid #dfe4ec;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  padding: 0 13px;
+  gap: 9px;
+  background: #ffffff;
+}
+
+.parking-history-search span {
+  font-size: 19px;
+  color: #8a95a9;
+}
+
+.parking-history-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #26324d;
+  background: transparent;
+}
+
+.parking-history-search input::placeholder {
+  color: #9aa4b5;
+}
+
+.parking-history-filters {
+  display: flex;
+  gap: 10px;
+}
+
+.parking-history-filters select {
+  height: 42px;
+  min-width: 145px;
+  padding: 0 13px;
+  border: 1px solid #dfe4ec;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #43506a;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   TABLE
+============================================================ */
+
+.parking-history-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.parking-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.parking-history-table thead {
+  background: #f8f9fb;
+}
+
+.parking-history-table th {
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  color: #7d899f;
+  border-bottom: 1px solid #e9edf2;
+  white-space: nowrap;
+}
+
+.parking-history-table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid #edf0f4;
+  font-size: 13px;
+  color: #44516a;
+  white-space: nowrap;
+}
+
+.parking-history-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.parking-history-table tbody tr:hover {
+  background: #fafbfd;
+}
+
+
+/* ============================================================
+   VEHICLE
+============================================================ */
+
+.history-vehicle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.history-vehicle-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #f1f4f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.history-vehicle strong {
+  font-size: 13px;
+  color: #26324b;
+}
+
+.history-customer {
+  color: #33405a;
+  font-weight: 500;
+}
+
+.history-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: #f1f4f8;
+  color: #36435d;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.history-time {
+  color: #68758d;
+  font-size: 12px;
+}
+
+.history-duration {
+  color: #34415b;
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+.history-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #eef8f2;
+  color: #26754b;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.history-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3a9a63;
+}
+
+
+/* ============================================================
+   EMPTY
+============================================================ */
+
+.history-empty {
+  height: 260px;
+  text-align: center !important;
+}
+
+.history-empty > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.history-empty span {
+  font-size: 27px;
+  color: #a0a9b9;
+}
+
+.history-empty strong {
+  color: #34415c;
+  font-size: 14px;
+}
+
+.history-empty p {
+  margin: 0;
+  color: #8994a8;
+  font-size: 12px;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.parking-history-footer {
+  min-height: 62px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #7d899f;
+  font-size: 12px;
+}
+
+.parking-history-footer strong {
+  color: #3b4760;
+}
+
+.history-pagination {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.history-pagination button,
+.history-pagination span {
+  width: 31px;
+  height: 31px;
+  border: 1px solid #e0e5ec;
+  border-radius: 7px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #778399;
+}
+
+.history-pagination button {
+  cursor: pointer;
+}
+
+.history-pagination button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.history-pagination span {
+  background: #f1f4f8;
+  color: #34415b;
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1100px) {
+  .history-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 750px) {
+  .parking-history-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .history-summary {
+    width: 100%;
+  }
+
+  .parking-history-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .parking-history-search {
+    width: 100%;
+  }
+
+  .parking-history-filters {
+    width: 100%;
+  }
+
+  .parking-history-filters select {
+    flex: 1;
+  }
+}
+
+@media (max-width: 550px) {
+  .history-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .parking-history-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+  }
+}

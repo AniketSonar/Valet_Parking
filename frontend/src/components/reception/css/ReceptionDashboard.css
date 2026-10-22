@@ -10,17 +10,6 @@
 }
 
 
-html[data-theme="dark"] {
-  --reception-bg: #0f0b16;
-  --reception-card: #17111f;
-  --reception-main: #f8f5fc;
-  --reception-muted: #b8afc8;
-  --reception-faint: #8e84a2;
-  --reception-border: rgba(201, 59, 93, 0.18);
-  --reception-shadow: 0 20px 50px rgba(5, 3, 9, 0.34);
-}
-
-
 .reception-body {
   width: 100%;
   min-height: calc(100vh - 76px);
@@ -777,23 +766,6 @@ html[data-theme="dark"] {
 }
 
 
-html[data-theme="dark"] .reception-table tbody tr:hover {
-  background: #211a2c;
-}
-
-
-html[data-theme="dark"] .reception-table-footer {
-  background: #211a2c;
-}
-
-
-html[data-theme="dark"] .reception-modal input,
-html[data-theme="dark"] .reception-modal select,
-html[data-theme="dark"] .reception-modal textarea {
-  background: #211a2c !important;
-  color: #f8f5fc !important;
-  border-color: rgba(201, 59, 93, 0.18) !important;
-}
 
 
 @media (max-width: 1200px) {
@@ -1010,23 +982,6 @@ html[data-theme="dark"] .reception-modal textarea {
 }
 
 
-html[data-theme="dark"] .quick-action-card,
-html[data-theme="dark"] .reception-stat-card,
-html[data-theme="dark"] .reception-table-card,
-html[data-theme="dark"] .reception-profile-card {
-  background: var(--bg-card, #17111f);
-  border-color: #30263a;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
-}
-
-
-html[data-theme="dark"] .quick-action-card:hover,
-html[data-theme="dark"] .reception-stat-card:hover,
-html[data-theme="dark"] .reception-table-card:hover,
-html[data-theme="dark"] .reception-profile-card:hover {
-  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5);
-}
-
 
 /* Shared AURA operational surface */
 :root {
@@ -1035,15 +990,6 @@ html[data-theme="dark"] .reception-profile-card:hover {
   --reception-text: #17131f;
   --reception-muted-text: #6b6472;
   --reception-line: #e9e5ef;
-}
-
-
-html[data-theme="dark"] {
-  --reception-surface: #17111f;
-  --reception-surface-muted: #211a2c;
-  --reception-text: #f8f5fc;
-  --reception-muted-text: #b8afc8;
-  --reception-line: rgba(201, 59, 93, .18);
 }
 
 

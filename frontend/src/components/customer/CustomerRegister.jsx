@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import ThemeToggle from "../ThemeToggle";
 import "./css/CustomerAuth.css";
 
 function CustomerRegister() {

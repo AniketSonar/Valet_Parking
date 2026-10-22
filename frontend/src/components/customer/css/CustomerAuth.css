@@ -8,13 +8,6 @@
   position: relative;
 }
 
-.customer-auth-theme {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  z-index: 10;
-}
-
 .customer-auth-shell {
   width: 100%;
   max-width: 480px;

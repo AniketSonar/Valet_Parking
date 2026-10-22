@@ -26,26 +26,6 @@
 }
 
 
-html[data-theme="dark"] {
-  --dashboard-bg: #0f0b16;
-  --dashboard-card: #17111f;
-  --dashboard-surface: #211a2c;
-
-  --dashboard-text: #f8f5fc;
-  --dashboard-muted: #b8afc8;
-  --dashboard-faint: #8e84a2;
-
-  --dashboard-purple: #a82042;
-  --dashboard-purple-dark: #8b1230;
-
-  --dashboard-border: rgba(201, 59, 93, 0.18);
-  --dashboard-border-soft: rgba(201, 59, 93, 0.12);
-
-  --dashboard-shadow:
-    0 20px 50px rgba(5, 3, 9, 0.34);
-}
-
-
 
 /* ============================================================
    CONTENT WRAPPER
@@ -951,65 +931,11 @@ html[data-theme="dark"] {
 }
 
 
-html[data-theme="dark"] .dashboard-header h1,
-html[data-theme="dark"] .dashboard-date strong,
-html[data-theme="dark"] .section-heading h2,
-html[data-theme="dark"] .panel-header h3,
-html[data-theme="dark"] .system-metric strong,
-html[data-theme="dark"] .quick-card strong,
-html[data-theme="dark"] .empty-activity strong {
-  color: var(--dashboard-text);
-}
 
 
-html[data-theme="dark"] .dashboard-header p,
-html[data-theme="dark"] .panel-header p,
-html[data-theme="dark"] .quick-card span,
-html[data-theme="dark"] .empty-activity,
-html[data-theme="dark"] .system-metric span {
-  color: var(--dashboard-muted);
-}
 
 
-html[data-theme="dark"] .dashboard-date,
-html[data-theme="dark"] .dashboard-panel,
-html[data-theme="dark"] .quick-card,
-html[data-theme="dark"] .stat-card {
-  background: var(--dashboard-card);
 
-  border-color: var(--dashboard-border);
-}
-
-
-html[data-theme="dark"] .panel-header,
-html[data-theme="dark"] .empty-activity,
-html[data-theme="dark"] .system-metric {
-  background: var(--dashboard-surface);
-}
-
-
-html[data-theme="dark"] .quick-card:hover {
-  background: #211a2c;
-}
-
-
-html[data-theme="dark"] .system-status {
-  background: #12332d;
-}
-
-
-html[data-theme="dark"] .panel-action {
-  background: #211a2c;
-  color: #c93b5d;
-}
-
-
-html[data-theme="dark"] .empty-icon,
-html[data-theme="dark"] .metric-icon.blue,
-html[data-theme="dark"] .staff-icon {
-  background: #2a2040;
-  color: #c93b5d;
-}
 
 
 

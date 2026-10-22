@@ -949,3 +949,132 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* ============================================================
+   PAYMENT AT CHECK-IN + PARKING RECEIPT
+   ============================================================ */
+
+.payment-fields .payment-currency {
+  font-weight: 700;
+  color: #7b7389;
+}
+
+.payment-fields .payment-help {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #7b7389;
+}
+
+.parking-receipt {
+  width: 100%;
+  max-width: 300px;
+  margin: 16px auto 12px;
+  padding: 18px 16px;
+  background: #ffffff;
+  color: #231633;
+  border: 1px solid #e3dce9;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(35, 22, 51, 0.08);
+  text-align: center;
+}
+
+.parking-receipt-head {
+  padding-bottom: 10px;
+  border-bottom: 2px solid #231633;
+}
+
+.parking-receipt-head h5 {
+  margin: 6px 0 2px;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+}
+
+.parking-receipt-head p {
+  margin: 0;
+  font-size: 11px;
+  color: #7b7389;
+}
+
+.parking-receipt-ticket {
+  margin: 12px 0;
+  font-size: 12px;
+  color: #7b7389;
+}
+
+.parking-receipt-ticket strong {
+  color: #231633;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.parking-receipt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px dashed #cfc7d8;
+  border-bottom: 1px dashed #cfc7d8;
+  text-align: left;
+}
+
+.parking-receipt-grid span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: #7b7389;
+  text-transform: uppercase;
+}
+
+.parking-receipt-grid strong {
+  display: block;
+  font-size: 14px;
+}
+
+.parking-receipt-grid small {
+  display: block;
+  font-size: 10px;
+  color: #7b7389;
+}
+
+.parking-receipt-qr {
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: 14px auto 6px;
+}
+
+.parking-receipt-thanks {
+  margin: 8px 0 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.receipt-print-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 auto 8px;
+}
+
+@media print {
+  body.printing-receipt * {
+    visibility: hidden !important;
+  }
+
+  body.printing-receipt #parking-receipt,
+  body.printing-receipt #parking-receipt * {
+    visibility: visible !important;
+  }
+
+  body.printing-receipt #parking-receipt {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: none;
+    border: 0;
+  }
+}

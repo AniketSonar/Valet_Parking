@@ -1379,88 +1379,19 @@
   cursor: not-allowed;
 }
 
-/* ============================================================
-   DARK THEME
-   ============================================================ */
 
-html[data-theme="dark"] .parking-slots-search,
-html[data-theme="dark"] .parking-select-wrap select,
-html[data-theme="dark"] .parking-slots-refresh,
-html[data-theme="dark"] .parking-zone-tab,
-html[data-theme="dark"] .parking-layout-card,
-html[data-theme="dark"] .parking-header-more,
-html[data-theme="dark"] .target-parking-slot,
-html[data-theme="dark"] .parking-empty-cell {
-  background: var(--bg-card, #17111f);
-}
 
-html[data-theme="dark"] .parking-map {
-  background: var(--bg-card, #17111f);
-}
 
-html[data-theme="dark"] .parking-map-frame {
-  background: #1e1728;
-  border-color: rgba(201, 59, 93, 0.1);
-}
 
-html[data-theme="dark"] .parking-row-grid {
-  border-color: rgba(201, 59, 93, 0.12);
-}
 
-html[data-theme="dark"] .target-parking-slot {
-  border-color: rgba(201, 59, 93, 0.1);
-}
 
-html[data-theme="dark"] .target-parking-slot:hover {
-  background: #20192a;
-}
 
-html[data-theme="dark"] .target-parking-slot.selected {
-  background: #292318;
-  box-shadow:
-    inset 0 0 0 2px #d5b84b,
-    0 5px 16px rgba(213, 184, 75, 0.12);
-}
 
-html[data-theme="dark"] .target-parking-slot.occupied {
-  background: #1b1525;
-}
 
-html[data-theme="dark"] .target-parking-slot.retrieval {
-  background: #211b13;
-}
 
-html[data-theme="dark"] .parking-central-driveway {
-  background:
-    repeating-linear-gradient(
-      90deg,
-      #241d2d 0,
-      #241d2d 34px,
-      #201925 34px,
-      #201925 68px
-    );
-}
 
-html[data-theme="dark"] .parking-central-driveway span {
-  background: #17111f;
-}
 
-html[data-theme="dark"] .slot-vehicle-number {
-  background: #292040;
-  color: #b8a5ed;
-}
 
-html[data-theme="dark"] .parking-slot-modal {
-  background: var(--bg-card, #17111f);
-}
-
-html[data-theme="dark"] .slot-detail-item {
-  background: #1e1728;
-}
-
-html[data-theme="dark"] .parking-slot-modal-footer {
-  background: #19131f;
-}
 
 /* ============================================================
    RESPONSIVE

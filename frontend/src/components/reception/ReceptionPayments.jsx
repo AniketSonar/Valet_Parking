@@ -638,8 +638,19 @@ const ReceptionPayments = () => {
         response?.data ||
         [];
 
+      // Sessions already paid at check-in need no further payment.
+      const isPrepaid = (session) => {
+        const payment = Array.isArray(session?.payment)
+          ? session.payment[0]
+          : session?.payment;
+
+        return payment?.payment_status === "paid";
+      };
+
       const payableSessions = receivedSessions.filter(
-        (session) => session?.status === "ready_for_pickup"
+        (session) =>
+          session?.status === "ready_for_pickup" &&
+          !isPrepaid(session)
       );
 
       setSessions(payableSessions);

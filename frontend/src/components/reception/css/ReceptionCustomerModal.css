@@ -519,58 +519,15 @@
   border-radius: 10px;
 }
 
-html[data-theme="dark"] .reception-modal {
-  background: #17111f;
-  border-color: rgba(139, 18, 48, .18);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, .42);
-}
 
-html[data-theme="dark"] .reception-modal-header,
-html[data-theme="dark"] .modal-footer {
-  border-color: rgba(139, 18, 48, .18);
-}
 
-html[data-theme="dark"] .reception-modal-header h3,
-html[data-theme="dark"] .modal-success-body h4 {
-  color: #f8f5fc;
-}
 
-html[data-theme="dark"] .reception-modal-header span,
-html[data-theme="dark"] .modal-success-body>p {
-  color: #b8afc8;
-}
 
-html[data-theme="dark"] .modal-field label {
-  color: #ddd4e9;
-}
 
-html[data-theme="dark"] .modal-input-wrap,
-html[data-theme="dark"] .modal-btn-secondary,
-html[data-theme="dark"] .modal-close-btn {
-  background: #211a2c;
-  border-color: rgba(201, 59, 93, .18);
-  color: #b8afc8;
-}
 
-html[data-theme="dark"] .modal-input-wrap input {
-  color: #f8f5fc;
-}
 
-html[data-theme="dark"] .modal-btn-secondary {
-  color: #eee8f6;
-}
 
-html[data-theme="dark"] .modal-success-info {
-  border-color: rgba(201, 59, 93, .18);
-}
 
-html[data-theme="dark"] .modal-success-info>div {
-  border-color: rgba(201, 59, 93, .18);
-}
-
-html[data-theme="dark"] .modal-success-info strong {
-  color: #f8f5fc;
-}
 
 
 /* ============================================================

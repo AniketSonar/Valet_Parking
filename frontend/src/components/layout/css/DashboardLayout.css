@@ -52,12 +52,6 @@
     padding-right: 14px;
   }
 }
-
-
-html[data-theme="dark"]
-.dash-layout {
-  background: var(--bg-app, #110d17);
-}
 /* ============================================================
    VALET SIDEBAR
 ============================================================ */
@@ -550,44 +544,8 @@ html[data-theme="dark"]
 }
 
 
-/* ============================================================
-   DARK THEME
-============================================================ */
-
-html[data-theme="dark"]
-.dash-sidebar {
-  background: var(--bg-sidebar, #17111f);
-
-  border-color: #30263a;
-}
 
 
-html[data-theme="dark"]
-.dash-brand-title h2 {
-  color: #f8f5fc;
-}
-
-
-html[data-theme="dark"]
-.dash-menu-item {
-  color: #b8afc8;
-}
-
-
-html[data-theme="dark"]
-.dash-menu-item:hover,
-html[data-theme="dark"]
-.dash-collapse-btn:hover {
-  background: #211a2c;
-
-  color: #ffffff;
-}
-
-
-html[data-theme="dark"]
-.dash-sidebar-footer {
-  border-top-color: #30263a;
-}
 
 
 /* ============================================================
@@ -852,27 +810,7 @@ html[data-theme="dark"]
   }
 }
 
-/* ============================================================
-   TOPBAR — DARK THEME + ROLE BADGE
-============================================================ */
 
-html[data-theme="dark"] .dash-topbar {
-  background: rgba(23, 17, 31, 0.78);
-  border-bottom-color: #30263a;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-}
-
-html[data-theme="dark"] .dash-topbar-search,
-html[data-theme="dark"] .dash-profile-chip {
-  background: #17111f;
-  border-color: #30263a;
-  color: #f8f5fc;
-}
-
-html[data-theme="dark"] .dash-avatar {
-  background: rgba(201, 59, 93, 0.18);
-  color: #f5b5c4;
-}
 
 .dash-profile-chip:hover {
   border-color: rgba(139, 18, 48, 0.3);

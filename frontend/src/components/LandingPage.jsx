@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Car,
@@ -22,14 +22,22 @@ import {
   Mail,
   ArrowRight,
   TrendingUp,
-  KeyRound
+  KeyRound,
+  Play,
+  Zap,
+  Check,
+  Star,
+  Activity
 } from "lucide-react";
 import "./LandingPage.css";
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  // Contact / Demo Request Form state
+  // Active step tab in interactive demo simulation
+  const [activeStep, setActiveStep] = useState(0);
+
+  // Contact form state
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,6 +50,14 @@ const LandingPage = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Auto-cycle through the 4 steps preview every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % 4);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -49,15 +65,54 @@ const LandingPage = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate inquiry submission
     setTimeout(() => {
       setLoading(false);
       setFormSubmitted(true);
     }, 700);
   };
 
+  const stepDetails = [
+    {
+      num: "01",
+      title: "Digital Curbside Intake",
+      desc: "Attendant keys in plate number. Customer instantly gets SMS with digital QR token.",
+      img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=1200&q=80",
+      badge: "Intake Speed: < 20 secs",
+      metric: "98% Paperless"
+    },
+    {
+      num: "02",
+      title: "Valet Mobile Slot Allocation",
+      desc: "Driver is guided straight to an available slot with key safely locked in slot tag.",
+      img: "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=1200&q=80",
+      badge: "Real-Time GPS & Bay Mapping",
+      metric: "100% Slot Accuracy"
+    },
+    {
+      num: "03",
+      title: "1-Tap Mobile Retrieval",
+      desc: "Guests tap 'Request Vehicle' from dinner table. Valet gets dispatch ping immediately.",
+      img: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80",
+      badge: "Zero Queues at Porch",
+      metric: "Avg Retrieval: 3.5 mins"
+    },
+    {
+      num: "04",
+      title: "Contactless Handover & Pay",
+      desc: "QR code verified at exit. Frictionless tip & payment processed on phone.",
+      img: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+      badge: "Contactless & Secure",
+      metric: "5-Star Guest Rating"
+    }
+  ];
+
   return (
     <div className="landing-container">
+      {/* Glow Orbs in Background */}
+      <div className="glow-orb orb-1"></div>
+      <div className="glow-orb orb-2"></div>
+      <div className="glow-orb orb-3"></div>
+
       {/* ========================================================
           1. NAVIGATION BAR
       ======================================================== */}
@@ -74,10 +129,10 @@ const LandingPage = () => {
           </div>
 
           <div className="landing-nav-links">
-            <a href="#solutions">Solutions</a>
             <a href="#how-it-works">How It Works</a>
-            <a href="#features">Key Features</a>
+            <a href="#features">Features</a>
             <a href="#sectors">Sectors</a>
+            <a href="#preview">Live Workflow</a>
             <a href="#contact">Contact</a>
           </div>
 
@@ -94,221 +149,311 @@ const LandingPage = () => {
       </nav>
 
       {/* ========================================================
-          2. HERO SECTION
+          2. HERO SECTION WITH IMAGE & FLOATING LIVE BADGES
       ======================================================== */}
       <section className="landing-hero">
         <div className="landing-hero-backdrop"></div>
-        <div className="landing-hero-content">
-          <div className="landing-badge">
-            <Sparkles size={14} />
-            <span>Next-Gen Smart Valet Operations</span>
+        <div className="landing-hero-inner">
+          <div className="landing-hero-text">
+            <div className="landing-badge pulse-badge">
+              <Sparkles size={14} />
+              <span>Next-Gen Smart Valet Operations</span>
+            </div>
+
+            <h1 className="landing-hero-title">
+              Elevate Your Arrival. <br />
+              <span className="landing-gradient-text">We Digitize the Journey.</span>
+            </h1>
+
+            <p className="landing-hero-subtitle">
+              Say goodbye to paper tokens and curbside delays. Aura Valet transforms your
+              valet parking with automated check-in, real-time slot allocation, and 1-tap guest
+              retrieval.
+            </p>
+
+            <div className="landing-hero-buttons">
+              <a href="#contact" className="landing-btn-hero-primary glow-effect">
+                <span>Request a Demo</span>
+                <ChevronRight size={18} />
+              </a>
+              <Link to="/login" className="landing-btn-hero-secondary">
+                <span>Go to Valet Portal</span>
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            {/* Micro Trust Stats */}
+            <div className="trust-strip">
+              <div className="trust-avatars">
+                <span className="avatar av-1">A</span>
+                <span className="avatar av-2">R</span>
+                <span className="avatar av-3">S</span>
+                <span className="avatar av-4">+</span>
+              </div>
+              <div className="trust-text">
+                <div className="stars-row">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} fill="#fbbf24" color="#fbbf24" />
+                  ))}
+                </div>
+                <span>Trusted by luxury hotels, malls & corporate parks</span>
+              </div>
+            </div>
           </div>
 
-          <h1 className="landing-hero-title">
-            Turn Your Valet Service Into a <br />
-            <span className="landing-gradient-text">Frictionless Luxury Experience</span>
-          </h1>
+          {/* Hero Visual Showcase */}
+          <div className="landing-hero-showcase">
+            <div className="showcase-card-main">
+              <img
+                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
+                alt="Luxury Car Valet Arrival"
+                className="showcase-img"
+              />
+              <div className="showcase-overlay"></div>
 
-          <p className="landing-hero-subtitle">
-            Say goodbye to paper tokens and long curbside queues. Aura Valet digitizes
-            entry, slot allocation, live tracking, and instant guest retrieval with real-time
-            accuracy.
-          </p>
+              {/* Floating Live Card: Vehicle Retrieved */}
+              <div className="floating-stat-card card-top-right float-anim-1">
+                <div className="stat-icon-circle green">
+                  <CheckCircle2 size={18} />
+                </div>
+                <div>
+                  <small>Vehicle Ready for Pickup</small>
+                  <strong>Mercedes C-Class (MH 02 BB 1001)</strong>
+                  <span>Porch Bay 02 • Valet: Vikram</span>
+                </div>
+              </div>
 
-          <div className="landing-hero-buttons">
-            <a href="#contact" className="landing-btn-hero-primary">
-              <span>Schedule a Demo</span>
-              <ChevronRight size={18} />
-            </a>
-            <Link to="/login" className="landing-btn-hero-secondary">
-              <span>Go to Valet Portal</span>
-              <ArrowRight size={16} />
-            </Link>
+              {/* Floating Live Card: Speed & QR */}
+              <div className="floating-stat-card card-bottom-left float-anim-2">
+                <div className="stat-icon-circle purple">
+                  <Zap size={18} />
+                </div>
+                <div>
+                  <small>Average Wait Time</small>
+                  <strong className="time-highlight">3 Min 18 Sec</strong>
+                  <span>94% Faster than paper tickets</span>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
 
-          {/* Stats Bar */}
-          <div className="landing-stats-grid">
-            <div className="stat-pill">
+        {/* Global Key Metrics Strip */}
+        <div className="landing-stats-grid">
+          <div className="stat-pill">
+            <div className="stat-num-row">
               <strong>90%</strong>
-              <span>Reduced Guest Wait Time</span>
+              <TrendingUp size={18} className="trend-up" />
             </div>
-            <div className="stat-pill">
+            <span>Reduced Guest Porch Wait</span>
+          </div>
+          <div className="stat-pill">
+            <div className="stat-num-row">
               <strong>100%</strong>
-              <span>Digital QR & Paperless Tickets</span>
+              <QrCode size={18} className="trend-up" />
             </div>
-            <div className="stat-pill">
-              <strong>Real-Time</strong>
-              <span>Live Slot & Key Tracking</span>
-            </div>
-            <div className="stat-pill">
+            <span>Paperless Digital QR Passes</span>
+          </div>
+          <div className="stat-pill">
+            <div className="stat-num-row">
               <strong>Zero</strong>
-              <span>Vehicle Misplacement</span>
+              <Shield size={18} className="trend-up" />
             </div>
+            <span>Vehicle Misplacement Claims</span>
+          </div>
+          <div className="stat-pill">
+            <div className="stat-num-row">
+              <strong>Real-Time</strong>
+              <Activity size={18} className="trend-up" />
+            </div>
+            <span>Live Bay & Key Sync</span>
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          3. HOW IT WORKS (THE 4-STEP GUEST JOURNEY)
+          3. INTERACTIVE 4-STEP WORKFLOW SHOWCASE (WITH PHOTO)
       ======================================================== */}
       <section id="how-it-works" className="landing-section">
         <div className="section-header">
-          <span className="section-eyebrow">EFFORTLESS JOURNEY</span>
-          <h2>How Aura Valet Works</h2>
-          <p>A digitized, transparent workflow from curbside arrival to departure.</p>
+          <span className="section-eyebrow">DIGITAL VEHICLE JOURNEY</span>
+          <h2>How Aura Smart Valet Works</h2>
+          <p>
+            An interconnected workflow keeping receptionists, valets, and guests on the exact same page.
+          </p>
         </div>
 
-        <div className="steps-grid">
-          <div className="step-card">
-            <div className="step-number">01</div>
-            <div className="step-icon-box">
-              <Car size={26} />
+        {/* Step Tab Buttons */}
+        <div className="step-tabs-wrapper">
+          {stepDetails.map((s, idx) => (
+            <button
+              key={idx}
+              className={`step-tab-btn ${activeStep === idx ? "active" : ""}`}
+              onClick={() => setActiveStep(idx)}
+            >
+              <span className="step-badge">{s.num}</span>
+              <span className="step-label">{s.title}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Interactive Step Preview Card */}
+        <div className="interactive-step-card">
+          <div className="step-card-text">
+            <span className="step-sub-badge">{stepDetails[activeStep].badge}</span>
+            <h3>{stepDetails[activeStep].title}</h3>
+            <p>{stepDetails[activeStep].desc}</p>
+
+            <div className="step-features-list">
+              <div className="step-feature-item">
+                <Check size={16} className="check-icon" />
+                <span>Instant QR token generated and shared via SMS & link</span>
+              </div>
+              <div className="step-feature-item">
+                <Check size={16} className="check-icon" />
+                <span>Damage photos and initial fuel/mileage noted at intake</span>
+              </div>
+              <div className="step-feature-item">
+                <Check size={16} className="check-icon" />
+                <span>Zero confusion between front desk and driver attendants</span>
+              </div>
             </div>
-            <h3>Curbside Check-In</h3>
-            <p>
-              Front desk captures the license plate and issues an instant SMS / QR digital ticket.
-              Condition photos and mileage can be noted on the spot.
-            </p>
+
+            <div className="step-metric-highlight">
+              <strong>{stepDetails[activeStep].metric}</strong>
+              <span>Observed across commercial test deployments</span>
+            </div>
           </div>
 
-          <div className="step-card">
-            <div className="step-number">02</div>
-            <div className="step-icon-box">
-              <KeyRound size={26} />
-            </div>
-            <h3>Smart Slot & Key Allocation</h3>
-            <p>
-              Valet attendants receive parking tasks on their mobile dashboard, park the vehicle in an
-              allocated slot, and safely secure the tagged key.
-            </p>
-          </div>
-
-          <div className="step-card">
-            <div className="step-number">03</div>
-            <div className="step-icon-box">
-              <Smartphone size={26} />
-            </div>
-            <h3>1-Click Guest Retrieval</h3>
-            <p>
-              Guests scan their ticket or click "Request Vehicle" from their phone while finishing
-              their dinner or checkout. No standing in lines.
-            </p>
-          </div>
-
-          <div className="step-card">
-            <div className="step-number">04</div>
-            <div className="step-icon-box">
-              <CheckCircle2 size={26} />
-            </div>
-            <h3>Seamless Handover & Pay</h3>
-            <p>
-              Attendants deliver the car to the porch, verify the ticket QR code, and complete
-              contactless checkout with digital receipts.
-            </p>
+          <div className="step-card-visual">
+            <img
+              src={stepDetails[activeStep].img}
+              alt={stepDetails[activeStep].title}
+              className="step-display-img"
+            />
+            <div className="step-visual-overlay"></div>
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          4. KEY VALUE PROPOSITIONS / FEATURES
+          4. ENTERPRISE VALUE PILLARS (WITH IMAGERY & ICONS)
       ======================================================== */}
       <section id="features" className="landing-section landing-bg-alt">
         <div className="section-header">
-          <span className="section-eyebrow">BUILT FOR SCALE</span>
-          <h2>Enterprise-Grade Valet Management</h2>
-          <p>Everything your operations team needs to maintain speed, safety, and accountability.</p>
+          <span className="section-eyebrow">ENTERPRISE VALET TECHNOLOGY</span>
+          <h2>Engineered for High-Pressure Valet Porches</h2>
+          <p>Everything required to maintain safety, speed, and 5-star hospitality benchmarks.</p>
         </div>
 
         <div className="features-grid">
-          <div className="feature-item">
-            <div className="feature-icon feature-purple">
-              <QrCode size={24} />
+          <div className="feature-item feature-card-img">
+            <div className="feature-bg-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80')" }}></div>
+            <div className="feature-content-inner">
+              <div className="feature-icon feature-purple">
+                <QrCode size={24} />
+              </div>
+              <h3>Digital QR Tokens</h3>
+              <p>Replaces fragile paper slips. Guests track car status from their phone and request recall with 1 tap.</p>
             </div>
-            <h3>Digital E-Tokens</h3>
-            <p>Eliminate lost paper tickets. Customers receive a live ticket link with car status and estimated arrival time.</p>
           </div>
 
-          <div className="feature-item">
-            <div className="feature-icon feature-blue">
-              <TrendingUp size={24} />
+          <div className="feature-item feature-card-img">
+            <div className="feature-bg-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=600&q=80')" }}></div>
+            <div className="feature-content-inner">
+              <div className="feature-icon feature-blue">
+                <TrendingUp size={24} />
+              </div>
+              <h3>Live Bay Occupancy</h3>
+              <p>Dynamic visual map of parking slots across all levels. Instantly know which floors have free capacity.</p>
             </div>
-            <h3>Live Slot Occupancy</h3>
-            <p>Visual map of all parking bays. See vacant, occupied, and maintenance slots in real-time across multiple floors.</p>
           </div>
 
-          <div className="feature-item">
-            <div className="feature-icon feature-emerald">
-              <Shield size={24} />
+          <div className="feature-item feature-card-img">
+            <div className="feature-bg-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80')" }}></div>
+            <div className="feature-content-inner">
+              <div className="feature-icon feature-emerald">
+                <Shield size={24} />
+              </div>
+              <h3>Damage & Incident Logs</h3>
+              <p>Curbside vehicle condition log with photo uploads protects your venue against illegitimate liability claims.</p>
             </div>
-            <h3>Damage & Incident Logs</h3>
-            <p>Record pre-existing scratches and dents during intake to protect your business against fraudulent claims.</p>
           </div>
 
-          <div className="feature-item">
-            <div className="feature-icon feature-amber">
-              <Clock size={24} />
+          <div className="feature-item feature-card-img">
+            <div className="feature-bg-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80')" }}></div>
+            <div className="feature-content-inner">
+              <div className="feature-icon feature-amber">
+                <Clock size={24} />
+              </div>
+              <h3>Turnaround Speed Metrics</h3>
+              <p>Live analytics tracking intake duration, park time, and retrieval latency for individual valet drivers.</p>
             </div>
-            <h3>Turnaround Analytics</h3>
-            <p>Monitor valet retrieval speeds, rush hour bottlenecks, and individual attendant performance metrics.</p>
           </div>
 
-          <div className="feature-item">
-            <div className="feature-icon feature-indigo">
-              <Users size={24} />
+          <div className="feature-item feature-card-img">
+            <div className="feature-bg-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80')" }}></div>
+            <div className="feature-content-inner">
+              <div className="feature-icon feature-indigo">
+                <Users size={24} />
+              </div>
+              <h3>Role-Specific Dashboards</h3>
+              <p>Custom interfaces for Super Admins, Parking Facility Managers, Front Desk Cashiers, and Drivers.</p>
             </div>
-            <h3>Role-Based Portals</h3>
-            <p>Tailored dashboards for Super Admins, Parking Admins, Front Desk Cashiers, Valet Attendants, and Guests.</p>
           </div>
 
-          <div className="feature-item">
-            <div className="feature-icon feature-rose">
-              <Award size={24} />
+          <div className="feature-item feature-card-img">
+            <div className="feature-bg-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80')" }}></div>
+            <div className="feature-content-inner">
+              <div className="feature-icon feature-rose">
+                <Award size={24} />
+              </div>
+              <h3>Instant Guest Reviews</h3>
+              <p>Capture customer satisfaction scores and feedback directly upon checkout to elevate standards.</p>
             </div>
-            <h3>Guest Feedback & Ratings</h3>
-            <p>Gather direct post-service reviews and ratings to maintain 5-star hospitality benchmarks.</p>
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          5. SECTORS / WHO WE SERVE
+          5. SECTORS WITH VIBRANT VENUE CARDS
       ======================================================== */}
       <section id="sectors" className="landing-section">
         <div className="section-header">
           <span className="section-eyebrow">INDUSTRY SOLUTIONS</span>
-          <h2>Tailored for High-Traffic Venues</h2>
-          <p>Whether it’s a 5-star resort or a busy shopping district, Aura adapts to your needs.</p>
+          <h2>Tailored for Premier Commercial Destinations</h2>
+          <p>Custom-fit parking operations designed for high-density, luxury, and sensitive environments.</p>
         </div>
 
         <div className="sectors-grid">
-          <div className="sector-card">
-            <Hotel className="sector-icon" size={32} />
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80')" }}>
+            <Hotel className="sector-icon" size={34} />
             <h3>Hotels & Resorts</h3>
-            <p>Deliver the welcoming arrival and effortless departure experience that luxury travelers expect.</p>
+            <p>Elevate the prestigious guest arrival and departure standard matching five-star hospitality.</p>
           </div>
 
-          <div className="sector-card">
-            <UtensilsCrossed className="sector-icon" size={32} />
-            <h3>Fine Dining & Clubs</h3>
-            <p>Eliminate peak-hour parking bottlenecks so diners begin and end their evening with joy.</p>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80')" }}>
+            <UtensilsCrossed className="sector-icon" size={34} />
+            <h3>Fine Dining & Lounges</h3>
+            <p>Ensure weekend evening crowds never endure 20-minute porch bottlenecks when arriving or leaving.</p>
           </div>
 
-          <div className="sector-card">
-            <ShoppingBag className="sector-icon" size={32} />
-            <h3>Malls & Retail Centers</h3>
-            <p>Handle weekend vehicle volume smoothly with high-speed intake, digital tokens, and rapid vehicle recall.</p>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&w=600&q=80')" }}>
+            <ShoppingBag className="sector-icon" size={34} />
+            <h3>Malls & Retail Plazas</h3>
+            <p>Process hundreds of vehicles per hour with high-speed digital tokens and automated bay tracking.</p>
           </div>
 
-          <div className="sector-card">
-            <Hospital className="sector-icon" size={32} />
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=600&q=80')" }}>
+            <Hospital className="sector-icon" size={34} />
             <h3>Hospitals & Healthcare</h3>
-            <p>Provide patients and visitors with stress-free curbside drop-off right at emergency and OPD doors.</p>
+            <p>Provide patients and visiting family members with fast, caring curbside handoffs at entry gates.</p>
           </div>
 
-          <div className="sector-card">
-            <Building2 className="sector-icon" size={32} />
-            <h3>Corporate Parks & Events</h3>
-            <p>Manage VIP movements, high-profile summits, and daily executive parking with bulletproof auditing.</p>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80')" }}>
+            <Building2 className="sector-icon" size={34} />
+            <h3>Corporate Hubs & Events</h3>
+            <p>Smoothly coordinate executive movements, VIP conferences, and summit delegations without a hitch.</p>
           </div>
         </div>
       </section>
@@ -319,11 +464,11 @@ const LandingPage = () => {
       <section id="contact" className="landing-section landing-bg-alt">
         <div className="contact-wrapper">
           <div className="contact-info">
-            <span className="section-eyebrow">GET IN TOUCH</span>
-            <h2>Ready to Upgrade Your Parking Experience?</h2>
+            <span className="section-eyebrow">PARTNER WITH US</span>
+            <h2>Ready to Transform Your Valet Experience?</h2>
             <p>
-              Schedule a personalized walkthrough of Aura Valet Parking. Our solutions
-              team will demonstrate how easy it is to deploy across your venues.
+              Schedule a live walkthrough of Aura Valet. Our solutions engineers will show
+              you how quickly it deploys onto existing parking spaces with zero expensive hardware lock-ins.
             </p>
 
             <div className="contact-details">
@@ -347,14 +492,15 @@ const LandingPage = () => {
                 <MapPin size={20} />
                 <div>
                   <strong>Headquarters</strong>
-                  <span>Aura Smart Mobility Labs, Metro Business Hub</span>
+                  <span>Aura Smart Mobility Labs, Metro Business Towers</span>
                 </div>
               </div>
             </div>
 
+            {/* Quick Login Banner */}
             <div className="login-quick-banner">
               <h4>Already an active client or staff member?</h4>
-              <p>Sign in to access your operations dashboard or customer history.</p>
+              <p>Sign in directly to launch your operations dashboard or manage parking bookings.</p>
               <div className="banner-btns">
                 <button onClick={() => navigate("/login")} className="btn-banner-staff">
                   Staff Login
@@ -366,17 +512,17 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Contact Form Card */}
+          {/* Form Card */}
           <div className="contact-form-card">
             {formSubmitted ? (
               <div className="form-success-box">
                 <div className="success-icon">
-                  <CheckCircle2 size={48} />
+                  <CheckCircle2 size={54} />
                 </div>
-                <h3>Thank You for Reaching Out!</h3>
+                <h3>Demo Request Received!</h3>
                 <p>
-                  We have received your demo request. One of our valet mobility specialists
-                  will connect with you within 24 hours.
+                  Thank you for reaching out. One of our valet mobility specialists will
+                  connect with you within 24 hours to schedule your personalized live demo.
                 </p>
                 <button
                   className="landing-btn-hero-primary"
@@ -415,7 +561,7 @@ const LandingPage = () => {
 
                 <div className="form-row">
                   <div className="form-group">
-                    <label>Email Address *</label>
+                    <label>Work Email *</label>
                     <input
                       type="email"
                       name="email"
@@ -470,7 +616,7 @@ const LandingPage = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Average Daily Vehicles</label>
+                  <label>Average Daily Vehicle Volume</label>
                   <select
                     name="vehiclesPerDay"
                     value={formData.vehiclesPerDay}
@@ -484,22 +630,22 @@ const LandingPage = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Message / Specific Requirements</label>
+                  <label>Message / Site Requirements</label>
                   <textarea
                     name="message"
                     rows="3"
-                    placeholder="Tell us about your parking location or specific requirements..."
+                    placeholder="Tell us about your parking layout or specific operational requirements..."
                     value={formData.message}
                     onChange={handleInputChange}
                   />
                 </div>
 
-                <button type="submit" className="form-submit-btn" disabled={loading}>
+                <button type="submit" className="form-submit-btn glow-effect" disabled={loading}>
                   {loading ? (
                     <span>Submitting...</span>
                   ) : (
                     <>
-                      <span>Send Request</span>
+                      <span>Submit Request</span>
                       <Send size={16} />
                     </>
                   )}
@@ -541,7 +687,7 @@ const LandingPage = () => {
           <div className="footer-links-group">
             <h4>Contact</h4>
             <p>Email: contact@auravalet.com</p>
-            <p>Support: 24/7 Operations Helpdesk</p>
+            <p>Support: 24/7 Operations Desk</p>
           </div>
         </div>
 

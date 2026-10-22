@@ -48,6 +48,12 @@ const getParkingSessions = async (req, res) => {
           name,
           phone,
           role
+        ),
+        payment:payments (
+          id,
+          payment_status,
+          payment_method,
+          total_amount
         )
       `)
       .order("checked_in_at", { ascending: false });
@@ -129,9 +135,11 @@ const getParkingSessions = async (req, res) => {
   }
 };
 
+const PAYMENT_METHODS = ["cash", "online"];
+
 const createParkingSession = async (req, res) => {
   try {
-    const { vehicle_id, parking_type } = req.body;
+    const { vehicle_id, parking_type, payment_method, amount } = req.body;
 
     if (!vehicle_id || !parking_type) {
       return res.status(400).json({
@@ -144,6 +152,23 @@ const createParkingSession = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "Parking type must be valet or self."
+      });
+    }
+
+    // Payment is collected up-front, before the vehicle is checked in.
+    if (!payment_method || !PAYMENT_METHODS.includes(payment_method)) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment mode must be cash or online."
+      });
+    }
+
+    const paidAmount = Number(amount);
+
+    if (!Number.isFinite(paidAmount) || paidAmount <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "A valid amount greater than zero is required."
       });
     }
 
@@ -298,6 +323,45 @@ const createParkingSession = async (req, res) => {
       }
     }
 
+    // Record the prepaid payment. If it fails, roll back the session so a
+    // vehicle is never checked in without a recorded payment.
+    const { data: payment, error: paymentError } = await supabase
+      .from("payments")
+      .insert({
+        parking_session_id: session.id,
+        parking_charge: paidAmount,
+        valet_service_charge: 0,
+        extra_charges: 0,
+        discount: 0,
+        gst: 0,
+        total_amount: paidAmount,
+        payment_method,
+        payment_status: "paid",
+        paid_at: new Date().toISOString(),
+        invoice_number: `INV-${Date.now()}`
+      })
+      .select("*")
+      .single();
+
+    if (paymentError) {
+      console.error("Check-in payment error:", paymentError);
+
+      await supabase
+        .from("keys")
+        .delete()
+        .eq("parking_session_id", session.id);
+
+      await supabase
+        .from("parking_sessions")
+        .delete()
+        .eq("id", session.id);
+
+      return res.status(500).json({
+        success: false,
+        message: "Payment could not be recorded, so check-in was cancelled."
+      });
+    }
+
     let emailSent = false;
     let emailErrorMessage = null;
 
@@ -320,6 +384,8 @@ const createParkingSession = async (req, res) => {
           checkedInAt: new Date(
             session.checked_in_at
           ).toLocaleString("en-IN"),
+          paymentMethod: payment_method,
+          amountPaid: paidAmount,
           qrCode: "cid:aura-parking-qr"
         });
 
@@ -407,6 +473,7 @@ const createParkingSession = async (req, res) => {
         ? "Parking session created and confirmation email sent successfully."
         : "Parking session created successfully, but confirmation email could not be sent.",
       session,
+      payment,
       ticket: {
         ticket_code: ticketCode,
         qr_code: qrCode

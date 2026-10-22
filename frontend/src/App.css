@@ -10,8 +10,7 @@
   font-style: normal;
 } */
 
-:root,
-:root[data-theme="light"] {
+:root {
   font-family: "DM Sans", sans-serif;
   line-height: 1.5;
   font-weight: 500;
@@ -50,120 +49,11 @@
   --shadow-ambient: 0 10px 30px -5px rgba(139, 18, 48, 0.08);
 }
 
-html[data-theme="dark"] {
-  --bg: #14090d;
-  --bg-strong: #1c0d13;
-  --surface: rgba(28, 13, 19, 0.92);
-  --surface-strong: #1c0d13;
-  --surface-alt: #26121a;
-  --surface-muted: #200f16;
-  --text: #fdf5f7;
-  --text-soft: #c8afb5;
-  --text-muted: #a2848c;
-  --primary: #c93b5d;
-  --primary-strong: #a82042;
-  --primary-soft: rgba(201, 59, 93, 0.14);
-  --border: rgba(201, 59, 93, 0.18);
-  --shadow: 0 30px 60px rgba(10, 7, 16, 0.45);
-  --success: #34d399;
-  --warning: #fbbf24;
-  --danger: #fb7185;
-  --panel-glow: rgba(168, 32, 66, 0.28);
-  --bg-app: #14090d;
-  --bg-card: #1c0d13;
-  --bg-card-secondary: #241018;
-  --bg-sidebar: #1c0d13;
-  --border-color: #3d1a25;
-  --text-main: #fdf5f7;
-  --text-muted: #a9a0b5;
-  --accent-purple: #a82042;
-  --shadow-ambient: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
-}
 
-html[data-theme="dark"] body {
-  background: #14090d;
-}
-html[data-theme="dark"] .dashboard-main,
-html[data-theme="dark"] .dashboard-content,
-html[data-theme="dark"] .dashboard-panel,
-html[data-theme="dark"] .dashboard-sidebar,
-html[data-theme="dark"] .dashboard-topbar,
-html[data-theme="dark"] .stat-card,
-html[data-theme="dark"] .quick-card,
-html[data-theme="dark"] .notification-dropdown,
-html[data-theme="dark"] .profile-dropdown,
-html[data-theme="dark"] .parking-admin-layout,
-html[data-theme="dark"] .parking-admin-main,
-html[data-theme="dark"] .parking-admin-body,
-html[data-theme="dark"] .dashboard-wrapper,
-html[data-theme="dark"] .parking-layout-card,
-html[data-theme="dark"] .aura-sidebar,
-html[data-theme="dark"] .reception-layout,
-html[data-theme="dark"] .reception-main,
-html[data-theme="dark"] .reception-view-wrapper,
-html[data-theme="dark"] .reception-table-card,
-html[data-theme="dark"] .reception-search-bar,
-html[data-theme="dark"] .quick-action-card,
-html[data-theme="dark"] .modal-card,
-html[data-theme="dark"] .drawer-panel {
-  background-color: var(--bg) !important;
-  color: var(--text) !important;
-}
 
-html[data-theme="dark"] .dashboard-panel,
-html[data-theme="dark"] .stat-card,
-html[data-theme="dark"] .quick-card,
-html[data-theme="dark"] .parking-layout-card,
-html[data-theme="dark"] .quick-action-card,
-html[data-theme="dark"] .reception-table-card,
-html[data-theme="dark"] .reception-search-bar,
-html[data-theme="dark"] .notification-dropdown,
-html[data-theme="dark"] .profile-dropdown,
-html[data-theme="dark"] .modal-card,
-html[data-theme="dark"] .drawer-panel,
-html[data-theme="dark"] .panel-header,
-html[data-theme="dark"] .topbar-search,
-html[data-theme="dark"] .notification-button,
-html[data-theme="dark"] .profile-button,
-html[data-theme="dark"] .theme-toggle {
-  background: var(--surface-strong) !important;
-  border-color: var(--border) !important;
-  color: var(--text) !important;
-}
 
-html[data-theme="dark"] .dashboard-topbar,
-html[data-theme="dark"] .reception-topbar,
-html[data-theme="dark"] .parking-admin-topbar {
-  background: rgba(24, 17, 33, 0.92) !important;
-  border-color: var(--border) !important;
-}
 
-html[data-theme="dark"] .topbar-search input,
-html[data-theme="dark"] .dashboard-topbar input,
-html[data-theme="dark"] .reception-search-bar input,
-html[data-theme="dark"] .notification-item strong,
-html[data-theme="dark"] .profile-dropdown strong,
-html[data-theme="dark"] .dashboard-panel h3,
-html[data-theme="dark"] .dashboard-header h1,
-html[data-theme="dark"] .dashboard-main-title,
-html[data-theme="dark"] .reception-view-header h2,
-html[data-theme="dark"] .profile-page h2 {
-  color: var(--text) !important;
-}
 
-html[data-theme="dark"] .topbar-breadcrumb span,
-html[data-theme="dark"] .topbar-breadcrumb strong,
-html[data-theme="dark"] .dashboard-header p,
-html[data-theme="dark"] .dashboard-sub-text,
-html[data-theme="dark"] .reception-view-header p,
-html[data-theme="dark"] .stat-title,
-html[data-theme="dark"] .profile-text,
-html[data-theme="dark"] .profile-field-label,
-html[data-theme="dark"] .reception-table-empty,
-html[data-theme="dark"] .dashboard-error-content span,
-html[data-theme="dark"] .empty-state {
-  color: var(--text-soft) !important;
-}
 
 * { box-sizing: border-box; }
 html, body, #root { width: 100%; min-height: 100%; margin: 0; }
@@ -461,65 +351,6 @@ a { text-decoration: none; }
   letter-spacing: 0.04rem;
 }
 
-.theme-switcher-inline {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  z-index: 4;
-}
-
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px;
-  border-radius: 999px;
-  background: rgba(139, 18, 48, 0.08);
-  border: 1px solid var(--border);
-  box-shadow: 0 12px 30px rgba(70, 49, 109, 0.12);
-  backdrop-filter: blur(10px);
-}
-
-.theme-toggle button {
-  position: relative;
-  z-index: 0;
-  overflow: hidden;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-soft);
-  font-weight: 700;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.theme-toggle button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: #8b1230;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.24s ease;
-}
-
-.theme-toggle button.active {
-  background: transparent;
-  color: white;
-  box-shadow: 0 12px 18px rgba(139, 18, 48, 0.25);
-  transform: translateY(-1px);
-}
-
-.theme-toggle button.active::before {
-  transform: scaleX(1);
-}
-
-.theme-toggle button span { font-size: 0.74rem; }
-
 .login-section {
   display: flex;
   align-items: center;
@@ -768,9 +599,6 @@ a { text-decoration: none; }
 @media (max-width: 640px) {
   .hero { padding: 26px 22px 24px; }
   .login-wrapper { padding: 22px 18px 28px; }
-  .theme-switcher-inline { right: 18px; top: 18px; }
-  .theme-toggle { gap: 4px; }
-  .theme-toggle button { padding: 7px 10px; }
   .hero-actions { flex-direction: column; }
   .primary-action, .secondary-action { width: 100%; }
   .parking-grid { grid-template-columns: repeat(2, minmax(80px, 1fr)); }
@@ -1542,20 +1370,6 @@ a { text-decoration: none; }
   box-shadow:
     0 8px 18px rgba(111, 58, 142, 0.12);
 }
-
-
-/* ============================================================
-   LANDING PAGE — NO THEME TOGGLE
-   ============================================================ */
-
-/*
-   The theme switcher is intentionally not styled here.
-
-   Remove the JSX containing:
-   .theme-switcher-inline
-
-   from the landing page parent component.
-*/
 
 
 /* ============================================================

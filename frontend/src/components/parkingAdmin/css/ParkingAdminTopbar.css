@@ -396,16 +396,3 @@
   background: linear-gradient(135deg, #8b1230, #730c26);
 }
 
-html[data-theme="dark"] .parking-admin-layout .aura-topbar {
-  background: rgba(15, 11, 22, 0.84);
-  border-color: #30263a;
-}
-
-html[data-theme="dark"] .parking-admin-layout .breadcrumb strong {
-  color: #f8f5fc;
-}
-
-html[data-theme="dark"] .parking-admin-layout .search-bar,
-html[data-theme="dark"] .parking-admin-layout .notification-bell {
-  background: #17111f;
-}

@@ -6,6 +6,8 @@ const createAuraEmail = ({
   ticketCode,
   parkingSlot,
   checkedInAt,
+  paymentMethod,
+  amountPaid,
   qrCode
 }) => {
   return `
@@ -44,6 +46,8 @@ const createAuraEmail = ({
         <p style="margin:10px 0;"><strong>Ticket Code:</strong> ${ticketCode}</p>
         <p style="margin:10px 0;"><strong>Parking Slot:</strong> ${parkingSlot || "Pending assignment"}</p>
         <p style="margin:10px 0;"><strong>Check-In Time:</strong> ${checkedInAt}</p>
+        ${paymentMethod ? `<p style="margin:10px 0;"><strong>Payment Mode:</strong> ${paymentMethod === "online" ? "Online" : "Cash"}</p>` : ""}
+        ${amountPaid !== undefined && amountPaid !== null ? `<p style="margin:10px 0;"><strong>Amount Paid:</strong> Rs. ${Number(amountPaid).toFixed(2)}</p>` : ""}
       </div>
 
       ${qrCode ? `

@@ -24,17 +24,6 @@
 }
 
 
-html[data-theme="dark"] {
-    --admin-bg: #0f0b16;
-    --admin-surface: #17111f;
-    --admin-surface-muted: #211a2c;
-    --admin-text: #f8f5fc;
-    --admin-muted: #b8afc8;
-    --admin-border: rgba(201, 59, 93, .18);
-    --admin-shadow: 0 16px 36px rgba(0, 0, 0, .26);
-}
-
-
 .parking-admin-body .parking-admin-body {
     background: transparent;
 }
@@ -458,21 +447,6 @@ html[data-theme="dark"] {
 }
 
 
-html[data-theme="dark"] .parking-admin-body .parking-slots-page .target-parking-slot.occupied {
-    background: #211c19;
-}
-
-
-html[data-theme="dark"] .parking-admin-body .parking-slots-page .target-parking-slot.retrieval,
-html[data-theme="dark"] .parking-admin-body .parking-slots-page .target-parking-slot.ready {
-    background: #211a2c;
-}
-
-
-html[data-theme="dark"] .parking-admin-body .profile-overview,
-html[data-theme="dark"] .parking-admin-body .profile-panel {
-    background: var(--admin-surface);
-}
 
 
 @media (max-width: 1100px) {
@@ -1792,28 +1766,6 @@ html[data-theme="dark"] .parking-admin-body .profile-panel {
     box-shadow: 0 12px 28px -6px rgba(139, 18, 48, 0.12);
 }
 
-
-html[data-theme="dark"] .parking-admin-body .profile-panel,
-html[data-theme="dark"] .parking-admin-body .profile-access-card,
-html[data-theme="dark"] .parking-admin-body .parking-staff-card,
-html[data-theme="dark"] .parking-admin-body .parking-table-card,
-html[data-theme="dark"] .parking-admin-body .sessions-card,
-html[data-theme="dark"] .parking-admin-body .parking-history-card,
-html[data-theme="dark"] .parking-admin-body .report-panel,
-html[data-theme="dark"] .parking-admin-body .table-card,
-html[data-theme="dark"] .parking-admin-body .parking-summary-card,
-html[data-theme="dark"] .parking-admin-body .sessions-summary-card,
-html[data-theme="dark"] .parking-admin-body .parking-staff-summary-card,
-html[data-theme="dark"] .parking-admin-body .history-summary-card {
-    background: var(--bg-card, #17111f);
-    border-color: #30263a;
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
-}
-
-
-html[data-theme="dark"] .dashboard-widget-card {
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
-}
 
 
 @media (max-width: 650px) {

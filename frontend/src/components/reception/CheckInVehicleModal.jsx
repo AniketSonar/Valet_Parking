@@ -8,7 +8,10 @@ import {
   Car,
   ParkingSquare,
   Mail,
-  AlertCircle
+  AlertCircle,
+  Banknote,
+  CreditCard,
+  Printer
 } from "lucide-react";
 import {
   createReceptionSession,
@@ -65,6 +68,9 @@ const CheckInVehicleModal = ({
   const [loadingVehicles, setLoadingVehicles] = useState(false);
 
   const [parkingType, setParkingType] = useState("valet");
+
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [amount, setAmount] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [uploadingPhotos, setUploadingPhotos] = useState(false);
@@ -244,6 +250,13 @@ const CheckInVehicleModal = ({
       return;
     }
 
+    const paidAmount = Number(amount);
+
+    if (!Number.isFinite(paidAmount) || paidAmount <= 0) {
+      setError("Please enter the amount collected from the customer.");
+      return;
+    }
+
     if (
       conditionStatus === "damaged" &&
       !damageDescription.trim()
@@ -257,7 +270,9 @@ const CheckInVehicleModal = ({
 
       const res = await createReceptionSession({
         vehicle_id: vehicleId,
-        parking_type: parkingType
+        parking_type: parkingType,
+        payment_method: paymentMethod,
+        amount: paidAmount
       });
 
       if (!res || !res.success || !res.session?.id) {
@@ -330,6 +345,7 @@ const CheckInVehicleModal = ({
       setCreated({
         session: res.session,
         ticket: res.ticket,
+        payment: res.payment,
         email: res.email
       });
 
@@ -355,6 +371,8 @@ const CheckInVehicleModal = ({
     setVehicleSearch("");
     setVehicleId("");
     setSelectedVehicle(null);
+    setAmount("");
+    setPaymentMethod("cash");
 
     resetInspection();
 
@@ -365,6 +383,28 @@ const CheckInVehicleModal = ({
     created?.ticket?.ticket_code ||
     created?.session?.ticket_code ||
     "—";
+
+  const handlePrint = () => {
+    document.body.classList.add("printing-receipt");
+
+    const cleanup = () => {
+      document.body.classList.remove("printing-receipt");
+      window.removeEventListener("afterprint", cleanup);
+    };
+
+    window.addEventListener("afterprint", cleanup);
+    window.print();
+  };
+
+  const receiptPayment = created?.payment;
+  const receiptAmount = Number(
+    receiptPayment?.total_amount ?? amount ?? 0
+  );
+  const receiptMethod =
+    receiptPayment?.payment_method || paymentMethod;
+  const receiptEntry = created?.session?.checked_in_at
+    ? new Date(created.session.checked_in_at)
+    : new Date();
 
   const emailSent = created?.email?.sent === true;
   const emailError = created?.email?.error;
@@ -414,13 +454,81 @@ const CheckInVehicleModal = ({
               have been recorded successfully.
             </p>
 
-            <div className="modal-id-badge">
-              <span>TICKET CODE</span>
+            <div className="parking-receipt" id="parking-receipt">
+              <div className="parking-receipt-head">
+                <Car size={26} />
+                <h5>PARKING RECEIPT</h5>
+                <p>Aura Valet Parking</p>
+              </div>
 
-              <strong>
-                {ticketCode}
-              </strong>
+              <div className="parking-receipt-ticket">
+                Ticket# <strong>{ticketCode}</strong>
+              </div>
+
+              <div className="parking-receipt-grid">
+                <div>
+                  <span>Entry Time</span>
+                  <strong>
+                    {receiptEntry.toLocaleTimeString("en-IN", {
+                      hour: "2-digit",
+                      minute: "2-digit"
+                    })}
+                  </strong>
+                  <small>
+                    {receiptEntry.toLocaleDateString("en-IN")}
+                  </small>
+                </div>
+
+                <div>
+                  <span>Vehicle</span>
+                  <strong>
+                    {selectedVehicle?.license_plate || "—"}
+                  </strong>
+                  <small style={{ textTransform: "capitalize" }}>
+                    {created.session?.parking_type || parkingType}
+                  </small>
+                </div>
+
+                <div>
+                  <span>Payment Mode</span>
+                  <strong style={{ textTransform: "capitalize" }}>
+                    {receiptMethod}
+                  </strong>
+                  <small>
+                    {receiptPayment?.invoice_number || ""}
+                  </small>
+                </div>
+
+                <div>
+                  <span>PAID</span>
+                  <strong>
+                    ₹{receiptAmount.toFixed(2)}
+                  </strong>
+                  <small>Status: Paid</small>
+                </div>
+              </div>
+
+              {created.ticket?.qr_code && (
+                <img
+                  className="parking-receipt-qr"
+                  src={created.ticket.qr_code}
+                  alt={`QR code for ticket ${ticketCode}`}
+                />
+              )}
+
+              <p className="parking-receipt-thanks">
+                THANK YOU AND DRIVE SAFELY
+              </p>
             </div>
+
+            <button
+              type="button"
+              className="modal-btn-secondary receipt-print-btn"
+              onClick={handlePrint}
+            >
+              <Printer size={15} />
+              Print Receipt
+            </button>
 
             <div className="modal-success-info">
               <div>
@@ -706,6 +814,63 @@ const CheckInVehicleModal = ({
               >
                 The system securely generates the ticket
                 code after check-in.
+              </small>
+            </div>
+
+            <div className="modal-field payment-fields">
+              <label>
+                Payment{" "}
+                <span className="required">*</span>
+              </label>
+
+              <div className="parking-type-toggle">
+                <button
+                  type="button"
+                  className={`type-btn ${paymentMethod === "cash"
+                    ? "active"
+                    : ""
+                    }`}
+                  onClick={() => setPaymentMethod("cash")}
+                  disabled={loading}
+                >
+                  <Banknote />
+                  Cash
+                </button>
+
+                <button
+                  type="button"
+                  className={`type-btn ${paymentMethod === "online"
+                    ? "active"
+                    : ""
+                    }`}
+                  onClick={() => setPaymentMethod("online")}
+                  disabled={loading}
+                >
+                  <CreditCard />
+                  Online
+                </button>
+              </div>
+
+              <div className="modal-input-wrap">
+                <span className="payment-currency">₹</span>
+
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  inputMode="decimal"
+                  value={amount}
+                  onChange={(event) =>
+                    setAmount(event.target.value)
+                  }
+                  placeholder="Amount collected"
+                  disabled={loading}
+                />
+              </div>
+
+              <small className="payment-help">
+                Payment is collected before check-in and
+                printed on the parking receipt.
               </small>
             </div>
 

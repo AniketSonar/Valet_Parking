@@ -45,9 +45,3 @@
     padding-right: 14px;
   }
 }
-
-
-html[data-theme="dark"]
-.valet-layout {
-  background: var(--bg-app, #110d17);
-}

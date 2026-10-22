@@ -7,7 +7,6 @@ import {
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import ThemeToggle from "../ThemeToggle";
 import NotificationCenter from "../notifications/NotificationCenter";
 import "./Topbar.css";
 

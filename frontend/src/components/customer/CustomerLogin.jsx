@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-// import ThemeToggle from "../ThemeToggle";
 import "./css/CustomerAuth.css";
 
 function CustomerLogin() {
@@ -93,10 +92,6 @@ useEffect(() => {
 
   return (
     <main className="customer-auth-page">
-      <div className="customer-auth-theme">
-        {/* <ThemeToggle /> */}
-      </div>
-
       <div className="customer-auth-shell">
         <div className="customer-auth-brand">
           <div className="customer-brand-logo">

@@ -54,7 +54,7 @@ const STATUS_CONFIG = {
 // CUSTOMERS VIEW (Simple table)
 // ============================================================
 
-const CustomersView = () => {
+const CustomersView = ({ onOpenRegisterModal }) => {
   const [customers, setCustomers] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -111,10 +111,16 @@ const CustomersView = () => {
           <h2>Customers</h2>
           <p>All registered customers in the system.</p>
         </div>
-        <button className="reception-action-btn primary" onClick={load} disabled={loading}>
-          <RefreshCw size={14} className={loading ? "refresh-spinning" : ""} />
-          <span>Refresh</span>
-        </button>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <button className="reception-action-btn primary" onClick={onOpenRegisterModal}>
+            <UserPlus size={14} />
+            <span>Register Customer</span>
+          </button>
+          <button className="reception-action-btn" onClick={load} disabled={loading}>
+            <RefreshCw size={14} className={loading ? "refresh-spinning" : ""} />
+            <span>Refresh</span>
+          </button>
+        </div>
       </div>
       <div className="reception-search-bar">
         <Search size={15} />
@@ -602,7 +608,7 @@ const ReceptionDashboard = () => {
 
       {/* Quick Actions */}
       <div className="reception-quick-actions">
-        {/* <button className="quick-action-card" onClick={() => openModal("customer")}>
+        <button className="quick-action-card" onClick={() => openModal("customer")}>
           <div className="quick-action-icon" style={{ background: "#f4eef8", color: "#5e3573" }}>
             <UserPlus size={20} />
           </div>
@@ -610,7 +616,7 @@ const ReceptionDashboard = () => {
             <strong>Register Customer</strong>
             <span>Add a new customer to the system</span>
           </div>
-        </button> */}
+        </button>
 
         <button className="quick-action-card" onClick={() => openModal("vehicle")}>
           <div className="quick-action-icon" style={{ background: "#eff6ff", color: "#1d4ed8" }}>
@@ -751,7 +757,7 @@ const ReceptionDashboard = () => {
           actionLoading={actionLoading}
         />
       );
-      case "customers": return <CustomersView />;
+      case "customers": return <CustomersView onOpenRegisterModal={() => openModal("customer")} />;
       case "vehicles": return <VehiclesView />;
       case "keys": return <ReceptionKeyManagement />;
       case "payments":

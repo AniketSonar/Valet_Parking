@@ -1,6 +1,9 @@
 const supabase = require("../config/supabase");
 
-const { transporter } = require("../config/email");
+const {
+  transporter,
+  assertEmailConfigured
+} = require("../config/email");
 
 const QRCode = require("qrcode");
 const crypto = require("crypto");
@@ -369,6 +372,8 @@ const createParkingSession = async (req, res) => {
 
     if (customer?.email) {
       try {
+        assertEmailConfigured();
+
         const qrBuffer = await QRCode.toBuffer(ticketCode);
 
         const html = createAuraEmail({
@@ -787,6 +792,8 @@ const quickCheckIn = async (req, res) => {
 
     if (customer?.email) {
       try {
+        assertEmailConfigured();
+
         const qrBuffer = await QRCode.toBuffer(ticketCode);
 
         const html = createAuraEmail({
@@ -1654,7 +1661,11 @@ const startRetrieval = async (req, res) => {
       });
     }
 
-    if (key.status !== "assigned") {
+    if (
+      !["assigned", "stored", "available", "returned"].includes(
+        key.status
+      )
+    ) {
       return res.status(400).json({
         success: false,
         message:
@@ -1740,7 +1751,12 @@ const startRetrieval = async (req, res) => {
           updated_at: new Date().toISOString()
         })
         .eq("id", key.id)
-        .eq("status", "assigned")
+        .in("status", [
+          "assigned",
+          "stored",
+          "available",
+          "returned"
+        ])
         .eq("assigned_to", key.assigned_to)
         .select()
         .single();
@@ -2317,6 +2333,23 @@ const completeReturn = async (req, res) => {
           updateSessionError?.message ||
           "Unable to complete vehicle return."
       });
+    }
+
+    const { error: duplicateSessionsError } = await supabase
+      .from("parking_sessions")
+      .update({
+        status: "returned_completed",
+        completed_at: completedAt
+      })
+      .eq("vehicle_id", session.vehicle?.id)
+      .neq("id", id)
+      .in("status", ACTIVE_STATUSES);
+
+    if (duplicateSessionsError) {
+      console.error(
+        "Close duplicate active vehicle sessions error:",
+        duplicateSessionsError
+      );
     }
 
     const customer = session.vehicle?.customer;
@@ -3152,6 +3185,13 @@ const getValetDashboard = async (req, res) => {
           phone,
           email,
           role
+        ),
+        key:keys (
+          id,
+          key_number,
+          status,
+          assigned_to,
+          assigned_at
         )
       `)
       .eq("valet_id", valet.id)

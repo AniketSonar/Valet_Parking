@@ -79,6 +79,29 @@
   letter-spacing: 0.02em;
 }
 
+.modal-dropdown-item strong em {
+  margin-left: 8px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: #fff1e7;
+  color: #b45d20;
+  font-family: inherit;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.modal-dropdown-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.modal-dropdown-item:disabled:hover {
+  background: #ffffff;
+  padding-left: 13px;
+}
+
 .modal-dropdown-item span {
   color: #8c7f9e;
 

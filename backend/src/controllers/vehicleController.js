@@ -109,6 +109,13 @@ const getVehicles = async (req, res) => {
           name,
           phone,
           email
+        ),
+        parking_sessions (
+          id,
+          ticket_code,
+          status,
+          parking_slot,
+          checked_in_at
         )
       `)
       .order("license_plate", { ascending: true });
@@ -122,7 +129,30 @@ const getVehicles = async (req, res) => {
       });
     }
 
-    let result = vehicles || [];
+    let result = (vehicles || []).map((vehicle) => {
+      const activeSessions = (vehicle.parking_sessions || [])
+        .filter((session) =>
+          [
+            "checked_in",
+            "parked",
+            "retrieval_requested",
+            "retrieving",
+            "ready_for_pickup"
+          ].includes(session.status)
+        )
+        .sort(
+          (first, second) =>
+            new Date(second.checked_in_at || 0) -
+            new Date(first.checked_in_at || 0)
+        );
+
+      const { parking_sessions, ...vehicleData } = vehicle;
+
+      return {
+        ...vehicleData,
+        active_session: activeSessions[0] || null
+      };
+    });
 
     if (search) {
       const searchTerm = search.toLowerCase();

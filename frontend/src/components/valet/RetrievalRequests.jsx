@@ -171,7 +171,9 @@ const RetrievalRequests = () => {
                   <div>
                     <span>Key</span>
                     <strong>
-                      {session.key_number ||
+                      {(Array.isArray(session.key)
+                        ? session.key[0]?.key_number
+                        : session.key?.key_number) ||
                         "Not available"}
                     </strong>
                   </div>

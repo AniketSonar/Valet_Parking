@@ -27,29 +27,27 @@ const authorizeRoles = require("../middleware/roleMiddleware");
 
 const router = express.Router();
 
+const STAFF_AND_CUSTOMER_ROLES = [
+  "cashier",
+  "reception_security",
+  "parking_admin",
+  "super_admin",
+  "valet_attendant",
+  "valet",
+  "customer"
+];
+
 router.post(
   "/",
   authenticate,
-  authorizeRoles(
-    "cashier",
-    "reception_security",
-    "parking_admin",
-    "super_admin",
-    "valet_attendant"
-  ),
+  authorizeRoles(...STAFF_AND_CUSTOMER_ROLES),
   createCustomer
 );
 
 router.get(
   "/",
   authenticate,
-  authorizeRoles(
-    "cashier",
-    "reception_security",
-    "parking_admin",
-    "super_admin",
-    "valet_attendant"
-  ),
+  authorizeRoles(...STAFF_AND_CUSTOMER_ROLES),
   getCustomers
 );
 
@@ -140,13 +138,7 @@ router.patch(
 router.get(
   "/:id",
   authenticate,
-  authorizeRoles(
-    "cashier",
-    "reception_security",
-    "parking_admin",
-    "super_admin",
-    "valet_attendant"
-  ),
+  authorizeRoles(...STAFF_AND_CUSTOMER_ROLES),
   getCustomerById
 );
 

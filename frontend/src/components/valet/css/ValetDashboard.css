@@ -850,6 +850,10 @@
   box-shadow: 0 22px 70px rgba(35, 29, 53, 0.2);
 }
 
+.confirmation-modal {
+  width: min(520px, 100%);
+}
+
 .details-modal {
   width: min(650px, 100%);
 }
@@ -976,6 +980,83 @@
   padding: 15px 21px;
   border-top: 1px solid #eeeeF3;
   background: #fcfcfe;
+}
+
+.inspection-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 21px 24px;
+}
+
+.inspection-condition-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.inspection-condition-toggle button {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #e2e0e9;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #686875;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inspection-condition-toggle button:hover {
+  border-color: #cbb8ed;
+  background: #fdf9ff;
+  color: #6d32ca;
+}
+
+.inspection-condition-toggle button.active {
+  border-color: #763bd7;
+  background: #f8efff;
+  color: #6830c2;
+  box-shadow: 0 0 0 3px rgba(118, 59, 215, 0.1);
+}
+
+.inspection-form textarea {
+  width: 100%;
+  min-height: 108px;
+  resize: vertical;
+  box-sizing: border-box;
+  padding: 12px 13px;
+  border: 1px solid #e2e0e9;
+  border-radius: 10px;
+  outline: none;
+  background: #fafafd;
+  color: #3d3d49;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.5;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.inspection-form textarea::placeholder {
+  color: #a1a0ad;
+}
+
+.inspection-form textarea:focus {
+  border-color: #9c79dc;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(118, 59, 215, 0.1);
 }
 
 /* =========================================================
@@ -1232,6 +1313,24 @@
 
   .valet-modal {
     max-height: calc(100vh - 24px);
+  }
+
+  .inspection-form {
+    padding: 18px 16px 20px;
+  }
+
+  .inspection-condition-toggle button {
+    min-height: 62px;
+  }
+
+  .confirmation-modal .modal-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+    padding: 14px 16px;
+  }
+
+  .confirmation-modal .modal-actions button {
+    width: 100%;
   }
 
   .profile-info {

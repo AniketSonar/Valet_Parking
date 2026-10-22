@@ -60,6 +60,12 @@ EMAIL_USER=your-email@gmail.com
 EMAIL_APP_PASSWORD=your-app-password
 ```
 
+`EMAIL_USER` must be the Gmail account that sends system emails. For Gmail,
+enable 2-Step Verification on that account, create an App Password under
+Google Account -> Security -> App passwords, and set that 16-character value
+as `EMAIL_APP_PASSWORD` (do not use the normal Gmail password). Restart the
+backend after changing `backend/.env`.
+
 **Frontend (`frontend/.env`):**
 ```env
 VITE_API_URL=http://localhost:5000

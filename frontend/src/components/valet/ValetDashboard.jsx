@@ -3,6 +3,7 @@ import {
   Car,
   CheckCircle2,
   Clock3,
+  ClipboardCheck,
   KeyRound,
   MapPin,
   PackageCheck,
@@ -23,6 +24,7 @@ import {
   markReadyForPickup,
   completeReturn,
 } from "../../api/parkingApi";
+import { createVehicleInspection } from "../../api/receptionApi";
 
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ValetDashboard.css";
@@ -64,6 +66,11 @@ const getVehicle = (session) =>
     ? session.vehicle[0]
     : session?.vehicle;
 
+const getKey = (session) =>
+  Array.isArray(session?.key)
+    ? session.key[0]
+    : session?.key;
+
 function ValetDashboard() {
   const [valet, setValet] = useState(null);
   const [dashboard, setDashboard] = useState(null);
@@ -83,6 +90,10 @@ function ValetDashboard() {
 
   const [slotModalSession, setSlotModalSession] = useState(null);
   const [confirmationSession, setConfirmationSession] = useState(null);
+  const [inspectionSession, setInspectionSession] = useState(null);
+  const [inspectionCondition, setInspectionCondition] =
+    useState("good");
+  const [inspectionNotes, setInspectionNotes] = useState("");
 
   const [actionLoading, setActionLoading] = useState(null);
 
@@ -270,6 +281,46 @@ function ValetDashboard() {
     }
   };
 
+  const handleCompleteReturn = (session) => {
+    setInspectionSession(session);
+    setInspectionCondition("good");
+    setInspectionNotes("");
+    setConfirmationSession(null);
+  };
+
+  const submitFinalInspection = async () => {
+    if (!inspectionSession) return;
+
+    try {
+      setActionLoading(`final-inspection-${inspectionSession.id}`);
+      setError("");
+
+      await createVehicleInspection({
+        session_id: inspectionSession.id,
+        vehicle_id: getVehicle(inspectionSession)?.id,
+        inspection_stage: "final",
+        condition_status: inspectionCondition,
+        inspection_notes: inspectionNotes.trim() || undefined,
+      });
+
+      const session = inspectionSession;
+      setInspectionSession(null);
+      await performAction(
+        session,
+        "complete-return",
+        completeReturn,
+        "Final inspection recorded and vehicle return completed successfully."
+      );
+    } catch (err) {
+      console.error("Final vehicle inspection failed:", err);
+      setError(
+        err?.message ||
+          "Unable to record the final vehicle inspection."
+      );
+      setActionLoading(null);
+    }
+  };
+
   const stats = [
     {
       label: "Assigned Vehicles",
@@ -451,6 +502,7 @@ function ValetDashboard() {
             {filteredSessions.map((session) => {
               const vehicle = getVehicle(session);
               const customer = getCustomer(session);
+              const key = getKey(session);
 
               const isLoading =
                 actionLoading &&
@@ -520,7 +572,9 @@ function ValetDashboard() {
                       <KeyRound size={16} />
                       <div>
                         <span>Key</span>
-                        <strong>Unavailable</strong>
+                        <strong>
+                          {key?.key_number || "Unavailable"}
+                        </strong>
                       </div>
                     </div>
                   </div>
@@ -631,7 +685,7 @@ function ValetDashboard() {
                       <button
                         className="primary-action"
                         onClick={() =>
-                          setConfirmationSession(session)
+                          handleCompleteReturn(session)
                         }
                         disabled={isLoading}
                       >
@@ -1054,11 +1108,27 @@ function ValetDashboard() {
               <div className="key-unavailable">
                 <KeyRound size={20} />
                 <div>
-                  <strong>Key information unavailable</strong>
-                  <span>
-                    No key number or key status is currently
-                    provided by the backend.
-                  </span>
+                  {getKey(selectedSession)?.key_number ? (
+                    <>
+                      <strong>
+                        {getKey(selectedSession).key_number}
+                      </strong>
+                      <span>
+                        Status:{" "}
+                        {formatStatus(
+                          getKey(selectedSession).status
+                        )}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <strong>Key information unavailable</strong>
+                      <span>
+                        No key number or key status is currently
+                        provided by the backend.
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -1122,6 +1192,86 @@ function ValetDashboard() {
                 disabled={Boolean(actionLoading)}
               >
                 {actionLoading ? "Completing..." : "Complete Return"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {inspectionSession && (
+        <div
+          className="valet-modal-overlay"
+          onClick={() => setInspectionSession(null)}
+        >
+          <div
+            className="valet-modal confirmation-modal"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="modal-header">
+              <div>
+                <h2>Final Vehicle Inspection</h2>
+                <p>
+                  Record the vehicle condition before completing the return.
+                </p>
+              </div>
+              <button
+                onClick={() => setInspectionSession(null)}
+                type="button"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="inspection-form">
+              <div className="inspection-condition-toggle">
+                <button
+                  type="button"
+                  className={
+                    inspectionCondition === "good" ? "active" : ""
+                  }
+                  onClick={() => setInspectionCondition("good")}
+                >
+                  <ClipboardCheck size={16} />
+                  Good
+                </button>
+                <button
+                  type="button"
+                  className={
+                    inspectionCondition === "damaged" ? "active" : ""
+                  }
+                  onClick={() => setInspectionCondition("damaged")}
+                >
+                  Damaged
+                </button>
+              </div>
+
+              <textarea
+                value={inspectionNotes}
+                onChange={(event) =>
+                  setInspectionNotes(event.target.value)
+                }
+                placeholder="Add inspection notes (optional)"
+                rows={4}
+              />
+            </div>
+
+            <div className="modal-actions">
+              <button
+                className="secondary-action"
+                onClick={() => setInspectionSession(null)}
+                type="button"
+              >
+                Cancel
+              </button>
+              <button
+                className="primary-action"
+                onClick={submitFinalInspection}
+                disabled={Boolean(actionLoading)}
+                type="button"
+              >
+                {actionLoading
+                  ? "Saving..."
+                  : "Save Inspection & Complete"}
               </button>
             </div>
           </div>

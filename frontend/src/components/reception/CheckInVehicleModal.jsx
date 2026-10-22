@@ -699,10 +699,15 @@ const CheckInVehicleModal = ({
                           onClick={() =>
                             selectVehicle(vehicle)
                           }
-                          disabled={loading}
+                          disabled={
+                            loading || Boolean(vehicle.active_session)
+                          }
                         >
                           <strong>
-                            {vehicle.license_plate}
+                            <span>{vehicle.license_plate}</span>
+                            {vehicle.active_session && (
+                              <em>Currently checked in</em>
+                            )}
                           </strong>
 
                           <span>

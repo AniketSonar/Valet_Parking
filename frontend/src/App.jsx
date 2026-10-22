@@ -12,6 +12,7 @@ import ValetLayout from "./components/valet/ValetLayout";
 import CustomerLayout from "./components/customer/CustomerLayout";
 import CustomerLogin from "./components/customer/CustomerLogin";
 import CustomerRegister from "./components/customer/CustomerRegister";
+import LandingPage from "./components/LandingPage";
 import "./App.css";
 
 function LoginPage() {
@@ -32,9 +33,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/admin-dashboard" element={<Dashboard />} />
-        {/* Public */}
-        <Route path="/" element={<LoginPage />} />
+        {/* Public Marketing Landing Page */}
+        <Route path="/" element={<LandingPage />} />
+
+        {/* Staff Login (Direct Valet Site Access) */}
+        <Route path="/login" element={<LoginPage />} />
 
         {/* Customer Authentication */}
         <Route
@@ -46,6 +49,9 @@ function App() {
           path="/customer-register"
           element={<CustomerRegister />}
         />
+
+        {/* Operational Dashboards */}
+        <Route path="/admin-dashboard" element={<Dashboard />} />
         <Route path="/parking-admin-dashboard" element={<ParkingAdminDashboard />} />
         <Route path="/reception-dashboard" element={<ReceptionDashboard />} />
         <Route

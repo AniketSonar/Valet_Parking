@@ -454,7 +454,10 @@ const SessionsView = ({ sessions, loading, onRefresh, onRequestRetrieval, onView
 // MAIN RECEPTION DASHBOARD
 // ============================================================
 
-const ReceptionDashboard = () => {
+const ReceptionDashboard = ({
+  embedded = false,
+  embeddedTab = "dashboard",
+}) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
 
@@ -470,6 +473,12 @@ const ReceptionDashboard = () => {
   const [modalProps, setModalProps] = useState({});
   const [ticketModalOpen, setTicketModalOpen] = useState(false);
   const [selectedSession, setSelectedSession] = useState(null);
+
+  useEffect(() => {
+    if (embedded) {
+      setActiveTab(embeddedTab);
+    }
+  }, [embedded, embeddedTab]);
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
@@ -769,31 +778,35 @@ const ReceptionDashboard = () => {
   };
 
 
-  return (
-    <div className="reception-root">
-      <DashboardLayout
-        config={receptionConfig}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onLogout={handleLogout}
-      >
-        <div className="reception-body">
-          {/* Global Messages */}
-          {error && (
-            <div className="reception-global-error">
-              ⚠️ {error}
-              <button onClick={() => setError("")} style={{ background: "none", border: "none", cursor: "pointer", marginLeft: "auto", color: "#b91c1c" }}>✕</button>
-            </div>
-          )}
-          {successMsg && (
-            <div className="reception-global-success">
-              ✓ {successMsg}
-            </div>
-          )}
-
-          {renderView()}
+  const receptionContent = (
+    <div className="reception-body">
+      {error && (
+        <div className="reception-global-error">
+          ⚠️ {error}
+          <button onClick={() => setError("")} style={{ background: "none", border: "none", cursor: "pointer", marginLeft: "auto", color: "#b91c1c" }}>✕</button>
         </div>
-      </DashboardLayout>
+      )}
+      {successMsg && (
+        <div className="reception-global-success">
+          ✓ {successMsg}
+        </div>
+      )}
+      {renderView()}
+    </div>
+  );
+
+  return (
+    <div className={embedded ? "reception-embedded" : "reception-root"}>
+      {embedded ? receptionContent : (
+        <DashboardLayout
+          config={receptionConfig}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onLogout={handleLogout}
+        >
+          {receptionContent}
+        </DashboardLayout>
+      )}
 
       {/* MODALS */}
       {modal === "customer" && (

@@ -9,10 +9,12 @@ import {
 import "./StaffManagement.css";
 
 const ROLE_LABELS = {
-  parking_admin: "Parking Admin",
-  reception_security: "Security / Reception",
+  manager: "Manager",
+  parking_admin: "Manager",
   valet: "Valet",
-  cashier: "Cashier",
+  reception_security: "Valet",
+  valet_attendant: "Valet",
+  cashier: "Valet",
   super_admin: "Super Admin",
 };
 
@@ -554,20 +556,12 @@ function StaffManagement() {
                 All Roles
               </option>
 
-              <option value="parking_admin">
-                Parking Admin
-              </option>
-
-              <option value="reception_security">
-                Security / Reception
+              <option value="manager">
+                Manager
               </option>
 
               <option value="valet">
                 Valet
-              </option>
-
-              <option value="cashier">
-                Cashier
               </option>
             </select>
 
@@ -944,20 +938,12 @@ function StaffManagement() {
                     Select a role
                   </option>
 
-                  <option value="parking_admin">
-                    Parking Admin
-                  </option>
-
-                  <option value="reception_security">
-                    Security / Reception
+                  <option value="manager">
+                    Manager
                   </option>
 
                   <option value="valet">
                     Valet
-                  </option>
-
-                  <option value="cashier">
-                    Cashier
                   </option>
                 </select>
               </div>
@@ -991,9 +977,8 @@ function StaffManagement() {
                 </div>
 
                 <p>
-                  Parking Admin accounts will have
-                  access to the separate Parking Admin
-                  Dashboard.
+                  Manager accounts manage floors, buildings,
+                  parking systems, and valet assignments.
                 </p>
               </div>
 
@@ -1328,20 +1313,12 @@ function StaffManagement() {
                   }
                   disabled={editSubmitting}
                 >
-                  <option value="parking_admin">
-                    Parking Admin
-                  </option>
-
-                  <option value="reception_security">
-                    Security / Reception
+                  <option value="manager">
+                    Manager
                   </option>
 
                   <option value="valet">
                     Valet
-                  </option>
-
-                  <option value="cashier">
-                    Cashier
                   </option>
                 </select>
               </div>

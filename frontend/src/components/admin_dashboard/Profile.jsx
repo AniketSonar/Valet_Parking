@@ -31,6 +31,7 @@ function Profile() {
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     localStorage.removeItem("user");
     navigate("/", { replace: true });
   };

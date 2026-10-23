@@ -10,6 +10,7 @@ import RetrievalRequests from "./RetrievalRequests";
 import ParkingSlots from "./ParkingSlots";
 import CompletedReturns from "./CompletedReturns";
 import ValetProfile from "./ValetProfile";
+import ReceptionDashboard from "../reception/ReceptionDashboard";
 
 const ValetLayout = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const ValetLayout = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     localStorage.removeItem("user");
 
     navigate("/", {
@@ -28,6 +30,9 @@ const ValetLayout = () => {
 
   const renderPage = () => {
     switch (activeTab) {
+      case "security-desk":
+        return <ReceptionDashboard />;
+
       case "my-vehicles":
         return <MyVehicles />;
 

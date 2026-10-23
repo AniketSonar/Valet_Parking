@@ -1,7 +1,78 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-const apiClient = async (endpoint, options = {}) => {
+let refreshPromise = null;
+
+const clearAuthSession = () => {
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("refresh_token");
+  localStorage.removeItem("user");
+};
+
+const refreshAccessToken = async () => {
+  const refreshToken = localStorage.getItem("refresh_token");
+
+  if (!refreshToken) {
+    return false;
+  }
+
+  if (!refreshPromise) {
+    refreshPromise = fetch(`${API_BASE_URL}/api/auth/refresh`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ refresh_token: refreshToken })
+    })
+      .then(async (response) => {
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok || !data.success || !data.session) {
+          return false;
+        }
+
+        localStorage.setItem(
+          "access_token",
+          data.session.access_token
+        );
+        localStorage.setItem(
+          "refresh_token",
+          data.session.refresh_token
+        );
+
+        return true;
+      })
+      .catch(() => {
+        console.warn("Session refresh unavailable; login is required.");
+        return false;
+      })
+      .finally(() => {
+        refreshPromise = null;
+      });
+  }
+
+  return refreshPromise;
+};
+
+const parseResponse = async (response, options) => {
+  const contentType = response.headers.get("content-type");
+
+  if (
+    options.responseType === "blob" ||
+    contentType?.includes("application/pdf")
+  ) {
+    return response.blob();
+  }
+
+  if (contentType?.includes("application/json")) {
+    return response.json();
+  }
+
+  const text = await response.text();
+  return text ? { message: text } : {};
+};
+
+const apiClient = async (endpoint, options = {}, hasRetried = false) => {
   const token = localStorage.getItem("access_token");
 
   const isFormData = options.body instanceof FormData;
@@ -36,38 +107,30 @@ const apiClient = async (endpoint, options = {}) => {
         if (errorText) errorMessage = errorText;
       }
 
-      if (response.status === 401) {
-        console.error("Authentication failed.");
+      if (response.status === 401 && !hasRetried) {
+        const refreshed = await refreshAccessToken();
+
+        if (refreshed) {
+          return apiClient(endpoint, options, true);
+        }
+
+        clearAuthSession();
+        window.location.assign("/login");
+        throw new Error("Your session expired. Please log in again.");
       }
 
       throw new Error(errorMessage);
     }
 
-    const contentType =
-      response.headers.get("content-type");
-
-    if (options.responseType === "blob" || contentType?.includes("application/pdf")) {
-      return await response.blob();
-    }
-
-    let data = {};
-
-    if (contentType?.includes("application/json")) {
-      data = await response.json();
-    } else {
-      const text = await response.text();
-      data = text ? { message: text } : {};
-    }
-
-    return data;
+    return parseResponse(response, options);
   } catch (error) {
-    console.error(
-      `API Error [${endpoint}]:`,
-      error
-    );
+    if (error?.message !== "Your session expired. Please log in again.") {
+      console.error(`API Error [${endpoint}]:`, error);
+    }
 
     throw error;
   }
 };
 
 export default apiClient;
+export { clearAuthSession, refreshAccessToken };

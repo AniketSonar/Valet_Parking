@@ -221,42 +221,15 @@ export const createPayment = async (paymentData) => {
 };
 
 export const downloadInvoice = async (paymentId) => {
-  const API_BASE_URL =
-    import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-  const token = localStorage.getItem("access_token");
-
-  const response = await fetch(
-    `${API_BASE_URL}/api/payments/${paymentId}/invoice`,
+  const blob = await apiClient(
+    `/api/payments/${paymentId}/invoice`,
     {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      responseType: "blob"
     }
   );
 
-  if (!response.ok) {
-    let message = "Failed to download invoice.";
-
-    try {
-      const data = await response.json();
-      message = data?.message || data?.error || message;
-    } catch {
-      // Response was not JSON.
-    }
-
-    throw new Error(message);
-  }
-
-  const blob = await response.blob();
-
-  const disposition = response.headers.get("Content-Disposition");
-
-  const filenameMatch = disposition?.match(/filename="([^"]+)"/);
-
-  const filename =
-    filenameMatch?.[1] || `Invoice-${paymentId}.pdf`;
+  const filename = `Invoice-${paymentId}.pdf`;
 
   const url = window.URL.createObjectURL(blob);
 

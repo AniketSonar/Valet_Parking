@@ -12,20 +12,19 @@ const createNotification = async (req, res) => {
       recipient_type,
       recipient_id,
       message,
-      channel
+      channel = "whatsapp"
     } = req.body;
 
     if (
       !parking_session_id ||
       !recipient_type ||
       !recipient_id ||
-      !message ||
-      !channel
+      !message
     ) {
       return res.status(400).json({
         success: false,
         message:
-          "parking_session_id, recipient_type, recipient_id, message and channel are required."
+          "parking_session_id, recipient_type, recipient_id and message are required."
       });
     }
 
@@ -63,31 +62,25 @@ const createNotification = async (req, res) => {
     /*
      * Email failed, but notification record was created.
      */
-    if (channel === "email" && !result.emailSent) {
+    if (channel === "whatsapp" && !result.whatsappSent) {
       return res.status(500).json({
         success: false,
         message:
-          "Notification created but email could not be sent.",
+          "Notification created but WhatsApp message could not be sent.",
         notification: result.notification,
-        email_error: result.emailError || null
+        whatsapp_error: result.whatsappError || null
       });
     }
 
-    /*
-     * Email was sent successfully.
-     */
-    if (channel === "email" && result.emailSent) {
+    if (channel === "whatsapp" && result.whatsappSent) {
       return res.status(201).json({
         success: true,
         message:
-          "Notification created and email sent successfully.",
+          "Notification created and WhatsApp message sent successfully.",
         notification: result.notification
       });
     }
 
-    /*
-     * Non-email notification.
-     */
     return res.status(201).json({
       success: true,
       message: "Notification created successfully.",

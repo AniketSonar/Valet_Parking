@@ -26,7 +26,7 @@ function Chatbot({ onClose }) {
       text.includes("retrieve") ||
       text.includes("vehicle")
     ) {
-      return "You can request your vehicle through the customer portal or contact Reception/Security. Your request will be assigned to a valet who will retrieve and prepare your vehicle.";
+      return "You can request your vehicle through the customer portal or contact the valet desk. Your request will be assigned to a valet who will retrieve and prepare your vehicle.";
     }
 
     if (
@@ -34,14 +34,14 @@ function Chatbot({ onClose }) {
       text.includes("pay") ||
       text.includes("invoice")
     ) {
-      return "Payments are handled by the Cashier. You can pay by cash or online, and an invoice is generated after payment.";
+      return "Payments are handled by the valet desk. You can pay by cash or online, and an invoice is generated after payment.";
     }
 
     if (
       text.includes("key") ||
       text.includes("keys")
     ) {
-      return "Your vehicle key is received and securely tracked by Reception/Security. It is handed to the assigned valet when your vehicle needs to be parked or retrieved.";
+      return "Your vehicle key is received and securely tracked by the valet desk. It is handed to the assigned valet when your vehicle needs to be parked or retrieved.";
     }
 
     if (

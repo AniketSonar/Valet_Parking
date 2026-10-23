@@ -13,7 +13,7 @@ const ParkingAdminTopbar = ({
   onLogout,
 }) => {
   let user = {
-    name: "Parking Admin",
+    name: "Manager",
     email: "admin@valetparking.com",
   };
 
@@ -34,7 +34,7 @@ const ParkingAdminTopbar = ({
         .join("")
         .slice(0, 2)
         .toUpperCase()
-    : "PA";
+    : "M";
 
   return (
     <header className="aura-topbar">
@@ -74,10 +74,10 @@ const ParkingAdminTopbar = ({
 
           <div className="profile-meta">
             <strong>
-              {user.name || "Parking Admin"}
+              {user.name || "Manager"}
             </strong>
 
-            <span>Parking Admin</span>
+            <span>Manager</span>
           </div>
 
           <span className="dropdown-arrow">

@@ -7,7 +7,7 @@ import {
   Trash2,
   Car,
   ParkingSquare,
-  Mail,
+  MessageCircle,
   AlertCircle,
   Banknote,
   CreditCard,
@@ -346,7 +346,7 @@ const CheckInVehicleModal = ({
         session: res.session,
         ticket: res.ticket,
         payment: res.payment,
-        email: res.email
+        whatsapp: res.whatsapp
       });
 
       if (onSuccess) {
@@ -406,8 +406,9 @@ const CheckInVehicleModal = ({
     ? new Date(created.session.checked_in_at)
     : new Date();
 
-  const emailSent = created?.email?.sent === true;
-  const emailError = created?.email?.error;
+  const whatsappSent = created?.whatsapp?.sent === true;
+  const whatsappQueued = created?.whatsapp?.queued === true;
+  const whatsappError = created?.whatsapp?.error;
 
   return (
     <div
@@ -584,17 +585,17 @@ const CheckInVehicleModal = ({
                 display: "flex",
                 alignItems: "flex-start",
                 gap: "10px",
-                background: emailSent
+                background: whatsappSent || whatsappQueued
                   ? "#ecfdf5"
                   : "#fff7ed",
                 border: `1px solid ${
-                  emailSent ? "#a7f3d0" : "#fed7aa"
+                  whatsappSent || whatsappQueued ? "#a7f3d0" : "#fed7aa"
                 }`,
-                color: emailSent ? "#065f46" : "#9a3412"
+                color: whatsappSent || whatsappQueued ? "#065f46" : "#9a3412"
               }}
             >
-              {emailSent ? (
-                <Mail
+              {whatsappSent || whatsappQueued ? (
+                <MessageCircle
                   size={18}
                   style={{
                     flexShrink: 0,
@@ -618,9 +619,11 @@ const CheckInVehicleModal = ({
                     marginBottom: "3px"
                   }}
                 >
-                  {emailSent
-                    ? "Check-in email sent"
-                    : "Check-in email could not be sent"}
+                  {whatsappSent || whatsappQueued
+                    ? whatsappSent
+                      ? "Check-in WhatsApp sent"
+                      : "Check-in WhatsApp queued"
+                    : "Check-in WhatsApp could not be sent"}
                 </strong>
 
                 <span
@@ -628,10 +631,12 @@ const CheckInVehicleModal = ({
                     fontSize: "12px"
                   }}
                 >
-                  {emailSent
-                    ? "The customer confirmation email was sent successfully."
-                    : emailError ||
-                      "The vehicle was checked in successfully, but the confirmation email could not be sent."}
+                  {whatsappSent
+                    ? "The customer ticket was sent successfully on WhatsApp."
+                    : whatsappQueued
+                    ? "The vehicle was checked in successfully. The ticket is being sent on WhatsApp in the background."
+                    : whatsappError ||
+                    "The vehicle was checked in successfully, but the WhatsApp message could not be sent."}
                 </span>
               </div>
             </div>

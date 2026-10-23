@@ -1,7 +1,7 @@
 const supabase = require("../config/supabase");
 const PDFDocument = require("pdfkit");
 const { PassThrough } = require("stream");
-const { sendInvoiceEmail } = require("../config/email");
+const { sendWhatsAppMessage } = require("../config/whatsapp");
 
 const formatDate = (date) => {
   if (!date) return "-";
@@ -623,45 +623,37 @@ const createPayment = async (req, res) => {
       });
     }
 
-    let emailSent = false;
+    let whatsappSent = false;
 
-    if (customer?.email) {
+    if (customer?.phone) {
       try {
-        const invoicePDF = await generateInvoicePDF({
-          payment,
-          session,
-          vehicle,
-          customer,
-          valet: null
+        await sendWhatsAppMessage({
+          phone: customer.phone,
+          message:
+            `Aura Valet Parking invoice\n` +
+            `Invoice: ${invoiceNumber}\n` +
+            `Ticket: ${session.ticket_code}\n` +
+            `Vehicle: ${vehicle.license_plate}\n` +
+            `Total: ${money(totalAmount)}`
         });
 
-        await sendInvoiceEmail({
-          customerEmail: customer.email,
-          customerName:
-            customer.full_name ||
-            customer.name ||
-            "Customer",
-          invoiceNumber,
-          pdfBuffer: invoicePDF
-        });
-
-        emailSent = true;
-      } catch (emailError) {
-        console.error("Invoice email error:", emailError);
+        whatsappSent = true;
+      } catch (whatsappError) {
+        console.error("Invoice WhatsApp error:", whatsappError);
       }
     }
 
     return res.status(201).json({
       success: true,
-      message: emailSent
-        ? "Payment created successfully and invoice emailed."
+      message: whatsappSent
+        ? "Payment created successfully and invoice sent on WhatsApp."
         : "Payment created successfully.",
       data: {
         payment,
         ticket_code: session.ticket_code,
         vehicle,
         customer,
-        email_sent: emailSent
+        whatsapp_sent: whatsappSent
       }
     });
   } catch (error) {

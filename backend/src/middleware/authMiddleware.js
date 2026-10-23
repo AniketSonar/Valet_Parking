@@ -1,4 +1,5 @@
 const supabase = require("../config/supabase");
+const { normalizeRole } = require("./roleMiddleware");
 
 const authenticate = async (req, res, next) => {
   try {
@@ -36,7 +37,10 @@ const authenticate = async (req, res, next) => {
       });
     }
 
-    req.user = user;
+    req.user = {
+      ...user,
+      role: normalizeRole(user.role)
+    };
     req.authUser = authData.user;
 
     next();

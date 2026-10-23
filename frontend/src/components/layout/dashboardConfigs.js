@@ -36,8 +36,8 @@ export const adminConfig = {
 
 export const parkingAdminConfig = {
   brandSubtitle: "VALET PARKING",
-  roleLabel: "Parking Admin",
-  defaultName: "Parking Admin",
+  roleLabel: "Manager",
+  defaultName: "Manager",
   searchPlaceholder: "Search...",
   menu: [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -74,6 +74,7 @@ export const valetConfig = {
   searchPlaceholder: "Search vehicles, tickets...",
   menu: [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { id: "security-desk", label: "Security & Check-in", icon: ShieldAlert },
     { id: "my-vehicles", label: "My Vehicles", icon: CarFront },
     { id: "retrieval-requests", label: "Retrieval Requests", icon: ClipboardList },
     { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },

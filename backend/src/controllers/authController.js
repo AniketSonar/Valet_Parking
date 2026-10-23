@@ -1,4 +1,5 @@
 const supabase = require("../config/supabase");
+const { normalizeRole } = require("../middleware/roleMiddleware");
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +55,10 @@ const login = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Login successful.",
-      user,
+      user: {
+        ...user,
+        role: normalizeRole(user.role)
+      },
       session: data.session
     });
 
@@ -64,6 +68,42 @@ const login = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Internal server error."
+    });
+  }
+};
+
+const refreshSession = async (req, res) => {
+  try {
+    const { refresh_token } = req.body;
+
+    if (!refresh_token) {
+      return res.status(400).json({
+        success: false,
+        message: "Refresh token is required."
+      });
+    }
+
+    const { data, error } = await supabase.auth.refreshSession({
+      refresh_token
+    });
+
+    if (error || !data?.session) {
+      return res.status(401).json({
+        success: false,
+        message: "Session expired. Please log in again."
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      session: data.session
+    });
+  } catch (error) {
+    console.error("Session refresh error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to refresh session."
     });
   }
 };
@@ -358,5 +398,6 @@ const registerCustomer = async (req, res) => {
 
 module.exports = {
   login,
+  refreshSession,
   registerCustomer
 };

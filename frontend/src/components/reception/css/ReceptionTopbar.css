@@ -1,0 +1,320 @@
+.aura-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 34px;
+    background: rgba(255, 255, 255, 0.74);
+    border-bottom: 1px solid rgba(139, 18, 48, 0.1);
+    box-shadow: 0 8px 24px rgba(139, 18, 48, 0.04);
+    backdrop-filter: blur(14px);
+    border-radius: 0 0 14px 14px;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #8a8398;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.breadcrumb strong {
+    color: #171324;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.breadcrumb .capitalize {
+    text-transform: none;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-bar {
+    width: 245px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 13px;
+    background: #f9f7ff;
+    border: 1px solid rgba(139, 18, 48, 0.12);
+    border-radius: 9999px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-bar:focus-within {
+    background: #ffffff;
+    border-color: rgba(139, 18, 48, 0.42);
+    box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.1);
+}
+
+.search-icon {
+    width: 22px;
+    display: flex;
+    align-items: center;
+    color: #8b1230;
+}
+
+.search-bar input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #171324;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.search-bar input::placeholder {
+    color: #8a8398;
+}
+
+.notification-bell {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(139, 18, 48, 0.12);
+    border-radius: 50%;
+    background: #ffffff;
+    color: #6b647b;
+    cursor: pointer;
+}
+
+.notification-bell:hover {
+    background: #fdf2f4;
+    color: #8b1230;
+}
+
+.notification-bell svg {
+    width: 18px;
+    height: 18px;
+}
+
+.bell-badge {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ef4444;
+    border: 1.5px solid #ffffff;
+}
+
+.profile-chip {
+    min-width: 175px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 4px 8px 4px 5px;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    background: transparent;
+    transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.profile-chip:hover {
+    background: #f9f7ff;
+    border-color: rgba(139, 18, 48, 0.12);
+}
+
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b1230, #730c26);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.profile-meta {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.profile-meta strong {
+    max-width: 105px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #171324;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.profile-meta span {
+    margin-top: 2px;
+    color: #8a8398;
+    font-size: 9px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.dropdown-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a8398;
+}
+
+
+
+
+
+.aura-topbar {
+    height: 72px;
+    padding: 0 42px;
+    background: rgba(255, 255, 255, .82);
+    border-bottom-color: #e9e5ef;
+    box-shadow: 0 8px 24px rgba(55, 38, 91, .05);
+}
+
+.breadcrumb {
+    color: #8f8798;
+    font-size: 11px;
+}
+
+.breadcrumb strong {
+    color: #17131f;
+    font-size: 12px;
+}
+
+.search-bar {
+    background: #faf9ff;
+    border-color: #e9e5ef;
+}
+
+.notification-bell {
+    background: #ffffff;
+    border-color: #e9e5ef;
+}
+
+.profile-chip:hover {
+    background: #faf9ff;
+    border-color: #e9e5ef;
+}
+
+
+@media (max-width: 1200px) {
+    .aura-topbar {
+        padding: 0 24px;
+    }
+}
+
+@media (max-width: 650px) {
+    .aura-topbar {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .aura-topbar {
+        padding: 0 22px;
+    }
+
+    .search-bar {
+        width: 210px;
+    }
+
+    .profile-chip {
+        min-width: 150px;
+    }
+}
+
+@media (max-width: 900px) {
+    .aura-topbar {
+        padding: 0 18px;
+    }
+
+    .search-bar {
+        width: 180px;
+    }
+
+    .profile-meta {
+        display: none;
+    }
+
+    .profile-chip {
+        min-width: auto;
+        padding-right: 5px;
+    }
+
+    .dropdown-arrow {
+        display: none;
+    }
+}
+
+@media (max-width: 650px) {
+    .aura-topbar {
+        height: 64px;
+        padding: 0 14px;
+    }
+
+    .breadcrumb {
+        font-size: 11px;
+    }
+
+    .breadcrumb strong {
+        font-size: 11px;
+    }
+
+    .search-bar {
+        display: none;
+    }
+
+    .topbar-right {
+        gap: 8px;
+    }
+
+    .notification-bell {
+        width: 36px;
+        height: 36px;
+    }
+
+    .profile-chip {
+        height: 38px;
+    }
+
+    .profile-avatar {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 450px) {
+    .aura-topbar {
+        padding: 0 11px;
+    }
+
+    .breadcrumb span {
+        display: none;
+    }
+
+    .breadcrumb::before {
+        content: "Reception";
+        color: #8a8398;
+        font-size: 11px;
+    }
+}

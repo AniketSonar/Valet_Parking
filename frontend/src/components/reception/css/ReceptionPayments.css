@@ -1,0 +1,1269 @@
+/* ============================================================
+   AURA — VALET PARKING
+   Reception Payments
+   Premium Purple / Lavender UI
+   ============================================================ */
+
+/* .reception-payments-page{
+  
+} */
+
+.reception-payments-page,
+.reception-payments-form-page,
+.reception-payment-success-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  color: #1f1730;
+  max-width: 1440px;
+  padding: 38px 42px 56px;
+
+ 
+}
+
+/* ============================================================
+   COMMON
+   ============================================================ */
+
+.reception-payments-page *,
+.reception-payments-form-page *,
+.reception-payment-success-page * {
+  box-sizing: border-box;
+}
+
+.reception-payments-page button,
+.reception-payments-form-page button,
+.reception-payment-success-page button,
+.reception-payments-page input,
+.reception-payments-form-page input {
+  font: inherit;
+}
+
+/* ============================================================
+   PAGE HEADER
+   ============================================================ */
+
+.reception-payments-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.reception-payments-eyebrow {
+  margin: 0 0 7px;
+  color: #8b1230;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.reception-payments-header h1,
+.reception-payments-form-header h2,
+.reception-payment-success-card h2 {
+  margin: 0;
+  color: #21152f;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+
+.reception-payments-header h1 {
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.15;
+}
+
+.reception-payments-header > div:first-child > p:last-child {
+  margin: 9px 0 0;
+  color: #756c80;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.reception-payments-header-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e6dcf7;
+  border-radius: 15px;
+  background: #f5efff;
+  color: #8b1230;
+}
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+
+.reception-payments-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-bottom: 20px;
+}
+
+.reception-payments-search {
+  width: min(520px, 100%);
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 0 15px;
+
+  border: 1px solid #e5dff0;
+  border-radius: 12px;
+  background: #ffffff;
+
+  color: #91879c;
+
+  box-shadow: 0 3px 12px rgba(67, 42, 92, 0.035);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.reception-payments-search:focus-within {
+  border-color: #a979f5;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.09);
+}
+
+.reception-payments-search svg {
+  flex-shrink: 0;
+}
+
+.reception-payments-search input {
+  width: 100%;
+  min-width: 0;
+
+  border: 0;
+  outline: 0;
+  background: transparent;
+
+  color: #30243d;
+  font-size: 13px;
+}
+
+.reception-payments-search input::placeholder {
+  color: #aaa1b3;
+}
+
+.reception-payments-count {
+  flex-shrink: 0;
+
+  padding: 9px 13px;
+
+  border: 1px solid #e8e0f3;
+  border-radius: 10px;
+  background: #faf8fd;
+
+  color: #6d6377;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+/* ============================================================
+   TABLE CARD
+   ============================================================ */
+
+.reception-payments-table-card {
+  overflow: hidden;
+
+  border: 1px solid #e7e0ef;
+  border-radius: 16px;
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 28px rgba(50, 30, 75, 0.045),
+    0 2px 7px rgba(50, 30, 75, 0.025);
+}
+
+.reception-payments-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.reception-payments-table {
+  width: 100%;
+  min-width: 950px;
+
+  border-collapse: collapse;
+}
+
+.reception-payments-table thead {
+  background: #faf8fc;
+}
+
+.reception-payments-table th {
+  padding: 15px 18px;
+
+  border-bottom: 1px solid #eee8f3;
+
+  color: #766b82;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+.reception-payments-table td {
+  padding: 17px 18px;
+
+  border-bottom: 1px solid #f0ebf4;
+
+  color: #62586d;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.reception-payments-table tbody tr {
+  transition: background 0.18s ease;
+}
+
+.reception-payments-table tbody tr:hover {
+  background: #fcfaff;
+}
+
+.reception-payments-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ============================================================
+   TABLE CONTENT
+   ============================================================ */
+
+.reception-payment-ticket {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 9px;
+
+  border: 1px solid #e5d9f7;
+  border-radius: 7px;
+  background: #f7f1ff;
+
+  color: #6d2fd0;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.reception-payment-vehicle {
+  color: #29202f;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+}
+
+.reception-payment-customer {
+  color: #30263a;
+  font-weight: 650;
+}
+
+.reception-payment-parking-type {
+  display: inline-block;
+
+  padding: 5px 8px;
+
+  border-radius: 7px;
+  background: #f5f3f7;
+
+  color: #665c70;
+  font-size: 11px;
+  font-weight: 650;
+  text-transform: capitalize;
+}
+
+/* ============================================================
+   PROCESS PAYMENT BUTTON
+   ============================================================ */
+
+.reception-payment-process-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 36px;
+  padding: 0 12px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: #8b1230;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(139, 18, 48, 0.18);
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.reception-payment-process-button:hover {
+  background: #6d28d9;
+  box-shadow: 0 6px 15px rgba(139, 18, 48, 0.23);
+  transform: translateY(-1px);
+}
+
+.reception-payment-process-button:active {
+  transform: translateY(0);
+}
+
+.reception-payment-process-button svg {
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+
+.reception-payments-loading {
+  min-height: 280px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  border: 1px solid #e8e1ef;
+  border-radius: 16px;
+  background: #ffffff;
+
+  color: #766c80;
+  font-size: 13px;
+}
+
+.reception-payment-spinner {
+  animation: receptionPaymentSpin 0.85s linear infinite;
+}
+
+@keyframes receptionPaymentSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.reception-payments-empty {
+  min-height: 310px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 24px;
+
+  border: 1px solid #e8e1ef;
+  border-radius: 16px;
+  background: #ffffff;
+
+  text-align: center;
+
+  box-shadow: 0 5px 20px rgba(50, 30, 75, 0.035);
+}
+
+.reception-payments-empty-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 15px;
+
+  border: 1px solid #d9f0e2;
+  border-radius: 50%;
+  background: #f1fbf5;
+
+  color: #29915a;
+}
+
+.reception-payments-empty h3 {
+  margin: 0;
+
+  color: #30243b;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.reception-payments-empty p {
+  max-width: 420px;
+
+  margin: 8px 0 0;
+
+  color: #81778b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   ERROR
+   ============================================================ */
+
+.reception-payment-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 14px;
+  margin-top: 16px;
+
+  border: 1px solid #f0cfd3;
+  border-radius: 10px;
+  background: #fff7f7;
+
+  color: #b33d4a;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.reception-payment-page-error {
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.reception-payment-page-error button {
+  flex-shrink: 0;
+
+  padding: 6px 11px;
+
+  border: 1px solid #e8bfc4;
+  border-radius: 7px;
+  background: #ffffff;
+
+  color: #a3313d;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.reception-payment-page-error button:hover {
+  background: #fff0f1;
+}
+
+/* ============================================================
+   PAYMENT FORM PAGE
+   ============================================================ */
+
+.reception-payments-form-page {
+  padding-bottom: 30px;
+}
+
+.reception-payments-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-bottom: 20px;
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #756a81;
+  font-size: 13px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition: color 0.18s ease;
+}
+
+.reception-payments-back-button:hover {
+  color: #8b1230;
+}
+
+.reception-payments-back-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reception-payments-form-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 24px;
+}
+
+.reception-payments-form-header h2 {
+  font-size: clamp(24px, 2.5vw, 31px);
+  line-height: 1.2;
+}
+
+.reception-payments-form-header > div:first-child > p:last-child {
+  margin: 8px 0 0;
+
+  color: #776c81;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.reception-payment-session-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  flex-shrink: 0;
+
+  padding: 10px 13px;
+
+  border: 1px solid #e4d8f4;
+  border-radius: 10px;
+  background: #f8f3ff;
+
+  color: #6d2ed1;
+
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.reception-payment-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.85fr);
+  gap: 22px;
+  align-items: start;
+}
+
+/* ============================================================
+   FORM CARDS
+   ============================================================ */
+
+.reception-payment-form-card,
+.reception-payment-customer-card,
+.reception-payment-summary-card {
+  border: 1px solid #e7e0ef;
+  border-radius: 16px;
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 28px rgba(50, 30, 75, 0.045),
+    0 2px 7px rgba(50, 30, 75, 0.025);
+}
+
+.reception-payment-form-card {
+  padding: 24px;
+}
+
+.reception-payment-customer-card,
+.reception-payment-summary-card {
+  padding: 21px;
+}
+
+.reception-payment-summary-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ============================================================
+   CARD TITLE
+   ============================================================ */
+
+.reception-payment-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 24px;
+}
+
+.reception-payment-card-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e2d6f4;
+  border-radius: 11px;
+  background: #f7f1ff;
+
+  color: #8b1230;
+}
+
+.reception-payment-card-title h3 {
+  margin: 0;
+
+  color: #2a2034;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.reception-payment-card-title p {
+  margin: 4px 0 0;
+
+  color: #887d91;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   PAYMENT FIELDS
+   ============================================================ */
+
+.reception-payment-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.reception-payment-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.reception-payment-field label,
+.reception-payment-method-section > label {
+  color: #4e4359;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.reception-payment-input-wrapper {
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0 12px;
+
+  border: 1px solid #e2dbe9;
+  border-radius: 10px;
+  background: #ffffff;
+
+  color: #968b9d;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.reception-payment-input-wrapper:focus-within {
+  border-color: #a979f5;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.08);
+}
+
+.reception-payment-input-wrapper input {
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+  outline: 0;
+  background: transparent;
+
+  color: #30253b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.reception-payment-input-wrapper input::placeholder {
+  color: #b1a8b7;
+  font-weight: 400;
+}
+
+/* Remove number input arrows */
+
+.reception-payment-input-wrapper input::-webkit-outer-spin-button,
+.reception-payment-input-wrapper input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.reception-payment-input-wrapper input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ============================================================
+   PAYMENT METHOD
+   ============================================================ */
+
+.reception-payment-method-section {
+  margin-top: 25px;
+}
+
+.reception-payment-method-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+
+  margin-top: 9px;
+}
+
+.reception-payment-method {
+  min-height: 68px;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 12px 14px;
+
+  border: 1px solid #e5dfe9;
+  border-radius: 11px;
+  background: #ffffff;
+
+  color: #746a7e;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.reception-payment-method:hover {
+  border-color: #cdb5ec;
+  background: #fcfaff;
+}
+
+.reception-payment-method.active {
+  border-color: #a978f0;
+  background: #f8f2ff;
+  color: #6d2ed0;
+  box-shadow: 0 0 0 2px rgba(139, 18, 48, 0.06);
+}
+
+.reception-payment-method > svg {
+  flex-shrink: 0;
+}
+
+.reception-payment-method span {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.reception-payment-method strong {
+  color: #33283d;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.reception-payment-method.active strong {
+  color: #6828c8;
+}
+
+.reception-payment-method small {
+  color: #8c8194;
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+/* ============================================================
+   SUBMIT BUTTON
+   ============================================================ */
+
+.reception-payment-submit-button {
+  width: 100%;
+  min-height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin-top: 23px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: #8b1230;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 15px rgba(139, 18, 48, 0.18);
+
+  transition:
+    background 0.2s ease,
+    transform 0.18s ease,
+    box-shadow 0.2s ease;
+}
+
+.reception-payment-submit-button:hover:not(:disabled) {
+  background: #6d28d9;
+  box-shadow: 0 8px 18px rgba(139, 18, 48, 0.24);
+  transform: translateY(-1px);
+}
+
+.reception-payment-submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.reception-payment-submit-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   SESSION DETAILS
+   ============================================================ */
+
+.reception-payment-session-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.reception-payment-session-details > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 11px 0;
+
+  border-bottom: 1px solid #f0ebf3;
+}
+
+.reception-payment-session-details > div:first-child {
+  padding-top: 0;
+}
+
+.reception-payment-session-details > div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.reception-payment-session-details span {
+  color: #8b8191;
+  font-size: 11px;
+}
+
+.reception-payment-session-details strong {
+  max-width: 58%;
+
+  color: #34293e;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: right;
+  text-transform: capitalize;
+}
+
+/* ============================================================
+   PAYMENT SUMMARY
+   ============================================================ */
+
+.reception-payment-summary-header {
+  margin-bottom: 16px;
+}
+
+.reception-payment-summary-header h3 {
+  margin: 0;
+
+  color: #2b2035;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.reception-payment-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 9px 0;
+}
+
+.reception-payment-summary-row span {
+  color: #81768b;
+  font-size: 12px;
+}
+
+.reception-payment-summary-row strong {
+  color: #3a2e44;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.reception-payment-summary-row.discount strong {
+  color: #29915a;
+}
+
+.reception-payment-summary-divider {
+  height: 1px;
+  margin: 8px 0;
+
+  background: #eee8f2;
+}
+
+.reception-payment-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-top: 13px;
+  padding-top: 15px;
+
+  border-top: 1px solid #e9e1ef;
+}
+
+.reception-payment-total span {
+  color: #40334a;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.reception-payment-total strong {
+  color: #6d2ed0;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+/* ============================================================
+   SUCCESS PAGE
+   ============================================================ */
+
+.reception-payment-success-page {
+  min-height: 500px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px 0 40px;
+}
+
+.reception-payment-success-card {
+  width: min(680px, 100%);
+
+  padding: 38px;
+
+  border: 1px solid #e5dcef;
+  border-radius: 20px;
+  background: #ffffff;
+
+  text-align: center;
+
+  box-shadow:
+    0 14px 45px rgba(50, 30, 75, 0.07),
+    0 3px 10px rgba(50, 30, 75, 0.035);
+}
+
+.reception-payment-success-icon {
+  width: 70px;
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  border: 1px solid #cfead9;
+  border-radius: 50%;
+  background: #effaf3;
+
+  color: #2c995c;
+}
+
+.reception-payment-success-card .reception-payments-eyebrow {
+  margin-bottom: 8px;
+}
+
+.reception-payment-success-card h2 {
+  font-size: 29px;
+}
+
+.reception-payment-success-description {
+  max-width: 500px;
+
+  margin: 10px auto 27px;
+
+  color: #7e7388;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* ============================================================
+   SUCCESS DETAILS
+   ============================================================ */
+
+.reception-payment-success-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  overflow: hidden;
+
+  margin-bottom: 22px;
+
+  border: 1px solid #e9e2ef;
+  border-radius: 13px;
+
+  text-align: left;
+}
+
+.reception-payment-success-details > div {
+  min-height: 72px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+
+  padding: 13px 15px;
+
+  border-bottom: 1px solid #eee9f3;
+}
+
+.reception-payment-success-details > div:nth-child(odd) {
+  border-right: 1px solid #eee9f3;
+}
+
+.reception-payment-success-details > div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.reception-payment-success-details span {
+  color: #8c8194;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.045em;
+}
+
+.reception-payment-success-details strong {
+  color: #33273d;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.reception-payment-success-details .paid-status {
+  color: #2b9659;
+}
+
+/* ============================================================
+   SUCCESS ACTIONS
+   ============================================================ */
+
+.reception-payment-success-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+}
+
+.reception-payment-download-button,
+.reception-payment-secondary-button {
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 0 17px;
+
+  border-radius: 9px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.reception-payment-download-button {
+  border: 1px solid #8b1230;
+  background: #8b1230;
+  color: #ffffff;
+
+  box-shadow: 0 5px 13px rgba(139, 18, 48, 0.16);
+}
+
+.reception-payment-download-button:hover:not(:disabled) {
+  background: #6d28d9;
+  transform: translateY(-1px);
+}
+
+.reception-payment-download-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.reception-payment-secondary-button {
+  border: 1px solid #ddd5e5;
+  background: #ffffff;
+  color: #63586d;
+}
+
+.reception-payment-secondary-button:hover {
+  border-color: #c8b8d8;
+  background: #faf8fc;
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 1000px) {
+  .reception-payment-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reception-payment-summary-column {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+  .reception-payments-header,
+  .reception-payments-form-header {
+    flex-direction: column;
+  }
+
+  .reception-payments-header-icon,
+  .reception-payment-session-badge {
+    align-self: flex-start;
+  }
+
+  .reception-payments-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .reception-payments-search {
+    width: 100%;
+  }
+
+  .reception-payments-count {
+    align-self: flex-start;
+  }
+
+  .reception-payment-form-card,
+  .reception-payment-customer-card,
+  .reception-payment-summary-card {
+    padding: 18px;
+  }
+
+  .reception-payment-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .reception-payment-method-options {
+    grid-template-columns: 1fr;
+  }
+
+  .reception-payment-summary-column {
+    grid-template-columns: 1fr;
+  }
+
+  .reception-payment-success-card {
+    padding: 28px 18px;
+    border-radius: 16px;
+  }
+
+  .reception-payment-success-details {
+    grid-template-columns: 1fr;
+  }
+
+  .reception-payment-success-details > div:nth-child(odd) {
+    border-right: 0;
+  }
+
+  .reception-payment-success-details > div:nth-last-child(-n + 2) {
+    border-bottom: 1px solid #eee9f3;
+  }
+
+  .reception-payment-success-details > div:last-child {
+    border-bottom: 0;
+  }
+
+  .reception-payment-success-actions {
+    flex-direction: column;
+  }
+
+  .reception-payment-download-button,
+  .reception-payment-secondary-button {
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 460px) {
+  .reception-payments-header h1 {
+    font-size: 27px;
+  }
+
+  .reception-payments-form-header h2 {
+    font-size: 23px;
+  }
+
+  .reception-payment-success-card h2 {
+    font-size: 25px;
+  }
+
+  .reception-payment-form-card {
+    padding: 15px;
+  }
+
+  .reception-payment-card-title {
+    margin-bottom: 20px;
+  }
+
+  .reception-payment-session-details > div {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .reception-payment-session-details strong {
+    max-width: 100%;
+    text-align: left;
+  }
+}

@@ -1,0 +1,750 @@
+/* ============================================================
+   SIDEBAR
+============================================================ */
+
+.aura-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  width: 250px;
+  height: 100vh;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px 14px;
+
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    180deg,
+    #3b1f4c 0%,
+    #2f183f 48%,
+    #251233 100%
+  );
+
+  color: #ffffff;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+
+  box-shadow:
+    8px 0 28px rgba(35, 18, 48, 0.18);
+
+  overflow: hidden;
+
+  transition:
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.3s ease;
+}
+
+
+/* ============================================================
+   BRAND
+============================================================ */
+
+.aura-brand {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 52px;
+
+  padding: 0 9px 20px;
+
+  margin-bottom: 22px;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* ============================================================
+   BRAND BADGE
+============================================================ */
+
+.brand-badge {
+  width: 42px;
+  height: 42px;
+
+  flex: 0 0 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  color: #5e3573;
+
+  font-size: 20px;
+  font-weight: 900;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.20),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.brand-badge:hover {
+  transform: scale(1.04);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ============================================================
+   BRAND TEXT
+============================================================ */
+
+.brand-title {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  transition:
+    opacity 0.2s ease,
+    width 0.25s ease;
+}
+
+.brand-title h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 20px;
+  line-height: 1.1;
+
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+.brand-title span {
+  margin-top: 4px;
+
+  color: #ad9bbc;
+
+  font-size: 8px;
+  line-height: 1;
+
+  font-weight: 700;
+
+  letter-spacing: 0.17em;
+
+  text-transform: uppercase;
+}
+
+
+/* ============================================================
+   NAVIGATION SECTION
+============================================================ */
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.section-label {
+  margin: 0 0 4px;
+
+  padding: 0 12px;
+
+  color: #806b91;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+
+  transition:
+    opacity 0.2s ease,
+    height 0.2s ease,
+    margin 0.2s ease;
+}
+
+
+/* ============================================================
+   MENU LIST
+============================================================ */
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+
+/* ============================================================
+   MENU ITEM
+============================================================ */
+
+.menu-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+  min-height: 44px;
+
+  padding: 11px 13px;
+
+  box-sizing: border-box;
+
+  border: 1px solid transparent;
+
+  border-radius: 11px;
+
+  background: transparent;
+
+  color: #b9abc8;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.item-icon {
+  width: 24px;
+  height: 24px;
+
+  flex: 0 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #9f8eac;
+
+  border-radius: 7px;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.item-icon svg {
+  width: 18px;
+  height: 18px;
+
+  flex-shrink: 0;
+}
+
+
+.item-text {
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  transition:
+    opacity 0.2s ease,
+    width 0.25s ease;
+}
+
+
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.065);
+
+  color: #ffffff;
+
+  transform: translateX(2px);
+}
+
+.menu-item:hover .item-icon {
+  color: #d8b4fe;
+
+  transform: scale(1.05);
+}
+
+
+/* ============================================================
+   ACTIVE
+============================================================ */
+
+.menu-item.active {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(192, 132, 252, 0.22),
+      rgba(192, 132, 252, 0.10)
+    );
+
+  border-color:
+    rgba(216, 180, 254, 0.12);
+
+  color: #ffffff;
+
+  font-weight: 700;
+
+  box-shadow:
+    inset 3px 0 0 #c084fc,
+    0 5px 14px rgba(0, 0, 0, 0.10);
+}
+
+.menu-item.active .item-icon {
+  color: #ffffff;
+}
+
+
+/* ============================================================
+   ACTIVE RIGHT INDICATOR
+============================================================ */
+
+.menu-item.active::after {
+  content: "";
+
+  position: absolute;
+
+  right: 10px;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #d8b4fe;
+
+  box-shadow:
+    0 0 9px rgba(216, 180, 254, 0.65);
+}
+
+
+/* ============================================================
+   ACCOUNT
+============================================================ */
+
+.account-section {
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.sidebar-footer {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: auto;
+
+  padding-top: 15px;
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+.logout-btn {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+  min-height: 44px;
+
+  padding: 11px 13px;
+
+  box-sizing: border-box;
+
+  border: 1px solid transparent;
+
+  border-radius: 11px;
+
+  background: transparent;
+
+  color: #d2b5b9;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.logout-btn .item-icon {
+  color: #b9939a;
+}
+
+.logout-btn:hover {
+  background:
+    rgba(239, 68, 68, 0.11);
+
+  color: #fca5a5;
+
+  transform: translateX(2px);
+}
+
+.logout-btn:hover .item-icon {
+  color: #fca5a5;
+}
+
+.logout-btn:active {
+  transform: translateX(0);
+}
+
+
+/* ============================================================
+   COLLAPSED SIDEBAR
+   Add class:
+   aura-sidebar aura-sidebar-collapsed
+============================================================ */
+
+.aura-sidebar.aura-sidebar-collapsed {
+  width: 78px;
+
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+/* ============================================================
+   COLLAPSED BRAND
+============================================================ */
+
+.aura-sidebar.aura-sidebar-collapsed .aura-brand {
+  justify-content: center;
+
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.aura-sidebar.aura-sidebar-collapsed .brand-title {
+  width: 0;
+
+  opacity: 0;
+}
+
+
+/* ============================================================
+   COLLAPSED LABEL
+============================================================ */
+
+.aura-sidebar.aura-sidebar-collapsed .section-label {
+  width: 0;
+  height: 0;
+
+  margin: 0;
+  padding: 0;
+
+  opacity: 0;
+
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   COLLAPSED MENU
+============================================================ */
+
+.aura-sidebar.aura-sidebar-collapsed .menu-item,
+.aura-sidebar.aura-sidebar-collapsed .logout-btn {
+  justify-content: center;
+
+  padding-left: 0;
+  padding-right: 0;
+
+  gap: 0;
+}
+
+.aura-sidebar.aura-sidebar-collapsed .item-text {
+  width: 0;
+
+  opacity: 0;
+}
+
+
+/* ============================================================
+   COLLAPSED ACTIVE
+============================================================ */
+
+.aura-sidebar.aura-sidebar-collapsed .menu-item.active {
+  box-shadow:
+    inset 3px 0 0 #c084fc,
+    0 5px 14px rgba(0, 0, 0, 0.10);
+}
+
+
+/* ============================================================
+   COLLAPSED TOOLTIP
+============================================================ */
+
+.aura-sidebar.aura-sidebar-collapsed .menu-item::before,
+.aura-sidebar.aura-sidebar-collapsed .logout-btn::before {
+  position: absolute;
+
+  left: calc(100% + 10px);
+  top: 50%;
+
+  transform:
+    translateY(-50%)
+    translateX(-4px);
+
+  padding: 7px 10px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 7px;
+
+  background: #2b1738;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.22);
+
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0.18s ease;
+
+  z-index: 2000;
+}
+
+.aura-sidebar.aura-sidebar-collapsed
+.menu-item:hover::before,
+
+.aura-sidebar.aura-sidebar-collapsed
+.logout-btn:hover::before {
+  transform:
+    translateY(-50%)
+    translateX(0);
+
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* ============================================================
+   TOOLTIP LABELS
+============================================================ */
+
+.aura-sidebar.aura-sidebar-collapsed
+.menu-item:nth-child(1)::before {
+  content: "Dashboard";
+}
+
+.aura-sidebar.aura-sidebar-collapsed
+.menu-item:nth-child(2)::before {
+  content: "Parking Slots";
+}
+
+.aura-sidebar.aura-sidebar-collapsed
+.menu-item:nth-child(3)::before {
+  content: "Parking Operations";
+}
+
+.aura-sidebar.aura-sidebar-collapsed
+.menu-item:nth-child(4)::before {
+  content: "Valet Management";
+}
+
+.aura-sidebar.aura-sidebar-collapsed
+.menu-item:nth-child(5)::before {
+  content: "Parking Sessions";
+}
+
+.aura-sidebar.aura-sidebar-collapsed
+.menu-item:nth-child(6)::before {
+  content: "Reports";
+}
+
+.aura-sidebar.aura-sidebar-collapsed
+.account-section .menu-item::before {
+  content: "Profile";
+}
+
+.aura-sidebar.aura-sidebar-collapsed
+.logout-btn::before {
+  content: "Logout";
+}
+
+
+/* ============================================================
+   ICON CONSISTENCY
+============================================================ */
+
+.aura-sidebar svg {
+  flex-shrink: 0;
+}
+
+.menu-item svg,
+.logout-btn svg {
+  transition:
+    transform 0.2s ease;
+}
+
+.menu-item:hover svg {
+  transform: scale(1.05);
+}
+
+
+/* ============================================================
+   SCROLLBAR
+============================================================ */
+
+.aura-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.aura-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.aura-sidebar::-webkit-scrollbar-thumb {
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border-radius: 10px;
+}
+
+
+/* ============================================================
+   FOCUS
+============================================================ */
+
+.menu-item:focus-visible,
+.logout-btn:focus-visible {
+  outline:
+    2px solid #c084fc;
+
+  outline-offset: 2px;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 900px) {
+
+  .aura-sidebar {
+    width: 78px;
+
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .aura-brand {
+    justify-content: center;
+
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .brand-title,
+  .section-label {
+    display: none;
+  }
+
+  .menu-item,
+  .logout-btn {
+    justify-content: center;
+
+    padding-left: 0;
+    padding-right: 0;
+
+    gap: 0;
+  }
+
+  .item-text {
+    width: 0;
+
+    opacity: 0;
+  }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .aura-sidebar,
+  .brand-badge,
+  .menu-item,
+  .logout-btn,
+  .menu-item svg,
+  .menu-item::before,
+  .logout-btn::before {
+    transition: none;
+  }
+}
+
+.parking-admin-layout .aura-sidebar { position: sticky; top: 14px; width: 260px; height: calc(100vh - 28px); min-height: 0; margin: 0 0 14px 14px; border: 1px solid rgba(139, 18, 48, 0.08); border-radius: 20px; background: var(--bg-sidebar, #fdfbfc); color: var(--text-main, #171324); box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08); }
+.parking-admin-layout .aura-brand { border-bottom-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .brand-badge { background: #fce7eb; color: #8b1230; box-shadow: none; }.parking-admin-layout .brand-title h2 { color: var(--text-main, #171324); }.parking-admin-layout .brand-title span, .parking-admin-layout .section-label { color: #8b7ba8; }.parking-admin-layout .menu-item { border-radius: 12px; background: transparent; color: var(--text-muted, #6b647b); }.parking-admin-layout .menu-item:hover { background: #f9f7ff; color: var(--text-main, #171324); }.parking-admin-layout .menu-item.active { background: #8b1230; color: #ffffff; box-shadow: 0 8px 18px rgba(139, 18, 48, 0.18); }.parking-admin-layout .sidebar-footer { border-top-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .logout-btn { color: var(--text-muted, #6b647b); } 

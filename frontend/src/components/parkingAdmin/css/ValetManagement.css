@@ -1,0 +1,1372 @@
+/* ============================================================
+   AURA — VALET MANAGEMENT
+   STRUCTURED DASHBOARD LAYOUT
+   ============================================================ */
+
+.parking-staff-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  color: #251832;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 38px 42px 56px;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.parking-staff-header {
+  width: 100%;
+  min-height: 70px;
+  margin: 0 0 24px 0;
+
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 24px;
+
+  box-sizing: border-box;
+}
+
+.parking-staff-header>div:first-child {
+  min-width: 0;
+  flex: 1;
+}
+
+.parking-staff-eyebrow {
+  margin: 0 0 6px 0;
+
+  color: #8d7899;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.parking-staff-header h1 {
+  margin: 0;
+
+  color: #2a1b36;
+  font-size: 29px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.parking-staff-header p:not(.parking-staff-eyebrow) {
+  margin: 7px 0 0 0;
+
+  color: #817487;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   HEADER REFRESH BUTTON
+   ============================================================ */
+
+.parking-staff-header .create-staff-btn {
+  flex: 0 0 auto;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  gap: 7px !important;
+
+  width: auto !important;
+  min-width: 94px;
+  height: 38px !important;
+  padding: 0 14px !important;
+  margin-top: 3px;
+
+  border: 1px solid #d9c9e3 !important;
+  border-radius: 9px !important;
+
+  background: #ffffff !important;
+  color: #5e3573 !important;
+
+  font-size: 11px;
+  font-weight: 750;
+
+  box-shadow: 0 3px 12px rgba(65, 38, 79, 0.06);
+
+  cursor: pointer;
+}
+
+.parking-staff-header .create-staff-btn:hover {
+  background: #f7f1fa !important;
+  border-color: #cdb6d9 !important;
+}
+
+
+/* ============================================================
+   ALERTS
+   ============================================================ */
+
+.parking-staff-page>div[style*="background"] {
+  width: 100%;
+  min-height: 42px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  margin: 0 0 14px 0 !important;
+  padding: 10px 14px !important;
+
+  border-radius: 9px !important;
+
+  font-size: 12px !important;
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   SUMMARY GRID
+   ============================================================ */
+
+.parking-staff-summary {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin: 0 0 22px 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   SUMMARY CARD
+   ============================================================ */
+
+.parking-staff-summary-card {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+  height: 94px;
+
+  padding: 17px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e7dfea;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 4px 15px rgba(65, 38, 79, 0.045);
+
+  overflow: hidden;
+}
+
+.parking-staff-summary-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 75px;
+  height: 75px;
+
+  right: -30px;
+  bottom: -38px;
+
+  border-radius: 50%;
+
+  background: rgba(192, 132, 252, 0.08);
+
+  pointer-events: none;
+}
+
+
+/* icon */
+
+.staff-summary-icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: #f2eaf6;
+  color: #5e3573;
+
+  font-size: 17px;
+  font-weight: 800;
+}
+
+
+/* summary text */
+
+.parking-staff-summary-card>div:last-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.parking-staff-summary-card span {
+  color: #83758d;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.parking-staff-summary-card strong {
+  color: #2c1d38;
+  font-size: 23px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+
+/* different summary colors */
+
+.parking-staff-summary-card:nth-child(2) .staff-summary-icon {
+  background: #edf8f2;
+  color: #23805a;
+}
+
+.parking-staff-summary-card:nth-child(3) .staff-summary-icon {
+  background: #f4edf8;
+  color: #704580;
+}
+
+.parking-staff-summary-card:nth-child(4) .staff-summary-icon {
+  background: #fff5e5;
+  color: #aa741e;
+}
+
+
+/* ============================================================
+   MAIN TABLE CARD
+   ============================================================ */
+
+.parking-staff-card {
+  width: 100%;
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e7dfea;
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 6px 22px rgba(65, 38, 79, 0.055);
+}
+
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+
+.parking-staff-toolbar {
+  width: 100%;
+  min-height: 72px;
+
+  padding: 14px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #eee8f1;
+
+  background: #ffffff;
+}
+
+
+/* search */
+
+.parking-staff-search {
+  width: 400px;
+  max-width: 100%;
+  height: 40px;
+
+  flex: 1 1 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 0 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e2dae6;
+  border-radius: 9px;
+
+  background: #faf9fb;
+}
+
+.parking-staff-search:focus-within {
+  border-color: #b993c8;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(192, 132, 252, 0.10);
+}
+
+.parking-staff-search span {
+  flex: 0 0 auto;
+
+  color: #927e9e;
+  font-size: 18px;
+}
+
+.parking-staff-search input {
+  width: 100%;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #30213a;
+
+  font-size: 12px;
+}
+
+.parking-staff-search input::placeholder {
+  color: #a098a5;
+}
+
+
+/* filters */
+
+.parking-staff-filters {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.parking-staff-filters select {
+  width: 155px;
+  height: 40px;
+
+  padding: 0 11px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e2dae6;
+  border-radius: 9px;
+
+  background: #faf9fb;
+
+  color: #594a63;
+
+  font-size: 11px;
+  font-weight: 650;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+.parking-staff-filters select:focus {
+  border-color: #b993c8;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(192, 132, 252, 0.09);
+}
+
+
+/* ============================================================
+   TABLE
+   ============================================================ */
+
+.parking-staff-table-wrapper {
+  width: 100%;
+  min-width: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.parking-staff-table {
+  width: 100%;
+  min-width: 1080px;
+
+  table-layout: fixed;
+
+  border-collapse: collapse;
+}
+
+
+/* column widths */
+
+.parking-staff-table th:nth-child(1),
+.parking-staff-table td:nth-child(1) {
+  width: 18%;
+}
+
+.parking-staff-table th:nth-child(2),
+.parking-staff-table td:nth-child(2) {
+  width: 13%;
+}
+
+.parking-staff-table th:nth-child(3),
+.parking-staff-table td:nth-child(3) {
+  width: 18%;
+}
+
+.parking-staff-table th:nth-child(4),
+.parking-staff-table td:nth-child(4) {
+  width: 13%;
+}
+
+.parking-staff-table th:nth-child(5),
+.parking-staff-table td:nth-child(5) {
+  width: 17%;
+}
+
+.parking-staff-table th:nth-child(6),
+.parking-staff-table td:nth-child(6) {
+  width: 9%;
+}
+
+.parking-staff-table th:nth-child(7),
+.parking-staff-table td:nth-child(7) {
+  width: 12%;
+}
+
+
+/* table header */
+
+.parking-staff-table thead {
+  background: #faf9fb;
+}
+
+.parking-staff-table th {
+  height: 43px;
+
+  padding: 0 16px;
+
+  box-sizing: border-box;
+
+  text-align: left;
+  vertical-align: middle;
+
+  border-bottom: 1px solid #ebe5ef;
+
+  color: #8b7c93;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.75px;
+
+  white-space: nowrap;
+}
+
+
+/* table cells */
+
+.parking-staff-table td {
+  height: 64px;
+
+  padding: 9px 16px;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #f0ebf3;
+
+  color: #51445b;
+
+  font-size: 11px;
+
+  vertical-align: middle;
+
+  overflow: hidden;
+}
+
+.parking-staff-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.parking-staff-table tbody tr:hover {
+  background: #fcf9fd;
+}
+
+.parking-staff-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* ============================================================
+   STAFF MEMBER CELL
+   ============================================================ */
+
+.parking-staff-member {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.parking-staff-avatar {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #ddcde6;
+  border-radius: 10px;
+
+  background: linear-gradient(145deg,
+      #f1e5f6,
+      #e6d5ed);
+
+  color: #5e3573;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.parking-staff-member>div:last-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.parking-staff-member strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #30213a;
+
+  font-size: 11px;
+  font-weight: 750;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.parking-staff-member span {
+  color: #998d9f;
+
+  font-size: 9px;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   ROLE
+   ============================================================ */
+
+.parking-staff-role {
+  display: inline-flex;
+  align-items: center;
+
+  max-width: 100%;
+
+  padding: 5px 8px;
+
+  border: 1px solid #e4d8ea;
+  border-radius: 7px;
+
+  background: #f8f3fa;
+
+  color: #674575;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   EMAIL
+   ============================================================ */
+
+.parking-staff-phone {
+  display: block;
+
+  max-width: 100%;
+
+  overflow: hidden;
+
+  color: #776b80;
+
+  font-size: 10px;
+
+  text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   AVAILABILITY
+   ============================================================ */
+
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 5px 8px;
+
+  border-radius: 20px;
+
+  font-size: 9px;
+  font-weight: 750;
+
+  white-space: nowrap;
+}
+
+.availability-dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+
+  border-radius: 50%;
+}
+
+.availability-available {
+  background: #edf8f2;
+  color: #237550;
+}
+
+.availability-available .availability-dot {
+  background: #38a36b;
+}
+
+.availability-busy {
+  background: #fff5e5;
+  color: #9d691b;
+}
+
+.availability-busy .availability-dot {
+  background: #d79532;
+}
+
+.availability-offline {
+  background: #f3f1f4;
+  color: #78727d;
+}
+
+.availability-offline .availability-dot {
+  background: #99929c;
+}
+
+
+/* ============================================================
+   ASSIGNMENT
+   ============================================================ */
+
+.staff-assignment {
+  display: inline-block;
+
+  max-width: 100%;
+
+  padding: 5px 8px;
+
+  border-radius: 7px;
+
+  background: #f7f1fa;
+
+  color: #62416f;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.no-assignment {
+  color: #aaa1ad;
+
+  font-size: 10px;
+
+  font-style: italic;
+}
+
+
+/* ============================================================
+   STATUS
+   ============================================================ */
+
+.staff-status-badge {
+  display: inline-flex;
+
+  padding: 5px 8px;
+
+  border-radius: 6px;
+
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.staff-status-active {
+  background: #edf8f2;
+  color: #267550;
+}
+
+.staff-status-inactive {
+  background: #f2f0f3;
+  color: #807983;
+}
+
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+
+.parking-staff-table td:last-child>div {
+  display: flex !important;
+
+  align-items: center !important;
+
+  gap: 6px !important;
+
+  white-space: nowrap;
+}
+
+.view-staff-btn {
+  height: 29px;
+
+  padding: 0 10px;
+
+  border: 1px solid #ddd2e3;
+
+  border-radius: 7px;
+
+  background: #ffffff;
+
+  color: #5c4a66;
+
+  font-size: 9px;
+
+  font-weight: 750;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.view-staff-btn:hover {
+  background: #f6eff9 !important;
+
+  border-color: #cdb5d8;
+
+  color: #5e3573;
+
+  transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   LOADING STATE
+   ============================================================ */
+
+.parking-staff-table-wrapper>div[style*="padding"] {
+  min-height: 230px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  color: #82758b !important;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.parking-staff-empty {
+  height: 230px;
+
+  text-align: center !important;
+
+  vertical-align: middle !important;
+}
+
+.parking-staff-empty>div {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+}
+
+.parking-staff-empty span {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 3px;
+
+  border: 1px solid #e3d6e9;
+  border-radius: 13px;
+
+  background: #f6eff9;
+
+  color: #765183;
+
+  font-size: 21px;
+}
+
+.parking-staff-empty strong {
+  color: #403149;
+
+  font-size: 13px;
+}
+
+.parking-staff-empty p {
+  margin: 0;
+
+  color: #968b9c;
+
+  font-size: 11px;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.parking-staff-footer {
+  width: 100%;
+  min-height: 58px;
+
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+
+  border-top: 1px solid #f0ebf3;
+
+  color: #8a7d91;
+
+  font-size: 10px;
+}
+
+.parking-staff-footer strong {
+  color: #5c4a65;
+}
+
+
+/* ============================================================
+   MODAL OVERLAY
+   ============================================================ */
+
+.parking-staff-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  background: rgba(37, 24, 50, 0.55);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+
+.parking-staff-details-modal {
+  width: min(560px, 100%);
+
+  max-height: calc(100vh - 40px);
+
+  overflow-y: auto;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e5d9ea;
+
+  border-radius: 17px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 30px 80px rgba(29, 17, 39, 0.25);
+}
+
+
+/* ============================================================
+   MODAL HEADER
+   ============================================================ */
+
+.parking-staff-modal-header {
+  width: 100%;
+
+  padding: 22px 22px 0;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  box-sizing: border-box;
+}
+
+.parking-staff-modal-header>div {
+  min-width: 0;
+}
+
+.parking-staff-modal-header p {
+  margin: 0 0 6px;
+
+  color: #8d7998;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+}
+
+.parking-staff-modal-header h2 {
+  margin: 0;
+
+  color: #2b1b38;
+
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.parking-staff-modal-header span {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #85788d;
+
+  font-size: 11px;
+}
+
+.parking-staff-modal-header button {
+  width: 32px;
+  height: 32px;
+
+  flex: 0 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e3d9e7;
+  border-radius: 8px;
+
+  background: #f8f5f9;
+
+  color: #766b7d;
+
+  font-size: 19px;
+
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
+
+.parking-staff-profile {
+  margin: 20px 22px;
+
+  padding: 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e5d9ea;
+
+  border-radius: 13px;
+
+  background: linear-gradient(135deg,
+      #faf6fc,
+      #f5edf8);
+}
+
+.parking-staff-large-avatar {
+  width: 56px;
+  height: 56px;
+
+  flex: 0 0 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #d8c5e1;
+
+  border-radius: 14px;
+
+  background: linear-gradient(145deg,
+      #eee0f4,
+      #dfccea);
+
+  color: #5e3573;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.parking-staff-profile h3 {
+  margin: 0;
+
+  color: #30213a;
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.parking-staff-profile p {
+  margin: 4px 0 7px;
+
+  color: #82758b;
+
+  font-size: 11px;
+}
+
+
+/* ============================================================
+   DETAILS
+   ============================================================ */
+
+.parking-staff-details-grid {
+  width: 100%;
+
+  padding: 0 22px;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+
+  box-sizing: border-box;
+}
+
+.parking-staff-details-grid>div {
+  min-width: 0;
+
+  padding: 13px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #eee7f1;
+
+  border-radius: 10px;
+
+  background: #fdfcfd;
+}
+
+.parking-staff-details-grid span {
+  color: #918497;
+
+  font-size: 10px;
+}
+
+.parking-staff-details-grid strong {
+  color: #46364e;
+
+  font-size: 11px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   MODAL FOOTER
+   ============================================================ */
+
+.parking-staff-modal-footer {
+  width: 100%;
+
+  margin-top: 20px;
+
+  padding: 15px 22px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  box-sizing: border-box;
+
+  border-top: 1px solid #eee8f1;
+
+  background: #fcfbfd;
+}
+
+.parking-staff-modal-footer button {
+  height: 35px;
+
+  padding: 0 13px;
+
+  border: 1px solid #ddd3e3;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #5c4d64;
+
+  font-size: 10px;
+
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.parking-staff-modal-footer .assign-valet-btn {
+  border-color: #5e3573;
+
+  background: #5e3573;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 12px rgba(94, 53, 115, 0.17);
+}
+
+
+/* ============================================================
+   ASSIGNMENT FORM
+   ============================================================ */
+
+.parking-staff-details-modal form {
+  width: 100%;
+
+  padding: 20px 22px !important;
+
+  box-sizing: border-box;
+}
+
+.parking-staff-details-modal form>div:first-child {
+  width: 100%;
+
+  margin-bottom: 18px !important;
+}
+
+.parking-staff-details-modal form label {
+  display: block !important;
+
+  margin-bottom: 7px !important;
+
+  color: #5c4d65 !important;
+
+  font-size: 10px !important;
+
+  font-weight: 750 !important;
+}
+
+.parking-staff-details-modal form select {
+  width: 100% !important;
+
+  height: 42px !important;
+
+  padding: 0 12px !important;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e1d8e5 !important;
+
+  border-radius: 9px !important;
+
+  background: #faf9fb !important;
+
+  color: #46364e !important;
+
+  font-size: 11px !important;
+
+  outline: none !important;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+  .parking-staff-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .parking-staff-header {
+    flex-direction: column !important;
+    gap: 14px;
+  }
+
+  .parking-staff-header .create-staff-btn {
+    margin-top: 0;
+  }
+
+  .parking-staff-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .parking-staff-search {
+    width: 100%;
+  }
+
+  .parking-staff-filters {
+    width: 100%;
+  }
+
+  .parking-staff-filters select {
+    flex: 1;
+    width: auto;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .parking-staff-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .parking-staff-header h1 {
+    font-size: 25px;
+  }
+
+  .parking-staff-filters {
+    flex-direction: column;
+  }
+
+  .parking-staff-filters select {
+    width: 100%;
+  }
+
+  .parking-staff-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .parking-staff-modal-overlay {
+    padding: 12px;
+  }
+
+  .parking-staff-details-modal {
+    max-height: calc(100vh - 24px);
+  }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+}

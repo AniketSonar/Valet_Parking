@@ -74,7 +74,12 @@ export const valetConfig = {
   searchPlaceholder: "Search vehicles, tickets...",
   menu: [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "security-desk", label: "Security & Check-in", icon: ShieldAlert },
+    { id: "security-dashboard", label: "Security Dashboard", icon: ShieldAlert },
+    { id: "security-sessions", label: "Active Sessions", icon: ClipboardList },
+    { id: "security-customers", label: "Customers", icon: Users },
+    { id: "security-vehicles", label: "Vehicles", icon: CarFront },
+    { id: "security-keys", label: "Key Management", icon: KeyRound },
+    { id: "security-payments", label: "Payments & Invoices", icon: CreditCard },
     { id: "my-vehicles", label: "My Vehicles", icon: CarFront },
     { id: "retrieval-requests", label: "Retrieval Requests", icon: ClipboardList },
     { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },

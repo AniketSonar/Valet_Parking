@@ -19,9 +19,10 @@ const getInitials = (name) => {
 const formatRoleLabel = (role) => {
   const labels = {
     valet: "Valet",
-    reception_security: "Security / Reception",
-    cashier: "Cashier",
-    parking_admin: "Parking Admin",
+    reception_security: "Valet",
+    cashier: "Valet",
+    parking_admin: "Manager",
+    manager: "Manager",
   };
   return labels[role] || role || "Staff";
 };
@@ -241,8 +242,6 @@ function ValetManagement() {
             >
               <option value="all">All Roles</option>
               <option value="valet">Valet</option>
-              <option value="reception_security">Security / Reception</option>
-              <option value="cashier">Cashier</option>
             </select>
 
             <select

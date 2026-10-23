@@ -1,14 +1,8 @@
 const supabase = require("../config/supabase");
 
-const {
-  transporter,
-  assertEmailConfigured
-} = require("../config/email");
-
+const { sendWhatsAppMessage } = require("../config/whatsapp");
 const QRCode = require("qrcode");
 const crypto = require("crypto");
-const createAuraEmail = require("../templates/auraEmailTemplate");
-const createVehicleReturnEmail = require("../templates/vehicleReturnEmailTemplate");
 
 const ACTIVE_STATUSES = [
   "checked_in",
@@ -17,6 +11,62 @@ const ACTIVE_STATUSES = [
   "retrieving",
   "ready_for_pickup"
 ];
+
+const sendCheckInWhatsAppInBackground = ({
+  customer,
+  vehicle,
+  session,
+  parking_type,
+  ticketCode,
+  payment_method,
+  paidAmount
+}) => {
+  if (!customer?.phone) {
+    console.warn(
+      "Check-in WhatsApp skipped: customer phone number not available."
+    );
+    return;
+  }
+
+  const message =
+    `Aura Valet Parking ticket\n` +
+    `Vehicle: ${vehicle.license_plate || "N/A"}\n` +
+    `Type: ${parking_type === "valet" ? "Valet Parking" : "Self Parking"}\n` +
+    `Ticket: ${ticketCode}\n` +
+    `Slot: ${session.parking_slot || "Pending"}\n` +
+    `Payment: ${payment_method} ${paidAmount}`;
+
+  void sendWhatsAppMessage({ phone: customer.phone, message })
+    .then(async () => {
+      console.log(`Check-in WhatsApp sent successfully to ${customer.phone}`);
+      const { error } = await supabase.from("notifications").insert({
+        parking_session_id: session.id,
+        recipient_type: "customer",
+        recipient_id: customer.id,
+        message: "Vehicle check-in confirmation WhatsApp sent successfully.",
+        channel: "whatsapp",
+        status: "sent",
+        sent_at: new Date().toISOString()
+      });
+      if (error) {
+        console.error("Save WhatsApp notification error:", error);
+      }
+    })
+    .catch(async (whatsappError) => {
+      console.error("Check-in WhatsApp notification error:", whatsappError);
+      const { error } = await supabase.from("notifications").insert({
+        parking_session_id: session.id,
+        recipient_type: "customer",
+        recipient_id: customer.id,
+        message: "Vehicle check-in confirmation WhatsApp could not be sent.",
+        channel: "whatsapp",
+        status: "failed"
+      });
+      if (error) {
+        console.error("Save failed WhatsApp notification error:", error);
+      }
+    });
+};
 
 const getParkingSessions = async (req, res) => {
   try {
@@ -187,6 +237,7 @@ const createParkingSession = async (req, res) => {
         customer:customers (
           id,
           name,
+          phone,
           email
         )
       `)
@@ -365,127 +416,30 @@ const createParkingSession = async (req, res) => {
       });
     }
 
-    let emailSent = false;
-    let emailErrorMessage = null;
-
     const customer = vehicle.customer;
-
-    if (customer?.email) {
-      try {
-        assertEmailConfigured();
-
-        const qrBuffer = await QRCode.toBuffer(ticketCode);
-
-        const html = createAuraEmail({
-          customerName: customer.name || "Customer",
-          vehicleNumber: vehicle.license_plate || "N/A",
-          vehicleModel: vehicle.model || vehicle.make || "N/A",
-          parkingType:
-            parking_type === "valet"
-              ? "Valet Parking"
-              : "Self Parking",
-          ticketCode,
-          parkingSlot: session.parking_slot,
-          checkedInAt: new Date(
-            session.checked_in_at
-          ).toLocaleString("en-IN"),
-          paymentMethod: payment_method,
-          amountPaid: paidAmount,
-          qrCode: "cid:aura-parking-qr"
-        });
-
-        await transporter.sendMail({
-          from: process.env.EMAIL_USER,
-          to: customer.email,
-          subject:
-            "Aura Valet Parking - Vehicle Check-In Confirmation",
-          text:
-            `Your vehicle has been successfully checked in at Aura Valet Parking. ` +
-            `Ticket Code: ${ticketCode}`,
-          html,
-          attachments: [
-            {
-              filename: "aura-parking-qr.png",
-              content: qrBuffer,
-              cid: "aura-parking-qr"
-            }
-          ]
-        });
-
-        emailSent = true;
-
-        console.log(
-          `Check-in email sent successfully to ${customer.email}`
-        );
-
-        const { error: notificationError } = await supabase
-          .from("notifications")
-          .insert({
-            parking_session_id: session.id,
-            recipient_type: "customer",
-            recipient_id: customer.id,
-            message:
-              "Vehicle check-in confirmation email sent successfully.",
-            channel: "email",
-            status: "sent",
-            sent_at: new Date().toISOString()
-          });
-
-        if (notificationError) {
-          console.error(
-            "Save email notification error:",
-            notificationError
-          );
-        }
-      } catch (emailError) {
-        emailErrorMessage = emailError.message;
-
-        console.error(
-          "Check-in email notification error:",
-          emailError
-        );
-
-        const { error: notificationError } = await supabase
-          .from("notifications")
-          .insert({
-            parking_session_id: session.id,
-            recipient_type: "customer",
-            recipient_id: customer.id,
-            message:
-              "Vehicle check-in confirmation email could not be sent.",
-            channel: "email",
-            status: "failed"
-          });
-
-        if (notificationError) {
-          console.error(
-            "Save failed email notification error:",
-            notificationError
-          );
-        }
-      }
-    } else {
-      emailErrorMessage = "Customer email address not available.";
-
-      console.warn(
-        "Check-in email skipped: customer email address not available."
-      );
-    }
+    sendCheckInWhatsAppInBackground({
+      customer,
+      vehicle,
+      session,
+      parking_type,
+      ticketCode,
+      payment_method,
+      paidAmount
+    });
 
     return res.status(201).json({
       success: true,
-      message: emailSent
-        ? "Parking session created and confirmation email sent successfully."
-        : "Parking session created successfully, but confirmation email could not be sent.",
+      message: "Parking session created successfully. Ticket information is being sent on WhatsApp.",
       session,
       payment,
       ticket: {
         ticket_code: ticketCode,
         qr_code: qrCode
       },
-      email: {
-        sent: emailSent,
-        error: emailSent ? null : emailErrorMessage
+      whatsapp: {
+        queued: Boolean(customer?.phone),
+        sent: false,
+        error: customer?.phone ? null : "Customer WhatsApp number not available."
       }
     });
   } catch (error) {
@@ -787,106 +741,17 @@ const quickCheckIn = async (req, res) => {
       }
     }
 
-    let emailSent = false;
-    let emailErrorMessage = null;
-
-    if (customer?.email) {
-      try {
-        assertEmailConfigured();
-
-        const qrBuffer = await QRCode.toBuffer(ticketCode);
-
-        const html = createAuraEmail({
-          customerName: customer.name || "Customer",
-          vehicleNumber: vehicle.license_plate || "N/A",
-          vehicleModel: vehicle.model || vehicle.make || "N/A",
-          parkingType:
-            parking_type === "valet"
-              ? "Valet Parking"
-              : "Self Parking",
-          ticketCode,
-          parkingSlot: session.parking_slot,
-          checkedInAt: new Date(
-            session.checked_in_at
-          ).toLocaleString("en-IN"),
-          qrCode: "cid:aura-parking-qr"
-        });
-
-        await transporter.sendMail({
-          from: process.env.EMAIL_USER,
-          to: customer.email,
-          subject:
-            "Aura Valet Parking - Vehicle Check-In Confirmation",
-          text:
-            `Your vehicle has been successfully checked in at Aura Valet Parking. ` +
-            `Ticket Code: ${ticketCode}`,
-          html,
-          attachments: [
-            {
-              filename: "aura-parking-qr.png",
-              content: qrBuffer,
-              cid: "aura-parking-qr"
-            }
-          ]
-        });
-
-        emailSent = true;
-
-        const { error: notificationError } = await supabase
-          .from("notifications")
-          .insert({
-            parking_session_id: session.id,
-            recipient_type: "customer",
-            recipient_id: customer.id,
-            message:
-              "Vehicle check-in confirmation email sent successfully.",
-            channel: "email",
-            status: "sent",
-            sent_at: new Date().toISOString()
-          });
-
-        if (notificationError) {
-          console.error(
-            "Save email notification error:",
-            notificationError
-          );
-        }
-      } catch (emailError) {
-        emailErrorMessage = emailError.message;
-
-        console.error(
-          "Quick check-in email notification error:",
-          emailError
-        );
-
-        const { error: notificationError } = await supabase
-          .from("notifications")
-          .insert({
-            parking_session_id: session.id,
-            recipient_type: "customer",
-            recipient_id: customer.id,
-            message:
-              "Vehicle check-in confirmation email could not be sent.",
-            channel: "email",
-            status: "failed"
-          });
-
-        if (notificationError) {
-          console.error(
-            "Save failed email notification error:",
-            notificationError
-          );
-        }
-      }
-    } else {
-      emailErrorMessage = "Customer email address not available.";
-    }
+    sendCheckInWhatsAppInBackground({
+      customer,
+      vehicle,
+      session,
+      parking_type,
+      ticketCode
+    });
 
     return res.status(201).json({
       success: true,
-      message: emailSent
-        ? "Vehicle checked in successfully and confirmation email sent."
-        : "Vehicle checked in successfully, but confirmation email could not be sent.",
+      message: "Vehicle checked in successfully. Ticket information is being sent on WhatsApp.",
       customer,
       vehicle,
       session,
@@ -894,9 +759,10 @@ const quickCheckIn = async (req, res) => {
         ticket_code: ticketCode,
         qr_code: qrCode
       },
-      email: {
-        sent: emailSent,
-        error: emailSent ? null : emailErrorMessage
+      whatsapp: {
+        queued: Boolean(customer?.phone),
+        sent: false,
+        error: customer?.phone ? null : "Customer WhatsApp number not available."
       }
     });
   } catch (error) {
@@ -1971,6 +1837,7 @@ const completeReturn = async (req, res) => {
           customer:customers (
             id,
             name,
+            phone,
             email
           )
         )
@@ -2377,25 +2244,18 @@ const completeReturn = async (req, res) => {
       }
     }
 
-    if (customer?.email) {
+    if (customer?.phone) {
       try {
-        const emailHtml = createVehicleReturnEmail({
-          customerName: customer.name,
-          vehicleNumber: session.vehicle.license_plate,
-          vehicleModel: `${session.vehicle.make} ${session.vehicle.model}`,
-          ticketCode: session.ticket_code,
-          parkingSlot: session.parking_slot,
-          completedAt
+        await sendWhatsAppMessage({
+          phone: customer.phone,
+          message:
+            `Aura Valet Parking\n` +
+            `Your vehicle ${session.vehicle.license_plate} is ready for pickup.\n` +
+            `Ticket: ${session.ticket_code}\n` +
+            `Slot: ${session.parking_slot || "Valet desk"}`
         });
-
-        await transporter.sendMail({
-          from: process.env.EMAIL_USER,
-          to: customer.email,
-          subject: "Vehicle Returned Successfully - Aura Valet Parking",
-          html: emailHtml
-        });
-      } catch (emailError) {
-        console.error("Vehicle returned email error:", emailError);
+      } catch (whatsappError) {
+        console.error("Vehicle returned WhatsApp error:", whatsappError);
       }
     }
 

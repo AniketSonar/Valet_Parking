@@ -398,7 +398,7 @@ const LandingPage = () => {
                 <Users size={24} />
               </div>
               <h3>Role-Specific Dashboards</h3>
-              <p>Custom interfaces for Super Admins, Parking Facility Managers, Front Desk Cashiers, and Drivers.</p>
+              <p>Custom interfaces for Super Admins, Managers, Valets, and Customers.</p>
             </div>
           </div>
 

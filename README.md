@@ -9,10 +9,8 @@ Aura Valet Parking is an enterprise full-stack valet and parking management appl
 | Role | Email | Password | Target Dashboard | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | **Super Admin** | `superadmin@valet.com` | `Password123!` | `/admin-dashboard` | Full system overview, staff management, revenue reports, global metrics. |
-| **Parking Admin**| `parkingadmin@valet.com`| `Password123!` | `/parking-admin-dashboard` | Parking slot map, floor/system assignments, valet management, live vehicles, reports. |
-| **Reception / Security** | `security@valet.com` | `Password123!` | `/reception-dashboard` | Vehicle check-in, key management, ticket QR generation, inspections. |
-| **Cashier** | `cashier@valet.com` | `Password123!` | `/reception-dashboard` | Payments, billing checkout, invoice generation and download, exit pass verification. |
-| **Valet Driver** | `valet@valet.com` | `Password123!` | `/valet-dashboard` | Assigned parking jobs, slot parking, vehicle retrieval requests, return handovers. |
+| **Manager**| `parkingadmin@valet.com`| `Password123!` | `/parking-admin-dashboard` | Manage every floor/building, assign valets to parking systems, monitor operations and reports. |
+| **Valet** | `security@valet.com` or `valet@valet.com` | `Password123!` | `/valet-dashboard` | Security desk and valet work: check-in, keys, tickets, inspections, parking and vehicle returns. |
 | **Customer** | `customer@valet.com` | `Password123!` | `/customer-dashboard` | Live vehicle status, request retrieval, invoice download, service feedback rating. |
 
 ---
@@ -56,15 +54,20 @@ Valet_Parking-main/
 PORT=5000
 SUPABASE_URL=https://<your-project-id>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=<your-service-role-key>
-EMAIL_USER=your-email@gmail.com
-EMAIL_APP_PASSWORD=your-app-password
+WHATSAPP_ACCESS_TOKEN=<your-meta-whatsapp-cloud-api-token>
+WHATSAPP_PHONE_NUMBER_ID=<your-whatsapp-business-phone-number-id>
+WHATSAPP_API_VERSION=v23.0
 ```
 
-`EMAIL_USER` must be the Gmail account that sends system emails. For Gmail,
-enable 2-Step Verification on that account, create an App Password under
-Google Account -> Security -> App passwords, and set that 16-character value
-as `EMAIL_APP_PASSWORD` (do not use the normal Gmail password). Restart the
-backend after changing `backend/.env`.
+Ticket, invoice, and vehicle-return information is sent through the WhatsApp
+Cloud API. Configure a Meta WhatsApp Business app with the
+`whatsapp_business_messaging` permission, then restart the backend after
+changing `backend/.env`.
+
+The frontend stores the Supabase refresh token securely in browser storage and
+automatically refreshes expired access tokens when a protected API request
+returns `401`. If the refresh token is also invalid, the user is redirected to
+the login page instead of remaining on a broken dashboard.
 
 **Frontend (`frontend/.env`):**
 ```env
@@ -113,8 +116,9 @@ Open the frontend URL (typically `http://localhost:5173`) in your web browser.
      - `PORT=5000` (or platform default)
      - `SUPABASE_URL=<supabase_url>`
      - `SUPABASE_SERVICE_ROLE_KEY=<supabase_service_role_key>`
-     - `EMAIL_USER=<email>`
-     - `EMAIL_APP_PASSWORD=<password>`
+     - `WHATSAPP_ACCESS_TOKEN=<meta_whatsapp_cloud_api_token>`
+     - `WHATSAPP_PHONE_NUMBER_ID=<whatsapp_business_phone_number_id>`
+     - `WHATSAPP_API_VERSION=v23.0`
 
 2. **Frontend on Vercel / Netlify:**
    - Root Directory: `frontend`

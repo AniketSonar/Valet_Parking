@@ -10,6 +10,7 @@ create table if not exists public.users (
   auth_user_id uuid unique references auth.users(id) on delete cascade,
   name text not null,
   email text not null unique,
+  -- Application roles: super_admin, manager, valet, customer.
   role text not null default 'customer',
   phone text,
   is_active boolean not null default true,

@@ -25,20 +25,14 @@ const ACCOUNTS = [
   {
     name: "Parking Facility Admin",
     email: "parkingadmin@valet.com",
-    role: "parking_admin",
+    role: "manager",
     phone: "+919000000002",
   },
   {
-    name: "Reception Security Officer",
+    name: "Valet Security Officer",
     email: "security@valet.com",
-    role: "reception_security",
+    role: "valet",
     phone: "+919000000003",
-  },
-  {
-    name: "Front Desk Cashier",
-    email: "cashier@valet.com",
-    role: "cashier",
-    phone: "+919000000004",
   },
   {
     name: "Lead Valet Driver",
@@ -49,7 +43,7 @@ const ACCOUNTS = [
   {
     name: "Valet Attendant Staff",
     email: "attendant@valet.com",
-    role: "valet_attendant",
+    role: "valet",
     phone: "+919000000006",
   },
   {

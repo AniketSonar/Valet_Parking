@@ -41,6 +41,7 @@ const ParkingAdminDashboard = ({ onLogout }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     localStorage.removeItem("user");
     if (onLogout) {
       onLogout();
@@ -238,7 +239,7 @@ const ParkingAdminDashboard = ({ onLogout }) => {
                 </span>
 
                 <h1 className="dashboard-main-title">
-                  Parking Admin Dashboard
+                  Manager Dashboard
                 </h1>
 
                 <p className="dashboard-sub-text">

@@ -5,7 +5,6 @@ import LoginCard from "./components/LoginCard";
 
 import Dashboard from "./components/admin_dashboard/Dashboard";
 import ParkingAdminDashboard from "./components/parkingAdmin/ParkingAdminDashboard";
-import ReceptionDashboard from "./components/reception/ReceptionDashboard";
 
 // import ValetDashboard from "./components/valet/ValetDashboard";
 import ValetLayout from "./components/valet/ValetLayout";
@@ -53,7 +52,6 @@ function App() {
         {/* Operational Dashboards */}
         <Route path="/admin-dashboard" element={<Dashboard />} />
         <Route path="/parking-admin-dashboard" element={<ParkingAdminDashboard />} />
-        <Route path="/reception-dashboard" element={<ReceptionDashboard />} />
         <Route
           path="/valet-dashboard"
           element={<ValetLayout />}

@@ -13,7 +13,6 @@ declare
   super_admin_id uuid := gen_random_uuid();
   parking_admin_id uuid := gen_random_uuid();
   security_id uuid := gen_random_uuid();
-  cashier_id uuid := gen_random_uuid();
   valet_id uuid := gen_random_uuid();
   customer_id uuid := gen_random_uuid();
   hashed_pwd text := crypt('Password123!', gen_salt('bf'));
@@ -36,20 +35,12 @@ begin
     select id into parking_admin_id from auth.users where email = 'parkingadmin@valet.com';
   end if;
 
-  -- Security
+  -- Valet (security and valet operations use one login)
   if not exists (select 1 from auth.users where email = 'security@valet.com') then
     insert into auth.users (id, instance_id, email, encrypted_password, email_confirmed_at, role, aud, created_at, updated_at)
     values (security_id, '00000000-0000-0000-0000-000000000000', 'security@valet.com', hashed_pwd, now(), 'authenticated', 'authenticated', now(), now());
   else
     select id into security_id from auth.users where email = 'security@valet.com';
-  end if;
-
-  -- Cashier
-  if not exists (select 1 from auth.users where email = 'cashier@valet.com') then
-    insert into auth.users (id, instance_id, email, encrypted_password, email_confirmed_at, role, aud, created_at, updated_at)
-    values (cashier_id, '00000000-0000-0000-0000-000000000000', 'cashier@valet.com', hashed_pwd, now(), 'authenticated', 'authenticated', now(), now());
-  else
-    select id into cashier_id from auth.users where email = 'cashier@valet.com';
   end if;
 
   -- Valet
@@ -72,9 +63,8 @@ begin
   insert into public.users (auth_user_id, name, email, role, phone, is_active)
   values
     (super_admin_id, 'System Super Admin', 'superadmin@valet.com', 'super_admin', '+919000000001', true),
-    (parking_admin_id, 'Parking Facility Admin', 'parkingadmin@valet.com', 'parking_admin', '+919000000002', true),
-    (security_id, 'Reception Security Officer', 'security@valet.com', 'reception_security', '+919000000003', true),
-    (cashier_id, 'Front Desk Cashier', 'cashier@valet.com', 'cashier', '+919000000004', true),
+    (parking_admin_id, 'Parking Manager', 'parkingadmin@valet.com', 'manager', '+919000000002', true),
+    (security_id, 'Valet Security Officer', 'security@valet.com', 'valet', '+919000000003', true),
     (valet_id, 'Lead Valet Driver', 'valet@valet.com', 'valet', '+919000000005', true),
     (customer_id, 'Registered Customer', 'customer@valet.com', 'customer', '+919876543210', true)
   on conflict (email) do update set

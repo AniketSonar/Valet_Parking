@@ -52,6 +52,11 @@ function LoginCard() {
       );
 
       localStorage.setItem(
+        "refresh_token",
+        data.session.refresh_token
+      );
+
+      localStorage.setItem(
         "user",
         JSON.stringify(data.user)
       );
@@ -62,15 +67,8 @@ function LoginCard() {
         navigate("/admin-dashboard", {
           replace: true,
         });
-      } else if (role === "parking_admin") {
+      } else if (role === "manager" || role === "parking_admin") {
         navigate("/parking-admin-dashboard", {
-          replace: true,
-        });
-      } else if (
-        role === "cashier" ||
-        role === "reception_security"
-      ) {
-        navigate("/reception-dashboard", {
           replace: true,
         });
       } else if (role === "valet" || role === "valet_attendant") {

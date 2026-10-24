@@ -9,6 +9,13 @@ import {
   CircleParking,
   Loader2,
   CheckCircle2,
+  UserCheck,
+  Phone,
+  Clock,
+  Key,
+  ShieldAlert,
+  Car as CarIcon,
+  Ticket,
 } from "lucide-react";
 
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
@@ -1098,54 +1105,94 @@ const ParkingSlots = () => {
             </div>
 
             <div className="parking-slot-details">
-              <div className="slot-detail-item">
-                <span>Parking Type</span>
+              {/* In-Charge Valet Personnel Card (Featured Prominently) */}
+              <div className="slot-incharge-card">
+                <div className="incharge-header">
+                  <div className="incharge-avatar">
+                    <UserCheck size={20} />
+                  </div>
+                  <div>
+                    <span className="incharge-badge">PERSON IN CHARGE</span>
+                    <h4>{selectedSlot.incharge_valet_name || selectedSlot.valet || "Unassigned"}</h4>
+                  </div>
+                </div>
 
-                <strong>
-                  {selectedSlot.parking_type
-                    ? selectedSlot.parking_type
-                        .charAt(0)
-                        .toUpperCase() +
-                      selectedSlot.parking_type.slice(
-                        1
-                      )
-                    : "Car"}
-                </strong>
+                {selectedSlot.incharge_valet_phone && (
+                  <div className="incharge-phone">
+                    <Phone size={14} />
+                    <span>{selectedSlot.incharge_valet_phone}</span>
+                  </div>
+                )}
+                {!selectedSlot.incharge_valet_phone && (
+                  <span className="incharge-subtext">
+                    {selectedSlot.assigned_vehicle
+                      ? "Assigned Valet Attendant for this vehicle"
+                      : "No vehicle currently parked in this slot"}
+                  </span>
+                )}
               </div>
 
-              {selectedSlot.customer_name && (
+              <div className="slot-detail-grid">
                 <div className="slot-detail-item">
-                  <span>Customer</span>
-
+                  <span>Parking Type</span>
                   <strong>
-                    {
-                      selectedSlot.customer_name
-                    }
+                    {selectedSlot.parking_type
+                      ? selectedSlot.parking_type.charAt(0).toUpperCase() +
+                        selectedSlot.parking_type.slice(1)
+                      : "Car"}
                   </strong>
                 </div>
-              )}
 
-              {selectedSlot.assigned_vehicle && (
                 <div className="slot-detail-item">
-                  <span>Vehicle</span>
-
-                  <strong>
-                    {
-                      selectedSlot.assigned_vehicle
-                    }
-                  </strong>
+                  <span>Slot Zone</span>
+                  <strong>{getZoneName(getZoneKey(selectedSlot))}</strong>
                 </div>
-              )}
 
-              {selectedSlot.valet && (
-                <div className="slot-detail-item">
-                  <span>Valet</span>
+                {selectedSlot.session_ticket && (
+                  <div className="slot-detail-item">
+                    <span>Ticket #</span>
+                    <strong className="ticket-badge">{selectedSlot.session_ticket}</strong>
+                  </div>
+                )}
 
-                  <strong>
-                    {selectedSlot.valet}
-                  </strong>
-                </div>
-              )}
+                {selectedSlot.assigned_vehicle && (
+                  <div className="slot-detail-item">
+                    <span>License Plate</span>
+                    <strong className="plate-badge">{selectedSlot.assigned_vehicle}</strong>
+                  </div>
+                )}
+
+                {(selectedSlot.vehicle_make || selectedSlot.vehicle_model) && (
+                  <div className="slot-detail-item">
+                    <span>Car Model</span>
+                    <strong>
+                      {selectedSlot.vehicle_make} {selectedSlot.vehicle_model}{" "}
+                      {selectedSlot.vehicle_color ? `(${selectedSlot.vehicle_color})` : ""}
+                    </strong>
+                  </div>
+                )}
+
+                {selectedSlot.customer_name && (
+                  <div className="slot-detail-item">
+                    <span>Customer</span>
+                    <strong>{selectedSlot.customer_name}</strong>
+                  </div>
+                )}
+
+                {selectedSlot.customer_phone && (
+                  <div className="slot-detail-item">
+                    <span>Customer Phone</span>
+                    <strong>{selectedSlot.customer_phone}</strong>
+                  </div>
+                )}
+
+                {selectedSlot.parked_at && (
+                  <div className="slot-detail-item">
+                    <span>Parked Since</span>
+                    <strong>{new Date(selectedSlot.parked_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="parking-status-section">

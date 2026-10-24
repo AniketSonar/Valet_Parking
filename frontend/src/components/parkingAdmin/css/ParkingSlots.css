@@ -1729,3 +1729,88 @@
     width: 100%;
   }
 }
+/* ============================================================
+   IN-CHARGE VALET & PARKING SPACE OVERVIEW DETAIL CARD
+   ============================================================ */
+.slot-incharge-card {
+  background: linear-gradient(135deg, rgba(139, 18, 48, 0.04) 0%, rgba(99, 102, 241, 0.06) 100%);
+  border: 1px solid rgba(139, 18, 48, 0.15);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.incharge-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.incharge-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #8b1230 0%, #a8193d 100%);
+  color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(139, 18, 48, 0.25);
+  flex-shrink: 0;
+}
+
+.incharge-badge {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #8b1230;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.incharge-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 750;
+  color: var(--text-main, #0f172a);
+}
+
+.incharge-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #059669;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-top: 6px;
+}
+
+.incharge-subtext {
+  font-size: 11px;
+  color: #64748b;
+  display: block;
+  margin-top: 4px;
+}
+
+.slot-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.ticket-badge {
+  color: #6366f1 !important;
+  font-family: monospace;
+}
+
+.plate-badge {
+  color: #8b1230 !important;
+  font-family: monospace;
+  font-size: 13px;
+}

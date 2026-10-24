@@ -87,14 +87,31 @@ const getParkingSlots = async (req, res) => {
     const { data: sessions, error: sessionError } = await supabase
       .from("parking_sessions")
       .select(`
+        id,
+        ticket_code,
         parking_slot,
+        parking_type,
         status,
+        checked_in_at,
+        parked_at,
         vehicle:vehicles (
+          id,
           license_plate,
+          make,
+          model,
+          color,
           customer:customers (
+            id,
             name,
-            phone
+            phone,
+            email
           )
+        ),
+        valet:employees (
+          id,
+          name,
+          phone,
+          role
         )
       `)
       .in("status", [
@@ -122,9 +139,22 @@ const getParkingSlots = async (req, res) => {
       return {
         ...slot,
         assigned_vehicle: session?.vehicle?.license_plate || null,
+        vehicle_make: session?.vehicle?.make || null,
+        vehicle_model: session?.vehicle?.model || null,
+        vehicle_color: session?.vehicle?.color || null,
         customer_name: session?.vehicle?.customer?.name || null,
         customer_phone: session?.vehicle?.customer?.phone || null,
-        session_status: session?.status || null
+        customer_email: session?.vehicle?.customer?.email || null,
+        session_id: session?.id || null,
+        session_ticket: session?.ticket_code || null,
+        session_status: session?.status || null,
+        checked_in_at: session?.checked_in_at || null,
+        parked_at: session?.parked_at || null,
+        // In-charge valet information
+        incharge_valet_name: session?.valet?.name || "Unassigned",
+        incharge_valet_phone: session?.valet?.phone || null,
+        incharge_valet_role: session?.valet?.role || null,
+        valet: session?.valet?.name || null
       };
     });
 

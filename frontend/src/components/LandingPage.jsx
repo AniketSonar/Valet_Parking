@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Car,
@@ -23,7 +23,6 @@ import {
   ArrowRight,
   TrendingUp,
   KeyRound,
-  Play,
   Zap,
   Check,
   Star,
@@ -37,7 +36,7 @@ const LandingPage = () => {
   // Active step tab in interactive demo simulation
   const [activeStep, setActiveStep] = useState(0);
 
-  // Contact form state
+  // Contact / Demo form state
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -50,7 +49,7 @@ const LandingPage = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Auto-cycle through the 4 steps preview every 4 seconds
+  // Auto-cycle through the 4 steps preview every 4.5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % 4);
@@ -132,7 +131,6 @@ const LandingPage = () => {
             <a href="#how-it-works">How It Works</a>
             <a href="#features">Features</a>
             <a href="#sectors">Sectors</a>
-            <a href="#preview">Live Workflow</a>
             <a href="#contact">Contact</a>
           </div>
 
@@ -149,7 +147,7 @@ const LandingPage = () => {
       </nav>
 
       {/* ========================================================
-          2. HERO SECTION WITH IMAGE & FLOATING LIVE BADGES
+          2. HERO SECTION WITH HERO TEXT + TOP DEMO FORM (PARKSMART STYLE)
       ======================================================== */}
       <section className="landing-hero">
         <div className="landing-hero-backdrop"></div>
@@ -172,13 +170,12 @@ const LandingPage = () => {
             </p>
 
             <div className="landing-hero-buttons">
-              <a href="#contact" className="landing-btn-hero-primary glow-effect">
-                <span>Request a Demo</span>
-                <ChevronRight size={18} />
-              </a>
-              <Link to="/login" className="landing-btn-hero-secondary">
+              <Link to="/login" className="landing-btn-hero-primary glow-effect">
                 <span>Go to Valet Portal</span>
-                <ArrowRight size={16} />
+                <ArrowRight size={18} />
+              </Link>
+              <Link to="/customer-login" className="landing-btn-hero-secondary">
+                <span>Customer Login</span>
               </Link>
             </div>
 
@@ -199,41 +196,179 @@ const LandingPage = () => {
                 <span>Trusted by luxury hotels, malls & corporate parks</span>
               </div>
             </div>
-          </div>
 
-          {/* Hero Visual Showcase */}
-          <div className="landing-hero-showcase">
-            <div className="showcase-card-main">
-              <img
-                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
-                alt="Luxury Car Valet Arrival"
-                className="showcase-img"
-              />
-              <div className="showcase-overlay"></div>
-
-              {/* Floating Live Card: Vehicle Retrieved */}
-              <div className="floating-stat-card card-top-right float-anim-1">
+            {/* Floating Live Badge Preview */}
+            <div className="hero-mini-badge-row">
+              <div className="hero-mini-badge">
                 <div className="stat-icon-circle green">
-                  <CheckCircle2 size={18} />
+                  <CheckCircle2 size={16} />
                 </div>
                 <div>
-                  <small>Vehicle Ready for Pickup</small>
+                  <small>Live Handover</small>
                   <strong>Mercedes C-Class (MH 02 BB 1001)</strong>
                   <span>Porch Bay 02 • Valet: Vikram</span>
                 </div>
               </div>
 
-              {/* Floating Live Card: Speed & QR */}
-              <div className="floating-stat-card card-bottom-left float-anim-2">
+              <div className="hero-mini-badge">
                 <div className="stat-icon-circle purple">
-                  <Zap size={18} />
+                  <Zap size={16} />
                 </div>
                 <div>
-                  <small>Average Wait Time</small>
+                  <small>Avg Wait Time</small>
                   <strong className="time-highlight">3 Min 18 Sec</strong>
-                  <span>94% Faster than paper tickets</span>
+                  <span>94% Faster Retrieval</span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE: THE FILL-OUT FORM RIGHT ON TOP */}
+          <div className="landing-hero-form-container">
+            <div className="contact-form-card hero-form-card" id="demo-form">
+              {formSubmitted ? (
+                <div className="form-success-box">
+                  <div className="success-icon">
+                    <CheckCircle2 size={54} />
+                  </div>
+                  <h3>Demo Request Received!</h3>
+                  <p>
+                    Thank you for reaching out. One of our valet mobility specialists will
+                    connect with you within 24 hours to schedule your personalized live demo.
+                  </p>
+                  <button
+                    className="landing-btn-hero-primary"
+                    onClick={() => {
+                      setFormSubmitted(false);
+                      setFormData({
+                        name: "",
+                        email: "",
+                        phone: "",
+                        company: "",
+                        businessType: "Hotel & Hospitality",
+                        vehiclesPerDay: "100 - 300 vehicles",
+                        message: ""
+                      });
+                    }}
+                  >
+                    Submit Another Query
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleFormSubmit} className="contact-form">
+                  <div className="form-title-row">
+                    <div>
+                      <span className="form-kicker">SCHEDULE A WALKTHROUGH</span>
+                      <h3>Request a Live Demo</h3>
+                      <p>Fill out details below for custom deployment & pricing.</p>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Full Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      placeholder="e.g. Rahul Sharma"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Work Email *</label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="rahul@company.com"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>Phone Number *</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        required
+                        placeholder="+91 98765 43210"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Venue / Organization Name *</label>
+                      <input
+                        type="text"
+                        name="company"
+                        required
+                        placeholder="e.g. Grand Vista Hotel"
+                        value={formData.company}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>Property Type</label>
+                      <select
+                        name="businessType"
+                        value={formData.businessType}
+                        onChange={handleInputChange}
+                      >
+                        <option>Hotel & Hospitality</option>
+                        <option>Restaurant & Nightlife</option>
+                        <option>Mall & Shopping Complex</option>
+                        <option>Hospital & Clinic</option>
+                        <option>Corporate Complex</option>
+                        <option>Event Management</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Average Daily Vehicle Volume</label>
+                    <select
+                      name="vehiclesPerDay"
+                      value={formData.vehiclesPerDay}
+                      onChange={handleInputChange}
+                    >
+                      <option>Under 100 vehicles / day</option>
+                      <option>100 - 300 vehicles / day</option>
+                      <option>300 - 600 vehicles / day</option>
+                      <option>600+ vehicles / day</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Message / Requirements (Optional)</label>
+                    <textarea
+                      name="message"
+                      rows="2"
+                      placeholder="Specific requirements or parking bays..."
+                      value={formData.message}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <button type="submit" className="form-submit-btn glow-effect" disabled={loading}>
+                    {loading ? (
+                      <span>Submitting...</span>
+                    ) : (
+                      <>
+                        <span>Submit Demo Request</span>
+                        <Send size={16} />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
@@ -398,7 +533,7 @@ const LandingPage = () => {
                 <Users size={24} />
               </div>
               <h3>Role-Specific Dashboards</h3>
-              <p>Custom interfaces for Super Admins, Managers, Valets, and Customers.</p>
+              <p>Custom interfaces for Super Admins, Parking Facility Managers, Front Desk Cashiers, and Drivers.</p>
             </div>
           </div>
 
@@ -426,31 +561,31 @@ const LandingPage = () => {
         </div>
 
         <div className="sectors-grid">
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.45)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80')" }}>
             <Hotel className="sector-icon" size={34} />
             <h3>Hotels & Resorts</h3>
             <p>Elevate the prestigious guest arrival and departure standard matching five-star hospitality.</p>
           </div>
 
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.45)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80')" }}>
             <UtensilsCrossed className="sector-icon" size={34} />
             <h3>Fine Dining & Lounges</h3>
             <p>Ensure weekend evening crowds never endure 20-minute porch bottlenecks when arriving or leaving.</p>
           </div>
 
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.45)), url('https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&w=600&q=80')" }}>
             <ShoppingBag className="sector-icon" size={34} />
             <h3>Malls & Retail Plazas</h3>
             <p>Process hundreds of vehicles per hour with high-speed digital tokens and automated bay tracking.</p>
           </div>
 
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.45)), url('https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=600&q=80')" }}>
             <Hospital className="sector-icon" size={34} />
             <h3>Hospitals & Healthcare</h3>
             <p>Provide patients and visiting family members with fast, caring curbside handoffs at entry gates.</p>
           </div>
 
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(11, 7, 19, 0.95), rgba(11, 7, 19, 0.5)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.45)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80')" }}>
             <Building2 className="sector-icon" size={34} />
             <h3>Corporate Hubs & Events</h3>
             <p>Smoothly coordinate executive movements, VIP conferences, and summit delegations without a hitch.</p>
@@ -459,16 +594,16 @@ const LandingPage = () => {
       </section>
 
       {/* ========================================================
-          6. CONTACT & DEMO REQUEST FORM
+          6. CONTACT INFO & PORTAL ACCESS SECTION
       ======================================================== */}
       <section id="contact" className="landing-section landing-bg-alt">
-        <div className="contact-wrapper">
+        <div className="contact-bottom-strip">
           <div className="contact-info">
             <span className="section-eyebrow">PARTNER WITH US</span>
             <h2>Ready to Transform Your Valet Experience?</h2>
             <p>
-              Schedule a live walkthrough of Aura Valet. Our solutions engineers will show
-              you how quickly it deploys onto existing parking spaces with zero expensive hardware lock-ins.
+              Contact our solutions team for custom hardware integrations, FASTag setup,
+              or dedicated valet fleet management.
             </p>
 
             <div className="contact-details">
@@ -496,162 +631,20 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-
-            {/* Quick Login Banner */}
-            <div className="login-quick-banner">
-              <h4>Already an active client or staff member?</h4>
-              <p>Sign in directly to launch your operations dashboard or manage parking bookings.</p>
-              <div className="banner-btns">
-                <button onClick={() => navigate("/login")} className="btn-banner-staff">
-                  Staff Login
-                </button>
-                <button onClick={() => navigate("/customer-login")} className="btn-banner-customer">
-                  Customer Portal
-                </button>
-              </div>
-            </div>
           </div>
 
-          {/* Form Card */}
-          <div className="contact-form-card">
-            {formSubmitted ? (
-              <div className="form-success-box">
-                <div className="success-icon">
-                  <CheckCircle2 size={54} />
-                </div>
-                <h3>Demo Request Received!</h3>
-                <p>
-                  Thank you for reaching out. One of our valet mobility specialists will
-                  connect with you within 24 hours to schedule your personalized live demo.
-                </p>
-                <button
-                  className="landing-btn-hero-primary"
-                  onClick={() => {
-                    setFormSubmitted(false);
-                    setFormData({
-                      name: "",
-                      email: "",
-                      phone: "",
-                      company: "",
-                      businessType: "Hotel & Hospitality",
-                      vehiclesPerDay: "100 - 300 vehicles",
-                      message: ""
-                    });
-                  }}
-                >
-                  Submit Another Query
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleFormSubmit} className="contact-form">
-                <h3>Request a Live Demo</h3>
-                <p>Fill out the details below and we will customize a demo for your site.</p>
-
-                <div className="form-group">
-                  <label>Full Name *</label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    placeholder="e.g. Rahul Sharma"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Work Email *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      placeholder="rahul@company.com"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label>Phone Number *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      required
-                      placeholder="+91 98765 43210"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Venue / Organization Name *</label>
-                    <input
-                      type="text"
-                      name="company"
-                      required
-                      placeholder="e.g. Grand Vista Hotel"
-                      value={formData.company}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label>Property Type</label>
-                    <select
-                      name="businessType"
-                      value={formData.businessType}
-                      onChange={handleInputChange}
-                    >
-                      <option>Hotel & Hospitality</option>
-                      <option>Restaurant & Nightlife</option>
-                      <option>Mall & Shopping Complex</option>
-                      <option>Hospital & Clinic</option>
-                      <option>Corporate Complex</option>
-                      <option>Event Management</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Average Daily Vehicle Volume</label>
-                  <select
-                    name="vehiclesPerDay"
-                    value={formData.vehiclesPerDay}
-                    onChange={handleInputChange}
-                  >
-                    <option>Under 100 vehicles / day</option>
-                    <option>100 - 300 vehicles / day</option>
-                    <option>300 - 600 vehicles / day</option>
-                    <option>600+ vehicles / day</option>
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label>Message / Site Requirements</label>
-                  <textarea
-                    name="message"
-                    rows="3"
-                    placeholder="Tell us about your parking layout or specific operational requirements..."
-                    value={formData.message}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <button type="submit" className="form-submit-btn glow-effect" disabled={loading}>
-                  {loading ? (
-                    <span>Submitting...</span>
-                  ) : (
-                    <>
-                      <span>Submit Request</span>
-                      <Send size={16} />
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
+          {/* Quick Login Card on Bottom */}
+          <div className="login-quick-banner bottom-banner">
+            <h4>Already an active client or staff member?</h4>
+            <p>Sign in directly to launch your operations dashboard or manage parking bookings.</p>
+            <div className="banner-btns">
+              <button onClick={() => navigate("/login")} className="btn-banner-staff">
+                Staff Login
+              </button>
+              <button onClick={() => navigate("/customer-login")} className="btn-banner-customer">
+                Customer Portal
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -674,7 +667,7 @@ const LandingPage = () => {
             <a href="#how-it-works">How It Works</a>
             <a href="#features">Features</a>
             <a href="#sectors">Sectors</a>
-            <a href="#contact">Contact</a>
+            <a href="#demo-form">Schedule Demo</a>
           </div>
 
           <div className="footer-links-group">

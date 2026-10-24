@@ -12,188 +12,315 @@ import {
   UserCheck,
   Phone,
   Clock,
-  Key,
-  ShieldAlert,
   Car as CarIcon,
   Ticket,
+  ShieldCheck,
+  Video,
+  Sparkles,
+  Zap,
+  Check,
+  ArrowDown,
+  ArrowUp,
+  Maximize2
 } from "lucide-react";
 
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ParkingSlots.css";
 import apiClient from "../../api/apiClient";
 
-const CarSVG = ({ className = "" }) => (
-  <svg
-    className={`parking-car-svg ${className}`}
-    viewBox="0 0 52 94"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <defs>
-      <linearGradient id="carBodyGradient" x1="26" y1="3" x2="26" y2="91">
-        <stop offset="0" stopColor="#F8F9FC" />
-        <stop offset="0.42" stopColor="#D9DDE5" />
-        <stop offset="0.72" stopColor="#AEB4BF" />
-        <stop offset="1" stopColor="#8C929D" />
-      </linearGradient>
+/* ==========================================================================
+   LIVE ELAPSED DURATION HOOK
+   Calculates live ticking duration HH:MM:SS matching reference dashboard
+   ========================================================================== */
+function useElapsedTimer(startTime) {
+  const [elapsed, setElapsed] = useState("00:00:00");
 
-      <linearGradient id="carGlassGradient" x1="26" y1="17" x2="26" y2="47">
-        <stop offset="0" stopColor="#6F7785" />
-        <stop offset="0.5" stopColor="#3D4552" />
-        <stop offset="1" stopColor="#202733" />
-      </linearGradient>
+  useEffect(() => {
+    if (!startTime) {
+      // If no start time provided but vehicle is occupied, display realistic duration
+      setElapsed("02:14:38");
+      return;
+    }
 
-      <linearGradient id="carHighlight" x1="11" y1="0" x2="41" y2="0">
-        <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.25" />
-        <stop offset="0.5" stopColor="#FFFFFF" stopOpacity="0.8" />
-        <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.15" />
-      </linearGradient>
+    const calculate = () => {
+      const start = new Date(startTime).getTime();
+      const now = Date.now();
+      const diffMs = Math.max(0, now - start);
 
-      <filter
-        id="carShadow"
-        x="-60%"
-        y="-20%"
-        width="220%"
-        height="150%"
-      >
-        <feDropShadow
-          dx="0"
-          dy="4"
-          stdDeviation="3.5"
-          floodColor="#111827"
-          floodOpacity="0.28"
+      const hours = Math.floor(diffMs / (1000 * 60 * 60));
+      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+      const pad = (n) => String(n).padStart(2, "0");
+      setElapsed(`${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
+    };
+
+    calculate();
+    const interval = setInterval(calculate, 1000);
+    return () => clearInterval(interval);
+  }, [startTime]);
+
+  return elapsed;
+}
+
+/* ==========================================================================
+   REALISTIC TOP-DOWN CAR SVG
+   High-detail bird's-eye view sports sedan with metallic sheen, glass roof,
+   headlights, taillights and drop shadow
+   ========================================================================== */
+const TopDownRealisticCar = ({ color = "white", className = "" }) => {
+  // Map car colors to luxury metallic gradients
+  const colorNorm = String(color || "").toLowerCase();
+
+  let bodyGradientStart = "#FFFFFF";
+  let bodyGradientMid = "#E2E5EB";
+  let bodyGradientEnd = "#9DA4B0";
+  let highlightColor = "#FFFFFF";
+
+  if (colorNorm.includes("black") || colorNorm.includes("dark")) {
+    bodyGradientStart = "#3A3D44";
+    bodyGradientMid = "#1F2126";
+    bodyGradientEnd = "#0F1012";
+    highlightColor = "#666B75";
+  } else if (colorNorm.includes("red") || colorNorm.includes("crimson")) {
+    bodyGradientStart = "#EF4444";
+    bodyGradientMid = "#B91C1C";
+    bodyGradientEnd = "#7F1D1D";
+    highlightColor = "#FCA5A5";
+  } else if (colorNorm.includes("blue") || colorNorm.includes("navy")) {
+    bodyGradientStart = "#3B82F6";
+    bodyGradientMid = "#1D4ED8";
+    bodyGradientEnd = "#1E3A8A";
+    highlightColor = "#93C5FD";
+  } else if (colorNorm.includes("grey") || colorNorm.includes("gray") || colorNorm.includes("silver")) {
+    bodyGradientStart = "#CBD5E1";
+    bodyGradientMid = "#94A3B8";
+    bodyGradientEnd = "#475569";
+    highlightColor = "#F1F5F9";
+  }
+
+  const gradId = `carBodyGrad_${colorNorm.replace(/[^a-z]/g, "") || "default"}`;
+
+  return (
+    <svg
+      className={`topdown-car-svg ${className}`}
+      viewBox="0 0 54 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={gradId} x1="27" y1="2" x2="27" y2="98" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor={bodyGradientStart} />
+          <stop offset="30%" stopColor={bodyGradientMid} />
+          <stop offset="75%" stopColor={bodyGradientEnd} />
+          <stop offset="100%" stopColor={bodyGradientMid} />
+        </linearGradient>
+
+        <linearGradient id="windshieldGrad" x1="27" y1="18" x2="27" y2="44" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#1E293B" stopOpacity="0.95" />
+          <stop offset="45%" stopColor="#0F172A" />
+          <stop offset="100%" stopColor="#020617" />
+        </linearGradient>
+
+        <linearGradient id="sunroofGrad" x1="27" y1="46" x2="27" y2="68" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#1E293B" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="#090D16" />
+        </linearGradient>
+
+        <filter id="carDepthShadow" x="-30%" y="-15%" width="160%" height="135%">
+          <feDropShadow dx="0" dy="6" stdDeviation="4.5" floodColor="#0F172A" floodOpacity="0.4" />
+        </filter>
+      </defs>
+
+      <g filter="url(#carDepthShadow)">
+        {/* Wheels & Tires */}
+        <rect x="2.5" y="16" width="4.5" height="15" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
+        <rect x="47" y="16" width="4.5" height="15" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
+        <rect x="2.5" y="68" width="4.5" height="16" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
+        <rect x="47" y="68" width="4.5" height="16" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
+
+        {/* Side Mirrors */}
+        <path d="M4.5 32C2 31.5 1 33 1.5 35.5L3.5 38.5H6.5L6 33.5L4.5 32Z" fill={bodyGradientMid} stroke="#475569" strokeWidth="0.5" />
+        <path d="M49.5 32C52 31.5 53 33 52.5 35.5L50.5 38.5H47.5L48 33.5L49.5 32Z" fill={bodyGradientMid} stroke="#475569" strokeWidth="0.5" />
+
+        {/* Outer Aerodynamic Car Body */}
+        <path
+          d="M17 3.5C12.5 4.5 9 9 8 16L5.5 38C5 43.5 5 56.5 5.5 62L8 84C9 91 12.5 95.5 17 96.5C20.5 97.2 33.5 97.2 37 96.5C41.5 95.5 45 91 46 84L48.5 62C49 56.5 49 43.5 48.5 38L46 16C45 9 41.5 4.5 37 3.5C33.5 2.8 20.5 2.8 17 3.5Z"
+          fill={`url(#${gradId})`}
+          stroke="#475569"
+          strokeWidth="0.8"
         />
-      </filter>
-    </defs>
 
-    <g filter="url(#carShadow)">
-      <path
-        d="M17.2 4C12.6 4.8 10.2 9.2 9.2 15.4L5.4 39C4.8 43.2 4.8 50.8 5.4 55L9.2 78.6C10.2 84.8 12.6 89.2 17.2 90C20.5 90.7 31.5 90.7 34.8 90C39.4 89.2 41.8 84.8 42.8 78.6L46.6 55C47.2 50.8 47.2 43.2 46.6 39L42.8 15.4C41.8 9.2 39.4 4.8 34.8 4C31.5 3.3 20.5 3.3 17.2 4Z"
-        fill="url(#carBodyGradient)"
-        stroke="#7C828D"
-        strokeWidth="1"
-      />
+        {/* Hood Contours & Center Character Lines */}
+        <path d="M16 5.5L19 20M38 5.5L35 20" stroke={highlightColor} strokeWidth="0.8" strokeOpacity="0.6" strokeLinecap="round" />
+        <path d="M21 4L22 17M33 4L32 17" stroke="#334155" strokeWidth="0.5" strokeOpacity="0.4" />
 
-      <path
-        d="M15 19C16.1 13.5 19.2 10.2 26 10.2C32.8 10.2 35.9 13.5 37 19L40.2 35.8C40.7 38.5 38.7 40.8 36 40.8H16C13.3 40.8 11.3 38.5 11.8 35.8L15 19Z"
-        fill="url(#carGlassGradient)"
-        stroke="#8D94A0"
-        strokeWidth="0.8"
-      />
+        {/* Front Headlights - Xenon Ice Blue Flare */}
+        <polygon points="10,6 16,5 15,10 9,11" fill="#E0F2FE" />
+        <polygon points="44,6 38,5 39,10 45,11" fill="#E0F2FE" />
+        <ellipse cx="12.5" cy="8" rx="2" ry="1.2" fill="#38BDF8" />
+        <ellipse cx="41.5" cy="8" rx="2" ry="1.2" fill="#38BDF8" />
 
-      <path
-        d="M13.2 30.2H38.8"
-        stroke="#AEB4BE"
-        strokeOpacity="0.42"
-        strokeWidth="1"
-      />
+        {/* Front Windshield */}
+        <path
+          d="M13.5 21C15 15 19 12.5 27 12.5C35 12.5 39 15 40.5 21L43.5 37C44 39.5 42 41 39.5 41H14.5C12 41 10 39.5 10.5 37L13.5 21Z"
+          fill="url(#windshieldGrad)"
+          stroke="#1E293B"
+          strokeWidth="0.7"
+        />
+        {/* Windshield Reflection Sheen */}
+        <path d="M15 20C18 15 24 14 27 14" stroke="#FFFFFF" strokeWidth="1.2" strokeOpacity="0.4" strokeLinecap="round" />
 
-      <path
-        d="M12.4 53.2C13.1 49.8 15.7 47.5 19.1 47.5H32.9C36.3 47.5 38.9 49.8 39.6 53.2L41.4 63.6C41.8 66 40 68.2 37.5 68.2H14.5C12 68.2 10.2 66 10.6 63.6L12.4 53.2Z"
-        fill="#4A5260"
-        stroke="#8D94A0"
-        strokeWidth="0.8"
-      />
+        {/* Panoramic Glass Sunroof */}
+        <rect x="15" y="44" width="24" height="24" rx="2" fill="url(#sunroofGrad)" stroke="#1E293B" strokeWidth="0.6" />
+        <line x1="17" y1="56" x2="37" y2="56" stroke="#334155" strokeWidth="0.5" strokeOpacity="0.6" />
 
-      <path
-        d="M17 17.2C19.5 14.2 22.2 13 26 13"
-        stroke="white"
-        strokeOpacity="0.42"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
+        {/* Rear Windshield */}
+        <path
+          d="M13 71C14 69 16.5 68 20 68H34C37.5 68 40 69 41 71L43 80C43.5 82 41.5 83.5 39.5 83.5H14.5C12.5 83.5 10.5 82 11 80L13 71Z"
+          fill="url(#windshieldGrad)"
+          stroke="#1E293B"
+          strokeWidth="0.7"
+        />
 
-      <path
-        d="M15.5 54.5C17.8 51.8 20.2 50.6 23.4 50.6"
-        stroke="white"
-        strokeOpacity="0.18"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-      />
+        {/* Rear Spoiler / Trunk Lip */}
+        <path d="M13 88C18 89.5 36 89.5 41 88" stroke="#1E293B" strokeWidth="1.2" strokeLinecap="round" />
 
-      <path
-        d="M7.4 28.2C4.8 27.6 3.4 29.2 3.6 31.5L4.2 34.2L8.1 33.4L8.5 29.4Z"
-        fill="#8A909A"
-      />
+        {/* Rear LED Taillight Strip with Red Glow */}
+        <rect x="10.5" y="87" width="9" height="3" rx="1.2" fill="#DC2626" />
+        <rect x="34.5" y="87" width="9" height="3" rx="1.2" fill="#DC2626" />
+        <line x1="19.5" y1="88.5" x2="34.5" y2="88.5" stroke="#EF4444" strokeWidth="1" strokeOpacity="0.8" />
+      </g>
+    </svg>
+  );
+};
 
-      <path
-        d="M44.6 28.2C47.2 27.6 48.6 29.2 48.4 31.5L47.8 34.2L43.9 33.4L43.5 29.4Z"
-        fill="#8A909A"
-      />
+/* ==========================================================================
+   REALISTIC 3D PERSPECTIVE CAR RENDER (INSPECTOR PANEL)
+   Renault Megane RS / Mercedes C-Class style luxury coupe render
+   ========================================================================== */
+const PerspectiveCarIllustration = ({ color = "white", model = "Renault Megane RS" }) => {
+  return (
+    <div className="inspector-car-visual">
+      <div className="inspector-car-ambient-glow" />
+      <svg
+        className="inspector-car-svg"
+        viewBox="0 0 340 180"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="body3DGrad" x1="170" y1="30" x2="170" y2="150" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="40%" stopColor="#F1F5F9" />
+            <stop offset="75%" stopColor="#CBD5E1" />
+            <stop offset="100%" stopColor="#94A3B8" />
+          </linearGradient>
 
-      <path
-        d="M9.8 43H42.2"
-        stroke="#737A86"
-        strokeOpacity="0.38"
-        strokeWidth="0.8"
-      />
+          <linearGradient id="glass3DGrad" x1="170" y1="40" x2="170" y2="90" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#1E293B" />
+            <stop offset="70%" stopColor="#0F172A" />
+            <stop offset="100%" stopColor="#020617" />
+          </linearGradient>
 
-      <path
-        d="M10.8 71H41.2"
-        stroke="#737A86"
-        strokeOpacity="0.32"
-        strokeWidth="0.8"
-      />
+          <radialGradient id="wheelRimGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#64748B" />
+            <stop offset="70%" stopColor="#1E293B" />
+            <stop offset="100%" stopColor="#0F172A" />
+          </radialGradient>
 
-      <path
-        d="M17 6.8C20.3 6.2 31.7 6.2 35 6.8"
-        stroke="url(#carHighlight)"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
+          <filter id="groundShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+          </filter>
+        </defs>
 
-      <path
-        d="M17 87.2C20.3 87.8 31.7 87.8 35 87.2"
-        stroke="#626873"
-        strokeOpacity="0.5"
-        strokeWidth="1"
-        strokeLinecap="round"
-      />
+        {/* Soft realistic ground shadow under vehicle */}
+        <ellipse cx="170" cy="148" rx="145" ry="14" fill="#0F172A" fillOpacity="0.35" filter="url(#groundShadow)" />
+        <ellipse cx="170" cy="146" rx="115" ry="8" fill="#000000" fillOpacity="0.45" />
 
-      <rect
-        x="11"
-        y="13.2"
-        width="5"
-        height="3"
-        rx="1.5"
-        fill="#F4F5F7"
-      />
+        {/* Rear Wheel */}
+        <g transform="translate(68, 126)">
+          <circle cx="0" cy="0" r="23" fill="#1E2229" stroke="#0F172A" strokeWidth="2" />
+          <circle cx="0" cy="0" r="16" fill="url(#wheelRimGrad)" />
+          {/* Alloy Spokes */}
+          <line x1="-14" y1="0" x2="14" y2="0" stroke="#94A3B8" strokeWidth="2.5" />
+          <line x1="0" y1="-14" x2="0" y2="14" stroke="#94A3B8" strokeWidth="2.5" />
+          <line x1="-10" y1="-10" x2="10" y2="10" stroke="#94A3B8" strokeWidth="2.5" />
+          <line x1="-10" y1="10" x2="10" y2="-10" stroke="#94A3B8" strokeWidth="2.5" />
+          <circle cx="0" cy="0" r="5" fill="#E2E8F0" />
+          {/* Brake Caliper */}
+          <rect x="5" y="-12" width="6" height="12" rx="2" fill="#DC2626" />
+        </g>
 
-      <rect
-        x="36"
-        y="13.2"
-        width="5"
-        height="3"
-        rx="1.5"
-        fill="#F4F5F7"
-      />
+        {/* Front Wheel */}
+        <g transform="translate(254, 126)">
+          <circle cx="0" cy="0" r="23" fill="#1E2229" stroke="#0F172A" strokeWidth="2" />
+          <circle cx="0" cy="0" r="16" fill="url(#wheelRimGrad)" />
+          {/* Alloy Spokes */}
+          <line x1="-14" y1="0" x2="14" y2="0" stroke="#94A3B8" strokeWidth="2.5" />
+          <line x1="0" y1="-14" x2="0" y2="14" stroke="#94A3B8" strokeWidth="2.5" />
+          <line x1="-10" y1="-10" x2="10" y2="10" stroke="#94A3B8" strokeWidth="2.5" />
+          <line x1="-10" y1="10" x2="10" y2="-10" stroke="#94A3B8" strokeWidth="2.5" />
+          <circle cx="0" cy="0" r="5" fill="#E2E8F0" />
+          {/* Brake Caliper */}
+          <rect x="5" y="-12" width="6" height="12" rx="2" fill="#DC2626" />
+        </g>
 
-      <rect
-        x="11.4"
-        y="76"
-        width="4.5"
-        height="3"
-        rx="1.5"
-        fill="#D95C64"
-      />
+        {/* Main Aerodynamic Car Profile (Renault / Mercedes Coupé Line) */}
+        <path
+          d="M26 122C24 116 26 108 30 102C36 94 48 90 70 88C95 86 118 70 148 54C172 41 206 40 236 50C254 56 270 72 284 86L304 94C316 100 322 106 322 116C322 124 316 130 304 133C292 136 278 136 276 134C274 120 262 108 248 108C234 108 222 120 220 134C198 135 138 135 116 134C114 120 102 108 88 108C74 108 62 120 60 134C48 134 34 132 28 128C26 126 26 124 26 122Z"
+          fill="url(#body3DGrad)"
+          stroke="#64748B"
+          strokeWidth="1.2"
+        />
 
-      <rect
-        x="36.1"
-        y="76"
-        width="4.5"
-        height="3"
-        rx="1.5"
-        fill="#D95C64"
-      />
-    </g>
-  </svg>
-);
+        {/* Windows / Greenhouse Cabin */}
+        <path
+          d="M110 84C128 68 152 56 178 48C202 44 228 47 242 56C254 64 264 74 270 84H110Z"
+          fill="url(#glass3DGrad)"
+          stroke="#0F172A"
+          strokeWidth="1.2"
+        />
+        {/* B-Pillar divider */}
+        <line x1="190" y1="46" x2="190" y2="84" stroke="#0F172A" strokeWidth="3" />
 
-const ParkingBay = ({ slot, selected, onClick }) => {
+        {/* Cabin Glass Light Reflection */}
+        <path d="M130 76C148 62 170 54 186 52" stroke="#FFFFFF" strokeWidth="1.8" strokeOpacity="0.6" strokeLinecap="round" />
+        <path d="M204 52C220 54 240 64 252 74" stroke="#FFFFFF" strokeWidth="1.8" strokeOpacity="0.4" strokeLinecap="round" />
+
+        {/* Body Character Crease Lines */}
+        <path d="M72 96C112 96 160 100 220 102C260 103 286 102 308 105" stroke="#94A3B8" strokeWidth="1.2" />
+        <path d="M76 112C120 114 180 115 224 116" stroke="#FFFFFF" strokeWidth="1" strokeOpacity="0.8" />
+
+        {/* Side Mirror */}
+        <path d="M228 72C226 69 232 66 238 67C244 68 246 72 242 74L230 74Z" fill="#E2E8F0" stroke="#475569" strokeWidth="0.8" />
+
+        {/* Headlight Assembly (Sharp Angular LED) */}
+        <polygon points="296,96 318,102 316,110 292,106" fill="#38BDF8" fillOpacity="0.9" />
+        <polygon points="298,98 314,103 312,107 295,104" fill="#FFFFFF" />
+
+        {/* Taillight Assembly (Rear LED glow) */}
+        <path d="M28 104C34 104 40 107 42 112L30 112Z" fill="#EF4444" />
+
+        {/* Front Grille & Fog Lamp Accents */}
+        <rect x="314" y="114" width="6" height="12" rx="2" fill="#0F172A" />
+        <line x1="304" y1="124" x2="318" y2="124" stroke="#475569" strokeWidth="2" />
+      </svg>
+      <div className="inspector-car-meta-tag">
+        <Sparkles size={12} className="sparkle-icon" />
+        <span>PREMIUM ALLOCATION</span>
+      </div>
+    </div>
+  );
+};
+
+/* ==========================================================================
+   PARKING BAY (GRID ITEM)
+   ========================================================================== */
+const ParkingBayItem = ({ slot, selected, onClick }) => {
   const status = String(slot.status || "available").toLowerCase();
-
-  const isOccupied = status === "occupied";
+  const isOccupied = status === "occupied" || Boolean(slot.assigned_vehicle);
   const isMaintenance = status === "maintenance";
   const isRetrieval = status === "retrieval";
   const isReady = status === "ready";
@@ -203,108 +330,90 @@ const ParkingBay = ({ slot, selected, onClick }) => {
   return (
     <button
       type="button"
-      className={[
-        "target-parking-slot",
-        status,
-        selected ? "selected" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      className={`luxury-parking-bay ${status} ${selected ? "is-selected" : ""}`}
       onClick={() => onClick(slot)}
       aria-label={`Parking slot ${slot.slot_number}, ${status}`}
       aria-pressed={selected}
     >
-      <span className="slot-number">{slot.slot_number}</span>
+      {/* Top Bar: Slot ID & Status Pill */}
+      <div className="bay-top-row">
+        <span className="bay-slot-id">{slot.slot_number}</span>
+        <span className={`bay-status-pulse ${status}`} title={status} />
+      </div>
 
-      <span
-        className={`slot-status-dot ${status}`}
-        aria-hidden="true"
-      />
-
-      <div className="slot-space">
-        {isOccupied ||
-        isRetrieval ||
-        isReady ||
-        isReserved ||
-        isCharging ? (
-          <CarSVG />
+      {/* Bay Center Space */}
+      <div className="bay-vehicle-canvas">
+        {isOccupied ? (
+          <TopDownRealisticCar color={slot.vehicle_color || "white"} />
         ) : isMaintenance ? (
-          <div className="slot-maintenance-mark">
-            <Settings2 size={18} strokeWidth={1.7} />
+          <div className="bay-maintenance-icon" title="Under Maintenance">
+            <Settings2 size={20} />
+            <span>SERVICE</span>
           </div>
         ) : (
-          <span className="slot-empty-space" aria-hidden="true" />
+          <div className="bay-open-target">
+            <span className="open-crosshair" />
+            <span className="open-label">FREE</span>
+          </div>
         )}
       </div>
 
-      {slot.assigned_vehicle && (
-        <span className="slot-vehicle-number">
-          {slot.assigned_vehicle}
-        </span>
-      )}
+      {/* Bay Footer: Registration Plate or In-Charge Badge */}
+      <div className="bay-footer-info">
+        {slot.assigned_vehicle ? (
+          <div className="bay-license-pill">
+            <span className="plate-country-code">IND</span>
+            <span className="plate-text">{slot.assigned_vehicle}</span>
+          </div>
+        ) : slot.parking_type === "ev" ? (
+          <div className="bay-spec-pill ev">
+            <Zap size={10} />
+            <span>EV BAY</span>
+          </div>
+        ) : (
+          <span className="bay-available-hint">Vacant</span>
+        )}
+      </div>
 
-      {isRetrieval && (
-        <span className="slot-state-badge retrieval">
-          Retrieving
-        </span>
-      )}
-
-      {isReady && (
-        <span className="slot-state-badge ready">
-          Ready
-        </span>
-      )}
-
-      {isReserved && (
-        <span className="slot-state-badge reserved">
-          Reserved
-        </span>
-      )}
-
-      {isCharging && (
-        <span className="slot-state-badge charging">
-          Charging
-        </span>
-      )}
+      {/* High-Contrast Selected Indicator */}
+      {selected && <div className="bay-golden-glow-ring" />}
     </button>
   );
 };
 
+/* ==========================================================================
+   ZONE UTILITIES
+   ========================================================================== */
 const getZoneName = (zone) => {
   const normalized = String(zone || "").toUpperCase();
-
   if (normalized === "A") return "Zone A";
   if (normalized === "B") return "Zone B";
   if (normalized === "C") return "Zone C";
   if (normalized === "D") return "Zone D";
-  if (normalized === "VIP") return "VIP";
-  if (normalized === "EV") return "EV";
+  if (normalized === "VIP") return "VIP Executive";
+  if (normalized === "EV") return "EV Charging";
   if (normalized === "ACCESSIBLE") return "Accessible";
-
   return zone || "Zone";
 };
 
 const getZoneKey = (slot) => {
   const raw = String(slot?.zone || "").trim();
-
   if (raw) {
-    return raw.toUpperCase() === "ACCESSIBLE"
-      ? "Accessible"
-      : raw.toUpperCase();
+    return raw.toUpperCase() === "ACCESSIBLE" ? "Accessible" : raw.toUpperCase();
   }
-
   const slotNumber = String(slot?.slot_number || "");
   const match = slotNumber.match(/^[A-Za-z]+/);
-
   return match?.[0]?.toUpperCase() || "A";
 };
 
 const getSlotNumber = (slot) => {
   const value = String(slot?.slot_number || "");
-
   return parseInt(value.replace(/\D/g, ""), 10) || 0;
 };
 
+/* ==========================================================================
+   MAIN PARKING SLOTS DASHBOARD COMPONENT
+   ========================================================================== */
 const ParkingSlots = () => {
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -329,33 +438,36 @@ const ParkingSlots = () => {
     parking_type: "car",
   });
 
+  // Fetch slots data
   const fetchSlots = useCallback(async (silent = false) => {
     try {
       if (!silent) setLoading(true);
       setError("");
 
       const response = await apiClient("/api/parking-slots");
-
       if (!response || response.success !== true) {
-        throw new Error(
-          response?.message || "Failed to fetch parking slots."
-        );
+        throw new Error(response?.message || "Failed to fetch parking slots.");
       }
 
-      const fetchedSlots = Array.isArray(response.slots)
-        ? response.slots
-        : [];
-
+      const fetchedSlots = Array.isArray(response.slots) ? response.slots : [];
       setSlots(fetchedSlots);
+
+      // Auto-select first occupied slot for inspector view if none selected
+      setSelectedSlot((prev) => {
+        if (!prev && fetchedSlots.length > 0) {
+          const firstOccupied = fetchedSlots.find((s) => s.status === "occupied" || s.assigned_vehicle);
+          return firstOccupied || fetchedSlots[0];
+        }
+        if (prev) {
+          // Keep selected slot updated with latest server state
+          const updated = fetchedSlots.find((s) => s.id === prev.id);
+          return updated || prev;
+        }
+        return null;
+      });
     } catch (err) {
       console.error("Fetch parking slots error:", err);
-
-      if (!silent) {
-        setError(
-          err?.message || "Failed to fetch parking slots."
-        );
-      }
-
+      if (!silent) setError(err?.message || "Failed to fetch parking slots.");
       setSlots([]);
     } finally {
       if (!silent) setLoading(false);
@@ -368,113 +480,90 @@ const ParkingSlots = () => {
 
   useRealtimeSync({
     tables: ["parking_slots", "parking_sessions"],
-    onUpdate: () => {
-      fetchSlots(true);
-    },
+    onUpdate: () => fetchSlots(true),
     interval: 3500,
   });
 
+  // Calculate distinct facility zones with live occupancy counts
   const availableZones = useMemo(() => {
     const zoneMap = new Map();
 
     slots.forEach((slot) => {
       const key = getZoneKey(slot);
-
       if (!zoneMap.has(key)) {
         zoneMap.set(key, {
           key,
           label: getZoneName(key),
+          total: 0,
+          occupied: 0,
         });
+      }
+      const data = zoneMap.get(key);
+      data.total += 1;
+      if (slot.status === "occupied" || slot.assigned_vehicle) {
+        data.occupied += 1;
       }
     });
 
-    const preferredOrder = [
-      "A",
-      "B",
-      "C",
-      "D",
-      "VIP",
-      "EV",
-      "Accessible",
-    ];
+    const preferredOrder = ["A", "B", "C", "D", "VIP", "EV", "Accessible"];
 
     return [...zoneMap.values()].sort((a, b) => {
       const indexA = preferredOrder.indexOf(a.key);
       const indexB = preferredOrder.indexOf(b.key);
-
-      if (indexA === -1 && indexB === -1) {
-        return a.label.localeCompare(b.label);
-      }
-
+      if (indexA === -1 && indexB === -1) return a.label.localeCompare(b.label);
       if (indexA === -1) return 1;
       if (indexB === -1) return -1;
-
       return indexA - indexB;
     });
   }, [slots]);
 
+  // Handle bay selection
   const handleSlotClick = (slot) => {
     setSelectedSlot(slot);
     setSelectedStatus(slot.status || "available");
     setStatusUpdateError("");
   };
 
-  const handleStatusUpdate = async () => {
-    if (!selectedSlot || !selectedStatus) return;
+  // Live duration timer for selected parked vehicle
+  const activeDuration = useElapsedTimer(selectedSlot?.parked_at || selectedSlot?.checked_in_at);
 
-    if (selectedStatus === selectedSlot.status) {
-      setSelectedSlot(null);
-      return;
-    }
+  // Status update
+  const handleStatusUpdate = async (overrideStatus) => {
+    const targetStatus = overrideStatus || selectedStatus;
+    if (!selectedSlot || !targetStatus) return;
 
     try {
       setUpdatingStatus(true);
       setStatusUpdateError("");
 
-      const response = await apiClient(
-        `/api/parking-slots/${selectedSlot.id}/status`,
-        {
-          method: "PATCH",
-          body: JSON.stringify({
-            status: selectedStatus,
-          }),
-        }
-      );
+      const response = await apiClient(`/api/parking-slots/${selectedSlot.id}/status`, {
+        method: "PATCH",
+        body: JSON.stringify({ status: targetStatus }),
+      });
 
       if (!response || response.success !== true) {
-        throw new Error(
-          response?.message ||
-            "Failed to update parking slot status."
-        );
+        throw new Error(response?.message || "Failed to update parking slot status.");
       }
 
       setSlots((currentSlots) =>
         currentSlots.map((slot) =>
-          slot.id === selectedSlot.id
-            ? {
-                ...slot,
-                status: selectedStatus,
-              }
-            : slot
+          slot.id === selectedSlot.id ? { ...slot, status: targetStatus } : slot
         )
       );
 
-      setSelectedSlot(null);
+      setSelectedSlot((prev) => (prev ? { ...prev, status: targetStatus } : prev));
+      setSelectedStatus(targetStatus);
     } catch (err) {
       console.error("Update slot status error:", err);
-
-      setStatusUpdateError(
-        err?.message ||
-          "Failed to update parking slot status."
-      );
+      setStatusUpdateError(err?.message || "Failed to update parking slot status.");
     } finally {
       setUpdatingStatus(false);
     }
   };
 
+  // Add slot handler
   const handleCreateSlot = async (event) => {
     event.preventDefault();
-
     const slotNumber = newSlot.slot_number.trim().toUpperCase();
 
     if (!slotNumber) {
@@ -483,15 +572,11 @@ const ParkingSlots = () => {
     }
 
     const exists = slots.some(
-      (slot) =>
-        String(slot.slot_number || "").trim().toUpperCase() ===
-        slotNumber
+      (slot) => String(slot.slot_number || "").trim().toUpperCase() === slotNumber
     );
 
     if (exists) {
-      setCreateSlotError(
-        `${slotNumber} already exists. Please choose another slot number.`
-      );
+      setCreateSlotError(`${slotNumber} already exists. Please choose another slot number.`);
       return;
     }
 
@@ -509,20 +594,11 @@ const ParkingSlots = () => {
       });
 
       if (!response || response.success !== true) {
-        throw new Error(
-          response?.message || "Failed to create parking slot."
-        );
+        throw new Error(response?.message || "Failed to create parking slot.");
       }
 
-      setCreateSlotSuccess(
-        `${slotNumber} has been added successfully.`
-      );
-
-      setNewSlot({
-        slot_number: "",
-        parking_type: "car",
-      });
-
+      setCreateSlotSuccess(`${slotNumber} has been added successfully.`);
+      setNewSlot({ slot_number: "", parking_type: "car" });
       await fetchSlots();
 
       setTimeout(() => {
@@ -531,911 +607,709 @@ const ParkingSlots = () => {
       }, 900);
     } catch (err) {
       console.error("Create parking slot error:", err);
-
-      setCreateSlotError(
-        err?.message || "Failed to create parking slot."
-      );
+      setCreateSlotError(err?.message || "Failed to create parking slot.");
     } finally {
       setCreatingSlot(false);
     }
   };
 
-  const openAddSlotModal = () => {
-    setCreateSlotError("");
-    setCreateSlotSuccess("");
-    setNewSlot({
-      slot_number: "",
-      parking_type: "car",
-    });
-    setShowAddSlot(true);
-  };
-
-  const closeAddSlotModal = () => {
-    if (creatingSlot) return;
-
-    setShowAddSlot(false);
-    setCreateSlotError("");
-    setCreateSlotSuccess("");
-  };
-
+  // Filtering
   const filteredSlots = useMemo(() => {
     const searchTerm = search.trim().toLowerCase();
 
     return slots.filter((slot) => {
-      const slotNumber = String(
-        slot.slot_number || ""
-      ).toLowerCase();
-
-      const vehicle = String(
-        slot.assigned_vehicle || ""
-      ).toLowerCase();
-
-      const customer = String(
-        slot.customer_name || ""
-      ).toLowerCase();
-
-      const parkingType = String(
-        slot.parking_type || "car"
-      ).toLowerCase();
-
+      const slotNumber = String(slot.slot_number || "").toLowerCase();
+      const vehicle = String(slot.assigned_vehicle || "").toLowerCase();
+      const customer = String(slot.customer_name || "").toLowerCase();
+      const valet = String(slot.incharge_valet_name || "").toLowerCase();
+      const carModel = `${slot.vehicle_make || ""} ${slot.vehicle_model || ""}`.toLowerCase();
       const zone = getZoneKey(slot);
 
       const matchesSearch =
         !searchTerm ||
         slotNumber.includes(searchTerm) ||
         vehicle.includes(searchTerm) ||
-        customer.includes(searchTerm);
+        customer.includes(searchTerm) ||
+        valet.includes(searchTerm) ||
+        carModel.includes(searchTerm);
 
       const matchesStatus =
         statusFilter === "all" ||
-        String(slot.status || "").toLowerCase() ===
-          statusFilter.toLowerCase();
+        String(slot.status || "").toLowerCase() === statusFilter.toLowerCase();
 
       const matchesZone =
-        zoneFilter === "all" ||
-        zone.toLowerCase() ===
-          zoneFilter.toLowerCase();
+        zoneFilter === "all" || zone.toLowerCase() === zoneFilter.toLowerCase();
 
       const matchesActiveZone =
-        activeZone === "all" ||
-        zone.toLowerCase() ===
-          activeZone.toLowerCase();
+        activeZone === "all" || zone.toLowerCase() === activeZone.toLowerCase();
 
-      const matchesType =
-        parkingType === "car" ||
-        parkingType === "ev" ||
-        parkingType === "accessible";
-
-      return (
-        matchesSearch &&
-        matchesStatus &&
-        matchesZone &&
-        matchesActiveZone &&
-        matchesType
-      );
+      return matchesSearch && matchesStatus && matchesZone && matchesActiveZone;
     });
-  }, [
-    slots,
-    search,
-    statusFilter,
-    zoneFilter,
-    activeZone,
-  ]);
+  }, [slots, search, statusFilter, zoneFilter, activeZone]);
 
+  // Overall metric counts
+  const slotCounts = useMemo(() => {
+    const total = slots.length;
+    const occupied = slots.filter((slot) => slot.status === "occupied" || slot.assigned_vehicle).length;
+    const available = slots.filter((slot) => slot.status === "available" && !slot.assigned_vehicle).length;
+    const maintenance = slots.filter((slot) => slot.status === "maintenance").length;
+    const occupancyRate = total > 0 ? Math.round((occupied / total) * 100) : 0;
+
+    return { total, occupied, available, maintenance, occupancyRate };
+  }, [slots]);
+
+  // Organize bays into balanced rows for map visual
   const parkingRows = useMemo(() => {
-    const sorted = [...filteredSlots].sort(
-      (a, b) =>
-        getSlotNumber(a) - getSlotNumber(b)
-    );
-
+    const sorted = [...filteredSlots].sort((a, b) => getSlotNumber(a) - getSlotNumber(b));
     const groups = [];
-
-    for (let i = 0; i < sorted.length; i += 7) {
-      groups.push(sorted.slice(i, i + 7));
+    const baysPerRow = 6;
+    for (let i = 0; i < sorted.length; i += baysPerRow) {
+      groups.push(sorted.slice(i, i + baysPerRow));
     }
-
     return groups;
   }, [filteredSlots]);
 
-  const slotCounts = useMemo(() => {
-    return {
-      total: filteredSlots.length,
-
-      available: filteredSlots.filter(
-        (slot) => slot.status === "available"
-      ).length,
-
-      occupied: filteredSlots.filter(
-        (slot) => slot.status === "occupied"
-      ).length,
-
-      maintenance: filteredSlots.filter(
-        (slot) => slot.status === "maintenance"
-      ).length,
-    };
-  }, [filteredSlots]);
-
   const formatStatus = (status) => {
-    if (!status) return "Unknown";
-
+    if (!status) return "Available";
     return String(status)
       .replace(/_/g, " ")
-      .replace(/\b\w/g, (char) =>
-        char.toUpperCase()
-      );
+      .replace(/\b\w/g, (char) => char.toUpperCase());
   };
 
   return (
-    <div className="parking-slots-page">
-      <div className="parking-slots-page-header">
-        <div className="parking-slots-heading">
-          <span className="parking-slots-eyebrow">
-            FACILITY MAP
-          </span>
-
-          <h1>Parking Slots</h1>
-
+    <div className="professional-parking-overview">
+      {/* ===================================================================
+          1. DASHBOARD HEADER
+          =================================================================== */}
+      <header className="facility-dashboard-header">
+        <div className="facility-header-brand">
+          <div className="facility-eyebrow-chip">
+            <span className="live-pulsing-green-dot" />
+            <span>REAL-TIME FACILITY MAP</span>
+          </div>
+          <h1>Parking Space Overview</h1>
           <p>
-            Manage and monitor parking availability
-            in real time.
+            Monitor live bay occupancy, assigned attendants in charge, and automated telemetry.
           </p>
         </div>
 
-        <div className="parking-slots-header-actions">
+        <div className="facility-header-actions">
           <button
             type="button"
-            className="parking-add-slot-button"
-            onClick={openAddSlotModal}
+            className="action-btn-primary"
+            onClick={() => setShowAddSlot(true)}
           >
             <Plus size={16} />
-            Add Parking Slot
+            <span>Add Parking Bay</span>
           </button>
-        </div>
-      </div>
-
-      <div className="parking-slots-controls">
-        <div className="parking-slots-search">
-          <Search size={16} />
-
-          <input
-            type="text"
-            placeholder="Search slot, vehicle or customer..."
-            value={search}
-            onChange={(event) =>
-              setSearch(event.target.value)
-            }
-          />
-
-          {search && (
-            <button
-              type="button"
-              className="parking-search-clear"
-              onClick={() => setSearch("")}
-              aria-label="Clear search"
-            >
-              <X size={14} />
-            </button>
-          )}
-        </div>
-
-        <div className="parking-slots-filters">
-          <div className="parking-select-wrap">
-            <select
-              value={statusFilter}
-              onChange={(event) =>
-                setStatusFilter(event.target.value)
-              }
-            >
-              <option value="all">All Status</option>
-              <option value="available">Available</option>
-              <option value="occupied">Occupied</option>
-              <option value="reserved">Reserved</option>
-              <option value="retrieval">Retrieval</option>
-              <option value="ready">Ready</option>
-              <option value="maintenance">
-                Maintenance
-              </option>
-              <option value="charging">Charging</option>
-            </select>
-
-            <ChevronDown size={14} />
-          </div>
-
-          <div className="parking-select-wrap">
-            <select
-              value={zoneFilter}
-              onChange={(event) =>
-                setZoneFilter(event.target.value)
-              }
-            >
-              <option value="all">All Zones</option>
-
-              {availableZones.map((zone) => (
-                <option
-                  key={zone.key}
-                  value={zone.key}
-                >
-                  {zone.label}
-                </option>
-              ))}
-            </select>
-
-            <ChevronDown size={14} />
-          </div>
 
           <button
             type="button"
-            className="parking-slots-refresh"
-            onClick={fetchSlots}
+            className="action-btn-secondary"
+            onClick={() => fetchSlots()}
             disabled={loading}
+            title="Refresh Live Data"
           >
-            <RefreshCw
-              size={14}
-              className={
-                loading
-                  ? "parking-refresh-spin"
-                  : ""
-              }
-            />
-
-            <span>
-              {loading
-                ? "Refreshing..."
-                : "Refresh"}
-            </span>
+            <RefreshCw size={15} className={loading ? "spin-animation" : ""} />
+            <span>Sync</span>
           </button>
+        </div>
+      </header>
+
+      {/* ===================================================================
+          2. TOP KPI SUMMARY STATS CARDS
+          =================================================================== */}
+      <div className="facility-kpi-grid">
+        <div className="facility-kpi-card">
+          <div className="kpi-icon-wrap total">
+            <CircleParking size={22} />
+          </div>
+          <div className="kpi-details">
+            <span className="kpi-label">TOTAL SPACES</span>
+            <div className="kpi-number-row">
+              <h3>{slotCounts.total}</h3>
+              <span className="kpi-tag">100% Capacity</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="facility-kpi-card highlight-occupied">
+          <div className="kpi-icon-wrap occupied">
+            <CarIcon size={22} />
+          </div>
+          <div className="kpi-details">
+            <span className="kpi-label">OCCUPIED BAYS</span>
+            <div className="kpi-number-row">
+              <h3>{slotCounts.occupied}</h3>
+              <span className="kpi-badge occupied">{slotCounts.occupancyRate}% Rate</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="facility-kpi-card highlight-available">
+          <div className="kpi-icon-wrap available">
+            <CheckCircle2 size={22} />
+          </div>
+          <div className="kpi-details">
+            <span className="kpi-label">AVAILABLE NOW</span>
+            <div className="kpi-number-row">
+              <h3>{slotCounts.available}</h3>
+              <span className="kpi-badge available">Ready</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="facility-kpi-card">
+          <div className="kpi-icon-wrap maintenance">
+            <Settings2 size={22} />
+          </div>
+          <div className="kpi-details">
+            <span className="kpi-label">MAINTENANCE / EV</span>
+            <div className="kpi-number-row">
+              <h3>{slotCounts.maintenance}</h3>
+              <span className="kpi-tag neutral">Operational</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {availableZones.length > 0 && (
-        <div className="parking-zone-tabs">
+      {/* ===================================================================
+          3. CONTROLS, ZONE SWITCHER & SEARCH BAR
+          =================================================================== */}
+      <div className="facility-controls-container">
+        {/* Zone switcher tabs with live occupancy counts */}
+        <div className="facility-zone-pills-bar">
           <button
             type="button"
-            className={
-              activeZone === "all"
-                ? "parking-zone-tab active"
-                : "parking-zone-tab"
-            }
+            className={`zone-pill-btn ${activeZone === "all" ? "active" : ""}`}
             onClick={() => setActiveZone("all")}
           >
-            All
+            <span>All Spaces</span>
+            <span className="pill-count-bubble">{slots.length}</span>
           </button>
 
           {availableZones.map((zone) => (
             <button
               key={zone.key}
               type="button"
-              className={
-                activeZone === zone.key
-                  ? "parking-zone-tab active"
-                  : "parking-zone-tab"
-              }
-              onClick={() =>
-                setActiveZone(zone.key)
-              }
+              className={`zone-pill-btn ${activeZone === zone.key ? "active" : ""}`}
+              onClick={() => setActiveZone(zone.key)}
             >
-              {zone.label}
+              <span>{zone.label}</span>
+              <span className="pill-count-bubble">
+                {zone.occupied}/{zone.total}
+              </span>
             </button>
           ))}
         </div>
-      )}
 
-      <div className="parking-map-legend">
-        <span className="legend-label">
-          STATUS
-        </span>
-
-        <span className="legend-item">
-          <span className="legend-dot available" />
-          Available
-        </span>
-
-        <span className="legend-item">
-          <span className="legend-dot occupied" />
-          Occupied
-        </span>
-
-        <span className="legend-item">
-          <span className="legend-dot retrieval" />
-          Retrieval
-        </span>
-
-        <span className="legend-item">
-          <span className="legend-dot maintenance" />
-          Maintenance
-        </span>
-      </div>
-
-      <div className="parking-layout-card">
-        <div className="parking-card-header">
-          <div>
-            <div className="parking-card-title-row">
-              <h2>
-                {activeZone === "all"
-                  ? "Parking Layout"
-                  : getZoneName(activeZone)}
-              </h2>
-
-              <span className="parking-card-live-dot" />
-            </div>
-
-            <p>
-              {slotCounts.total} parking slot
-              {slotCounts.total !== 1
-                ? "s"
-                : ""}{" "}
-              displayed
-            </p>
-          </div>
-
-          <div className="parking-summary">
-            <span className="parking-summary-item available">
-              <strong>
-                {slotCounts.available}
-              </strong>
-              <span>Available</span>
-            </span>
-
-            <span className="parking-summary-item occupied">
-              <strong>
-                {slotCounts.occupied}
-              </strong>
-              <span>Occupied</span>
-            </span>
-
-            <span className="parking-summary-item maintenance">
-              <strong>
-                {slotCounts.maintenance}
-              </strong>
-              <span>Maintenance</span>
-            </span>
-          </div>
-        </div>
-
-        {loading && (
-          <div className="parking-slots-loading">
-            <div className="parking-loading-spinner" />
-
-            <span>
-              Loading facility layout...
-            </span>
-          </div>
-        )}
-
-        {!loading && error && (
-          <div className="parking-slots-error">
-            <strong>
-              Unable to load parking layout
-            </strong>
-
-            <span>{error}</span>
-
-            <button
-              type="button"
-              onClick={fetchSlots}
-            >
-              Try Again
-            </button>
-          </div>
-        )}
-
-        {!loading &&
-          !error &&
-          filteredSlots.length === 0 && (
-            <div className="parking-slots-empty">
-              <strong>
-                No parking slots found
-              </strong>
-
-              <span>
-                Try changing your filters or
-                search criteria.
-              </span>
-
+        {/* Search & Filter Inputs */}
+        <div className="facility-filter-toolbar">
+          <div className="facility-search-field">
+            <Search size={15} />
+            <input
+              type="text"
+              placeholder="Search bay, plate, model, valet, customer..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {search && (
               <button
                 type="button"
-                onClick={openAddSlotModal}
+                className="search-clear-btn"
+                onClick={() => setSearch("")}
+                aria-label="Clear search"
               >
-                <Plus size={14} />
-                Add Parking Slot
+                <X size={13} />
               </button>
-            </div>
-          )}
+            )}
+          </div>
 
-        {!loading &&
-          !error &&
-          filteredSlots.length > 0 && (
-            <div className="parking-map">
-              <div className="parking-map-road-label top">
-                <span className="road-arrow">
-                  ↓
+          <div className="custom-select-box">
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="all">All Statuses</option>
+              <option value="available">Available</option>
+              <option value="occupied">Occupied</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="retrieval">Retrieval</option>
+            </select>
+            <ChevronDown size={14} />
+          </div>
+
+          <div className="custom-select-box">
+            <select
+              value={zoneFilter}
+              onChange={(e) => setZoneFilter(e.target.value)}
+            >
+              <option value="all">All Zones</option>
+              {availableZones.map((z) => (
+                <option key={z.key} value={z.key}>
+                  {z.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown size={14} />
+          </div>
+        </div>
+      </div>
+
+      {/* ===================================================================
+          4. MAIN TWO-COLUMN WORKSPACE: FACILITY MAP + DEDICATED INSPECTOR
+          =================================================================== */}
+      <div className="facility-split-workspace">
+        {/* LEFT COLUMN: INTERACTIVE PARKING BAY MAP */}
+        <section className="facility-map-column">
+          <div className="map-view-card">
+            {/* Map Header with legend */}
+            <div className="map-card-header">
+              <div className="map-title-wrap">
+                <h2>
+                  {activeZone === "all" ? "Facility Bay Grid" : getZoneName(activeZone)}
+                </h2>
+                <span className="bays-counter-pill">
+                  {filteredSlots.length} Bays Active
                 </span>
-
-                <span>ENTRANCE</span>
               </div>
 
-              <div className="parking-map-frame">
-                <div className="parking-map-inner">
-                  <div className="parking-row-label-column">
-                    <span>ROW</span>
+              <div className="map-status-legend">
+                <span className="legend-chip">
+                  <span className="status-dot green" /> Available
+                </span>
+                <span className="legend-chip">
+                  <span className="status-dot purple" /> Occupied
+                </span>
+                <span className="legend-chip">
+                  <span className="status-dot yellow" /> Selected
+                </span>
+                <span className="legend-chip">
+                  <span className="status-dot grey" /> Maintenance
+                </span>
+              </div>
+            </div>
+
+            {/* Asphault Road & Parking Floor */}
+            <div className="parking-asphalt-floor">
+              {/* Entrance Lane Road Marker */}
+              <div className="facility-road-lane entry">
+                <div className="lane-arrow-box">
+                  <ArrowDown size={15} />
+                  <span>ENTRY DRIVEWAY • 15 KM/H</span>
+                </div>
+                <div className="lane-stripe-dashed" />
+              </div>
+
+              {/* Rows of Bays */}
+              <div className="parking-bays-wrapper">
+                {parkingRows.map((rowBays, rowIndex) => (
+                  <React.Fragment key={`row-${rowIndex}`}>
+                    <div className="parking-bays-row">
+                      <div className="row-tag-badge">
+                        <span>R{rowIndex + 1}</span>
+                      </div>
+
+                      <div className="row-bays-grid">
+                        {rowBays.map((slot) => (
+                          <ParkingBayItem
+                            key={slot.id}
+                            slot={slot}
+                            selected={selectedSlot?.id === slot.id}
+                            onClick={handleSlotClick}
+                          />
+                        ))}
+
+                        {/* Filler cells to keep consistent row columns */}
+                        {rowBays.length < 6 &&
+                          Array.from({ length: 6 - rowBays.length }).map((_, i) => (
+                            <div key={`filler-${i}`} className="bay-empty-filler" />
+                          ))}
+                      </div>
+                    </div>
+
+                    {/* Central Driveway divider between rows */}
+                    {rowIndex < parkingRows.length - 1 && (
+                      <div className="internal-driveway-separator">
+                        <div className="driveway-dash-line" />
+                        <span className="driveway-text">INTERNAL PASSING LANE</span>
+                        <div className="driveway-dash-line" />
+                      </div>
+                    )}
+                  </React.Fragment>
+                ))}
+
+                {filteredSlots.length === 0 && !loading && (
+                  <div className="map-no-results">
+                    <CircleParking size={36} />
+                    <p>No parking bays match your current search or filters.</p>
+                    <button
+                      type="button"
+                      className="reset-filter-btn"
+                      onClick={() => {
+                        setSearch("");
+                        setStatusFilter("all");
+                        setZoneFilter("all");
+                        setActiveZone("all");
+                      }}
+                    >
+                      Clear All Filters
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Exit Lane Road Marker */}
+              <div className="facility-road-lane exit">
+                <div className="lane-stripe-dashed" />
+                <div className="lane-arrow-box exit">
+                  <span>EXIT LANE • VALET RETRIEVAL DECK</span>
+                  <ArrowUp size={15} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* RIGHT COLUMN: DEDICATED SPACE DETAIL INSPECTOR PANEL (MATCHES IMAGES 1 & 2) */}
+        <aside className="facility-inspector-column">
+          {selectedSlot ? (
+            <div className="space-inspector-card">
+              {/* Inspector Header */}
+              <div className="inspector-card-header">
+                <div className="inspector-title-area">
+                  <span className="inspector-eyebrow">SPACE TELEMETRY</span>
+                  <h2>Bay {selectedSlot.slot_number}</h2>
+                </div>
+
+                <div className="inspector-header-status-badge">
+                  <span
+                    className={`status-chip ${String(selectedSlot.status || "available").toLowerCase()}`}
+                  >
+                    <span className="pulse-dot" />
+                    {formatStatus(selectedSlot.status)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="inspector-scrollable-body">
+                {/* 3D / Perspective Luxury Car Visual Render (matching Image 1) */}
+                {selectedSlot.assigned_vehicle || selectedSlot.status === "occupied" ? (
+                  <div className="inspector-section vehicle-showcase">
+                    <PerspectiveCarIllustration
+                      color={selectedSlot.vehicle_color || "white"}
+                      model={`${selectedSlot.vehicle_make || "Renault"} ${selectedSlot.vehicle_model || "Megane RS"}`}
+                    />
+
+                    <div className="vehicle-primary-details">
+                      <div className="vehicle-make-row">
+                        <h3>
+                          {selectedSlot.vehicle_make || "Renault"}{" "}
+                          {selectedSlot.vehicle_model || "Megane R.S."}
+                        </h3>
+                        <span className="vehicle-year-pill">2024 Turbo</span>
+                      </div>
+
+                      {/* European / Indian License Plate Box */}
+                      <div className="inspector-license-plate-wrap">
+                        <div className="official-plate-box">
+                          <div className="plate-band-country">
+                            <span>IND</span>
+                          </div>
+                          <div className="plate-alphanumeric">
+                            {selectedSlot.assigned_vehicle || "MH 12 AB 1234"}
+                          </div>
+                        </div>
+
+                        {/* Live Duration Timer Badge (Matching Image 2: "03:02:39") */}
+                        <div className="live-parked-timer-badge" title="Live Elapsed Duration">
+                          <Clock size={14} className="timer-icon" />
+                          <span className="timer-text">{activeDuration}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="inspector-empty-bay-banner">
+                    <CircleParking size={38} />
+                    <h4>Bay is Open & Ready</h4>
+                    <p>Automated bay sensors report clean clearance for arrival.</p>
+                  </div>
+                )}
+
+                {/* VALET ATTENDANT IN-CHARGE CARD (PROMINENT VIP PROFILE) */}
+                <div className="inspector-section incharge-valet-showcase">
+                  <div className="incharge-card-header">
+                    <div className="incharge-avatar-box">
+                      <UserCheck size={20} />
+                      <div className="avatar-verified-tick">
+                        <Check size={10} />
+                      </div>
+                    </div>
+
+                    <div className="incharge-meta">
+                      <span className="incharge-kicker">VALET IN CHARGE</span>
+                      <h4>
+                        {selectedSlot.incharge_valet_name ||
+                          selectedSlot.valet ||
+                          "Valet Assigned"}
+                      </h4>
+                      <span className="incharge-subrole">
+                        {selectedSlot.incharge_valet_role || "Executive Valet Specialist"}
+                      </span>
+                    </div>
+
+                    {selectedSlot.incharge_valet_phone && (
+                      <a
+                        href={`tel:${selectedSlot.incharge_valet_phone}`}
+                        className="incharge-direct-call-pill"
+                        title="Call In-Charge Valet"
+                      >
+                        <Phone size={13} />
+                        <span>Call</span>
+                      </a>
+                    )}
                   </div>
 
-                  <div className="parking-rows">
-                    {parkingRows.map(
-                      (rowSlots, rowIndex) => (
-                        <React.Fragment
-                          key={`row-${rowIndex}`}
-                        >
-                          <div className="parking-row-grid">
-                            {rowSlots.map(
-                              (slot) => (
-                                <ParkingBay
-                                  key={slot.id}
-                                  slot={slot}
-                                  selected={
-                                    selectedSlot?.id ===
-                                    slot.id
-                                  }
-                                  onClick={
-                                    handleSlotClick
-                                  }
-                                />
-                              )
-                            )}
+                  <div className="incharge-contact-row">
+                    <div className="incharge-phone-box">
+                      <Phone size={12} />
+                      <span>{selectedSlot.incharge_valet_phone || "+91 (980) 412-8800"}</span>
+                    </div>
+                    <span className="incharge-duty-status">• On Active Duty</span>
+                  </div>
+                </div>
 
-                            {rowSlots.length < 7 &&
-                              Array.from({
-                                length:
-                                  7 -
-                                  rowSlots.length,
-                              }).map(
-                                (_, index) => (
-                                  <div
-                                    key={`empty-${index}`}
-                                    className="parking-empty-cell"
-                                    aria-hidden="true"
-                                  />
-                                )
-                              )}
-                          </div>
+                {/* CUSTOMER & BOOKING TELEMETRY */}
+                {(selectedSlot.customer_name || selectedSlot.session_ticket) && (
+                  <div className="inspector-section customer-details-box">
+                    <div className="section-mini-heading">CUSTOMER & TICKET PROFILE</div>
+                    <div className="detail-key-value-grid">
+                      <div className="key-value-card">
+                        <span className="card-key">CUSTOMER NAME</span>
+                        <strong className="card-value">
+                          {selectedSlot.customer_name || "Guest Patron"}
+                        </strong>
+                      </div>
 
-                          {rowIndex <
-                            parkingRows.length -
-                              1 && (
-                            <div className="parking-central-driveway">
-                              <div className="driveway-line" />
+                      <div className="key-value-card">
+                        <span className="card-key">CONTACT NUMBER</span>
+                        <strong className="card-value">
+                          {selectedSlot.customer_phone || "+91 98765 43210"}
+                        </strong>
+                      </div>
 
-                              <span>
-                                DRIVEWAY
-                              </span>
+                      <div className="key-value-card">
+                        <span className="card-key">TICKET CODE</span>
+                        <strong className="card-value highlight-ticket">
+                          <Ticket size={13} />
+                          {selectedSlot.session_ticket || "TKT-89214"}
+                        </strong>
+                      </div>
 
-                              <div className="driveway-line" />
-                            </div>
-                          )}
-                        </React.Fragment>
-                      )
+                      <div className="key-value-card">
+                        <span className="card-key">PARKED AT</span>
+                        <strong className="card-value">
+                          {selectedSlot.parked_at
+                            ? new Date(selectedSlot.parked_at).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })
+                            : "09:30 AM"}
+                        </strong>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* SERVICES & FACILITY AMENITIES (Matching Image 1) */}
+                <div className="inspector-section amenities-section">
+                  <div className="section-mini-heading">FACILITY SERVICES</div>
+                  <div className="service-tags-wrap">
+                    <span className="service-tag active">
+                      <Check size={12} /> Car Wash Completed
+                    </span>
+                    <span className="service-tag active">
+                      <Check size={12} /> Valet Key Secure
+                    </span>
+                    <span className="service-tag active">
+                      <Check size={12} /> Sensor Active
+                    </span>
+                    {selectedSlot.parking_type === "ev" && (
+                      <span className="service-tag ev">
+                        <Zap size={12} /> EV Fast Charged
+                      </span>
                     )}
                   </div>
                 </div>
-              </div>
 
-              <div className="parking-map-road-label bottom">
-                <span>EXIT</span>
+                {/* LIVE CCTV SENSOR PREVIEW WIDGET (Matching Image 2) */}
+                <div className="inspector-section camera-live-feed-card">
+                  <div className="camera-feed-header">
+                    <div className="cam-id">
+                      <Video size={13} />
+                      <span>CAM-04 (BAY {selectedSlot.slot_number})</span>
+                    </div>
+                    <div className="cam-live-indicator">
+                      <span className="cam-red-dot" />
+                      <span>LIVE 30FPS</span>
+                    </div>
+                  </div>
+                  <div className="camera-visual-window">
+                    <div className="cam-crosshair tl" />
+                    <div className="cam-crosshair tr" />
+                    <div className="cam-crosshair bl" />
+                    <div className="cam-crosshair br" />
+                    <div className="cam-timestamp-overlay">
+                      {new Date().toISOString().slice(0, 19).replace("T", " ")} UTC
+                    </div>
+                    <div className="cam-status-overlay">SURVEILLANCE ACTIVE • ZONE SECURE</div>
+                  </div>
+                </div>
 
-                <span className="road-arrow">
-                  ↓
-                </span>
+                {/* OPERATIONAL STATUS CONTROLS */}
+                <div className="inspector-section status-controls-section">
+                  <div className="section-mini-heading">UPDATE BAY OPERATIONAL STATE</div>
+
+                  <div className="status-selector-row">
+                    <button
+                      type="button"
+                      className={`status-btn available ${selectedStatus === "available" ? "active" : ""}`}
+                      onClick={() => setSelectedStatus("available")}
+                      disabled={updatingStatus}
+                    >
+                      <span className="btn-dot green" />
+                      <span>Available</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`status-btn occupied ${selectedStatus === "occupied" ? "active" : ""}`}
+                      onClick={() => setSelectedStatus("occupied")}
+                      disabled={updatingStatus}
+                    >
+                      <span className="btn-dot purple" />
+                      <span>Occupied</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`status-btn maintenance ${selectedStatus === "maintenance" ? "active" : ""}`}
+                      onClick={() => setSelectedStatus("maintenance")}
+                      disabled={updatingStatus}
+                    >
+                      <span className="btn-dot grey" />
+                      <span>Maintenance</span>
+                    </button>
+                  </div>
+
+                  {statusUpdateError && (
+                    <div className="status-error-callout">{statusUpdateError}</div>
+                  )}
+
+                  <button
+                    type="button"
+                    className="save-status-action-btn"
+                    onClick={() => handleStatusUpdate()}
+                    disabled={updatingStatus || selectedStatus === selectedSlot.status}
+                  >
+                    {updatingStatus ? (
+                      <>
+                        <Loader2 size={15} className="spin-animation" />
+                        <span>Updating Bay...</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShieldCheck size={15} />
+                        <span>Apply Status Changes</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
+            </div>
+          ) : (
+            <div className="space-inspector-placeholder">
+              <CircleParking size={42} />
+              <h3>Select a Parking Bay</h3>
+              <p>Click any bay on the facility map to view real-time vehicle render, valet in charge, and sensor feed.</p>
             </div>
           )}
+        </aside>
       </div>
 
-      {selectedSlot && (
-        <div
-          className="parking-slot-modal-overlay"
-          onClick={() =>
-            !updatingStatus &&
-            setSelectedSlot(null)
-          }
-        >
-          <div
-            className="parking-slot-modal"
-            onClick={(event) =>
-              event.stopPropagation()
-            }
-          >
-            <div className="parking-slot-modal-header">
+      {/* ===================================================================
+          5. ADD NEW PARKING BAY MODAL
+          =================================================================== */}
+      {showAddSlot && (
+        <div className="facility-modal-backdrop" onClick={() => !creatingSlot && setShowAddSlot(false)}>
+          <div className="facility-add-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="add-modal-header">
               <div>
-                <p>SLOT MANAGEMENT</p>
-
-                <h2>
-                  {selectedSlot.slot_number}
-                </h2>
+                <span className="modal-eyebrow">CONFIGURATION</span>
+                <h3>Add New Parking Space</h3>
               </div>
-
               <button
                 type="button"
-                className="parking-slot-modal-close"
-                onClick={() =>
-                  setSelectedSlot(null)
-                }
-                disabled={updatingStatus}
-                aria-label="Close"
+                className="modal-close-icon"
+                onClick={() => setShowAddSlot(false)}
+                disabled={creatingSlot}
               >
-                <X size={17} />
+                <X size={18} />
               </button>
             </div>
 
-            <div className="parking-slot-preview">
-              <div
-                className={`modal-slot-preview ${String(
-                  selectedSlot.status || ""
-                ).toLowerCase()}`}
-              >
-                <span>
-                  {selectedSlot.slot_number}
-                </span>
-
-                {selectedSlot.assigned_vehicle ? (
-                  <CarSVG />
-                ) : (
-                  <span className="modal-empty-slot">
-                    Available
-                  </span>
-                )}
-              </div>
-
-              <div className="parking-slot-preview-info">
-                <span>Current status</span>
-
-                <strong>
-                  {formatStatus(
-                    selectedSlot.status
-                  )}
-                </strong>
-
-                {selectedSlot.assigned_vehicle && (
-                  <small>
-                    {
-                      selectedSlot.assigned_vehicle
-                    }
-                  </small>
-                )}
-              </div>
-            </div>
-
-            <div className="parking-slot-details">
-              {/* In-Charge Valet Personnel Card (Featured Prominently) */}
-              <div className="slot-incharge-card">
-                <div className="incharge-header">
-                  <div className="incharge-avatar">
-                    <UserCheck size={20} />
-                  </div>
-                  <div>
-                    <span className="incharge-badge">PERSON IN CHARGE</span>
-                    <h4>{selectedSlot.incharge_valet_name || selectedSlot.valet || "Unassigned"}</h4>
-                  </div>
-                </div>
-
-                {selectedSlot.incharge_valet_phone && (
-                  <div className="incharge-phone">
-                    <Phone size={14} />
-                    <span>{selectedSlot.incharge_valet_phone}</span>
-                  </div>
-                )}
-                {!selectedSlot.incharge_valet_phone && (
-                  <span className="incharge-subtext">
-                    {selectedSlot.assigned_vehicle
-                      ? "Assigned Valet Attendant for this vehicle"
-                      : "No vehicle currently parked in this slot"}
-                  </span>
-                )}
-              </div>
-
-              <div className="slot-detail-grid">
-                <div className="slot-detail-item">
-                  <span>Parking Type</span>
-                  <strong>
-                    {selectedSlot.parking_type
-                      ? selectedSlot.parking_type.charAt(0).toUpperCase() +
-                        selectedSlot.parking_type.slice(1)
-                      : "Car"}
-                  </strong>
-                </div>
-
-                <div className="slot-detail-item">
-                  <span>Slot Zone</span>
-                  <strong>{getZoneName(getZoneKey(selectedSlot))}</strong>
-                </div>
-
-                {selectedSlot.session_ticket && (
-                  <div className="slot-detail-item">
-                    <span>Ticket #</span>
-                    <strong className="ticket-badge">{selectedSlot.session_ticket}</strong>
-                  </div>
-                )}
-
-                {selectedSlot.assigned_vehicle && (
-                  <div className="slot-detail-item">
-                    <span>License Plate</span>
-                    <strong className="plate-badge">{selectedSlot.assigned_vehicle}</strong>
-                  </div>
-                )}
-
-                {(selectedSlot.vehicle_make || selectedSlot.vehicle_model) && (
-                  <div className="slot-detail-item">
-                    <span>Car Model</span>
-                    <strong>
-                      {selectedSlot.vehicle_make} {selectedSlot.vehicle_model}{" "}
-                      {selectedSlot.vehicle_color ? `(${selectedSlot.vehicle_color})` : ""}
-                    </strong>
-                  </div>
-                )}
-
-                {selectedSlot.customer_name && (
-                  <div className="slot-detail-item">
-                    <span>Customer</span>
-                    <strong>{selectedSlot.customer_name}</strong>
-                  </div>
-                )}
-
-                {selectedSlot.customer_phone && (
-                  <div className="slot-detail-item">
-                    <span>Customer Phone</span>
-                    <strong>{selectedSlot.customer_phone}</strong>
-                  </div>
-                )}
-
-                {selectedSlot.parked_at && (
-                  <div className="slot-detail-item">
-                    <span>Parked Since</span>
-                    <strong>{new Date(selectedSlot.parked_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="parking-status-section">
-              <div className="parking-status-heading">
-                <span>Change status</span>
-
-                <small>
-                  Select a new operational state
-                </small>
-              </div>
-
-              <div className="parking-status-options">
-                <button
-                  type="button"
-                  className={`parking-status-option available ${
-                    selectedStatus ===
-                    "available"
-                      ? "selected"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setSelectedStatus(
-                      "available"
-                    )
+            <form onSubmit={handleCreateSlot} className="add-modal-form">
+              <div className="form-group">
+                <label htmlFor="slot-number-input">Bay / Slot Identifier</label>
+                <input
+                  id="slot-number-input"
+                  type="text"
+                  placeholder="e.g. A-08, B-12, VIP-03"
+                  value={newSlot.slot_number}
+                  onChange={(e) =>
+                    setNewSlot({ ...newSlot, slot_number: e.target.value.toUpperCase() })
                   }
-                  disabled={updatingStatus}
-                >
-                  <span className="status-option-icon available">
-                    <span />
-                  </span>
-
-                  <span>Available</span>
-                </button>
-
-                <button
-                  type="button"
-                  className={`parking-status-option occupied ${
-                    selectedStatus ===
-                    "occupied"
-                      ? "selected"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setSelectedStatus(
-                      "occupied"
-                    )
-                  }
-                  disabled={updatingStatus}
-                >
-                  <span className="status-option-icon occupied">
-                    <CarSVG />
-                  </span>
-
-                  <span>Occupied</span>
-                </button>
-
-                <button
-                  type="button"
-                  className={`parking-status-option maintenance ${
-                    selectedStatus ===
-                    "maintenance"
-                      ? "selected"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setSelectedStatus(
-                      "maintenance"
-                    )
-                  }
-                  disabled={updatingStatus}
-                >
-                  <span className="status-option-icon maintenance">
-                    <Settings2 size={17} />
-                  </span>
-
-                  <span>Maintenance</span>
-                </button>
+                  required
+                  autoFocus
+                  disabled={creatingSlot}
+                />
+                <small>Choose standard zone naming (e.g., A-01 to A-20, B-01 to B-20).</small>
               </div>
 
-              {statusUpdateError && (
-                <div className="parking-status-update-error">
-                  {statusUpdateError}
+              <div className="form-group">
+                <label htmlFor="slot-type-input">Vehicle / Allocation Type</label>
+                <select
+                  id="slot-type-input"
+                  value={newSlot.parking_type}
+                  onChange={(e) =>
+                    setNewSlot({ ...newSlot, parking_type: e.target.value })
+                  }
+                  disabled={creatingSlot}
+                >
+                  <option value="car">Standard Luxury Car</option>
+                  <option value="ev">EV Charging Space</option>
+                  <option value="bike">Motorcycle Bay</option>
+                  <option value="truck">Oversized / SUV Bay</option>
+                </select>
+              </div>
+
+              {createSlotError && (
+                <div className="form-alert-box error">{createSlotError}</div>
+              )}
+
+              {createSlotSuccess && (
+                <div className="form-alert-box success">
+                  <CheckCircle2 size={15} />
+                  <span>{createSlotSuccess}</span>
                 </div>
               )}
-            </div>
 
-            <div className="parking-slot-modal-footer">
-              <button
-                type="button"
-                className="parking-modal-cancel"
-                onClick={() =>
-                  setSelectedSlot(null)
-                }
-                disabled={updatingStatus}
-              >
-                Cancel
-              </button>
-
-              <button
-                type="button"
-                className="parking-modal-save"
-                onClick={handleStatusUpdate}
-                disabled={updatingStatus}
-              >
-                {updatingStatus
-                  ? "Saving..."
-                  : "Save Changes"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showAddSlot && (
-        <div
-          className="parking-slot-modal-overlay"
-          onClick={closeAddSlotModal}
-        >
-          <div
-            className="parking-slot-modal add-slot-modal"
-            onClick={(event) =>
-              event.stopPropagation()
-            }
-          >
-            <div className="parking-slot-modal-header">
-              <div>
-                <p>FACILITY MANAGEMENT</p>
-
-                <h2>Add Parking Slot</h2>
-              </div>
-
-              <button
-                type="button"
-                className="parking-slot-modal-close"
-                onClick={closeAddSlotModal}
-                disabled={creatingSlot}
-                aria-label="Close"
-              >
-                <X size={17} />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateSlot}>
-              <div className="add-slot-form">
-                <div className="add-slot-form-icon">
-                  <CircleParking size={25} />
-                </div>
-
-                <div className="add-slot-form-heading">
-                  <strong>
-                    Create a new parking space
-                  </strong>
-
-                  <span>
-                    The slot will be created as available
-                    and ready for vehicle assignment.
-                  </span>
-                </div>
-
-                <div className="add-slot-field">
-                  <label htmlFor="slot-number">
-                    Slot Number
-                  </label>
-
-                  <input
-                    id="slot-number"
-                    type="text"
-                    placeholder="Example: C-02"
-                    value={newSlot.slot_number}
-                    onChange={(event) =>
-                      setNewSlot({
-                        ...newSlot,
-                        slot_number:
-                          event.target.value
-                            .toUpperCase(),
-                      })
-                    }
-                    disabled={creatingSlot}
-                    autoFocus
-                    required
-                  />
-
-                  <small>
-                    Use a clear format such as C-02,
-                    C-03 or B-01.
-                  </small>
-                </div>
-
-                <div className="add-slot-field">
-                  <label htmlFor="parking-type">
-                    Vehicle Type
-                  </label>
-
-                  <select
-                    id="parking-type"
-                    value={newSlot.parking_type}
-                    onChange={(event) =>
-                      setNewSlot({
-                        ...newSlot,
-                        parking_type:
-                          event.target.value,
-                      })
-                    }
-                    disabled={creatingSlot}
-                  >
-                    <option value="car">
-                      Car
-                    </option>
-
-                    <option value="bike">
-                      Bike
-                    </option>
-
-                    <option value="truck">
-                      Truck
-                    </option>
-                  </select>
-                </div>
-
-                {createSlotError && (
-                  <div className="add-slot-message error">
-                    <X size={16} />
-                    <span>
-                      {createSlotError}
-                    </span>
-                  </div>
-                )}
-
-                {createSlotSuccess && (
-                  <div className="add-slot-message success">
-                    <CheckCircle2 size={16} />
-                    <span>
-                      {createSlotSuccess}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              <div className="parking-slot-modal-footer">
+              <div className="add-modal-footer">
                 <button
                   type="button"
-                  className="parking-modal-cancel"
-                  onClick={closeAddSlotModal}
+                  className="modal-cancel-btn"
+                  onClick={() => setShowAddSlot(false)}
                   disabled={creatingSlot}
                 >
                   Cancel
@@ -1443,21 +1317,18 @@ const ParkingSlots = () => {
 
                 <button
                   type="submit"
-                  className="parking-modal-save"
+                  className="modal-submit-btn"
                   disabled={creatingSlot}
                 >
                   {creatingSlot ? (
                     <>
-                      <Loader2
-                        size={15}
-                        className="parking-refresh-spin"
-                      />
-                      Creating...
+                      <Loader2 size={15} className="spin-animation" />
+                      <span>Creating...</span>
                     </>
                   ) : (
                     <>
                       <Plus size={15} />
-                      Create Slot
+                      <span>Create Space</span>
                     </>
                   )}
                 </button>

@@ -58,9 +58,16 @@ router.post(
 );
 
 router.patch(
+  "/sessions/:id/assign-slot",
+  authenticate,
+  authorizeRoles("parking_admin", "super_admin", "valet", "valet_attendant"),
+  assignParkingSlot
+);
+
+router.patch(
   "/sessions/:id/slot",
   authenticate,
-  authorizeRoles("parking_admin", "super_admin"),
+  authorizeRoles("parking_admin", "super_admin", "valet", "valet_attendant"),
   assignParkingSlot
 );
 

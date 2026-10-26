@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Chatbot from "./Chatbot";
@@ -7,6 +6,7 @@ function LoginCard() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [showChatbot, setShowChatbot] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,8 +25,7 @@ function LoginCard() {
     try {
       setLoading(true);
 
-      const apiUrl =
-        import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
       const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
@@ -69,162 +68,164 @@ function LoginCard() {
   };
 
   return (
-    <div className="login-wrapper">
-      {/* Decorative animated orbs */}
-      <div className="lc-orb lc-orb-1" />
-      <div className="lc-orb lc-orb-2" />
-      <div className="lc-orb lc-orb-3" />
+    <div className="vp-login-wrapper">
+      <div className="vp-auth-card">
+        {/* CARD HEADER */}
+        <div className="vp-card-heading">
+          <h2>Welcome Back</h2>
+          <p>Sign in to continue</p>
+        </div>
 
-      <div className="login-top">
-        <button
-          className="help"
-          type="button"
-          onClick={() => setShowChatbot(true)}
-        >
-          <span className="help-icon">?</span>
-          <span>Need help?</span>
-        </button>
-      </div>
+        {/* ERROR DISPLAY */}
+        {error && (
+          <div className="vp-error-banner" role="alert">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M8 5v3.5M8 11v.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+            <span>{error}</span>
+          </div>
+        )}
 
-      <div className="login-card-container">
-        <div className="login-card">
-
-          {/* Brand row inside card */}
-          <div className="lc-brand-row">
-            <div className="lc-brand-icon">
-              <img src="/aura-logo.svg" alt="Aura" className="lc-logo-img" />
-            </div>
-            <div className="lc-brand-text">
-              <span className="lc-brand-name">AURA</span>
-              <span className="lc-brand-sub">STAFF PORTAL</span>
-            </div>
+        {/* LOGIN FORM */}
+        <form onSubmit={handleLogin} autoComplete="off">
+          {/* EMAIL INPUT */}
+          <div className="vp-input-field">
+            <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <rect x="3" y="5" width="18" height="14" rx="3" />
+              <path d="M3 7l9 6 9-6" />
+            </svg>
+            <input
+              id="staff-email"
+              type="text"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="username"
+            />
           </div>
 
-          <div className="login-heading">
-            <h1>Welcome Back</h1>
-            <p>Sign in to access your operations dashboard</p>
-          </div>
-
-          <form onSubmit={handleLogin} autoComplete="off">
-            <div className="input-group">
-              <label htmlFor="email">Email or Phone Number</label>
-              <div className="input-wrapper">
-                <svg className="input-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <path d="M2.5 6.5 L10 11.25 L17.5 6.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  <rect x="2.5" y="4.5" width="15" height="11" rx="2" stroke="currentColor" strokeWidth="1.6" />
-                </svg>
-                <input
-                  id="email"
-                  type="text"
-                  placeholder="Enter your email or phone"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="username"
-                />
-              </div>
-            </div>
-
-            <div className="input-group">
-              <label htmlFor="password">Password</label>
-              <div className="input-wrapper">
-                <svg className="input-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <rect x="4" y="9" width="12" height="8" rx="2" stroke="currentColor" strokeWidth="1.6" />
-                  <path d="M7 9V6.5a3 3 0 0 1 6 0V9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                </svg>
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? (
-                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="M2.5 10s2.5-5 7.5-5 7.5 5 7.5 5-2.5 5-7.5 5-7.5-5-7.5-5Z" stroke="currentColor" strokeWidth="1.6" />
-                      <circle cx="10" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.6" />
-                    </svg>
-                  ) : (
-                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="M3 3l14 14M7.5 7.8A4.2 4.2 0 0 0 10 14.5c2.5 0 4.5-2 4.5-4.5a4.2 4.2 0 0 0-.7-2.3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                      <path d="M5.2 5.5C3.4 6.8 2.2 8.4 1.5 10c0 0 2.5 5 8.5 5 1.6 0 3-.5 4.1-1.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div className="password-options">
-              <label className="remember">
-                <input type="checkbox" />
-                <span>Remember me</span>
-              </label>
-              <a href="#forgot">Forgot Password?</a>
-            </div>
-
-            {error && (
-              <div className="login-error" role="alert">
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{flexShrink:0}}>
-                  <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
-                  <path d="M8 5v3.5M8 11v.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-                {error}
-              </div>
-            )}
-
+          {/* PASSWORD INPUT */}
+          <div className="vp-input-field">
+            <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <rect x="4" y="10" width="16" height="11" rx="3" />
+              <path d="M7 10V7a5 5 0 0 1 10 0v3" />
+            </svg>
+            <input
+              id="staff-password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+            />
             <button
-              type="submit"
-              className="login-button"
-              disabled={loading}
+              type="button"
+              className="vp-pwd-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {loading ? (
-                <>
-                  <span className="lc-spinner" />
-                  Signing in...
-                </>
+              {showPassword ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
               ) : (
-                <>
-                  Sign In
-                  <svg width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <path d="M3.75 9h10.5M9.75 4.5L14.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                  <line x1="1" y1="1" x2="23" y2="23" />
+                </svg>
               )}
             </button>
-          </form>
-
-          <div className="divider">
-            <span></span>
-            <p>or</p>
-            <span></span>
           </div>
 
-          <div className="signup">Are you a customer?</div>
+          {/* REMEMBER ME + FORGOT PASSWORD */}
+          <div className="vp-form-options">
+            <label className="vp-checkbox-label">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              <span className="vp-checkbox-custom">
+                {rememberMe && (
+                  <svg viewBox="0 0 12 10" fill="none">
+                    <path d="M1 5l3.5 3.5L11 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </span>
+              <span className="vp-remember-text">Remember me</span>
+            </label>
 
+            <a href="#forgot" className="vp-forgot-link">
+              Forgot password?
+            </a>
+          </div>
+
+          {/* SIGN IN BUTTON */}
+          <button type="submit" className="vp-signin-btn" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="vp-btn-spinner" />
+                <span>Signing in...</span>
+              </>
+            ) : (
+              <>
+                <span>Sign In</span>
+                <span className="vp-btn-arrow">→</span>
+              </>
+            )}
+          </button>
+        </form>
+
+        {/* OR DIVIDER */}
+        <div className="vp-divider">
+          <span></span>
+          <p>OR</p>
+          <span></span>
+        </div>
+
+        {/* GOOGLE SIGN IN */}
+        <button
+          type="button"
+          className="vp-google-btn"
+          onClick={() => alert("Google Sign-In is configured via Supabase.")}
+        >
+          <svg className="vp-google-icon" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+
+        {/* FOOTER: SIGN UP PROMPT & CUSTOMER PORTAL LINK */}
+        <div className="vp-card-footer">
+          <span>Don't have an account? </span>
           <button
             type="button"
-            className="customer-button"
+            className="vp-signup-link"
+            onClick={() => navigate("/customer-register")}
+          >
+            Sign Up
+          </button>
+        </div>
+
+        {/* CUSTOMER PORTAL SWITCHER */}
+        <div className="vp-portal-switch">
+          <span>Are you a customer? </span>
+          <button
+            type="button"
+            className="vp-switch-btn"
             onClick={() => navigate("/customer-login")}
           >
-            <svg width="16" height="16" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-              <circle cx="8.5" cy="5.5" r="2.5" stroke="currentColor" strokeWidth="1.5"/>
-              <path d="M2.5 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-            <span>Go to Customer Portal</span>
+            Customer Portal →
           </button>
-
         </div>
       </div>
 
-      {showChatbot && (
-        <Chatbot onClose={() => setShowChatbot(false)} />
-      )}
+      {showChatbot && <Chatbot onClose={() => setShowChatbot(false)} />}
     </div>
   );
 }

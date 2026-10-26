@@ -224,6 +224,25 @@
   letter-spacing: 0.01em;
 }
 
+.customer-input-group input:not(.ca-input-wrapper input) {
+  width: 100%;
+  box-sizing: border-box;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  color: #f5f0ff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.customer-input-group input:not(.ca-input-wrapper input):focus {
+  border-color: #c98a2c;
+  box-shadow: 0 0 0 3px rgba(201, 138, 44, 0.2);
+}
+
 /* ---- Input wrapper (icon + input) ---- */
 .ca-input-wrapper {
   display: flex;

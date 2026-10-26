@@ -1876,3 +1876,514 @@ a { text-decoration: none; }
   background: rgba(255,255,255,0.92);
   box-shadow: 0 4px 12px rgba(139,18,48,0.12);
 }
+
+
+
+/* ================================================================
+   VALET PARKING LUXURY LOGIN THEME (EXACT MATCH TO DESIGN SCREENSHOT)
+   ================================================================ */
+
+.app-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(420px, 490px);
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+
+  /* Panoramic Valet background image with soft left white vignette */
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.82) 28%,
+      rgba(255, 255, 255, 0.28) 58%,
+      rgba(255, 255, 255, 0.08) 100%
+    ),
+    url("/valet-hero.png") center center / cover no-repeat;
+}
+
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Left Hero Container */
+.vp-hero-container {
+  padding: 44px 54px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Top Brand Logo */
+.vp-brand-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vp-car-icon {
+  width: 44px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.vp-brand-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.vp-brand-gold {
+  color: #c98a2c;
+}
+
+.vp-brand-dark {
+  color: #171717;
+}
+
+/* Left Hero Typography */
+.vp-hero-body {
+  margin-top: auto;
+  margin-bottom: auto;
+  max-width: 520px;
+  padding: 40px 0;
+}
+
+.hero-main-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(3.2rem, 4.4vw, 4.4rem);
+  font-weight: 700;
+  line-height: 1.08;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.01em;
+}
+
+.title-valet {
+  color: #171717;
+}
+
+.title-parking {
+  color: #c98a2c;
+  font-weight: 700;
+}
+
+.hero-sub-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+  font-weight: 700;
+  color: #262626;
+  margin: 0 0 14px 0;
+  letter-spacing: -0.02em;
+}
+
+.hero-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: #525252;
+  margin: 0;
+  max-width: 340px;
+  font-weight: 500;
+}
+
+/* Right Login Section */
+.login-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 48px 30px 20px;
+  position: relative;
+}
+
+.vp-login-wrapper {
+  width: 100%;
+  max-width: 410px;
+}
+
+/* Floating White Glass Card */
+.vp-auth-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 28px;
+  padding: 36px 32px 28px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.03),
+    0 24px 60px rgba(0, 0, 0, 0.12),
+    0 1px 1px rgba(255, 255, 255, 0.8) inset;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-sizing: border-box;
+}
+
+.vp-card-heading {
+  margin-bottom: 22px;
+}
+
+.vp-card-heading h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #18181b;
+  margin: 0 0 5px;
+  letter-spacing: -0.02em;
+}
+
+.vp-card-heading p {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13.5px;
+  color: #71717a;
+  margin: 0;
+}
+
+/* Error Banner */
+.vp-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Input Fields */
+.vp-input-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+  background: #f4f4f5;
+  border-radius: 12px;
+  padding: 0 14px;
+  margin-bottom: 14px;
+  border: 1.5px solid transparent;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.vp-input-field:focus-within {
+  background: #ffffff;
+  border-color: #ebb965;
+  box-shadow: 0 0 0 3px rgba(235, 185, 101, 0.22);
+}
+
+.vp-field-icon {
+  width: 18px;
+  height: 18px;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.vp-input-field input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #18181b;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.vp-input-field input::placeholder {
+  color: #9ca3af;
+}
+
+.vp-pwd-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  transition: color 0.15s ease;
+}
+
+.vp-pwd-toggle:hover {
+  color: #4b5563;
+}
+
+.vp-pwd-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Form Options: Remember me & Forgot Password */
+.vp-form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0 20px;
+  font-size: 13px;
+}
+
+.vp-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.vp-checkbox-label input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.vp-checkbox-custom {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid #d4d4d8;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.vp-checkbox-label input:checked + .vp-checkbox-custom {
+  border-color: #ebb965;
+  background: #ebb965;
+}
+
+.vp-checkbox-custom svg {
+  width: 10px;
+  height: 10px;
+}
+
+.vp-remember-text {
+  color: #4b5563;
+  font-weight: 500;
+  font-size: 13px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.vp-forgot-link {
+  color: #c98a2c;
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: color 0.15s ease;
+}
+
+.vp-forgot-link:hover {
+  color: #b37722;
+  text-decoration: underline;
+}
+
+/* Amber Sign In Button */
+.vp-signin-btn {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  background: #ebb965;
+  color: #1f1f1f;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(235, 185, 101, 0.35);
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.vp-signin-btn:hover:not(:disabled) {
+  background: #dfad57;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(235, 185, 101, 0.45);
+}
+
+.vp-signin-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.vp-signin-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.vp-btn-arrow {
+  font-size: 17px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.vp-signin-btn:hover .vp-btn-arrow {
+  transform: translateX(3px);
+}
+
+.vp-btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: #1f1f1f;
+  border-radius: 50%;
+  animation: vpSpin 0.6s linear infinite;
+}
+
+@keyframes vpSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* OR Divider */
+.vp-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.vp-divider span {
+  flex: 1;
+  height: 1px;
+  background: #e4e4e7;
+}
+
+.vp-divider p {
+  margin: 0;
+  color: #a1a1aa;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Google Sign In Button */
+.vp-google-btn {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #27272a;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.vp-google-btn:hover {
+  background: #fafafa;
+  border-color: #d4d4d8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.vp-google-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Card Footer */
+.vp-card-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #71717a;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.vp-signup-link {
+  background: transparent;
+  border: none;
+  color: #c98a2c;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 2px;
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.vp-signup-link:hover {
+  color: #b37722;
+  text-decoration: underline;
+}
+
+/* Portal Switcher */
+.vp-portal-switch {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #e4e4e7;
+  text-align: center;
+  font-size: 12px;
+  color: #71717a;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.vp-switch-btn {
+  background: transparent;
+  border: none;
+  color: #c98a2c;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 4px;
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.vp-switch-btn:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.94) 0%,
+        rgba(255, 255, 255, 0.90) 100%
+      ),
+      url("/valet-hero.png") center center / cover no-repeat;
+  }
+
+  .vp-hero-container {
+    min-height: auto;
+    padding: 32px 24px 20px;
+  }
+
+  .vp-hero-body {
+    padding: 24px 0 10px;
+  }
+
+  .login-section {
+    padding: 10px 20px 40px;
+  }
+
+  .vp-auth-card {
+    max-width: 440px;
+  }
+}

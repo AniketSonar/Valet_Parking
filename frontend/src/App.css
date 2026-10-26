@@ -2522,3 +2522,164 @@ a { text-decoration: none; }
     margin: 0;
   }
 }
+
+
+
+/* ================================================================
+   PERFECT BACKGROUND & CARD ALIGNMENT (SINGLE CARD, NO OVERLAP)
+   ================================================================ */
+
+.app-shell {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.25fr) minmax(380px, 490px) !important;
+  min-height: 100vh !important;
+  width: 100% !important;
+  overflow-x: hidden !important;
+
+  /* Clean 16:9 photo without double card or cropped text */
+  background: url("/valet-hero.png") center center / cover no-repeat !important;
+}
+
+.hero-section {
+  position: relative !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.hero-section::before,
+.hero-section::after {
+  display: none !important;
+  content: none !important;
+}
+
+.vp-hero-container {
+  padding: 44px 50px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  min-height: 100vh !important;
+  box-sizing: border-box !important;
+}
+
+.vp-brand-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.vp-car-icon {
+  width: 44px !important;
+  height: 22px !important;
+  flex-shrink: 0 !important;
+}
+
+.vp-brand-title {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 15px !important;
+  letter-spacing: 0.16em !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.vp-brand-gold {
+  color: #c98a2c !important;
+}
+
+.vp-brand-dark {
+  color: #171717 !important;
+}
+
+.vp-hero-body {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+  max-width: 520px !important;
+  padding: 40px 0 !important;
+}
+
+.hero-main-title {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-size: clamp(3rem, 4.2vw, 4.2rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.08 !important;
+  margin: 0 0 12px 0 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.title-valet {
+  color: #171717 !important;
+}
+
+.title-parking {
+  color: #c98a2c !important;
+  font-weight: 700 !important;
+}
+
+.hero-sub-title {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: clamp(1.6rem, 2.2vw, 2.1rem) !important;
+  font-weight: 700 !important;
+  color: #262626 !important;
+  margin: 0 0 14px 0 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.hero-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 1.05rem !important;
+  line-height: 1.55 !important;
+  color: #525252 !important;
+  margin: 0 !important;
+  max-width: 360px !important;
+  font-weight: 500 !important;
+}
+
+.login-section {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px 44px 24px 20px !important;
+  position: relative !important;
+}
+
+.vp-auth-card {
+  width: 100% !important;
+  max-width: 420px !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-radius: 28px !important;
+  padding: 36px 34px 28px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 960px) {
+  .app-shell {
+    grid-template-columns: 1fr !important;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.92) 100%
+      ),
+      url("/valet-hero.png") center center / cover no-repeat !important;
+  }
+
+  .vp-hero-container {
+    min-height: auto !important;
+    padding: 30px 20px 10px !important;
+  }
+
+  .vp-hero-body {
+    padding: 16px 0 !important;
+  }
+
+  .login-section {
+    padding: 10px 20px 36px !important;
+  }
+}

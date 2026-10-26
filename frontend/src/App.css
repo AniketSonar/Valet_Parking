@@ -1573,3 +1573,306 @@ a { text-decoration: none; }
     margin-bottom: 14px;
   }
 }
+
+
+
+/* ================================================================
+   REDESIGNED LOGIN CARD — TRENDY GLASSMORPHISM DARK-ACCENTED THEME
+   ================================================================ */
+
+/* ---- Animated background orbs ---- */
+.lc-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lc-orb-1 {
+  width: 340px;
+  height: 340px;
+  top: -80px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(139,18,48,0.28) 0%, transparent 70%);
+  animation: orbFloat1 9s ease-in-out infinite alternate;
+}
+
+.lc-orb-2 {
+  width: 260px;
+  height: 260px;
+  bottom: 40px;
+  left: -60px;
+  background: radial-gradient(circle, rgba(100,40,140,0.2) 0%, transparent 70%);
+  animation: orbFloat2 11s ease-in-out infinite alternate;
+}
+
+.lc-orb-3 {
+  width: 180px;
+  height: 180px;
+  top: 50%;
+  right: 30px;
+  background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+  animation: orbFloat1 14s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes orbFloat1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(18px, 24px) scale(1.08); }
+}
+
+@keyframes orbFloat2 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-14px, -20px) scale(1.06); }
+}
+
+/* ---- Login wrapper (the right panel) ---- */
+.login-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- Brand row inside the card ---- */
+.lc-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(139,18,48,0.10);
+}
+
+.lc-brand-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8b1230, #6b0e24);
+  box-shadow: 0 8px 18px rgba(139,18,48,0.30);
+  flex-shrink: 0;
+}
+
+.lc-logo-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.lc-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lc-brand-name {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.22rem;
+  color: #171324;
+  line-height: 1;
+}
+
+.lc-brand-sub {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  color: #8b1230;
+  line-height: 1;
+}
+
+/* ---- Card upgrade ---- */
+.login-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(139,18,48,0.13);
+  border-radius: 28px;
+  box-shadow:
+    0 4px 6px rgba(139,18,48,0.04),
+    0 20px 60px rgba(139,18,48,0.12),
+    0 1px 0 rgba(255,255,255,0.9) inset;
+  transition: box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+  box-shadow:
+    0 4px 6px rgba(139,18,48,0.06),
+    0 28px 70px rgba(139,18,48,0.16),
+    0 1px 0 rgba(255,255,255,0.9) inset;
+}
+
+/* ---- Heading upgrade ---- */
+.login-heading h1 {
+  background: linear-gradient(135deg, #171324 0%, #8b1230 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(1.9rem, 2.5vw, 2.6rem);
+  letter-spacing: -0.05em;
+  font-weight: 800;
+}
+
+.login-heading p {
+  color: #766d82;
+  font-size: 0.9rem;
+}
+
+/* ---- Input wrapper upgrade ---- */
+.input-wrapper {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1.5px solid rgba(139,18,48,0.12);
+  border-radius: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.input-wrapper:focus-within {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(139,18,48,0.55);
+  box-shadow:
+    0 0 0 3px rgba(139,18,48,0.10),
+    0 4px 14px rgba(139,18,48,0.08);
+}
+
+.input-icon {
+  color: #8b1230;
+}
+
+/* ---- Login button upgrade ---- */
+.login-button,
+.customer-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.96rem;
+  letter-spacing: 0.01em;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease,
+    background 0.2s ease;
+}
+
+.login-button {
+  background: linear-gradient(135deg, #8b1230 0%, #6b0e24 60%, #5a0a1e 100%);
+  color: white;
+  box-shadow:
+    0 4px 14px rgba(139,18,48,0.30),
+    0 1px 0 rgba(255,255,255,0.12) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.login-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 24px rgba(139,18,48,0.38),
+    0 1px 0 rgba(255,255,255,0.12) inset;
+}
+
+.login-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.customer-button {
+  background: rgba(255,255,255,0.5);
+  border: 1.5px solid rgba(139,18,48,0.15);
+  color: #352c40;
+}
+
+.customer-button:hover {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(139,18,48,0.30);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(139,18,48,0.10);
+}
+
+/* ---- Error box upgrade ---- */
+.login-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(239,68,68,0.07), rgba(239,68,68,0.04));
+  border: 1px solid rgba(239,68,68,0.22);
+  border-radius: 12px;
+  color: #b91c1c;
+  font-size: 0.83rem;
+  font-weight: 600;
+  padding: 11px 14px;
+  margin-bottom: 16px;
+}
+
+/* ---- Spinner for loading state ---- */
+.lc-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: lcSpin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes lcSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Forgot password link ---- */
+.password-options a {
+  color: #8b1230;
+  font-weight: 700;
+  font-size: 0.82rem;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.password-options a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 1px;
+  background: #8b1230;
+  transition: width 0.2s ease;
+}
+
+.password-options a:hover::after {
+  width: 100%;
+}
+
+/* ---- Help button upgrade ---- */
+.help {
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(139,18,48,0.14);
+  backdrop-filter: blur(10px);
+  color: #5a5068;
+  font-weight: 700;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.help:hover {
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 4px 12px rgba(139,18,48,0.12);
+}

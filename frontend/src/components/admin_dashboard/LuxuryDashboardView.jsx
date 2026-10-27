@@ -1,0 +1,520 @@
+import React, { useState, useMemo } from "react";
+import {
+  Car,
+  Clock,
+  LogOut,
+  Star,
+  TrendingUp,
+  BarChart2,
+  Calendar,
+  ChevronDown,
+  CheckCircle2,
+  ArrowUpRight,
+  Shield,
+  KeyRound,
+  Eye,
+} from "lucide-react";
+import "./LuxuryDashboardView.css";
+
+function LuxuryDashboardView({ stats = {}, loading = false }) {
+  const [timeFilter, setTimeFilter] = useState("Today");
+  const [hoveredPoint, setHoveredPoint] = useState(null);
+  const [activeSegment, setActiveSegment] = useState(null);
+
+  // Time trend data points (8 AM to 10 PM) matching Image 2 curve
+  const trendData = useMemo(() => [
+    { time: "8 AM", value: 6, label: "6 vehicles" },
+    { time: "10 AM", value: 12, label: "12 vehicles" },
+    { time: "12 PM", value: 19, label: "19 vehicles" },
+    { time: "2 PM", value: 24, label: "24 vehicles" },
+    { time: "4 PM", value: 31, label: "31 vehicles (Peak)" },
+    { time: "6 PM", value: 23, label: "23 vehicles" },
+    { time: "8 PM", value: 21, label: "21 vehicles" },
+    { time: "10 PM", value: 32, label: "32 vehicles" },
+  ], []);
+
+  // SVG Chart dimensions & path calculation
+  const chartWidth = 620;
+  const chartHeight = 160;
+  const maxY = 40;
+
+  // Convert data points to SVG coordinates
+  const points = useMemo(() => {
+    return trendData.map((d, index) => {
+      const x = 30 + (index / (trendData.length - 1)) * (chartWidth - 60);
+      const y = chartHeight - 25 - (d.value / maxY) * (chartHeight - 45);
+      return { x, y, ...d };
+    });
+  }, [trendData]);
+
+  // Generate smooth cubic bezier SVG curve
+  const pathD = useMemo(() => {
+    if (!points.length) return "";
+    let d = `M ${points[0].x} ${points[0].y}`;
+    for (let i = 0; i < points.length - 1; i++) {
+      const p0 = points[i];
+      const p1 = points[i + 1];
+      const cx = (p0.x + p1.x) / 2;
+      d += ` C ${cx} ${p0.y}, ${cx} ${p1.y}, ${p1.x} ${p1.y}`;
+    }
+    return d;
+  }, [points]);
+
+  // Area path (closed at the bottom for gradient fill)
+  const areaPathD = useMemo(() => {
+    if (!points.length) return "";
+    const lastPoint = points[points.length - 1];
+    return `${pathD} L ${lastPoint.x} ${chartHeight - 15} L ${points[0].x} ${chartHeight - 15} Z`;
+  }, [pathD, points]);
+
+  // Vehicle type distribution matching Image 2
+  const vehicleTypes = [
+    { label: "Sedan", percentage: 48, color: "#6b0e24", count: 60 },
+    { label: "SUV", percentage: 28, color: "#a82042", count: 35 },
+    { label: "Luxury", percentage: 12, color: "#c95b77", count: 15 },
+    { label: "Sports", percentage: 7, color: "#dca270", count: 9 },
+    { label: "Others", percentage: 5, color: "#420815", count: 5 },
+  ];
+
+  // SVG Donut calculation
+  const totalPercentage = 100;
+  const radius = 62;
+  const strokeWidth = 24;
+  const circumference = 2 * Math.PI * radius;
+
+  let cumulativePercent = 0;
+  const donutSegments = vehicleTypes.map((type) => {
+    const strokeDasharray = `${(type.percentage / totalPercentage) * circumference} ${circumference}`;
+    const strokeDashoffset = -((cumulativePercent / totalPercentage) * circumference);
+    cumulativePercent += type.percentage;
+    return { ...type, strokeDasharray, strokeDashoffset };
+  });
+
+  // Recent Activity items matching Image 2
+  const recentActivities = [
+    {
+      time: "10:42 AM",
+      vehicleNo: "MH 12 AB 1234",
+      type: "SUV",
+      action: "Check In",
+      status: "Parked",
+      statusClass: "status-parked",
+    },
+    {
+      time: "10:37 AM",
+      vehicleNo: "KA 05 CD 5678",
+      type: "Sedan",
+      action: "Check In",
+      status: "Parked",
+      statusClass: "status-parked",
+    },
+    {
+      time: "10:25 AM",
+      vehicleNo: "DL 8C EF 9012",
+      type: "Luxury",
+      action: "Check Out",
+      status: "Departed",
+      statusClass: "status-departed",
+    },
+    {
+      time: "10:18 AM",
+      vehicleNo: "MH 14 GH 3456",
+      type: "Sedan",
+      action: "Check In",
+      status: "Parked",
+      statusClass: "status-parked",
+    },
+    {
+      time: "10:05 AM",
+      vehicleNo: "RJ 27 KL 7890",
+      type: "SUV",
+      action: "Check Out",
+      status: "Departed",
+      statusClass: "status-departed",
+    },
+  ];
+
+  return (
+    <div className="lux-dashboard">
+      {/* ========================================================
+          1. WELCOME HERO BANNER (MATCHING IMAGE 1 & 2)
+      ======================================================== */}
+      <section className="lux-welcome-banner">
+        <div className="lux-welcome-text">
+          <span className="lux-welcome-greeting">GOOD MORNING,</span>
+          <h1 className="lux-welcome-title">Welcome Back!</h1>
+          <p className="lux-welcome-sub">
+            Here's what's happening with your valet parking today.
+          </p>
+          <div className="lux-gold-line" />
+        </div>
+
+        <div className="lux-welcome-visual">
+          <img
+            src="/welcome-hero-banner.png"
+            alt="Valet Parking Luxury Service"
+            className="lux-welcome-img"
+          />
+          <div className="lux-welcome-overlay" />
+        </div>
+      </section>
+
+      {/* ========================================================
+          2. TOP 4 KPI STAT CARDS (MATCHING IMAGE 2)
+      ======================================================== */}
+      <section className="lux-stats-grid">
+        {/* Card 1: Total Vehicles Today */}
+        <div className="lux-kpi-card">
+          <div className="lux-kpi-header">
+            <div className="lux-kpi-icon-wrap rose">
+              <Car size={20} className="lux-kpi-icon" />
+            </div>
+            <div className="lux-kpi-badge green">
+              <span className="lux-trend-arrow">↑</span>
+              <span className="lux-trend-num">12%</span>
+            </div>
+          </div>
+          <div className="lux-kpi-body">
+            <div className="lux-kpi-value">
+              {loading ? "--" : stats.totalVehicles || 124}
+            </div>
+            <div className="lux-kpi-footer-row">
+              <span className="lux-kpi-title">Total Vehicles Today</span>
+              <span className="lux-kpi-compare">vs. yesterday</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Active Parked Vehicles */}
+        <div className="lux-kpi-card">
+          <div className="lux-kpi-header">
+            <div className="lux-kpi-icon-wrap rose">
+              <Clock size={20} className="lux-kpi-icon" />
+            </div>
+            <div className="lux-kpi-badge green">
+              <span className="lux-trend-arrow">↑</span>
+              <span className="lux-trend-num">8%</span>
+            </div>
+          </div>
+          <div className="lux-kpi-body">
+            <div className="lux-kpi-value">
+              {loading ? "--" : stats.activeParkingSessions || 38}
+            </div>
+            <div className="lux-kpi-footer-row">
+              <span className="lux-kpi-title">Active Parked Vehicles</span>
+              <span className="lux-kpi-compare">vs. yesterday</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Vehicle Check Outs */}
+        <div className="lux-kpi-card">
+          <div className="lux-kpi-header">
+            <div className="lux-kpi-icon-wrap rose">
+              <LogOut size={20} className="lux-kpi-icon" />
+            </div>
+            <div className="lux-kpi-badge green">
+              <span className="lux-trend-arrow">↑</span>
+              <span className="lux-trend-num">15%</span>
+            </div>
+          </div>
+          <div className="lux-kpi-body">
+            <div className="lux-kpi-value">
+              {loading ? "--" : stats.todayCheckouts || 32}
+            </div>
+            <div className="lux-kpi-footer-row">
+              <span className="lux-kpi-title">Vehicle Check Outs</span>
+              <span className="lux-kpi-compare">vs. yesterday</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Customer Satisfaction */}
+        <div className="lux-kpi-card">
+          <div className="lux-kpi-header">
+            <div className="lux-kpi-icon-wrap rose">
+              <Star size={20} className="lux-kpi-icon" />
+            </div>
+            <div className="lux-kpi-badge green">
+              <span className="lux-trend-arrow">↑</span>
+              <span className="lux-trend-num">2%</span>
+            </div>
+          </div>
+          <div className="lux-kpi-body">
+            <div className="lux-kpi-value">
+              4.8 <span className="lux-kpi-denom">/ 5</span>
+            </div>
+            <div className="lux-kpi-footer-row">
+              <span className="lux-kpi-title">Customer Satisfaction</span>
+              <span className="lux-kpi-compare">vs. last week</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          3. GRAPHICAL ANALYSIS ROW (TREND AREA CHART & DONUT CHART)
+      ======================================================== */}
+      <section className="lux-analytics-row">
+        {/* Left: Vehicle Trend Area Chart */}
+        <div className="lux-card lux-chart-card">
+          <div className="lux-card-topbar">
+            <div className="lux-card-title-group">
+              <BarChart2 size={18} className="lux-card-header-icon" />
+              <h3>Vehicle Trend</h3>
+            </div>
+
+            <div className="lux-dropdown-pill">
+              <Calendar size={14} />
+              <span>{timeFilter}</span>
+              <ChevronDown size={14} />
+            </div>
+          </div>
+
+          <div className="lux-svg-chart-container">
+            <svg
+              viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+              className="lux-area-chart-svg"
+            >
+              <defs>
+                <linearGradient
+                  id="burgundyGradient"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="0%"
+                    stopColor="#8b1230"
+                    stopOpacity="0.32"
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor="#8b1230"
+                    stopOpacity="0.01"
+                  />
+                </linearGradient>
+              </defs>
+
+              {/* Horizontal Grid lines */}
+              {[40, 30, 20, 10, 0].map((val, idx) => {
+                const yPos =
+                  chartHeight - 25 - (val / maxY) * (chartHeight - 45);
+                return (
+                  <g key={val}>
+                    <line
+                      x1="30"
+                      y1={yPos}
+                      x2={chartWidth - 20}
+                      y2={yPos}
+                      className="lux-grid-line"
+                    />
+                    <text
+                      x="18"
+                      y={yPos + 4}
+                      className="lux-axis-label y"
+                    >
+                      {val}
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* Area fill */}
+              <path d={areaPathD} fill="url(#burgundyGradient)" />
+
+              {/* Line curve */}
+              <path
+                d={pathD}
+                fill="none"
+                stroke="#8b1230"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+
+              {/* Data points */}
+              {points.map((pt, idx) => (
+                <g key={idx} className="lux-chart-point-group">
+                  <circle
+                    cx={pt.x}
+                    cy={pt.y}
+                    r="4"
+                    className="lux-chart-dot"
+                    onMouseEnter={() => setHoveredPoint(pt)}
+                    onMouseLeave={() => setHoveredPoint(null)}
+                  />
+                  {/* X-axis label */}
+                  <text
+                    x={pt.x}
+                    y={chartHeight - 2}
+                    textAnchor="middle"
+                    className="lux-axis-label x"
+                  >
+                    {pt.time}
+                  </text>
+                </g>
+              ))}
+            </svg>
+
+            {/* Interactive Tooltip */}
+            {hoveredPoint && (
+              <div
+                className="lux-chart-tooltip"
+                style={{
+                  left: `${(hoveredPoint.x / chartWidth) * 100}%`,
+                  top: `${(hoveredPoint.y / chartHeight) * 100}%`,
+                }}
+              >
+                <strong>{hoveredPoint.time}</strong>
+                <span>{hoveredPoint.label}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right: Vehicle Type Donut Chart */}
+        <div className="lux-card lux-donut-card">
+          <div className="lux-card-topbar">
+            <div className="lux-card-title-group">
+              <Car size={18} className="lux-card-header-icon" />
+              <h3>Vehicle Type</h3>
+            </div>
+          </div>
+
+          <div className="lux-donut-content-row">
+            {/* SVG Donut */}
+            <div className="lux-donut-svg-wrap">
+              <svg viewBox="0 0 170 170" className="lux-donut-svg">
+                <g transform="rotate(-90 85 85)">
+                  {donutSegments.map((seg, idx) => (
+                    <circle
+                      key={idx}
+                      cx="85"
+                      cy="85"
+                      r={radius}
+                      fill="transparent"
+                      stroke={seg.color}
+                      strokeWidth={strokeWidth}
+                      strokeDasharray={seg.strokeDasharray}
+                      strokeDashoffset={seg.strokeDashoffset}
+                      className={`lux-donut-segment ${
+                        activeSegment === seg.label ? "active" : ""
+                      }`}
+                      onMouseEnter={() => setActiveSegment(seg.label)}
+                      onMouseLeave={() => setActiveSegment(null)}
+                    />
+                  ))}
+                </g>
+              </svg>
+
+              {/* Center count in Donut */}
+              <div className="lux-donut-center">
+                <span className="lux-donut-count">124</span>
+                <span className="lux-donut-total">Total</span>
+              </div>
+            </div>
+
+            {/* Legend list */}
+            <div className="lux-donut-legend">
+              {vehicleTypes.map((t, idx) => (
+                <div
+                  key={idx}
+                  className={`lux-legend-item ${
+                    activeSegment === t.label ? "highlighted" : ""
+                  }`}
+                  onMouseEnter={() => setActiveSegment(t.label)}
+                  onMouseLeave={() => setActiveSegment(null)}
+                >
+                  <span
+                    className="lux-legend-dot"
+                    style={{ backgroundColor: t.color }}
+                  />
+                  <span className="lux-legend-name">{t.label}</span>
+                  <span className="lux-legend-percent">
+                    {t.percentage}%
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          4. BOTTOM ROW: RECENT ACTIVITY & PROMO BANNER (IMAGE 2)
+      ======================================================== */}
+      <section className="lux-bottom-row">
+        {/* Left: Recent Activity Table */}
+        <div className="lux-card lux-activity-card">
+          <div className="lux-card-topbar">
+            <div className="lux-card-title-group">
+              <Clock size={18} className="lux-card-header-icon" />
+              <h3>Recent Activity</h3>
+            </div>
+          </div>
+
+          <div className="lux-table-wrapper">
+            <table className="lux-activity-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Vehicle No.</th>
+                  <th>Type</th>
+                  <th>Action</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentActivities.map((row, idx) => (
+                  <tr key={idx}>
+                    <td className="lux-td-time">
+                      <Car size={14} className="lux-car-mini-icon" />
+                      <span>{row.time}</span>
+                    </td>
+                    <td className="lux-td-plate">
+                      <strong>{row.vehicleNo}</strong>
+                    </td>
+                    <td className="lux-td-type">{row.type}</td>
+                    <td className="lux-td-action">{row.action}</td>
+                    <td className="lux-td-status">
+                      <span className={`lux-status-pill ${row.statusClass}`}>
+                        {row.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Right: Premium Valet Services Promo Card (Image 2) */}
+        <div className="lux-card lux-promo-card">
+          <div className="lux-promo-content">
+            <div className="lux-promo-gold-divider" />
+            <h3 className="lux-promo-title">Premium Valet Services</h3>
+            <p className="lux-promo-subtitle">
+              Safe. Secure. Seamless.
+            </p>
+            <span className="lux-promo-desc">
+              Safe, secure and professional valet parking for hotels, malls and luxury venues.
+            </span>
+            <div className="lux-promo-gold-divider bottom" />
+          </div>
+
+          <div className="lux-promo-visual">
+            <img
+              src="/dashboard-promo-banner.png"
+              alt="Premium Valet Luxury Service"
+              className="lux-promo-img"
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export default LuxuryDashboardView;

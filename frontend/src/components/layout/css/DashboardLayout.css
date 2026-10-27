@@ -815,3 +815,350 @@
 .dash-profile-chip:hover {
   border-color: rgba(139, 18, 48, 0.3);
 }
+
+
+
+/* ================================================================
+   IMAGE 1 & IMAGE 2 LUXURY REDESIGN OVERRIDES
+   - Deep crimson silk velvet wave sidebar
+   - Gold V monogram logo (VALET PARKING / PREMIUM SERVICE)
+   - Grand Horizon Hotel & Resort topbar
+   ================================================================ */
+
+.dash-layout {
+  background: #fbf9f6 !important;
+  color: #1c1917 !important;
+}
+
+/* FLUSH LUXURY VELVET SIDEBAR (MATCHING IMAGE 1) */
+.dash-sidebar {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  width: 250px !important;
+  padding: 24px 14px 18px !important;
+  box-sizing: border-box !important;
+
+  /* Deep crimson silk velvet waves texture from Image 1 */
+  background:
+    url('/sidebar-velvet-full.png') center top / cover no-repeat,
+    linear-gradient(180deg, #30020b 0%, #1a0106 100%) !important;
+
+  box-shadow:
+    4px 0 24px rgba(35, 1, 7, 0.45),
+    inset -1px 0 0 rgba(203, 163, 88, 0.25) !important;
+  border: none !important;
+  border-right: 1px solid rgba(203, 163, 88, 0.28) !important;
+  z-index: 100;
+}
+
+.dash-sidebar.is-collapsed {
+  width: 78px !important;
+  padding: 20px 10px !important;
+}
+
+/* BRAND HEADER (IMAGE 1 LOGO) */
+.dash-brand {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 0 18px 0 !important;
+  margin-bottom: 20px !important;
+  border-bottom: 1px solid rgba(203, 163, 88, 0.25) !important;
+  min-height: auto !important;
+}
+
+.dash-brand-full {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.dash-brand-emblem-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.dash-gold-v-svg {
+  filter: drop-shadow(0 2px 8px rgba(223, 183, 108, 0.35));
+}
+
+.dash-brand-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.dash-brand-title-gold {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.18em !important;
+  color: #dfb76c !important;
+  margin: 0 !important;
+  line-height: 1.1 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dash-brand-subtitle-gold {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 8px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.26em !important;
+  color: #cba358 !important;
+  text-transform: uppercase !important;
+}
+
+.dash-brand-gold-line {
+  width: 52px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #dfb76c, transparent);
+  margin-top: 14px;
+}
+
+.dash-brand-collapsed-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(223, 183, 108, 0.12);
+  border: 1px solid rgba(223, 183, 108, 0.3);
+}
+
+/* MENU ITEMS WITH GOLD ICONS & BURGUNDY ACTIVE PILL */
+.dash-menu-item {
+  color: #f7ede6 !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  transition: all 0.2s ease !important;
+  border: 1px solid transparent !important;
+}
+
+.dash-menu-item .dash-item-icon {
+  color: #dfb76c !important;
+}
+
+.dash-menu-item:hover:not(.active) {
+  background: rgba(223, 183, 108, 0.1) !important;
+  color: #ffffff !important;
+  transform: translateX(3px) !important;
+}
+
+.dash-menu-item.active {
+  background: linear-gradient(135deg, rgba(98, 12, 32, 0.9) 0%, rgba(65, 8, 20, 0.95) 100%) !important;
+  border: 1px solid rgba(223, 183, 108, 0.45) !important;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 0 12px rgba(223, 183, 108, 0.15) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.dash-menu-item.active .dash-item-icon {
+  color: #f5d48d !important;
+}
+
+/* EXCLUSIVE PARKING FOOTER BADGE (IMAGE 1) */
+.dash-sidebar-exclusive-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 12px;
+}
+
+.dash-badge-gold-line {
+  width: 44px;
+  height: 1px;
+  background: rgba(223, 183, 108, 0.4);
+  margin: 6px auto;
+}
+
+.dash-badge-text-line1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #dfb76c;
+}
+
+.dash-badge-text-line2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #cba358;
+}
+
+.dash-sidebar-footer {
+  border-top: 1px solid rgba(203, 163, 88, 0.2) !important;
+  padding-top: 12px !important;
+}
+
+.dash-collapse-btn,
+.dash-logout-btn {
+  color: #d8c7c2 !important;
+}
+
+.dash-collapse-btn .dash-item-icon,
+.dash-logout-btn .dash-item-icon {
+  color: #dfb76c !important;
+}
+
+.dash-collapse-btn:hover,
+.dash-logout-btn:hover {
+  background: rgba(223, 183, 108, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* ================================================================
+   TOPBAR: GRAND HORIZON HOTEL & RESORT (IMAGE 1 & 2)
+   ================================================================ */
+
+.dash-topbar.lux-topbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 80 !important;
+  height: 72px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 32px !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(139, 18, 48, 0.08) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+}
+
+.lux-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.lux-topbar-menu-btn {
+  background: transparent;
+  border: none;
+  color: #1c1917;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.lux-topbar-menu-btn:hover {
+  background: #f7f3f1;
+}
+
+.lux-hotel-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lux-hotel-pin-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(139, 18, 48, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lux-hotel-pin {
+  color: #8b1230;
+}
+
+.lux-hotel-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.lux-hotel-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #6b0e24;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.lux-hotel-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  color: #8c827a;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.lux-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.lux-notif-wrap {
+  position: relative;
+}
+
+.lux-profile-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+
+.lux-profile-chip:hover {
+  background: #fbf8f6;
+}
+
+.lux-avatar-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1c1917;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lux-profile-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1c1917;
+}
+
+.lux-profile-arrow {
+  color: #78716c;
+}
+
+.dash-main {
+  padding: 0 28px 28px !important;
+}
+
+.dash-page-content {
+  padding-top: 20px;
+}

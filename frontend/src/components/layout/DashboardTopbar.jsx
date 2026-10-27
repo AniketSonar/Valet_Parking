@@ -1,8 +1,13 @@
 import React, { useMemo } from "react";
-import { Search, ChevronDown } from "lucide-react";
+import {
+  Menu,
+  MapPin,
+  Bell,
+  ChevronDown,
+  User,
+} from "lucide-react";
 
 import NotificationCenter from "../notifications/NotificationCenter";
-
 import "./css/DashboardLayout.css";
 
 const readStoredUser = () => {
@@ -14,58 +19,65 @@ const readStoredUser = () => {
 };
 
 /**
- * Shared topbar for every dashboard.
- * `user` (optional) overrides the logged-in user from localStorage,
- * e.g. the customer portal passes the freshly loaded customer record.
+ * Shared Luxury Topbar matching Image 1 & Image 2:
+ * - Hotel location branding: "Grand Horizon Hotel & Resort"
+ * - "Valet Parking Management" subtitle
+ * - Notification bell with badge & Admin profile pill
  */
-const DashboardTopbar = ({ config, user: userOverride, onProfile }) => {
+const DashboardTopbar = ({ config, user: userOverride, onProfile, onToggleSidebar }) => {
   const stored = useMemo(() => readStoredUser(), []);
   const user = userOverride || stored;
 
   const name =
     user?.name ||
     user?.user_metadata?.name ||
-    config.defaultName ||
-    "User";
-
-  const initials =
-    name
-      .split(" ")
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((part) => part[0])
-      .join("")
-      .toUpperCase() || "U";
+    config?.defaultName ||
+    "Admin";
 
   return (
-    <header className="dash-topbar">
-      <div className="dash-topbar-search">
-        <Search size={17} />
-
-        <input
-          type="text"
-          placeholder={config.searchPlaceholder || "Search..."}
-          aria-label="Search"
-        />
-      </div>
-
-      <div className="dash-topbar-actions">
-        <NotificationCenter />
-
+    <header className="dash-topbar lux-topbar">
+      {/* LEFT: HOTEL BRANDING & LOCATION */}
+      <div className="lux-topbar-left">
         <button
           type="button"
-          className="dash-profile-chip"
-          onClick={onProfile}
-          title="View profile"
+          className="lux-topbar-menu-btn"
+          onClick={onToggleSidebar}
+          aria-label="Toggle navigation"
         >
-          <span className="dash-avatar">{initials}</span>
+          <Menu size={20} />
+        </button>
 
-          <span className="dash-profile-text">
-            <strong>{name}</strong>
-            <small>{config.roleLabel}</small>
-          </span>
+        <div className="lux-hotel-brand">
+          <div className="lux-hotel-pin-wrap">
+            <MapPin size={18} className="lux-hotel-pin" />
+          </div>
 
-          <ChevronDown size={16} />
+          <div className="lux-hotel-text">
+            <h2 className="lux-hotel-name">Grand Horizon Hotel & Resort</h2>
+            <span className="lux-hotel-sub">Valet Parking Management</span>
+          </div>
+        </div>
+      </div>
+
+      {/* RIGHT: NOTIFICATIONS & ADMIN PROFILE CHIP */}
+      <div className="dash-topbar-actions lux-topbar-right">
+        {/* Notification bell with badge */}
+        <div className="lux-notif-wrap">
+          <NotificationCenter />
+        </div>
+
+        {/* Profile Chip (Admin ▾) */}
+        <button
+          type="button"
+          className="lux-profile-chip"
+          onClick={onProfile}
+          title="Account settings"
+        >
+          <div className="lux-avatar-circle">
+            <User size={15} />
+          </div>
+          <span className="lux-profile-name">{name}</span>
+          <ChevronDown size={14} className="lux-profile-arrow" />
         </button>
       </div>
     </header>

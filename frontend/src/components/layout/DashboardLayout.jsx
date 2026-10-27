@@ -7,7 +7,7 @@ import DashboardTopbar from "./DashboardTopbar";
 import "./css/DashboardLayout.css";
 
 /**
- * <DashboardLayout> — the ONE shell used by every dashboard.
+ * <DashboardLayout> — the ONE luxury shell used by every dashboard.
  *
  *   config       role config from dashboardConfigs.js
  *   activeTab    currently selected page id
@@ -36,7 +36,7 @@ const DashboardLayout = ({
       navigate("/", { replace: true });
     });
 
-  const profileId = config.profileId || "profile";
+  const profileId = config?.profileId || "profile";
 
   return (
     <div className="dash-layout">
@@ -54,6 +54,7 @@ const DashboardLayout = ({
           config={config}
           user={user}
           onProfile={() => setActiveTab(profileId)}
+          onToggleSidebar={() => setCollapsed((v) => !v)}
         />
 
         <div className="dash-page-content">{children}</div>

@@ -1,0 +1,642 @@
+/* ================================================================
+   LUXURY DASHBOARD VIEW (MATCHING IMAGE 2 EXACTLY)
+   ================================================================ */
+
+.lux-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 1260px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ================================================================
+   1. WELCOME HERO BANNER (TOP)
+   ================================================================ */
+
+.lux-welcome-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 140px;
+  background: linear-gradient(90deg, #ffffff 0%, #faf8f6 45%, rgba(250, 248, 246, 0.4) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(139, 18, 48, 0.08);
+  box-shadow: 0 4px 20px rgba(139, 18, 48, 0.04);
+  overflow: hidden;
+  padding: 24px 32px;
+}
+
+.lux-welcome-text {
+  position: relative;
+  z-index: 2;
+  max-width: 480px;
+}
+
+.lux-welcome-greeting {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #8c827a;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.lux-welcome-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 2.6vw, 2.7rem);
+  font-weight: 700;
+  color: #1c1917;
+  margin: 0 0 6px 0;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.lux-welcome-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13.5px;
+  color: #78716c;
+  margin: 0 0 10px 0;
+  font-weight: 450;
+}
+
+.lux-gold-line {
+  width: 48px;
+  height: 2.5px;
+  background: linear-gradient(90deg, #cba358, #dfb76c);
+  border-radius: 2px;
+}
+
+.lux-welcome-visual {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 48%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.lux-welcome-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+}
+
+.lux-welcome-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 18%, transparent 55%);
+}
+
+/* ================================================================
+   2. TOP 4 KPI STAT CARDS GRID
+   ================================================================ */
+
+.lux-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.lux-kpi-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid rgba(139, 18, 48, 0.07);
+  box-shadow: 0 4px 18px rgba(139, 18, 48, 0.035), 0 1px 2px rgba(0, 0, 0, 0.02);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lux-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139, 18, 48, 0.08);
+}
+
+.lux-kpi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.lux-kpi-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lux-kpi-icon-wrap.rose {
+  background: rgba(139, 18, 48, 0.07);
+  color: #8b1230;
+}
+
+.lux-kpi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.lux-kpi-badge.green {
+  color: #16a34a;
+}
+
+.lux-trend-arrow {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.lux-kpi-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.lux-kpi-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #1c1917;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.lux-kpi-denom {
+  font-size: 18px;
+  font-weight: 600;
+  color: #a8a29e;
+}
+
+.lux-kpi-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.lux-kpi-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  color: #78716c;
+  font-weight: 500;
+}
+
+.lux-kpi-compare {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  color: #a8a29e;
+  white-space: nowrap;
+}
+
+/* ================================================================
+   3. SHARED LUXURY CARD STYLES
+   ================================================================ */
+
+.lux-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(139, 18, 48, 0.08);
+  box-shadow: 0 4px 20px rgba(139, 18, 48, 0.04);
+  padding: 22px 24px;
+  box-sizing: border-box;
+}
+
+.lux-card-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.lux-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lux-card-header-icon {
+  color: #8b1230;
+}
+
+.lux-card-title-group h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1c1917;
+  margin: 0;
+}
+
+/* Dropdown Pill */
+.lux-dropdown-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #faf8f6;
+  border: 1px solid #ebdcd5;
+  border-radius: 999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #57534e;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lux-dropdown-pill:hover {
+  background: #f5ebe6;
+  border-color: #cba358;
+}
+
+/* ================================================================
+   4. MIDDLE ROW: VEHICLE TREND & VEHICLE TYPE
+   ================================================================ */
+
+.lux-analytics-row {
+  display: grid;
+  grid-template-columns: 1.8fr 1.15fr;
+  gap: 20px;
+}
+
+/* Left: Vehicle Trend Line/Area Chart */
+.lux-chart-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.lux-svg-chart-container {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 180px;
+}
+
+.lux-area-chart-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.lux-grid-line {
+  stroke: #f3eae6;
+  stroke-dasharray: 3 3;
+  stroke-width: 1;
+}
+
+.lux-axis-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  fill: #a8a29e;
+  font-weight: 500;
+}
+
+.lux-chart-dot {
+  fill: #ffffff;
+  stroke: #8b1230;
+  stroke-width: 2.5;
+  cursor: pointer;
+  transition: r 0.15s ease, fill 0.15s ease;
+}
+
+.lux-chart-dot:hover {
+  r: 6;
+  fill: #8b1230;
+}
+
+.lux-chart-tooltip {
+  position: absolute;
+  transform: translate(-50%, -120%);
+  background: #1c1917;
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 10;
+}
+
+.lux-chart-tooltip strong {
+  color: #dfb76c;
+}
+
+/* Right: Vehicle Type Donut Chart */
+.lux-donut-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.lux-donut-content-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex: 1;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.lux-donut-svg-wrap {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+}
+
+.lux-donut-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.lux-donut-segment {
+  transition: stroke-width 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.lux-donut-segment:hover,
+.lux-donut-segment.active {
+  stroke-width: 28;
+  opacity: 0.92;
+}
+
+.lux-donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.lux-donut-count {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #1c1917;
+  line-height: 1;
+}
+
+.lux-donut-total {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  color: #a8a29e;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.lux-donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  max-width: 150px;
+}
+
+.lux-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+}
+
+.lux-legend-item:hover,
+.lux-legend-item.highlighted {
+  opacity: 1;
+  font-weight: 700;
+}
+
+.lux-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lux-legend-name {
+  color: #57534e;
+  flex: 1;
+}
+
+.lux-legend-percent {
+  color: #1c1917;
+  font-weight: 600;
+}
+
+/* ================================================================
+   5. BOTTOM ROW: RECENT ACTIVITY & PROMO CARD
+   ================================================================ */
+
+.lux-bottom-row {
+  display: grid;
+  grid-template-columns: 1.8fr 1.15fr;
+  gap: 20px;
+}
+
+/* Left: Recent Activity Table */
+.lux-activity-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.lux-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.lux-activity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.lux-activity-table th {
+  text-align: left;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #8c827a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 8px 12px 14px 4px;
+  border-bottom: 1px solid #f2e9e6;
+}
+
+.lux-activity-table td {
+  padding: 12px 12px 12px 4px;
+  font-size: 13px;
+  border-bottom: 1px solid #f9f5f3;
+  color: #44403c;
+}
+
+.lux-td-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #78716c;
+  white-space: nowrap;
+}
+
+.lux-car-mini-icon {
+  color: #8b1230;
+}
+
+.lux-td-plate strong {
+  color: #1c1917;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.lux-td-type {
+  color: #57534e;
+}
+
+.lux-td-action {
+  color: #78716c;
+}
+
+.lux-status-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.lux-status-pill.status-parked {
+  background: #eefbf1;
+  color: #15803d;
+}
+
+.lux-status-pill.status-departed {
+  background: #fef3f2;
+  color: #b42318;
+}
+
+/* Right: Premium Valet Services Promo Card (Image 2) */
+.lux-promo-card {
+  position: relative;
+  background: linear-gradient(135deg, #3b040e 0%, #520716 55%, #6a0b1e 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(203, 163, 88, 0.25);
+  box-shadow: 0 10px 30px rgba(59, 4, 14, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 24px 22px;
+}
+
+.lux-promo-content {
+  position: relative;
+  z-index: 2;
+  max-width: 175px;
+}
+
+.lux-promo-gold-divider {
+  width: 36px;
+  height: 1.5px;
+  background: #cba358;
+  margin-bottom: 12px;
+}
+
+.lux-promo-gold-divider.bottom {
+  margin-top: 14px;
+  margin-bottom: 0;
+}
+
+.lux-promo-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.lux-promo-subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  color: #f3d085;
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+
+.lux-promo-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+  display: block;
+}
+
+.lux-promo-visual {
+  position: absolute;
+  right: -5px;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+.lux-promo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ================================================================
+   6. RESPONSIVE ADJUSTMENTS
+   ================================================================ */
+
+@media (max-width: 1100px) {
+  .lux-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lux-analytics-row,
+  .lux-bottom-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .lux-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lux-welcome-banner {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .lux-welcome-visual {
+    position: static;
+    width: 100%;
+    height: 120px;
+    margin-top: 14px;
+  }
+}

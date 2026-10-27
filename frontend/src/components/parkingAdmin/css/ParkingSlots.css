@@ -96,6 +96,7 @@
   font-size: 13px;
   color: var(--parking-muted);
   line-height: 1.5;
+  max-width: 720px;
 }
 
 .facility-header-actions {

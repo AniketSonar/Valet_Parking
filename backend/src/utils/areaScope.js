@@ -46,16 +46,17 @@ const applyFloorScope = (query, scope, column = "floor_id") => {
 
 /** The floor a valet (users row) currently works on, via employees.email. */
 const getValetPost = async (user) => {
-  const { data: employee } = await supabase
+  const { data: employee, error: employeeError } = await supabase
     .from("employees")
     .select("id")
     .eq("email", user.email)
     .eq("role", "valet")
     .maybeSingle();
 
+  if (employeeError) throw employeeError;
   if (!employee) return null;
 
-  const { data } = await supabase
+  const { data, error: assignmentError } = await supabase
     .from("valet_assignments")
     .select(`
       id, floor_id, post_id, assigned_at,
@@ -65,6 +66,8 @@ const getValetPost = async (user) => {
     .eq("valet_id", employee.id)
     .eq("is_active", true)
     .maybeSingle();
+
+  if (assignmentError) throw assignmentError;
 
   return data ? { ...data, employee_id: employee.id } : { employee_id: employee.id };
 };

@@ -12,6 +12,9 @@ import {
   KeyRound,
   CreditCard,
   FileChartColumn,
+  Building2,
+  Map as MapIcon,
+  MapPinned,
 } from "lucide-react";
 
 /**
@@ -30,6 +33,7 @@ export const adminConfig = {
   menu: [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "staff", label: "Staff Management", icon: UserRoundPen },
+    { id: "areas", label: "Areas & Managers", icon: Building2 },
     { id: "reports", label: "Reports & Overview", icon: FileChartColumn },
   ],
 };
@@ -41,9 +45,11 @@ export const parkingAdminConfig = {
   searchPlaceholder: "Search...",
   menu: [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { id: "area-map", label: "Area Map", icon: MapIcon },
     { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },
     { id: "parking-operations", label: "Parking Operations", icon: CarFront },
     { id: "valet-management", label: "Valet Management", icon: Users },
+    { id: "valet-positions", label: "Valet Positions", icon: MapPinned },
     { id: "parking-sessions", label: "Parking Sessions", icon: ClipboardList },
     { id: "incidents", label: "Incident Management", icon: ShieldAlert },
     { id: "feedback", label: "Feedback", icon: MessageSquare },

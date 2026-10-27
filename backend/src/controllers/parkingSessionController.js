@@ -4,6 +4,7 @@ const {
   notifyCustomerInBackground,
   notifySessionEventInBackground
 } = require("../services/whatsappNotifier");
+const { getAreaScope, floorInScope } = require("../utils/areaScope");
 const QRCode = require("qrcode");
 const crypto = require("crypto");
 
@@ -111,6 +112,26 @@ const getParkingSessions = async (req, res) => {
     }
 
     let result = sessions || [];
+
+    // Managers only see sessions parked inside the area assigned to them.
+    if (req.user?.role === "manager") {
+      const scope = await getAreaScope(req.user);
+
+      const { data: slotRows } = await supabase
+        .from("parking_slots")
+        .select("slot_number, floor_id");
+
+      const slotFloor = new Map(
+        (slotRows || []).map((row) => [row.slot_number, row.floor_id])
+      );
+
+      result = result.filter(
+        (session) =>
+          !session.parking_slot ||
+          !slotFloor.has(session.parking_slot) ||
+          floorInScope(scope, slotFloor.get(session.parking_slot))
+      );
+    }
 
     if (search) {
       const searchTerm = search.toLowerCase();
@@ -826,7 +847,7 @@ const assignParkingSlot = async (req, res) => {
     } else {
       const { data: slotRow, error: slotLookupError } = await supabase
         .from("parking_slots")
-        .select("id, slot_number, status")
+        .select("id, slot_number, status, floor_id")
         .eq("slot_number", requestedSlot)
         .maybeSingle();
 
@@ -854,6 +875,20 @@ const assignParkingSlot = async (req, res) => {
       }
 
       legacySlot = slotRow;
+    }
+
+    if (req.user?.role === "manager") {
+      const scope = await getAreaScope(req.user);
+      const targetFloorId = position
+        ? position.parking_systems?.floor_id
+        : legacySlot.floor_id;
+
+      if (!floorInScope(scope, targetFloorId)) {
+        return res.status(403).json({
+          success: false,
+          message: "This slot is outside the area assigned to you."
+        });
+      }
     }
 
     const assignedSlotCode = position
@@ -1140,6 +1175,24 @@ const assignValet = async (req, res) => {
         success: false,
         message: "Valet is inactive."
       });
+    }
+
+    if (req.user?.role === "manager") {
+      const scope = await getAreaScope(req.user);
+
+      const { data: post } = await supabase
+        .from("valet_assignments")
+        .select("floor_id")
+        .eq("valet_id", valet_id)
+        .eq("is_active", true)
+        .maybeSingle();
+
+      if (!post || !floorInScope(scope, post.floor_id)) {
+        return res.status(403).json({
+          success: false,
+          message: "This valet is not posted in your area. Assign them to a post first."
+        });
+      }
     }
 
     const { data: user, error: userError } = await supabase

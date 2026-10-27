@@ -20,6 +20,7 @@ const ParkingSlots = () => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [posting, setPosting] = useState(null);
 
   const loadSlots = async () => {
     try {
@@ -28,6 +29,8 @@ const ParkingSlots = () => {
 
       const response =
         await getValetParkingSlots();
+
+      setPosting(response?.assignment || null);
 
       const data =
         response?.slots ||
@@ -120,6 +123,21 @@ const ParkingSlots = () => {
           />
         </div>
       </div>
+
+      {!loading && !error && (
+        <div className="page-empty" style={{ padding: "12px 16px", marginBottom: 16, textAlign: "left" }}>
+          {posting?.post || posting?.floor ? (
+            <>
+              You are posted at <strong>{posting.post?.post_name || "your area"}</strong>
+              {posting.floor?.floor_name ? <> on {posting.floor.floor_name}</> : null}. You see the slots of
+              that floor only.
+            </>
+          ) : (
+            <>You have not been posted to an area yet. Your manager assigns you a position, and the slots
+            of that area appear here.</>
+          )}
+        </div>
+      )}
 
       {error && (
         <div className="page-error">

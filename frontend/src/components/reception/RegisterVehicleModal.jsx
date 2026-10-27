@@ -198,36 +198,42 @@ const RegisterVehicleModal = ({ onClose, onSuccess, preselectedCustomer = null }
             <div className="modal-field-row">
               <div className="modal-field">
                 <label>Make <span className="required">*</span></label>
-                <input
-                  className="modal-plain-input"
-                  name="make"
-                  value={form.make}
-                  onChange={handleChange}
-                  placeholder="e.g. Toyota"
-                />
+                <div className="modal-input-wrap">
+                  <Car size={15} />
+                  <input
+                    name="make"
+                    value={form.make}
+                    onChange={handleChange}
+                    placeholder="e.g. Toyota"
+                  />
+                </div>
               </div>
               <div className="modal-field">
                 <label>Model <span className="required">*</span></label>
-                <input
-                  className="modal-plain-input"
-                  name="model"
-                  value={form.model}
-                  onChange={handleChange}
-                  placeholder="e.g. Fortuner"
-                />
+                <div className="modal-input-wrap">
+                  <Car size={15} />
+                  <input
+                    name="model"
+                    value={form.model}
+                    onChange={handleChange}
+                    placeholder="e.g. Fortuner"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Color */}
             <div className="modal-field">
               <label>Color <span className="optional">(optional)</span></label>
-              <input
-                className="modal-plain-input"
-                name="color"
-                value={form.color}
-                onChange={handleChange}
-                placeholder="e.g. White"
-              />
+              <div className="modal-input-wrap">
+                <Car size={15} />
+                <input
+                  name="color"
+                  value={form.color}
+                  onChange={handleChange}
+                  placeholder="e.g. White"
+                />
+              </div>
             </div>
 
             <div className="modal-footer">

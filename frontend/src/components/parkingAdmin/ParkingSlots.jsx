@@ -15,7 +15,6 @@ import {
   Car as CarIcon,
   Ticket,
   ShieldCheck,
-  Video,
   Sparkles,
   Zap,
   Check,
@@ -27,6 +26,7 @@ import {
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ParkingSlots.css";
 import apiClient from "../../api/apiClient";
+import { getMyAreas, getFloorMap } from "../../api/areaApi";
 
 /* ==========================================================================
    LIVE ELAPSED DURATION HOOK
@@ -362,7 +362,6 @@ const ParkingBayItem = ({ slot, selected, onClick }) => {
       <div className="bay-footer-info">
         {slot.assigned_vehicle ? (
           <div className="bay-license-pill">
-            <span className="plate-country-code">IND</span>
             <span className="plate-text">{slot.assigned_vehicle}</span>
           </div>
         ) : slot.parking_type === "ev" ? (
@@ -397,7 +396,9 @@ const getZoneName = (zone) => {
 };
 
 const getZoneKey = (slot) => {
-  const raw = String(slot?.zone || "").trim();
+  const raw = typeof slot?.zone === "object"
+    ? slot.zone.zone_code || slot.zone.zone_name
+    : String(slot?.zone || "").trim();
   if (raw) {
     return raw.toUpperCase() === "ACCESSIBLE" ? "Accessible" : raw.toUpperCase();
   }
@@ -406,16 +407,12 @@ const getZoneKey = (slot) => {
   return match?.[0]?.toUpperCase() || "A";
 };
 
-const getSlotNumber = (slot) => {
-  const value = String(slot?.slot_number || "");
-  return parseInt(value.replace(/\D/g, ""), 10) || 0;
-};
-
 /* ==========================================================================
    MAIN PARKING SLOTS DASHBOARD COMPONENT
    ========================================================================== */
 const ParkingSlots = () => {
   const [slots, setSlots] = useState([]);
+  const [areaMap, setAreaMap] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -444,12 +441,35 @@ const ParkingSlots = () => {
       if (!silent) setLoading(true);
       setError("");
 
-      const response = await apiClient("/api/parking-slots");
+      const [response, areas] = await Promise.all([
+        apiClient("/api/parking-slots"),
+        getMyAreas(),
+      ]);
       if (!response || response.success !== true) {
         throw new Error(response?.message || "Failed to fetch parking slots.");
       }
 
-      const fetchedSlots = Array.isArray(response.slots) ? response.slots : [];
+      const floorMaps = await Promise.all(
+        (areas?.floors || []).map((floor) => getFloorMap(floor.id))
+      );
+      const mapResponse = floorMaps.length
+        ? {
+            zones: floorMaps.flatMap((map) => map.zones || []),
+            slots: floorMaps.flatMap((map) => map.slots || []),
+            gates: floorMaps.flatMap((map) => map.gates || []),
+          }
+        : null;
+      setAreaMap(mapResponse);
+
+      const detailsById = new Map(
+        (Array.isArray(response.slots) ? response.slots : []).map((slot) => [slot.id, slot])
+      );
+      const zonesById = new Map((mapResponse?.zones || []).map((zone) => [zone.id, zone]));
+      const fetchedSlots = (mapResponse?.slots || []).map((mapSlot) => ({
+        ...mapSlot,
+        ...(detailsById.get(mapSlot.id) || {}),
+        zone: zonesById.get(mapSlot.zone_id) || null,
+      }));
       setSlots(fetchedSlots);
 
       // Auto-select first occupied slot for inspector view if none selected
@@ -469,6 +489,7 @@ const ParkingSlots = () => {
       console.error("Fetch parking slots error:", err);
       if (!silent) setError(err?.message || "Failed to fetch parking slots.");
       setSlots([]);
+      setAreaMap(null);
     } finally {
       if (!silent) setLoading(false);
     }
@@ -659,15 +680,33 @@ const ParkingSlots = () => {
   }, [slots]);
 
   // Organize bays into balanced rows for map visual
-  const parkingRows = useMemo(() => {
-    const sorted = [...filteredSlots].sort((a, b) => getSlotNumber(a) - getSlotNumber(b));
-    const groups = [];
-    const baysPerRow = 6;
-    for (let i = 0; i < sorted.length; i += baysPerRow) {
-      groups.push(sorted.slice(i, i + baysPerRow));
+  const activeMapZone = useMemo(() => {
+    const zones = areaMap?.zones || [];
+    if (activeZone !== "all") {
+      return zones.find((zone) => getZoneKey({ zone }) === activeZone) || zones[0] || null;
     }
-    return groups;
-  }, [filteredSlots]);
+    return zones[0] || null;
+  }, [areaMap, activeZone]);
+
+  const parkingRows = useMemo(() => {
+    const columns = activeMapZone?.map_cols || 6;
+    const rows = activeMapZone?.map_rows || 0;
+    const visible = new Map(
+      filteredSlots
+        .filter((slot) => !activeMapZone || slot.zone_id === activeMapZone.id)
+        .map((slot) => [`${slot.map_row}:${slot.map_col}`, slot])
+    );
+
+    return Array.from({ length: rows }, (_, row) =>
+      Array.from({ length: columns }, (_, col) => visible.get(`${row}:${col}`) || null)
+    );
+  }, [filteredSlots, activeMapZone]);
+
+  const gatesForSide = (side) =>
+    (areaMap?.gates || [])
+      .filter((gate) => gate.side === side && (!activeMapZone || !gate.zone_id || gate.zone_id === activeMapZone.id))
+      .map((gate) => `${gate.gate_name} (${gate.gate_type.replace("_", " / ")})`)
+      .join(" • ");
 
   const formatStatus = (status) => {
     if (!status) return "Available";
@@ -867,7 +906,7 @@ const ParkingSlots = () => {
             <div className="map-card-header">
               <div className="map-title-wrap">
                 <h2>
-                  {activeZone === "all" ? "Facility Bay Grid" : getZoneName(activeZone)}
+                  {activeMapZone?.zone_name || "Area Map"}
                 </h2>
                 <span className="bays-counter-pill">
                   {filteredSlots.length} Bays Active
@@ -896,7 +935,7 @@ const ParkingSlots = () => {
               <div className="facility-road-lane entry">
                 <div className="lane-arrow-box">
                   <ArrowDown size={15} />
-                  <span>ENTRY DRIVEWAY • 15 KM/H</span>
+                    <span>{gatesForSide("front") || "No entry gate mapped"}</span>
                 </div>
                 <div className="lane-stripe-dashed" />
               </div>
@@ -910,21 +949,22 @@ const ParkingSlots = () => {
                         <span>R{rowIndex + 1}</span>
                       </div>
 
-                      <div className="row-bays-grid">
-                        {rowBays.map((slot) => (
-                          <ParkingBayItem
-                            key={slot.id}
-                            slot={slot}
-                            selected={selectedSlot?.id === slot.id}
-                            onClick={handleSlotClick}
-                          />
-                        ))}
-
-                        {/* Filler cells to keep consistent row columns */}
-                        {rowBays.length < 6 &&
-                          Array.from({ length: 6 - rowBays.length }).map((_, i) => (
-                            <div key={`filler-${i}`} className="bay-empty-filler" />
-                          ))}
+                      <div
+                        className="row-bays-grid"
+                        style={{ gridTemplateColumns: `repeat(${activeMapZone?.map_cols || 6}, minmax(0, 1fr))` }}
+                      >
+                        {rowBays.map((slot, columnIndex) =>
+                          slot ? (
+                            <ParkingBayItem
+                              key={slot.id}
+                              slot={slot}
+                              selected={selectedSlot?.id === slot.id}
+                              onClick={handleSlotClick}
+                            />
+                          ) : (
+                            <div key={`filler-${rowIndex}-${columnIndex}`} className="bay-empty-filler" />
+                          )
+                        )}
                       </div>
                     </div>
 
@@ -963,7 +1003,7 @@ const ParkingSlots = () => {
               <div className="facility-road-lane exit">
                 <div className="lane-stripe-dashed" />
                 <div className="lane-arrow-box exit">
-                  <span>EXIT LANE • VALET RETRIEVAL DECK</span>
+                  <span>{gatesForSide("back") || "No exit gate mapped"}</span>
                   <ArrowUp size={15} />
                 </div>
               </div>
@@ -1013,9 +1053,6 @@ const ParkingSlots = () => {
                       {/* European / Indian License Plate Box */}
                       <div className="inspector-license-plate-wrap">
                         <div className="official-plate-box">
-                          <div className="plate-band-country">
-                            <span>IND</span>
-                          </div>
                           <div className="plate-alphanumeric">
                             {selectedSlot.assigned_vehicle || "MH 12 AB 1234"}
                           </div>
@@ -1037,7 +1074,9 @@ const ParkingSlots = () => {
                   </div>
                 )}
 
-                {/* VALET ATTENDANT IN-CHARGE CARD (PROMINENT VIP PROFILE) */}
+                {/* VALET ATTENDANT IN-CHARGE CARD */}
+                {selectedSlot.incharge_valet_name &&
+                  selectedSlot.incharge_valet_name !== "Unassigned" && (
                 <div className="inspector-section incharge-valet-showcase">
                   <div className="incharge-card-header">
                     <div className="incharge-avatar-box">
@@ -1050,12 +1089,10 @@ const ParkingSlots = () => {
                     <div className="incharge-meta">
                       <span className="incharge-kicker">VALET IN CHARGE</span>
                       <h4>
-                        {selectedSlot.incharge_valet_name ||
-                          selectedSlot.valet ||
-                          "Valet Assigned"}
+                        {selectedSlot.incharge_valet_name}
                       </h4>
                       <span className="incharge-subrole">
-                        {selectedSlot.incharge_valet_role || "Executive Valet Specialist"}
+                        {selectedSlot.incharge_valet_role || "Valet"}
                       </span>
                     </div>
 
@@ -1072,13 +1109,16 @@ const ParkingSlots = () => {
                   </div>
 
                   <div className="incharge-contact-row">
-                    <div className="incharge-phone-box">
-                      <Phone size={12} />
-                      <span>{selectedSlot.incharge_valet_phone || "+91 (980) 412-8800"}</span>
-                    </div>
+                    {selectedSlot.incharge_valet_phone && (
+                      <div className="incharge-phone-box">
+                        <Phone size={12} />
+                        <span>{selectedSlot.incharge_valet_phone}</span>
+                      </div>
+                    )}
                     <span className="incharge-duty-status">• On Active Duty</span>
                   </div>
                 </div>
+                )}
 
                 {/* CUSTOMER & BOOKING TELEMETRY */}
                 {(selectedSlot.customer_name || selectedSlot.session_ticket) && (
@@ -1121,51 +1161,6 @@ const ParkingSlots = () => {
                     </div>
                   </div>
                 )}
-
-                {/* SERVICES & FACILITY AMENITIES (Matching Image 1) */}
-                <div className="inspector-section amenities-section">
-                  <div className="section-mini-heading">FACILITY SERVICES</div>
-                  <div className="service-tags-wrap">
-                    <span className="service-tag active">
-                      <Check size={12} /> Car Wash Completed
-                    </span>
-                    <span className="service-tag active">
-                      <Check size={12} /> Valet Key Secure
-                    </span>
-                    <span className="service-tag active">
-                      <Check size={12} /> Sensor Active
-                    </span>
-                    {selectedSlot.parking_type === "ev" && (
-                      <span className="service-tag ev">
-                        <Zap size={12} /> EV Fast Charged
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* LIVE CCTV SENSOR PREVIEW WIDGET (Matching Image 2) */}
-                <div className="inspector-section camera-live-feed-card">
-                  <div className="camera-feed-header">
-                    <div className="cam-id">
-                      <Video size={13} />
-                      <span>CAM-04 (BAY {selectedSlot.slot_number})</span>
-                    </div>
-                    <div className="cam-live-indicator">
-                      <span className="cam-red-dot" />
-                      <span>LIVE 30FPS</span>
-                    </div>
-                  </div>
-                  <div className="camera-visual-window">
-                    <div className="cam-crosshair tl" />
-                    <div className="cam-crosshair tr" />
-                    <div className="cam-crosshair bl" />
-                    <div className="cam-crosshair br" />
-                    <div className="cam-timestamp-overlay">
-                      {new Date().toISOString().slice(0, 19).replace("T", " ")} UTC
-                    </div>
-                    <div className="cam-status-overlay">SURVEILLANCE ACTIVE • ZONE SECURE</div>
-                  </div>
-                </div>
 
                 {/* OPERATIONAL STATUS CONTROLS */}
                 <div className="inspector-section status-controls-section">

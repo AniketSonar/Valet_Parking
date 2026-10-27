@@ -47,10 +47,9 @@ const createCustomer = async (req, res) => {
     }
 
     if (existingCustomer) {
-      return res.status(200).json({
-        success: true,
-        message: "Existing customer found.",
-        customer: existingCustomer,
+      return res.status(409).json({
+        success: false,
+        message: `This mobile number is already registered to ${existingCustomer.name}. Use a different mobile number.`,
       });
     }
 
@@ -70,7 +69,9 @@ const createCustomer = async (req, res) => {
       console.error("Create customer error:", error);
       return res.status(400).json({
         success: false,
-        message: error.message,
+        message: error.code === "23505"
+          ? "This mobile number is already registered. Use a different mobile number."
+          : error.message,
       });
     }
 

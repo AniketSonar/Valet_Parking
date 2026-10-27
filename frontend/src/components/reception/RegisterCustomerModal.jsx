@@ -27,11 +27,15 @@ const RegisterCustomerModal = ({ onClose, onSuccess }) => {
         phone: form.phone.trim(),
         email: form.email.trim() || undefined,
       });
-      if (res && res.success) {
+      if (res?.success && res.message === "Customer created successfully.") {
         setCreated(res.customer);
         if (onSuccess) onSuccess(res.customer);
+      } else if (res?.customer) {
+        setError(
+          `This mobile number is already registered to ${res.customer.name}. Use a different mobile number.`
+        );
       } else {
-        throw new Error(res?.message || "Failed to register customer.");
+        setError(res?.message || "Failed to register customer.");
       }
     } catch (err) {
       setError(err.message || "An error occurred.");

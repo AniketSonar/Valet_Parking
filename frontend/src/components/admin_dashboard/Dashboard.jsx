@@ -5,6 +5,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import { adminConfig } from "../layout/dashboardConfigs";
 import StatCard from "./StatCard";
 import StaffManagement from "./StaffManagement";
+import AreaManagement from "./AreaManagement";
 import Reports from "./Reports";
 import Profile from "./Profile";
 
@@ -507,6 +508,10 @@ function Dashboard() {
 
           {activePage === "staff" && (
             <StaffManagement />
+          )}
+
+          {activePage === "areas" && (
+            <AreaManagement />
           )}
 
           {activePage === "reports" && (

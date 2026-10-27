@@ -1,32 +1,29 @@
 const supabase = require("../config/supabase");
+const { getAreaScope, applyFloorScope } = require("../utils/areaScope");
 
 const getParkingAdminDashboard = async (req, res) => {
   try {
-    const { count: totalSlots, error: totalSlotsError } = await supabase
-      .from("parking_slots")
-      .select("*", { count: "exact", head: true });
+    const scope = await getAreaScope(req.user);
+    const slotCount = () =>
+      applyFloorScope(
+        supabase.from("parking_slots").select("*", { count: "exact", head: true }),
+        scope
+      );
+
+    const { count: totalSlots, error: totalSlotsError } = await slotCount();
 
     if (totalSlotsError) throw totalSlotsError;
 
-    const { count: availableSlots, error: availableSlotsError } = await supabase
-      .from("parking_slots")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "available");
+    const { count: availableSlots, error: availableSlotsError } = await slotCount().eq("status", "available");
 
     if (availableSlotsError) throw availableSlotsError;
 
-    const { count: occupiedSlots, error: occupiedSlotsError } = await supabase
-      .from("parking_slots")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "occupied");
+    const { count: occupiedSlots, error: occupiedSlotsError } = await slotCount().eq("status", "occupied");
 
     if (occupiedSlotsError) throw occupiedSlotsError;
 
     const { count: maintenanceSlots, error: maintenanceSlotsError } =
-      await supabase
-        .from("parking_slots")
-        .select("*", { count: "exact", head: true })
-        .eq("status", "maintenance");
+      await slotCount().eq("status", "maintenance");
 
     if (maintenanceSlotsError) throw maintenanceSlotsError;
 
@@ -162,7 +159,31 @@ const getParkingStaff = async (req, res) => {
       })
     );
 
-    const filteredStaff = staffWithValetIds.filter(Boolean);
+    let filteredStaff = staffWithValetIds.filter(Boolean);
+
+    // Managers only work with valets posted in their own area.
+    if (req.user?.role === "manager") {
+      const scope = await getAreaScope(req.user);
+
+      const { data: posted } = await applyFloorScope(
+        supabase
+          .from("valet_assignments")
+          .select("valet_id, post:valet_posts ( post_name )")
+          .eq("is_active", true),
+        scope
+      );
+
+      const postByValet = new Map(
+        (posted || []).map((row) => [row.valet_id, row.post?.post_name || null])
+      );
+
+      filteredStaff = filteredStaff
+        .filter((member) => member.role !== "valet" || postByValet.has(member.id))
+        .map((member) => ({
+          ...member,
+          post_name: postByValet.get(member.id) || null
+        }));
+    }
 
     return res.status(200).json({
       success: true,

@@ -1,4 +1,36 @@
 const supabase = require("../config/supabase");
+const {
+  getAreaScope,
+  floorInScope,
+  applyFloorScope,
+  getValetPost
+} = require("../utils/areaScope");
+
+/** Managers may only touch slots on their assigned floors. */
+const assertSlotAccess = async (req, res, slotId) => {
+  const { data: slot } = await supabase
+    .from("parking_slots")
+    .select("id, floor_id")
+    .eq("id", slotId)
+    .maybeSingle();
+
+  if (!slot) {
+    res.status(404).json({ success: false, message: "Parking slot not found." });
+    return false;
+  }
+
+  const scope = await getAreaScope(req.user);
+
+  if (!floorInScope(scope, slot.floor_id)) {
+    res.status(403).json({
+      success: false,
+      message: "This slot is outside the area assigned to you."
+    });
+    return false;
+  }
+
+  return true;
+};
 
 const createParkingSlot = async (req, res) => {
   try {
@@ -20,12 +52,49 @@ const createParkingSlot = async (req, res) => {
       });
     }
 
+    // Place the slot inside the creator's area.
+    const scope = await getAreaScope(req.user);
+    let floor_id = null;
+    let zone_id = req.body.zone_id || null;
+
+    if (zone_id) {
+      const { data: zone } = await supabase
+        .from("parking_zones")
+        .select("id, floor_id")
+        .eq("id", zone_id)
+        .maybeSingle();
+
+      if (!zone || !floorInScope(scope, zone.floor_id)) {
+        return res.status(403).json({
+          success: false,
+          message: "That zone is outside the area assigned to you."
+        });
+      }
+
+      floor_id = zone.floor_id;
+    } else if (!scope.unrestricted) {
+      if (scope.floorIds.length !== 1) {
+        return res.status(400).json({
+          success: false,
+          message:
+            scope.floorIds.length === 0
+              ? "No parking area has been assigned to you yet."
+              : "You manage several floors. Add slots from Area Map so they land in the right zone."
+        });
+      }
+
+      floor_id = scope.floorIds[0];
+    }
+
     const { data, error } = await supabase
       .from("parking_slots")
       .insert([
         {
           slot_number,
-          parking_type
+          parking_type,
+          floor_id,
+          zone_id,
+          created_by: req.user.id
         }
       ])
       .select()
@@ -60,10 +129,15 @@ const getParkingSlots = async (req, res) => {
   try {
     const { search, status, parking_type } = req.query;
 
-    let slotQuery = supabase
-      .from("parking_slots")
-      .select("*")
-      .order("created_at", { ascending: false });
+    const scope = await getAreaScope(req.user);
+
+    let slotQuery = applyFloorScope(
+      supabase
+        .from("parking_slots")
+        .select("*, zone:parking_zones ( id, zone_name, zone_code )")
+        .order("created_at", { ascending: false }),
+      scope
+    );
 
     if (status) {
       slotQuery = slotQuery.eq("status", status);
@@ -188,6 +262,8 @@ const getParkingSlotById = async (req, res) => {
   try {
     const { id } = req.params;
 
+    if (!(await assertSlotAccess(req, res, id))) return;
+
     const { data, error } = await supabase
       .from("parking_slots")
       .select("*")
@@ -220,9 +296,23 @@ const getParkingSlotById = async (req, res) => {
 
 const getValetParkingSlots = async (req, res) => {
   try {
+    // A valet only sees the slots of the floor they are posted on.
+    const post = await getValetPost(req.user);
+    const floorId = post?.floor_id || null;
+
+    if (!floorId) {
+      return res.status(200).json({
+        success: true,
+        count: 0,
+        slots: [],
+        assignment: null
+      });
+    }
+
     const { data: slots, error } = await supabase
       .from("parking_slots")
       .select("*")
+      .eq("floor_id", floorId)
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -237,7 +327,8 @@ const getValetParkingSlots = async (req, res) => {
     return res.status(200).json({
       success: true,
       count: slots?.length || 0,
-      slots: slots || []
+      slots: slots || [],
+      assignment: { floor: post.floor, post: post.post }
     });
   } catch (error) {
     console.error("Get valet parking slots error:", error);
@@ -252,6 +343,8 @@ const getValetParkingSlots = async (req, res) => {
 const updateParkingSlot = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (!(await assertSlotAccess(req, res, id))) return;
     const { slot_number, parking_type } = req.body;
 
     if (!slot_number || !parking_type) {
@@ -298,6 +391,8 @@ const updateParkingSlot = async (req, res) => {
 const updateParkingSlotStatus = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (!(await assertSlotAccess(req, res, id))) return;
     const { status } = req.body;
 
     if (!status) {

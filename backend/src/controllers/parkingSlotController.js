@@ -296,7 +296,6 @@ const getParkingSlotById = async (req, res) => {
 
 const getValetParkingSlots = async (req, res) => {
   try {
-    // A valet only sees the slots of the floor they are posted on.
     const post = await getValetPost(req.user);
     const floorId = post?.floor_id || null;
 
@@ -305,30 +304,139 @@ const getValetParkingSlots = async (req, res) => {
         success: true,
         count: 0,
         slots: [],
-        assignment: null
+        assignment: null,
+        areaMap: null
       });
     }
 
-    const { data: slots, error } = await supabase
-      .from("parking_slots")
-      .select("*")
-      .eq("floor_id", floorId)
-      .order("created_at", { ascending: false });
+    const [slotsResult, zonesResult, gatesResult] = await Promise.all([
+      supabase
+        .from("parking_slots")
+        .select("*, zone:parking_zones ( id, zone_name, zone_code )")
+        .eq("floor_id", floorId)
+        .order("created_at", { ascending: false }),
+      supabase
+        .from("parking_zones")
+        .select("*")
+        .eq("floor_id", floorId)
+        .order("zone_code"),
+      supabase
+        .from("parking_gates")
+        .select("*")
+        .eq("floor_id", floorId)
+        .order("gate_name")
+    ]);
 
-    if (error) {
-      console.error("Get valet parking slots error:", error);
+    for (const result of [slotsResult, zonesResult, gatesResult]) {
+      if (result.error) {
+        console.error("Get valet parking slots error:", result.error);
 
-      return res.status(500).json({
-        success: false,
-        message: error.message
-      });
+        return res.status(500).json({
+          success: false,
+          message: result.error.message
+        });
+      }
     }
+
+    const slots = slotsResult.data || [];
+    let sessions = [];
+
+    if (slots.length > 0) {
+      const { data, error } = await supabase
+        .from("parking_sessions")
+        .select(`
+          id,
+          ticket_code,
+          parking_slot,
+          parking_type,
+          status,
+          checked_in_at,
+          parked_at,
+          vehicle:vehicles (
+            id,
+            license_plate,
+            make,
+            model,
+            color,
+            customer:customers (
+              id,
+              name,
+              phone,
+              email
+            )
+          ),
+          valet:employees (
+            id,
+            name,
+            phone,
+            role
+          )
+        `)
+        .in("parking_slot", slots.map((slot) => slot.slot_number))
+        .in("status", [
+          "checked_in",
+          "parked",
+          "retrieval_requested",
+          "retrieving",
+          "ready_for_pickup"
+        ]);
+
+      if (error) {
+        console.error("Get valet parking sessions error:", error);
+
+        return res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      }
+
+      sessions = data || [];
+    }
+
+    const detailedSlots = slots.map((slot) => {
+      const session = sessions.find(
+        (item) => item.parking_slot === slot.slot_number
+      );
+
+      return {
+        ...slot,
+        assigned_vehicle: session?.vehicle?.license_plate || null,
+        vehicle_make: session?.vehicle?.make || null,
+        vehicle_model: session?.vehicle?.model || null,
+        vehicle_color: session?.vehicle?.color || null,
+        customer_name: session?.vehicle?.customer?.name || null,
+        customer_phone: session?.vehicle?.customer?.phone || null,
+        customer_email: session?.vehicle?.customer?.email || null,
+        session_id: session?.id || null,
+        session_ticket: session?.ticket_code || null,
+        session_status: session?.status || null,
+        checked_in_at: session?.checked_in_at || null,
+        parked_at: session?.parked_at || null,
+        incharge_valet_name: session?.valet?.name || "Unassigned",
+        incharge_valet_phone: session?.valet?.phone || null,
+        incharge_valet_role: session?.valet?.role || null,
+        valet: session?.valet?.name || null
+      };
+    });
 
     return res.status(200).json({
       success: true,
-      count: slots?.length || 0,
-      slots: slots || [],
-      assignment: { floor: post.floor, post: post.post }
+      count: detailedSlots.length,
+      slots: detailedSlots,
+      assignment: { floor: post.floor, post: post.post },
+      areaMap: {
+        zones: zonesResult.data || [],
+        slots: slots.map((slot) => ({
+          id: slot.id,
+          slot_number: slot.slot_number,
+          parking_type: slot.parking_type,
+          status: slot.status,
+          zone_id: slot.zone_id,
+          map_row: slot.map_row,
+          map_col: slot.map_col
+        })),
+        gates: gatesResult.data || []
+      }
     });
   } catch (error) {
     console.error("Get valet parking slots error:", error);

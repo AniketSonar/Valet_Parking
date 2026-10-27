@@ -27,6 +27,7 @@ import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ParkingSlots.css";
 import apiClient from "../../api/apiClient";
 import { getMyAreas, getFloorMap } from "../../api/areaApi";
+import { getValetParkingSlots } from "../../api/parkingApi";
 
 /* ==========================================================================
    LIVE ELAPSED DURATION HOOK
@@ -37,8 +38,8 @@ function useElapsedTimer(startTime) {
 
   useEffect(() => {
     if (!startTime) {
-      // If no start time provided but vehicle is occupied, display realistic duration
-      setElapsed("02:14:38");
+      // Do not display a fabricated duration when the session has no timestamp.
+      setElapsed("--:--:--");
       return;
     }
 
@@ -407,12 +408,81 @@ const getZoneKey = (slot) => {
   return match?.[0]?.toUpperCase() || "A";
 };
 
+const createValetAreaMap = (slots) => {
+  const groupedSlots = new Map();
+
+  slots.forEach((slot) => {
+    const key = slot.zone_id || "unassigned";
+    if (!groupedSlots.has(key)) groupedSlots.set(key, []);
+    groupedSlots.get(key).push(slot);
+  });
+
+  const zones = [];
+  const mappedSlots = [];
+
+  [...groupedSlots.entries()].forEach(([key, group], zoneIndex) => {
+    const zoneId = key === "unassigned" ? `valet-area-${zoneIndex}` : key;
+    const occupiedCells = new Set();
+    const columns = Math.min(
+      40,
+      Math.max(6, ...group.map((slot) => Number(slot.map_col) + 1 || 0))
+    );
+    let nextCell = 0;
+
+    group.forEach((slot) => {
+      let row = Number(slot.map_row);
+      let column = Number(slot.map_col);
+      let cell = `${row}:${column}`;
+
+      if (
+        !Number.isInteger(row) ||
+        !Number.isInteger(column) ||
+        row < 0 ||
+        row >= 40 ||
+        column < 0 ||
+        column >= columns ||
+        occupiedCells.has(cell)
+      ) {
+        while (occupiedCells.has(`${Math.floor(nextCell / columns)}:${nextCell % columns}`)) {
+          nextCell += 1;
+        }
+        row = Math.floor(nextCell / columns);
+        column = nextCell % columns;
+        cell = `${row}:${column}`;
+      }
+
+      occupiedCells.add(cell);
+      nextCell += 1;
+      mappedSlots.push({ ...slot, zone_id: zoneId, map_row: row, map_col: column });
+    });
+
+    const mapRows = Math.max(
+      1,
+      ...mappedSlots
+        .filter((slot) => slot.zone_id === zoneId)
+        .map((slot) => slot.map_row + 1)
+    );
+
+    zones.push({
+      id: zoneId,
+      zone_name: group[0]?.zone?.zone_name || `Parking Zone ${zoneIndex + 1}`,
+      zone_code: group[0]?.zone?.zone_code || `ZONE ${zoneIndex + 1}`,
+      map_rows: mapRows,
+      map_cols: columns,
+    });
+  });
+
+  return { zones, slots: mappedSlots, gates: [] };
+};
+
 /* ==========================================================================
    MAIN PARKING SLOTS DASHBOARD COMPONENT
    ========================================================================== */
-const ParkingSlots = () => {
+const ParkingSlots = ({ scope = "manager" }) => {
+  const isValetScope = scope === "valet";
   const [slots, setSlots] = useState([]);
   const [areaMap, setAreaMap] = useState(null);
+  const [assignment, setAssignment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -441,24 +511,36 @@ const ParkingSlots = () => {
       if (!silent) setLoading(true);
       setError("");
 
-      const [response, areas] = await Promise.all([
-        apiClient("/api/parking-slots"),
-        getMyAreas(),
-      ]);
+      const [response, areas] = isValetScope
+        ? [await getValetParkingSlots(), null]
+        : await Promise.all([
+            apiClient("/api/parking-slots"),
+            getMyAreas(),
+          ]);
       if (!response || response.success !== true) {
         throw new Error(response?.message || "Failed to fetch parking slots.");
       }
 
-      const floorMaps = await Promise.all(
-        (areas?.floors || []).map((floor) => getFloorMap(floor.id))
-      );
-      const mapResponse = floorMaps.length
-        ? {
-            zones: floorMaps.flatMap((map) => map.zones || []),
-            slots: floorMaps.flatMap((map) => map.slots || []),
-            gates: floorMaps.flatMap((map) => map.gates || []),
-          }
-        : null;
+      const floorMaps = isValetScope
+        ? []
+        : await Promise.all(
+            (areas?.floors || []).map((floor) => getFloorMap(floor.id))
+          );
+      const responseSlots = Array.isArray(response.slots) ? response.slots : [];
+      const mapResponse = isValetScope
+        ? response.areaMap?.zones?.length
+          ? response.areaMap
+          : responseSlots.length
+            ? createValetAreaMap(responseSlots)
+            : response.areaMap
+        : floorMaps.length
+          ? {
+              zones: floorMaps.flatMap((map) => map.zones || []),
+              slots: floorMaps.flatMap((map) => map.slots || []),
+              gates: floorMaps.flatMap((map) => map.gates || []),
+            }
+          : null;
+      setAssignment(isValetScope ? response.assignment || null : null);
       setAreaMap(mapResponse);
 
       const detailsById = new Map(
@@ -481,7 +563,7 @@ const ParkingSlots = () => {
         if (prev) {
           // Keep selected slot updated with latest server state
           const updated = fetchedSlots.find((s) => s.id === prev.id);
-          return updated || prev;
+          return updated || (isValetScope ? fetchedSlots[0] || null : prev);
         }
         return null;
       });
@@ -490,10 +572,12 @@ const ParkingSlots = () => {
       if (!silent) setError(err?.message || "Failed to fetch parking slots.");
       setSlots([]);
       setAreaMap(null);
+      setAssignment(null);
+      if (isValetScope) setSelectedSlot(null);
     } finally {
       if (!silent) setLoading(false);
     }
-  }, []);
+  }, [isValetScope]);
 
   useEffect(() => {
     fetchSlots();
@@ -724,23 +808,29 @@ const ParkingSlots = () => {
         <div className="facility-header-brand">
           <div className="facility-eyebrow-chip">
             <span className="live-pulsing-green-dot" />
-            <span>REAL-TIME FACILITY MAP</span>
+            <span>{isValetScope ? "MY ASSIGNED PARKING AREA" : "REAL-TIME FACILITY MAP"}</span>
           </div>
           <h1>Parking Space Overview</h1>
           <p>
-            Monitor live bay occupancy, assigned attendants in charge, and automated telemetry.
+            {isValetScope
+              ? assignment
+                ? `Live parking bays for ${assignment.post?.post_name || "your post"} on ${assignment.floor?.floor_name || "your assigned floor"}. Slot settings are managed by your manager.`
+                : "You do not have an active valet post. Ask your manager to assign you to an area."
+              : "Monitor live bay occupancy, assigned attendants in charge, and automated telemetry."}
           </p>
         </div>
 
         <div className="facility-header-actions">
-          <button
-            type="button"
-            className="action-btn-primary"
-            onClick={() => setShowAddSlot(true)}
-          >
-            <Plus size={16} />
-            <span>Add Parking Bay</span>
-          </button>
+          {!isValetScope && (
+            <button
+              type="button"
+              className="action-btn-primary"
+              onClick={() => setShowAddSlot(true)}
+            >
+              <Plus size={16} />
+              <span>Add Parking Bay</span>
+            </button>
+          )}
 
           <button
             type="button"
@@ -982,19 +1072,29 @@ const ParkingSlots = () => {
                 {filteredSlots.length === 0 && !loading && (
                   <div className="map-no-results">
                     <CircleParking size={36} />
-                    <p>No parking bays match your current search or filters.</p>
-                    <button
-                      type="button"
-                      className="reset-filter-btn"
-                      onClick={() => {
-                        setSearch("");
-                        setStatusFilter("all");
-                        setZoneFilter("all");
-                        setActiveZone("all");
-                      }}
-                    >
-                      Clear All Filters
-                    </button>
+                    <p>
+                      {isValetScope
+                        ? assignment
+                          ? slots.length
+                            ? "No parking bays match your current search or filters."
+                            : "No parking bays have been added to your assigned floor yet. Please contact your manager."
+                          : "You do not have an active valet post. Please ask your manager to assign you to a parking area."
+                        : "No parking bays match your current search or filters."}
+                    </p>
+                    {slots.length > 0 && (
+                      <button
+                        type="button"
+                        className="reset-filter-btn"
+                        onClick={() => {
+                          setSearch("");
+                          setStatusFilter("all");
+                          setZoneFilter("all");
+                          setActiveZone("all");
+                        }}
+                      >
+                        Clear All Filters
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
@@ -1038,23 +1138,24 @@ const ParkingSlots = () => {
                   <div className="inspector-section vehicle-showcase">
                     <PerspectiveCarIllustration
                       color={selectedSlot.vehicle_color || "white"}
-                      model={`${selectedSlot.vehicle_make || "Renault"} ${selectedSlot.vehicle_model || "Megane RS"}`}
+                      model={[selectedSlot.vehicle_make, selectedSlot.vehicle_model].filter(Boolean).join(" ") || "Vehicle details unavailable"}
                     />
 
                     <div className="vehicle-primary-details">
                       <div className="vehicle-make-row">
                         <h3>
-                          {selectedSlot.vehicle_make || "Renault"}{" "}
-                          {selectedSlot.vehicle_model || "Megane R.S."}
+                          {[selectedSlot.vehicle_make, selectedSlot.vehicle_model].filter(Boolean).join(" ") || "Vehicle details unavailable"}
                         </h3>
-                        <span className="vehicle-year-pill">2024 Turbo</span>
+                        <span className="vehicle-year-pill">
+                          {selectedSlot.parking_type?.toUpperCase() || "Parking space"}
+                        </span>
                       </div>
 
                       {/* European / Indian License Plate Box */}
                       <div className="inspector-license-plate-wrap">
                         <div className="official-plate-box">
                           <div className="plate-alphanumeric">
-                            {selectedSlot.assigned_vehicle || "MH 12 AB 1234"}
+                            {selectedSlot.assigned_vehicle || "No plate linked"}
                           </div>
                         </div>
 
@@ -1135,7 +1236,7 @@ const ParkingSlots = () => {
                       <div className="key-value-card">
                         <span className="card-key">CONTACT NUMBER</span>
                         <strong className="card-value">
-                          {selectedSlot.customer_phone || "+91 98765 43210"}
+                          {selectedSlot.customer_phone || "Not available"}
                         </strong>
                       </div>
 
@@ -1143,7 +1244,7 @@ const ParkingSlots = () => {
                         <span className="card-key">TICKET CODE</span>
                         <strong className="card-value highlight-ticket">
                           <Ticket size={13} />
-                          {selectedSlot.session_ticket || "TKT-89214"}
+                          {selectedSlot.session_ticket || "Not available"}
                         </strong>
                       </div>
 
@@ -1155,7 +1256,7 @@ const ParkingSlots = () => {
                                 hour: "2-digit",
                                 minute: "2-digit",
                               })
-                            : "09:30 AM"}
+                            : "Not available"}
                         </strong>
                       </div>
                     </div>
@@ -1163,64 +1264,66 @@ const ParkingSlots = () => {
                 )}
 
                 {/* OPERATIONAL STATUS CONTROLS */}
-                <div className="inspector-section status-controls-section">
-                  <div className="section-mini-heading">UPDATE BAY OPERATIONAL STATE</div>
+                {!isValetScope && (
+                  <div className="inspector-section status-controls-section">
+                    <div className="section-mini-heading">UPDATE BAY OPERATIONAL STATE</div>
 
-                  <div className="status-selector-row">
+                    <div className="status-selector-row">
+                      <button
+                        type="button"
+                        className={`status-btn available ${selectedStatus === "available" ? "active" : ""}`}
+                        onClick={() => setSelectedStatus("available")}
+                        disabled={updatingStatus}
+                      >
+                        <span className="btn-dot green" />
+                        <span>Available</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        className={`status-btn occupied ${selectedStatus === "occupied" ? "active" : ""}`}
+                        onClick={() => setSelectedStatus("occupied")}
+                        disabled={updatingStatus}
+                      >
+                        <span className="btn-dot purple" />
+                        <span>Occupied</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        className={`status-btn maintenance ${selectedStatus === "maintenance" ? "active" : ""}`}
+                        onClick={() => setSelectedStatus("maintenance")}
+                        disabled={updatingStatus}
+                      >
+                        <span className="btn-dot grey" />
+                        <span>Maintenance</span>
+                      </button>
+                    </div>
+
+                    {statusUpdateError && (
+                      <div className="status-error-callout">{statusUpdateError}</div>
+                    )}
+
                     <button
                       type="button"
-                      className={`status-btn available ${selectedStatus === "available" ? "active" : ""}`}
-                      onClick={() => setSelectedStatus("available")}
-                      disabled={updatingStatus}
+                      className="save-status-action-btn"
+                      onClick={() => handleStatusUpdate()}
+                      disabled={updatingStatus || selectedStatus === selectedSlot.status}
                     >
-                      <span className="btn-dot green" />
-                      <span>Available</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className={`status-btn occupied ${selectedStatus === "occupied" ? "active" : ""}`}
-                      onClick={() => setSelectedStatus("occupied")}
-                      disabled={updatingStatus}
-                    >
-                      <span className="btn-dot purple" />
-                      <span>Occupied</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className={`status-btn maintenance ${selectedStatus === "maintenance" ? "active" : ""}`}
-                      onClick={() => setSelectedStatus("maintenance")}
-                      disabled={updatingStatus}
-                    >
-                      <span className="btn-dot grey" />
-                      <span>Maintenance</span>
+                      {updatingStatus ? (
+                        <>
+                          <Loader2 size={15} className="spin-animation" />
+                          <span>Updating Bay...</span>
+                        </>
+                      ) : (
+                        <>
+                          <ShieldCheck size={15} />
+                          <span>Apply Status Changes</span>
+                        </>
+                      )}
                     </button>
                   </div>
-
-                  {statusUpdateError && (
-                    <div className="status-error-callout">{statusUpdateError}</div>
-                  )}
-
-                  <button
-                    type="button"
-                    className="save-status-action-btn"
-                    onClick={() => handleStatusUpdate()}
-                    disabled={updatingStatus || selectedStatus === selectedSlot.status}
-                  >
-                    {updatingStatus ? (
-                      <>
-                        <Loader2 size={15} className="spin-animation" />
-                        <span>Updating Bay...</span>
-                      </>
-                    ) : (
-                      <>
-                        <ShieldCheck size={15} />
-                        <span>Apply Status Changes</span>
-                      </>
-                    )}
-                  </button>
-                </div>
+                )}
               </div>
             </div>
           ) : (
@@ -1236,7 +1339,7 @@ const ParkingSlots = () => {
       {/* ===================================================================
           5. ADD NEW PARKING BAY MODAL
           =================================================================== */}
-      {showAddSlot && (
+      {!isValetScope && showAddSlot && (
         <div className="facility-modal-backdrop" onClick={() => !creatingSlot && setShowAddSlot(false)}>
           <div className="facility-add-modal" onClick={(e) => e.stopPropagation()}>
             <div className="add-modal-header">

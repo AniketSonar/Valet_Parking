@@ -23,8 +23,8 @@ function Dashboard() {
     activeParkingSessions: 0,
     openIncidents: 0,
     todayRevenue: 0,
-    totalVehicles: 124,
-    todayCheckouts: 32,
+    totalVehicles: 0,
+    todayCheckouts: 0,
   });
 
   const [analyticsData, setAnalyticsData] = useState(null);

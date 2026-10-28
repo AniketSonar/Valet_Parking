@@ -52,10 +52,6 @@ const DashboardTopbar = ({ config, user: userOverride, onProfile, onToggleSideba
             <MapPin size={18} className="lux-hotel-pin" />
           </div>
 
-          <div className="lux-hotel-text">
-            <h2 className="lux-hotel-name">Grand Horizon Hotel & Resort</h2>
-            <span className="lux-hotel-sub">Valet Parking Management</span>
-          </div>
         </div>
       </div>
 

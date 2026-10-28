@@ -318,7 +318,7 @@
 }
 
 .reception-payment-process-button:hover {
-  background: #6d28d9;
+  background: #730c26;
   box-shadow: 0 6px 15px rgba(139, 18, 48, 0.23);
   transform: translateY(-1px);
 }
@@ -824,7 +824,7 @@
 }
 
 .reception-payment-submit-button:hover:not(:disabled) {
-  background: #6d28d9;
+  background: #730c26;
   box-shadow: 0 8px 18px rgba(139, 18, 48, 0.24);
   transform: translateY(-1px);
 }
@@ -1119,7 +1119,7 @@
 }
 
 .reception-payment-download-button:hover:not(:disabled) {
-  background: #6d28d9;
+  background: #730c26;
   transform: translateY(-1px);
 }
 

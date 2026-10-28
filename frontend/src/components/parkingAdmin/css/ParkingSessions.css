@@ -146,7 +146,7 @@
 }
 
 .check-in-button {
-  border: 1px solid #6c3c8e;
+  border: 1px solid #8b1230;
 
   background: linear-gradient(
     135deg,
@@ -1177,7 +1177,7 @@
 }
 
 .session-action.primary {
-  background: #70418f;
+  background: #8b1230;
 
   color: #ffffff;
 
@@ -1334,7 +1334,7 @@
 
   padding: 8px 12px;
 
-  background: #70418f;
+  background: #8b1230;
 
   color: #ffffff;
 
@@ -1347,7 +1347,7 @@
 
 .sessions-empty button:hover,
 .sessions-error button:hover {
-  background: #5f367a;
+  background: #730c26;
 }
 
 /* ============================================================

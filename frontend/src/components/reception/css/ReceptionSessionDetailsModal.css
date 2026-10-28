@@ -81,7 +81,7 @@
 .reception-session-modal .modal-close-btn:hover {
   background: #f3edfa;
   border-color: #d9c9e8;
-  color: #6d28d9;
+  color: #8b1230;
   transform: translateY(-1px);
 }
 
@@ -733,7 +733,7 @@
 .reception-session-modal .modal-btn-secondary:hover {
   background: #f8f4fb;
   border-color: #cdbade;
-  color: #6d28d9;
+  color: #8b1230;
   transform: translateY(-1px);
 }
 

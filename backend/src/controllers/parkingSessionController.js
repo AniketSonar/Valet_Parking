@@ -5,6 +5,7 @@ const {
   notifySessionEventInBackground
 } = require("../services/whatsappNotifier");
 const { getAreaScope, floorInScope } = require("../utils/areaScope");
+const { assignAvailableValet } = require("../utils/valetDispatch");
 const QRCode = require("qrcode");
 const crypto = require("crypto");
 
@@ -409,6 +410,17 @@ const createParkingSession = async (req, res) => {
       });
     }
 
+    // Valet parking: hand the car and its key to whichever valet is free now,
+    // so there is no separate key-management / assign-valet step.
+    const dispatch =
+      parking_type === "valet"
+        ? await assignAvailableValet(session)
+        : null;
+
+    if (dispatch?.assigned) {
+      session.valet_id = dispatch.valet.id;
+    }
+
     const customer = vehicle.customer;
     sendCheckInWhatsAppInBackground({
       customer,
@@ -422,9 +434,13 @@ const createParkingSession = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "Parking session created successfully. Ticket information is being sent on WhatsApp.",
+      message: dispatch?.assigned
+        ? `Parking session created. ${dispatch.valet.name} is assigned to this vehicle. Ticket information is being sent on WhatsApp.`
+        : "Parking session created successfully. Ticket information is being sent on WhatsApp.",
       session,
       payment,
+      valet: dispatch?.assigned ? dispatch.valet : null,
+      valet_assignment: dispatch,
       ticket: {
         ticket_code: ticketCode,
         qr_code: qrCode
@@ -734,6 +750,15 @@ const quickCheckIn = async (req, res) => {
       }
     }
 
+    const dispatch =
+      parking_type === "valet"
+        ? await assignAvailableValet(session)
+        : null;
+
+    if (dispatch?.assigned) {
+      session.valet_id = dispatch.valet.id;
+    }
+
     sendCheckInWhatsAppInBackground({
       customer,
       vehicle,
@@ -744,10 +769,14 @@ const quickCheckIn = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "Vehicle checked in successfully. Ticket information is being sent on WhatsApp.",
+      message: dispatch?.assigned
+        ? `Vehicle checked in. ${dispatch.valet.name} is assigned to this vehicle. Ticket information is being sent on WhatsApp.`
+        : "Vehicle checked in successfully. Ticket information is being sent on WhatsApp.",
       customer,
       vehicle,
       session,
+      valet: dispatch?.assigned ? dispatch.valet : null,
+      valet_assignment: dispatch,
       ticket: {
         ticket_code: ticketCode,
         qr_code: qrCode
@@ -1302,7 +1331,9 @@ const assignValet = async (req, res) => {
       });
     }
 
-    if (!["stored", "available", "returned"].includes(key.status)) {
+    // "assigned" is allowed so a manager can reassign a car that was auto-assigned
+    // to another valet at check-in; the key moves to the new valet below.
+    if (!["stored", "available", "returned", "assigned"].includes(key.status)) {
       return res.status(400).json({
         success: false,
         message: "Vehicle key is not available for valet assignment."

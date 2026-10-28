@@ -13,7 +13,6 @@ import {
   CreditCard,
   FileChartColumn,
   Building2,
-  Map as MapIcon,
   MapPinned,
 } from "lucide-react";
 
@@ -45,7 +44,6 @@ export const parkingAdminConfig = {
   searchPlaceholder: "Search...",
   menu: [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "area-map", label: "Area Map", icon: MapIcon },
     { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },
     { id: "parking-operations", label: "Parking Operations", icon: CarFront },
     { id: "valet-management", label: "Valet Management", icon: Users },

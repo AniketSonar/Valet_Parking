@@ -4,6 +4,8 @@ import {
   getMyAreas,
   getFloorMap,
   getAssignableValets,
+  createGate,
+  deleteGate,
   createPost,
   updatePost,
   deletePost,
@@ -30,6 +32,7 @@ function ValetPosts() {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ post_name: "", gate_id: "", capacity: 2 });
   const [pick, setPick] = useState({}); // postId -> valetId
+  const [gateForm, setGateForm] = useState({ gate_name: "", gate_type: "entry_exit", side: "front" });
 
   const loadFloor = useCallback(async (id) => {
     if (!id) {
@@ -106,6 +109,16 @@ function ValetPosts() {
       setShowForm(false);
       setForm({ post_name: "", gate_id: "", capacity: 2 });
     }
+  };
+
+  // Entry / exit points used to be drawn on the Area Map; they are managed here now.
+  const submitGate = async (e) => {
+    e.preventDefault();
+    const ok = await run(
+      () => createGate({ floor_id: floorId, ...gateForm, gate_name: gateForm.gate_name.trim() }),
+      "Entry / exit point added."
+    );
+    if (ok) setGateForm((prev) => ({ ...prev, gate_name: "" }));
   };
 
   // "2 valets in front, 2 at the back" in one click
@@ -196,6 +209,72 @@ function ValetPosts() {
           {postedCount} valet{postedCount === 1 ? "" : "s"} posted
         </span>
       </div>
+
+      <section className="ar-card" style={{ marginBottom: 18 }}>
+        <h2>Entry / exit points</h2>
+        <p className="ar-sub">Where customers drive in and out of this floor. Link a post to one below.</p>
+
+        {gates.length > 0 && (
+          <ul className="ar-list" style={{ marginBottom: 12 }}>
+            {gates.map((g) => (
+              <li key={g.id}>
+                <span>
+                  <strong>{g.gate_name}</strong>{" "}
+                  <span className="ar-muted">
+                    {GATE_TYPE_LABEL[g.gate_type]} · {g.side}
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  className="ar-btn ar-btn-sm ar-btn-danger"
+                  onClick={() => run(() => deleteGate(g.id), "Entry / exit point removed.")}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <form className="ar-form" onSubmit={submitGate}>
+          <label className="ar-field">
+            <span>Name</span>
+            <input
+              className="ar-input"
+              required
+              placeholder="Main gate"
+              value={gateForm.gate_name}
+              onChange={(e) => setGateForm({ ...gateForm, gate_name: e.target.value })}
+            />
+          </label>
+          <label className="ar-field" style={{ maxWidth: 160 }}>
+            <span>Type</span>
+            <select
+              className="ar-select"
+              value={gateForm.gate_type}
+              onChange={(e) => setGateForm({ ...gateForm, gate_type: e.target.value })}
+            >
+              <option value="entry_exit">Entry / Exit</option>
+              <option value="entry">Entry</option>
+              <option value="exit">Exit</option>
+            </select>
+          </label>
+          <label className="ar-field" style={{ maxWidth: 130 }}>
+            <span>Side</span>
+            <select
+              className="ar-select"
+              value={gateForm.side}
+              onChange={(e) => setGateForm({ ...gateForm, side: e.target.value })}
+            >
+              <option value="front">Front</option>
+              <option value="back">Back</option>
+              <option value="left">Left</option>
+              <option value="right">Right</option>
+            </select>
+          </label>
+          <button type="submit" className="ar-btn ar-btn-primary">Add point</button>
+        </form>
+      </section>
 
       {showForm && (
         <form className="ar-card ar-form" style={{ marginBottom: 18 }} onSubmit={submitPost}>

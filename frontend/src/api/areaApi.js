@@ -19,21 +19,16 @@ export const getUnassignedSlots = () => apiClient("/api/areas/unassigned-slots")
 export const assignSlotsToFloor = (slotIds, floorId) =>
   apiClient("/api/areas/slots/assign", json("PATCH", { slot_ids: slotIds, floor_id: floorId }));
 
-// ---- Manager: own area, zones, map, gates ------------------------------
+// ---- Super admin: parking areas (Block A, slot 1 to 50 -> A-01 ... A-50) --
+export const getParkingAreas = () => apiClient("/api/areas/parking-areas");
+export const createParkingArea = (data) =>
+  apiClient("/api/areas/parking-areas", json("POST", data));
+export const deleteParkingArea = (id) =>
+  apiClient(`/api/areas/parking-areas/${id}`, { method: "DELETE" });
+
+// ---- Manager: own floors and entry / exit gates --------------------------
 export const getMyAreas = () => apiClient("/api/areas/my-areas");
 export const getFloorMap = (floorId) => apiClient(`/api/areas/floors/${floorId}/map`);
-export const removePreviousSlots = (floorId) =>
-  apiClient(`/api/areas/floors/${floorId}/previous-slots`, { method: "DELETE" });
-
-export const createZone = (data) => apiClient("/api/areas/zones", json("POST", data));
-export const updateZone = (id, data) => apiClient(`/api/areas/zones/${id}`, json("PATCH", data));
-export const deleteZone = (id) => apiClient(`/api/areas/zones/${id}`, { method: "DELETE" });
-
-export const createSlotOnMap = (zoneId, data) =>
-  apiClient(`/api/areas/zones/${zoneId}/slots`, json("POST", data));
-export const generateSlots = (zoneId, data) =>
-  apiClient(`/api/areas/zones/${zoneId}/generate-slots`, json("POST", data));
-export const deleteSlot = (id) => apiClient(`/api/areas/slots/${id}`, { method: "DELETE" });
 
 export const createGate = (data) => apiClient("/api/areas/gates", json("POST", data));
 export const updateGate = (id, data) => apiClient(`/api/areas/gates/${id}`, json("PATCH", data));

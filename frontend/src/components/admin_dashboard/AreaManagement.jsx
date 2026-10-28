@@ -8,16 +8,24 @@ import {
   getManagersWithAreas,
   assignManagerToFloor,
   removeManagerAssignment,
+  getParkingAreas,
+  createParkingArea,
+  deleteParkingArea,
 } from "../../api/areaApi";
 import "../areas/areas.css";
 
 const floorLabel = (floor) =>
   `${floor.building?.building_name ? `${floor.building.building_name} · ` : ""}${floor.floor_name}`;
 
+// Same padding the server uses when it creates the slots (A-01 ... A-50, A-001 ... A-120).
+const slotLabel = (area, number) =>
+  `${area.block_code}-${String(number).padStart(Math.max(2, String(area.end_number).length), "0")}`;
+
 function AreaManagement() {
   const [buildings, setBuildings] = useState([]);
   const [floors, setFloors] = useState([]);
   const [managers, setManagers] = useState([]);
+  const [areas, setAreas] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -25,21 +33,31 @@ function AreaManagement() {
 
   const [buildingForm, setBuildingForm] = useState({ building_name: "", address: "" });
   const [floorForm, setFloorForm] = useState({ building_id: "", floor_name: "", floor_number: "" });
+  const [areaForm, setAreaForm] = useState({
+    manager_id: "",
+    floor_id: "",
+    block: "",
+    start_number: "1",
+    end_number: "",
+    parking_type: "car",
+  });
 
   const load = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
 
-      const [b, f, m] = await Promise.all([
+      const [b, f, m, a] = await Promise.all([
         getBuildings(),
         getFloors(),
         getManagersWithAreas(),
+        getParkingAreas(),
       ]);
 
       setBuildings(b.buildings || []);
       setFloors(f.floors || []);
       setManagers(m.managers || []);
+      setAreas(a.areas || []);
     } catch (err) {
       setError(err.message || "Failed to load areas.");
     } finally {
@@ -67,6 +85,54 @@ function AreaManagement() {
 
   const activeManagers = useMemo(() => managers.filter((m) => m.is_active), [managers]);
 
+  // Only managers that already hold a floor can be given a parking area.
+  const managersWithFloors = useMemo(
+    () => activeManagers.filter((m) => floors.some((f) => f.manager?.id === m.id)),
+    [activeManagers, floors]
+  );
+
+  const floorsOfPickedManager = useMemo(
+    () => floors.filter((f) => areaForm.manager_id && f.manager?.id === areaForm.manager_id),
+    [floors, areaForm.manager_id]
+  );
+
+  const pickManager = (managerId) => {
+    const owned = floors.filter((f) => f.manager?.id === managerId);
+    setAreaForm((prev) => ({
+      ...prev,
+      manager_id: managerId,
+      floor_id: owned.length === 1 ? owned[0].id : "",
+    }));
+  };
+
+  const previewRange = useMemo(() => {
+    const block = areaForm.block.trim().toUpperCase();
+    const start = Number(areaForm.start_number);
+    const end = Number(areaForm.end_number);
+    if (!block || !Number.isInteger(start) || !Number.isInteger(end) || start < 1 || end < start) {
+      return "";
+    }
+    const width = Math.max(2, String(end).length);
+    const label = (n) => `${block}-${String(n).padStart(width, "0")}`;
+    return `${label(start)} to ${label(end)} (${end - start + 1} slots)`;
+  }, [areaForm.block, areaForm.start_number, areaForm.end_number]);
+
+  const submitArea = async (e) => {
+    e.preventDefault();
+    const ok = await run(
+      () =>
+        createParkingArea({
+          floor_id: areaForm.floor_id,
+          block: areaForm.block,
+          start_number: Number(areaForm.start_number),
+          end_number: Number(areaForm.end_number),
+          parking_type: areaForm.parking_type,
+        }),
+      "Parking area created."
+    );
+    if (ok) setAreaForm((prev) => ({ ...prev, block: "", start_number: "1", end_number: "" }));
+  };
+
   const submitBuilding = async (e) => {
     e.preventDefault();
     const ok = await run(() => createBuilding(buildingForm), "Building added.");
@@ -93,8 +159,9 @@ function AreaManagement() {
         <div>
           <h1>Areas &amp; Managers</h1>
           <p>
-            Set up buildings and floors, then give each floor to a manager. A manager only sees and
-            controls the floors assigned to them, and builds their own zones, gates and valet posts there.
+            Set up buildings and floors, give each floor to a manager, then create the parking area
+            for that manager, for example block A with slots 1 to 50. A manager only sees the floors
+            and slots assigned to them and manages the valets there.
           </p>
         </div>
         <button type="button" className="ar-btn" onClick={load} disabled={loading}>
@@ -227,6 +294,145 @@ function AreaManagement() {
                           Remove manager
                         </button>
                       )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      <section className="ar-card" style={{ marginBottom: 18 }}>
+        <h2>Create a parking area</h2>
+        <p className="ar-sub">
+          Name a block and a slot range. For example block A, slots 1 to 50 creates A-01 to A-50
+          for that manager.
+        </p>
+
+        {managersWithFloors.length === 0 ? (
+          <div className="ar-empty">Assign a manager to a floor above before creating a parking area.</div>
+        ) : (
+          <form className="ar-form" onSubmit={submitArea}>
+            <label className="ar-field">
+              <span>Manager</span>
+              <select
+                className="ar-select"
+                required
+                value={areaForm.manager_id}
+                onChange={(e) => pickManager(e.target.value)}
+              >
+                <option value="">Choose a manager</option>
+                {managersWithFloors.map((m) => (
+                  <option key={m.id} value={m.id}>{m.name}</option>
+                ))}
+              </select>
+            </label>
+            <label className="ar-field">
+              <span>Floor</span>
+              <select
+                className="ar-select"
+                required
+                value={areaForm.floor_id}
+                onChange={(e) => setAreaForm({ ...areaForm, floor_id: e.target.value })}
+                disabled={!areaForm.manager_id}
+              >
+                <option value="">Choose a floor</option>
+                {floorsOfPickedManager.map((f) => (
+                  <option key={f.id} value={f.id}>{floorLabel(f)}</option>
+                ))}
+              </select>
+            </label>
+            <label className="ar-field" style={{ maxWidth: 110 }}>
+              <span>Block</span>
+              <input
+                className="ar-input"
+                required
+                maxLength={6}
+                placeholder="A"
+                value={areaForm.block}
+                onChange={(e) => setAreaForm({ ...areaForm, block: e.target.value.toUpperCase() })}
+              />
+            </label>
+            <label className="ar-field" style={{ maxWidth: 110 }}>
+              <span>Slot from</span>
+              <input
+                className="ar-input"
+                required
+                type="number"
+                min="1"
+                step="1"
+                value={areaForm.start_number}
+                onChange={(e) => setAreaForm({ ...areaForm, start_number: e.target.value })}
+              />
+            </label>
+            <label className="ar-field" style={{ maxWidth: 110 }}>
+              <span>Slot to</span>
+              <input
+                className="ar-input"
+                required
+                type="number"
+                min="1"
+                step="1"
+                placeholder="50"
+                value={areaForm.end_number}
+                onChange={(e) => setAreaForm({ ...areaForm, end_number: e.target.value })}
+              />
+            </label>
+            <label className="ar-field" style={{ maxWidth: 130 }}>
+              <span>Vehicle type</span>
+              <select
+                className="ar-select"
+                value={areaForm.parking_type}
+                onChange={(e) => setAreaForm({ ...areaForm, parking_type: e.target.value })}
+              >
+                <option value="car">Car</option>
+                <option value="bike">Bike</option>
+                <option value="truck">Truck</option>
+              </select>
+            </label>
+            <button type="submit" className="ar-btn ar-btn-primary">Create slots</button>
+          </form>
+        )}
+
+        {previewRange && <p className="ar-sub" style={{ marginTop: 10 }}>Will create {previewRange}.</p>}
+
+        {areas.length > 0 && (
+          <div className="ar-scroll" style={{ marginTop: 14 }}>
+            <table className="ar-table">
+              <thead>
+                <tr>
+                  <th>Block</th>
+                  <th>Slots</th>
+                  <th>Floor</th>
+                  <th>Manager</th>
+                  <th>In use</th>
+                  <th aria-label="Actions" />
+                </tr>
+              </thead>
+              <tbody>
+                {areas.map((area) => (
+                  <tr key={area.id}>
+                    <td><strong>{area.block_code}</strong></td>
+                    <td>
+                      {slotLabel(area, area.start_number)} to {slotLabel(area, area.end_number)}
+                      <span className="ar-muted"> ({area.slot_count})</span>
+                    </td>
+                    <td>{floorLabel(area.floor || {})}</td>
+                    <td>{area.manager?.name || <span className="ar-muted">Unassigned</span>}</td>
+                    <td>{area.occupied_count}/{area.slot_count}</td>
+                    <td style={{ textAlign: "right" }}>
+                      <button
+                        type="button"
+                        className="ar-btn ar-btn-sm ar-btn-danger"
+                        onClick={() => {
+                          if (window.confirm(`Remove block ${area.block_code} and its ${area.slot_count} slots?`)) {
+                            run(() => deleteParkingArea(area.id), "Parking area removed.");
+                          }
+                        }}
+                      >
+                        Remove
+                      </button>
                     </td>
                   </tr>
                 ))}

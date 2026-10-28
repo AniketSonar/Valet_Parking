@@ -24,17 +24,6 @@ export const updateParkingSlotStatus = async (slotId, status) => {
   });
 };
 
-export const createParkingSlot = async (slotData) => {
-  return apiClient("/api/parking-slots", {
-    method: "POST",
-    body: JSON.stringify(slotData),
-  });
-};
-
-// ============================================================
-// PARKING SESSIONS
-// ============================================================
-
 export const getParkingSessions = async (params = {}) => {
   const query = new URLSearchParams(params).toString();
   return apiClient(`/api/parking-admin/sessions${query ? `?${query}` : ""}`);

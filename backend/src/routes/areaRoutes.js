@@ -21,17 +21,14 @@ router.delete("/manager-assignments/:id", ...superAdmin, area.removeManagerAssig
 router.get("/unassigned-slots", ...superAdmin, area.getUnassignedSlots);
 router.patch("/slots/assign", ...superAdmin, area.assignSlotsToFloor);
 
-/* Manager: map their own area */
+/* Super admin: parking areas ("Block A, slot 1 to 50" -> A-01 ... A-50) */
+router.get("/parking-areas", ...superAdmin, area.getParkingAreas);
+router.post("/parking-areas", ...superAdmin, area.createParkingArea);
+router.delete("/parking-areas/:id", ...superAdmin, area.deleteParkingArea);
+
+/* Manager: own floors, entry/exit gates */
 router.get("/my-areas", ...manager, area.getMyAreas);
 router.get("/floors/:floorId/map", ...manager, area.getFloorMap);
-router.delete("/floors/:floorId/previous-slots", ...manager, area.removePreviousSlots);
-
-router.post("/zones", ...manager, area.createZone);
-router.patch("/zones/:id", ...manager, area.updateZone);
-router.delete("/zones/:id", ...manager, area.deleteZone);
-router.post("/zones/:id/slots", ...manager, area.createSlotOnMap);
-router.post("/zones/:id/generate-slots", ...manager, area.generateSlots);
-router.delete("/slots/:id", ...manager, area.deleteSlot);
 
 router.post("/gates", ...manager, area.createGate);
 router.patch("/gates/:id", ...manager, area.updateGate);

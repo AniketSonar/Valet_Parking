@@ -5,7 +5,6 @@ import {
   Search,
   Settings2,
   X,
-  Plus,
   CircleParking,
   Loader2,
   CheckCircle2,
@@ -26,7 +25,6 @@ import {
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ParkingSlots.css";
 import apiClient from "../../api/apiClient";
-import { getMyAreas, getFloorMap } from "../../api/areaApi";
 import { getValetParkingSlots } from "../../api/parkingApi";
 
 /* ==========================================================================
@@ -386,14 +384,11 @@ const ParkingBayItem = ({ slot, selected, onClick }) => {
    ========================================================================== */
 const getZoneName = (zone) => {
   const normalized = String(zone || "").toUpperCase();
-  if (normalized === "A") return "Zone A";
-  if (normalized === "B") return "Zone B";
-  if (normalized === "C") return "Zone C";
-  if (normalized === "D") return "Zone D";
   if (normalized === "VIP") return "VIP Executive";
   if (normalized === "EV") return "EV Charging";
   if (normalized === "ACCESSIBLE") return "Accessible";
-  return zone || "Zone";
+  if (/^[A-Z0-9]{1,6}$/.test(normalized)) return `Block ${normalized}`;
+  return zone || "Block";
 };
 
 const getZoneKey = (slot) => {
@@ -408,71 +403,49 @@ const getZoneKey = (slot) => {
   return match?.[0]?.toUpperCase() || "A";
 };
 
-const createValetAreaMap = (slots) => {
-  const groupedSlots = new Map();
+// Slots are created by the super admin as blocks (A-01 ... A-50). The grid is
+// just those slots laid out block by block, in slot-number order.
+const GRID_COLUMNS = 6;
+
+const createBlockLayout = (slots) => {
+  const groups = new Map();
 
   slots.forEach((slot) => {
-    const key = slot.zone_id || "unassigned";
-    if (!groupedSlots.has(key)) groupedSlots.set(key, []);
-    groupedSlots.get(key).push(slot);
+    const key = getZoneKey(slot);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(slot);
   });
 
   const zones = [];
-  const mappedSlots = [];
+  const laidOut = [];
 
-  [...groupedSlots.entries()].forEach(([key, group], zoneIndex) => {
-    const zoneId = key === "unassigned" ? `valet-area-${zoneIndex}` : key;
-    const occupiedCells = new Set();
-    const columns = Math.min(
-      40,
-      Math.max(6, ...group.map((slot) => Number(slot.map_col) + 1 || 0))
-    );
-    let nextCell = 0;
+  [...groups.keys()].sort().forEach((key) => {
+    const zone = {
+      id: key,
+      zone_name: getZoneName(key),
+      zone_code: key,
+      map_cols: GRID_COLUMNS,
+    };
 
-    group.forEach((slot) => {
-      let row = Number(slot.map_row);
-      let column = Number(slot.map_col);
-      let cell = `${row}:${column}`;
-
-      if (
-        !Number.isInteger(row) ||
-        !Number.isInteger(column) ||
-        row < 0 ||
-        row >= 40 ||
-        column < 0 ||
-        column >= columns ||
-        occupiedCells.has(cell)
-      ) {
-        while (occupiedCells.has(`${Math.floor(nextCell / columns)}:${nextCell % columns}`)) {
-          nextCell += 1;
-        }
-        row = Math.floor(nextCell / columns);
-        column = nextCell % columns;
-        cell = `${row}:${column}`;
-      }
-
-      occupiedCells.add(cell);
-      nextCell += 1;
-      mappedSlots.push({ ...slot, zone_id: zoneId, map_row: row, map_col: column });
-    });
-
-    const mapRows = Math.max(
-      1,
-      ...mappedSlots
-        .filter((slot) => slot.zone_id === zoneId)
-        .map((slot) => slot.map_row + 1)
+    const ordered = [...groups.get(key)].sort((a, b) =>
+      String(a.slot_number || "").localeCompare(String(b.slot_number || ""), undefined, { numeric: true })
     );
 
-    zones.push({
-      id: zoneId,
-      zone_name: group[0]?.zone?.zone_name || `Parking Zone ${zoneIndex + 1}`,
-      zone_code: group[0]?.zone?.zone_code || `ZONE ${zoneIndex + 1}`,
-      map_rows: mapRows,
-      map_cols: columns,
+    ordered.forEach((slot, index) => {
+      laidOut.push({
+        ...slot,
+        zone,
+        zone_id: key,
+        map_row: Math.floor(index / GRID_COLUMNS),
+        map_col: index % GRID_COLUMNS,
+      });
     });
+
+    zone.map_rows = Math.max(1, Math.ceil(ordered.length / GRID_COLUMNS));
+    zones.push(zone);
   });
 
-  return { zones, slots: mappedSlots, gates: [] };
+  return { zones, slots: laidOut };
 };
 
 /* ==========================================================================
@@ -496,14 +469,6 @@ const ParkingSlots = ({ scope = "manager" }) => {
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [statusUpdateError, setStatusUpdateError] = useState("");
 
-  const [showAddSlot, setShowAddSlot] = useState(false);
-  const [creatingSlot, setCreatingSlot] = useState(false);
-  const [createSlotError, setCreateSlotError] = useState("");
-  const [createSlotSuccess, setCreateSlotSuccess] = useState("");
-  const [newSlot, setNewSlot] = useState({
-    slot_number: "",
-    parking_type: "car",
-  });
 
   // Fetch slots data
   const fetchSlots = useCallback(async (silent = false) => {
@@ -511,47 +476,21 @@ const ParkingSlots = ({ scope = "manager" }) => {
       if (!silent) setLoading(true);
       setError("");
 
-      const [response, areas] = isValetScope
-        ? [await getValetParkingSlots(), null]
-        : await Promise.all([
-            apiClient("/api/parking-slots"),
-            getMyAreas(),
-          ]);
+      const response = isValetScope
+        ? await getValetParkingSlots()
+        : await apiClient("/api/parking-slots");
+
       if (!response || response.success !== true) {
         throw new Error(response?.message || "Failed to fetch parking slots.");
       }
 
-      const floorMaps = isValetScope
-        ? []
-        : await Promise.all(
-            (areas?.floors || []).map((floor) => getFloorMap(floor.id))
-          );
-      const responseSlots = Array.isArray(response.slots) ? response.slots : [];
-      const mapResponse = isValetScope
-        ? response.areaMap?.zones?.length
-          ? response.areaMap
-          : responseSlots.length
-            ? createValetAreaMap(responseSlots)
-            : response.areaMap
-        : floorMaps.length
-          ? {
-              zones: floorMaps.flatMap((map) => map.zones || []),
-              slots: floorMaps.flatMap((map) => map.slots || []),
-              gates: floorMaps.flatMap((map) => map.gates || []),
-            }
-          : null;
-      setAssignment(isValetScope ? response.assignment || null : null);
-      setAreaMap(mapResponse);
-
-      const detailsById = new Map(
-        (Array.isArray(response.slots) ? response.slots : []).map((slot) => [slot.id, slot])
+      const layout = createBlockLayout(
+        Array.isArray(response.slots) ? response.slots : []
       );
-      const zonesById = new Map((mapResponse?.zones || []).map((zone) => [zone.id, zone]));
-      const fetchedSlots = (mapResponse?.slots || []).map((mapSlot) => ({
-        ...mapSlot,
-        ...(detailsById.get(mapSlot.id) || {}),
-        zone: zonesById.get(mapSlot.zone_id) || null,
-      }));
+      setAssignment(isValetScope ? response.assignment || null : null);
+      setAreaMap({ ...layout, gates: response.gates || [] });
+
+      const fetchedSlots = layout.slots;
       setSlots(fetchedSlots);
 
       // Auto-select first occupied slot for inspector view if none selected
@@ -666,58 +605,6 @@ const ParkingSlots = ({ scope = "manager" }) => {
     }
   };
 
-  // Add slot handler
-  const handleCreateSlot = async (event) => {
-    event.preventDefault();
-    const slotNumber = newSlot.slot_number.trim().toUpperCase();
-
-    if (!slotNumber) {
-      setCreateSlotError("Enter a parking slot number.");
-      return;
-    }
-
-    const exists = slots.some(
-      (slot) => String(slot.slot_number || "").trim().toUpperCase() === slotNumber
-    );
-
-    if (exists) {
-      setCreateSlotError(`${slotNumber} already exists. Please choose another slot number.`);
-      return;
-    }
-
-    try {
-      setCreatingSlot(true);
-      setCreateSlotError("");
-      setCreateSlotSuccess("");
-
-      const response = await apiClient("/api/parking-slots", {
-        method: "POST",
-        body: JSON.stringify({
-          slot_number: slotNumber,
-          parking_type: newSlot.parking_type,
-        }),
-      });
-
-      if (!response || response.success !== true) {
-        throw new Error(response?.message || "Failed to create parking slot.");
-      }
-
-      setCreateSlotSuccess(`${slotNumber} has been added successfully.`);
-      setNewSlot({ slot_number: "", parking_type: "car" });
-      await fetchSlots();
-
-      setTimeout(() => {
-        setShowAddSlot(false);
-        setCreateSlotSuccess("");
-      }, 900);
-    } catch (err) {
-      console.error("Create parking slot error:", err);
-      setCreateSlotError(err?.message || "Failed to create parking slot.");
-    } finally {
-      setCreatingSlot(false);
-    }
-  };
-
   // Filtering
   const filteredSlots = useMemo(() => {
     const searchTerm = search.trim().toLowerCase();
@@ -765,26 +652,29 @@ const ParkingSlots = ({ scope = "manager" }) => {
 
   // Organize bays into balanced rows for map visual
   const activeMapZone = useMemo(() => {
+    if (activeZone === "all") return null;
+
     const zones = areaMap?.zones || [];
-    if (activeZone !== "all") {
-      return zones.find((zone) => getZoneKey({ zone }) === activeZone) || zones[0] || null;
-    }
-    return zones[0] || null;
+    return zones.find((zone) => getZoneKey({ zone }) === activeZone) || null;
   }, [areaMap, activeZone]);
 
-  const parkingRows = useMemo(() => {
-    const columns = activeMapZone?.map_cols || 6;
-    const rows = activeMapZone?.map_rows || 0;
-    const visible = new Map(
-      filteredSlots
-        .filter((slot) => !activeMapZone || slot.zone_id === activeMapZone.id)
-        .map((slot) => [`${slot.map_row}:${slot.map_col}`, slot])
-    );
+  const mapFilteredSlots = useMemo(
+    () =>
+      filteredSlots.filter(
+        (slot) => !activeMapZone || slot.zone_id === activeMapZone.id
+      ),
+    [filteredSlots, activeMapZone]
+  );
 
-    return Array.from({ length: rows }, (_, row) =>
-      Array.from({ length: columns }, (_, col) => visible.get(`${row}:${col}`) || null)
+  const parkingRows = useMemo(() => {
+    return Array.from(
+      { length: Math.ceil(mapFilteredSlots.length / GRID_COLUMNS) },
+      (_, rowIndex) =>
+        Array.from({ length: GRID_COLUMNS }, (_, columnIndex) =>
+          mapFilteredSlots[rowIndex * GRID_COLUMNS + columnIndex] || null
+        )
     );
-  }, [filteredSlots, activeMapZone]);
+  }, [mapFilteredSlots]);
 
   const gatesForSide = (side) =>
     (areaMap?.gates || [])
@@ -821,17 +711,6 @@ const ParkingSlots = ({ scope = "manager" }) => {
         </div>
 
         <div className="facility-header-actions">
-          {!isValetScope && (
-            <button
-              type="button"
-              className="action-btn-primary"
-              onClick={() => setShowAddSlot(true)}
-            >
-              <Plus size={16} />
-              <span>Add Parking Bay</span>
-            </button>
-          )}
-
           <button
             type="button"
             className="action-btn-secondary"
@@ -996,10 +875,10 @@ const ParkingSlots = ({ scope = "manager" }) => {
             <div className="map-card-header">
               <div className="map-title-wrap">
                 <h2>
-                  {activeMapZone?.zone_name || "Area Map"}
+                  {activeMapZone?.zone_name || "All Spaces"}
                 </h2>
                 <span className="bays-counter-pill">
-                  {filteredSlots.length} Bays Active
+                  {mapFilteredSlots.length} Bays Active
                 </span>
               </div>
 
@@ -1069,7 +948,7 @@ const ParkingSlots = ({ scope = "manager" }) => {
                   </React.Fragment>
                 ))}
 
-                {filteredSlots.length === 0 && !loading && (
+                {mapFilteredSlots.length === 0 && !loading && (
                   <div className="map-no-results">
                     <CircleParking size={36} />
                     <p>
@@ -1336,105 +1215,6 @@ const ParkingSlots = ({ scope = "manager" }) => {
         </aside>
       </div>
 
-      {/* ===================================================================
-          5. ADD NEW PARKING BAY MODAL
-          =================================================================== */}
-      {!isValetScope && showAddSlot && (
-        <div className="facility-modal-backdrop" onClick={() => !creatingSlot && setShowAddSlot(false)}>
-          <div className="facility-add-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="add-modal-header">
-              <div>
-                <span className="modal-eyebrow">CONFIGURATION</span>
-                <h3>Add New Parking Space</h3>
-              </div>
-              <button
-                type="button"
-                className="modal-close-icon"
-                onClick={() => setShowAddSlot(false)}
-                disabled={creatingSlot}
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateSlot} className="add-modal-form">
-              <div className="form-group">
-                <label htmlFor="slot-number-input">Bay / Slot Identifier</label>
-                <input
-                  id="slot-number-input"
-                  type="text"
-                  placeholder="e.g. A-08, B-12, VIP-03"
-                  value={newSlot.slot_number}
-                  onChange={(e) =>
-                    setNewSlot({ ...newSlot, slot_number: e.target.value.toUpperCase() })
-                  }
-                  required
-                  autoFocus
-                  disabled={creatingSlot}
-                />
-                <small>Choose standard zone naming (e.g., A-01 to A-20, B-01 to B-20).</small>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="slot-type-input">Vehicle / Allocation Type</label>
-                <select
-                  id="slot-type-input"
-                  value={newSlot.parking_type}
-                  onChange={(e) =>
-                    setNewSlot({ ...newSlot, parking_type: e.target.value })
-                  }
-                  disabled={creatingSlot}
-                >
-                  <option value="car">Standard Luxury Car</option>
-                  <option value="ev">EV Charging Space</option>
-                  <option value="bike">Motorcycle Bay</option>
-                  <option value="truck">Oversized / SUV Bay</option>
-                </select>
-              </div>
-
-              {createSlotError && (
-                <div className="form-alert-box error">{createSlotError}</div>
-              )}
-
-              {createSlotSuccess && (
-                <div className="form-alert-box success">
-                  <CheckCircle2 size={15} />
-                  <span>{createSlotSuccess}</span>
-                </div>
-              )}
-
-              <div className="add-modal-footer">
-                <button
-                  type="button"
-                  className="modal-cancel-btn"
-                  onClick={() => setShowAddSlot(false)}
-                  disabled={creatingSlot}
-                >
-                  Cancel
-                </button>
-
-                <button
-                  type="submit"
-                  className="modal-submit-btn"
-                  disabled={creatingSlot}
-                >
-                  {creatingSlot ? (
-                    <>
-                      <Loader2 size={15} className="spin-animation" />
-                      <span>Creating...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Plus size={15} />
-                      <span>Create Space</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

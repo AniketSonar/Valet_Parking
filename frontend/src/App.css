@@ -2661,13 +2661,7 @@ a { text-decoration: none; }
 @media (max-width: 960px) {
   .app-shell {
     grid-template-columns: 1fr !important;
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.92) 100%
-      ),
-      url("/valet-hero.png") center center / cover no-repeat !important;
+    background: url("/valet-hero.png") center center / cover no-repeat !important;
   }
 
   .vp-hero-container {
@@ -2698,8 +2692,8 @@ a { text-decoration: none; }
   width: 100% !important;
   overflow-x: hidden !important;
 
-  /* Crisp 1920x1080 background with left-anchored typography */
-  background: url("/valet-hero.png") left center / cover no-repeat !important;
+  /* Fill the login viewport so no blank bands appear around the image. */
+  background: url("/valet-hero.png") center center / cover no-repeat !important;
 }
 
 .hero-section {
@@ -2736,13 +2730,7 @@ a { text-decoration: none; }
 @media (max-width: 960px) {
   .app-shell {
     grid-template-columns: 1fr !important;
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.92) 100%
-      ),
-      url("/valet-hero.png") center center / cover no-repeat !important;
+    background: url("/valet-hero.png") center center / cover no-repeat !important;
   }
 
   .hero-section {
@@ -2844,8 +2832,14 @@ a { text-decoration: none; }
 
 /* Match the staff login accents to the dashboard's burgundy and gold palette. */
 .app-shell .vp-auth-card {
-  background: linear-gradient(145deg, #fff 0%, #fffaf7 100%) !important;
-  border-color: rgba(139, 18, 48, 0.16) !important;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 250, 247, 0.68) 100%
+  ) !important;
+  backdrop-filter: blur(20px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(135%) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
   box-shadow:
     0 20px 60px rgba(80, 12, 32, 0.2),
     0 1px 0 rgba(201, 138, 44, 0.16) inset !important;
@@ -2855,13 +2849,43 @@ a { text-decoration: none; }
   color: #571025;
 }
 
+.app-shell .vp-card-heading p {
+  color: #171717;
+}
+
 .app-shell .vp-input-field {
-  background: #faf6f6;
+  background: rgba(255, 255, 255, 0.66);
+  border-color: rgba(87, 16, 37, 0.12);
+}
+
+.app-shell .vp-input-field input {
+  color: #171717;
+}
+
+.app-shell .vp-input-field input::placeholder {
+  color: #4b4547;
+  opacity: 1;
+}
+
+.app-shell .vp-field-icon,
+.app-shell .vp-pwd-toggle {
+  color: #4b4547;
 }
 
 .app-shell .vp-input-field:focus-within {
+  background: rgba(255, 255, 255, 0.86);
   border-color: #8b1230;
   box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.12);
+}
+
+.app-shell .vp-remember-text,
+.app-shell .vp-card-footer,
+.app-shell .vp-portal-switch {
+  color: #171717;
+}
+
+.app-shell .vp-portal-switch {
+  border-top-color: rgba(87, 16, 37, 0.28);
 }
 
 .app-shell .vp-checkbox-label input:checked + .vp-checkbox-custom {
@@ -2889,7 +2913,7 @@ a { text-decoration: none; }
 .app-shell .vp-forgot-link:hover,
 .app-shell .vp-signup-link:hover,
 .app-shell .vp-switch-btn:hover {
-  color: #c98a2c;
+  color: #571025;
 }
 
 .app-shell .vp-google-btn:hover {

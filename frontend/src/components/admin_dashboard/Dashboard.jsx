@@ -8,7 +8,7 @@ import Reports from "./Reports";
 import Profile from "./Profile";
 import LuxuryDashboardView from "./LuxuryDashboardView";
 
-import { getDashboardStats } from "../../api/adminApi";
+import { getDashboardStats, getDashboardAnalytics } from "../../api/adminApi";
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 
 import "./Dashboard.css";
@@ -27,6 +27,7 @@ function Dashboard() {
     todayCheckouts: 32,
   });
 
+  const [analyticsData, setAnalyticsData] = useState(null);
   const [dashboardLoading, setDashboardLoading] = useState(false);
   const [dashboardError, setDashboardError] = useState("");
 
@@ -35,24 +36,29 @@ function Dashboard() {
       if (!silent) setDashboardLoading(true);
       setDashboardError("");
 
-      const response = await getDashboardStats();
+      const [statsRes, analyticsRes] = await Promise.allSettled([
+        getDashboardStats(),
+        getDashboardAnalytics(),
+      ]);
 
-      if (!response?.success) {
-        throw new Error(
-          response?.message || "Failed to load dashboard statistics."
-        );
+      if (statsRes.status === "fulfilled" && statsRes.value?.success) {
+        const stats = statsRes.value.stats || {};
+        setDashboardStats((prev) => ({
+          ...prev,
+          totalStaff: stats.totalStaff ?? 0,
+          activeStaff: stats.activeStaff ?? 0,
+          totalCustomers: stats.totalCustomers ?? 0,
+          activeParkingSessions: stats.activeParkingSessions ?? 0,
+          openIncidents: stats.openIncidents ?? 0,
+          todayRevenue: stats.todayRevenue ?? 0,
+          totalVehicles: stats.totalVehicles ?? prev.totalVehicles,
+          todayCheckouts: stats.todayCheckouts ?? prev.todayCheckouts,
+        }));
       }
 
-      setDashboardStats({
-        totalStaff: response?.stats?.totalStaff ?? 0,
-        activeStaff: response?.stats?.activeStaff ?? 0,
-        totalCustomers: response?.stats?.totalCustomers ?? 0,
-        activeParkingSessions: response?.stats?.activeParkingSessions ?? 38,
-        openIncidents: response?.stats?.openIncidents ?? 0,
-        todayRevenue: response?.stats?.todayRevenue ?? 0,
-        totalVehicles: (response?.stats?.activeParkingSessions || 38) + 86,
-        todayCheckouts: 32,
-      });
+      if (analyticsRes.status === "fulfilled" && analyticsRes.value?.success) {
+        setAnalyticsData(analyticsRes.value.analytics);
+      }
     } catch (error) {
       console.error("Dashboard stats error:", error);
       if (!silent) {
@@ -71,14 +77,22 @@ function Dashboard() {
     }
   }, [activePage]);
 
+  // Real-time synchronization on any database change
   useRealtimeSync({
-    tables: ["parking_sessions", "parking_slots", "payments", "users"],
+    tables: [
+      "parking_sessions",
+      "vehicles",
+      "parking_slots",
+      "payments",
+      "feedback",
+      "users",
+    ],
     onUpdate: () => {
       if (activePage === "dashboard") {
         loadDashboardStats(true);
       }
     },
-    interval: 4000,
+    interval: 3500,
     enabled: activePage === "dashboard",
   });
 
@@ -97,7 +111,7 @@ function Dashboard() {
             </div>
             <button
               type="button"
-              onClick={loadDashboardStats}
+              onClick={() => loadDashboardStats(false)}
               disabled={dashboardLoading}
             >
               {dashboardLoading ? "Retrying..." : "Retry"}
@@ -109,6 +123,7 @@ function Dashboard() {
         {activePage === "dashboard" && (
           <LuxuryDashboardView
             stats={dashboardStats}
+            analytics={analyticsData}
             loading={dashboardLoading}
           />
         )}

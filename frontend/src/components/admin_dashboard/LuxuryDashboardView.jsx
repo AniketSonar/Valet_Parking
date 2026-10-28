@@ -16,13 +16,22 @@ import {
 } from "lucide-react";
 import "./LuxuryDashboardView.css";
 
-function LuxuryDashboardView({ stats = {}, loading = false }) {
+function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, loading = false }) {
   const [timeFilter, setTimeFilter] = useState("Today");
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const [activeSegment, setActiveSegment] = useState(null);
 
-  // Time trend data points (8 AM to 10 PM) matching Image 2 curve
-  const trendData = useMemo(() => [
+  // Extract analytics from either direct prop or stats wrapper
+  const analytics = directAnalytics || stats?.analytics || null;
+
+  // Real-time KPI values with safe fallbacks
+  const kpiTotalVehicles = analytics?.totalVehiclesToday ?? stats?.totalVehicles ?? 124;
+  const kpiActiveParked = analytics?.activeParkingSessions ?? stats?.activeParkingSessions ?? 38;
+  const kpiCheckouts = analytics?.todayCheckouts ?? stats?.todayCheckouts ?? 32;
+  const kpiSatisfaction = analytics?.satisfaction ?? stats?.satisfaction ?? 4.8;
+
+  // Default fallback trend matching Image 2 curve
+  const defaultTrendData = useMemo(() => [
     { time: "8 AM", value: 6, label: "6 vehicles" },
     { time: "10 AM", value: 12, label: "12 vehicles" },
     { time: "12 PM", value: 19, label: "19 vehicles" },
@@ -33,10 +42,37 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
     { time: "10 PM", value: 32, label: "32 vehicles" },
   ], []);
 
-  // SVG Chart dimensions & path calculation
+  // Time trend data points (8 AM to 10 PM)
+  const trendData = useMemo(() => {
+    if (analytics?.hourlyTrend && analytics.hourlyTrend.some((t) => t.value > 0)) {
+      const peakVal = Math.max(...analytics.hourlyTrend.map((t) => t.value));
+      return analytics.hourlyTrend.map((t) => ({
+        ...t,
+        label: `${t.value} vehicle${t.value === 1 ? "" : "s"}${
+          t.value === peakVal && t.value > 0 ? " (Peak)" : ""
+        }`,
+      }));
+    }
+    return defaultTrendData;
+  }, [analytics?.hourlyTrend, defaultTrendData]);
+
+  // SVG Chart dimensions & dynamic path calculation
   const chartWidth = 620;
   const chartHeight = 160;
-  const maxY = 40;
+
+  // Calculate dynamic maxY so chart never clips and scales smoothly
+  const maxY = useMemo(() => {
+    const maxVal = Math.max(...trendData.map((d) => d.value), 0);
+    if (maxVal <= 5) return 10;
+    if (maxVal <= 15) return 20;
+    if (maxVal <= 30) return 40;
+    return Math.ceil((maxVal + 5) / 10) * 10;
+  }, [trendData]);
+
+  const gridValues = useMemo(() => {
+    const step = maxY / 4;
+    return [maxY, Math.round(step * 3), Math.round(step * 2), Math.round(step), 0];
+  }, [maxY]);
 
   // Convert data points to SVG coordinates
   const points = useMemo(() => {
@@ -45,7 +81,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
       const y = chartHeight - 25 - (d.value / maxY) * (chartHeight - 45);
       return { x, y, ...d };
     });
-  }, [trendData]);
+  }, [trendData, maxY]);
 
   // Generate smooth cubic bezier SVG curve
   const pathD = useMemo(() => {
@@ -67,14 +103,36 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
     return `${pathD} L ${lastPoint.x} ${chartHeight - 15} L ${points[0].x} ${chartHeight - 15} Z`;
   }, [pathD, points]);
 
-  // Vehicle type distribution matching Image 2
-  const vehicleTypes = [
+  // Vehicle type distribution with real-time support
+  const defaultVehicleTypes = useMemo(() => [
     { label: "Sedan", percentage: 48, color: "#6b0e24", count: 60 },
     { label: "SUV", percentage: 28, color: "#a82042", count: 35 },
     { label: "Luxury", percentage: 12, color: "#c95b77", count: 15 },
     { label: "Sports", percentage: 7, color: "#dca270", count: 9 },
     { label: "Others", percentage: 5, color: "#420815", count: 5 },
-  ];
+  ], []);
+
+  const vehicleTypes = useMemo(() => {
+    if (analytics?.vehicleTypes && analytics.vehicleTypes.some((t) => t.count > 0)) {
+      const activeTypes = analytics.vehicleTypes.filter((t) => t.count > 0);
+      const totalCount = activeTypes.reduce((a, b) => a + b.count, 0);
+      return activeTypes.map((t) => ({
+        ...t,
+        percentage: totalCount > 0 ? Math.round((t.count / totalCount) * 100) : 0,
+      }));
+    }
+    return defaultVehicleTypes;
+  }, [analytics?.vehicleTypes, defaultVehicleTypes]);
+
+  const totalDonutCount = useMemo(() => {
+    if (analytics?.totalVehiclesToday !== undefined && analytics.totalVehiclesToday > 0) {
+      return analytics.totalVehiclesToday;
+    }
+    if (stats?.totalVehicles !== undefined && stats.totalVehicles > 0) {
+      return stats.totalVehicles;
+    }
+    return 124;
+  }, [analytics?.totalVehiclesToday, stats?.totalVehicles]);
 
   // SVG Donut calculation
   const totalPercentage = 100;
@@ -82,17 +140,21 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
   const strokeWidth = 24;
   const circumference = 2 * Math.PI * radius;
 
-  let cumulativePercent = 0;
-  const donutSegments = vehicleTypes.map((type) => {
-    const strokeDasharray = `${(type.percentage / totalPercentage) * circumference} ${circumference}`;
-    const strokeDashoffset = -((cumulativePercent / totalPercentage) * circumference);
-    cumulativePercent += type.percentage;
-    return { ...type, strokeDasharray, strokeDashoffset };
-  });
+  const donutSegments = useMemo(() => {
+    let cumulativePercent = 0;
+    return vehicleTypes.map((type) => {
+      const pct = Math.max(type.percentage, 1);
+      const strokeDasharray = `${(pct / totalPercentage) * circumference} ${circumference}`;
+      const strokeDashoffset = -((cumulativePercent / totalPercentage) * circumference);
+      cumulativePercent += pct;
+      return { ...type, strokeDasharray, strokeDashoffset };
+    });
+  }, [vehicleTypes, circumference]);
 
-  // Recent Activity items matching Image 2
-  const recentActivities = [
+  // Recent Activity items with live data fallback
+  const defaultRecentActivities = useMemo(() => [
     {
+      id: "def-1",
       time: "10:42 AM",
       vehicleNo: "MH 12 AB 1234",
       type: "SUV",
@@ -101,6 +163,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
       statusClass: "status-parked",
     },
     {
+      id: "def-2",
       time: "10:37 AM",
       vehicleNo: "KA 05 CD 5678",
       type: "Sedan",
@@ -109,6 +172,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
       statusClass: "status-parked",
     },
     {
+      id: "def-3",
       time: "10:25 AM",
       vehicleNo: "DL 8C EF 9012",
       type: "Luxury",
@@ -117,6 +181,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
       statusClass: "status-departed",
     },
     {
+      id: "def-4",
       time: "10:18 AM",
       vehicleNo: "MH 14 GH 3456",
       type: "Sedan",
@@ -125,6 +190,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
       statusClass: "status-parked",
     },
     {
+      id: "def-5",
       time: "10:05 AM",
       vehicleNo: "RJ 27 KL 7890",
       type: "SUV",
@@ -132,7 +198,20 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
       status: "Departed",
       statusClass: "status-departed",
     },
-  ];
+  ], []);
+
+  const recentActivities = useMemo(() => {
+    if (analytics?.recentActivity && analytics.recentActivity.length > 0) {
+      if (analytics.recentActivity.length >= 5) {
+        return analytics.recentActivity.slice(0, 6);
+      }
+      return [
+        ...analytics.recentActivity,
+        ...defaultRecentActivities.slice(analytics.recentActivity.length, 5),
+      ];
+    }
+    return defaultRecentActivities;
+  }, [analytics?.recentActivity, defaultRecentActivities]);
 
   return (
     <div className="lux-dashboard">
@@ -176,7 +255,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
           </div>
           <div className="lux-kpi-body">
             <div className="lux-kpi-value">
-              {loading ? "--" : stats.totalVehicles || 124}
+              {loading ? "--" : kpiTotalVehicles}
             </div>
             <div className="lux-kpi-footer-row">
               <span className="lux-kpi-title">Total Vehicles Today</span>
@@ -198,7 +277,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
           </div>
           <div className="lux-kpi-body">
             <div className="lux-kpi-value">
-              {loading ? "--" : stats.activeParkingSessions || 38}
+              {loading ? "--" : kpiActiveParked}
             </div>
             <div className="lux-kpi-footer-row">
               <span className="lux-kpi-title">Active Parked Vehicles</span>
@@ -220,7 +299,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
           </div>
           <div className="lux-kpi-body">
             <div className="lux-kpi-value">
-              {loading ? "--" : stats.todayCheckouts || 32}
+              {loading ? "--" : kpiCheckouts}
             </div>
             <div className="lux-kpi-footer-row">
               <span className="lux-kpi-title">Vehicle Check Outs</span>
@@ -242,7 +321,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
           </div>
           <div className="lux-kpi-body">
             <div className="lux-kpi-value">
-              4.8 <span className="lux-kpi-denom">/ 5</span>
+              {loading ? "--" : kpiSatisfaction} <span className="lux-kpi-denom">/ 5</span>
             </div>
             <div className="lux-kpi-footer-row">
               <span className="lux-kpi-title">Customer Satisfaction</span>
@@ -298,7 +377,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
               </defs>
 
               {/* Horizontal Grid lines */}
-              {[40, 30, 20, 10, 0].map((val, idx) => {
+              {gridValues.map((val) => {
                 const yPos =
                   chartHeight - 25 - (val / maxY) * (chartHeight - 45);
                 return (
@@ -411,7 +490,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
 
               {/* Center count in Donut */}
               <div className="lux-donut-center">
-                <span className="lux-donut-count">124</span>
+                <span className="lux-donut-count">{totalDonutCount}</span>
                 <span className="lux-donut-total">Total</span>
               </div>
             </div>
@@ -468,7 +547,7 @@ function LuxuryDashboardView({ stats = {}, loading = false }) {
               </thead>
               <tbody>
                 {recentActivities.map((row, idx) => (
-                  <tr key={idx}>
+                  <tr key={row.id || idx}>
                     <td className="lux-td-time">
                       <Car size={14} className="lux-car-mini-icon" />
                       <span>{row.time}</span>

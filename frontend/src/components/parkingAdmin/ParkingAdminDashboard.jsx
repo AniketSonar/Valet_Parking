@@ -65,6 +65,7 @@ const ParkingAdminDashboard = ({ onLogout }) => {
     todayRevenue: 0,
   });
 
+  const [analyticsData, setAnalyticsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -77,31 +78,30 @@ const ParkingAdminDashboard = ({ onLogout }) => {
       if (!silent) setLoading(true);
       setError("");
 
-      const data = await apiClient(
-        "/api/parking-admin/dashboard"
-      );
+      const [dashRes, analyticsRes] = await Promise.allSettled([
+        apiClient("/api/parking-admin/dashboard"),
+        apiClient("/api/admin/dashboard-analytics"),
+      ]);
 
-      if (!data?.success) {
-        throw new Error(
-          data?.message ||
-          "Failed to fetch dashboard statistics."
-        );
+      if (dashRes.status === "fulfilled" && dashRes.value?.success) {
+        const stats = dashRes.value.stats || {};
+        setDashboardStats({
+          totalSlots: stats.totalSlots ?? 0,
+          availableSlots: stats.availableSlots ?? 0,
+          occupiedSlots: stats.occupiedSlots ?? 0,
+          maintenanceSlots: stats.maintenanceSlots ?? 0,
+          activeSessions: stats.activeSessions ?? 0,
+          pendingRetrievals: stats.pendingRetrievals ?? 0,
+          todayCheckIns: stats.todayCheckIns ?? 0,
+          todayCompletedReturns:
+            stats.todayCompletedReturns ?? 0,
+          todayRevenue: stats.todayRevenue ?? 0,
+        });
       }
 
-      const stats = data.stats || {};
-
-      setDashboardStats({
-        totalSlots: stats.totalSlots ?? 0,
-        availableSlots: stats.availableSlots ?? 0,
-        occupiedSlots: stats.occupiedSlots ?? 0,
-        maintenanceSlots: stats.maintenanceSlots ?? 0,
-        activeSessions: stats.activeSessions ?? 0,
-        pendingRetrievals: stats.pendingRetrievals ?? 0,
-        todayCheckIns: stats.todayCheckIns ?? 0,
-        todayCompletedReturns:
-          stats.todayCompletedReturns ?? 0,
-        todayRevenue: stats.todayRevenue ?? 0,
-      });
+      if (analyticsRes.status === "fulfilled" && analyticsRes.value?.success) {
+        setAnalyticsData(analyticsRes.value.analytics);
+      }
     } catch (err) {
       console.error(
         "Parking Admin dashboard error:",
@@ -124,7 +124,7 @@ const ParkingAdminDashboard = ({ onLogout }) => {
   }, []);
 
   useRealtimeSync({
-    tables: ["parking_sessions", "parking_slots", "payments", "retrieval_requests"],
+    tables: ["parking_sessions", "vehicles", "parking_slots", "payments", "feedback", "retrieval_requests"],
     onUpdate: () => {
       fetchDashboardStats(true);
     },
@@ -237,6 +237,7 @@ const ParkingAdminDashboard = ({ onLogout }) => {
               activeParkingSessions: dashboardStats.activeSessions || 38,
               todayCheckouts: dashboardStats.todayCompletedReturns || 32,
             }}
+            analytics={analyticsData}
             loading={loading}
           />
         );

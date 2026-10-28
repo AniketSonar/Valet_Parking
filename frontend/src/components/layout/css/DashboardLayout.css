@@ -843,7 +843,7 @@
 
   /* Deep crimson silk velvet waves texture from Image 1 */
   background:
-    url('/sidebar-velvet-full.png') center top / cover no-repeat,
+    url('/sidebar-velvet-full.png?v=2') center top / cover no-repeat,
     linear-gradient(180deg, #30020b 0%, #1a0106 100%) !important;
 
   box-shadow:

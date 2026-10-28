@@ -293,7 +293,7 @@ const getParkingAdminProfile = async (req, res) => {
       .from("users")
       .select("id, name, email, role, is_active, created_at, auth_user_id")
       .eq("id", userId)
-      .eq("role", "parking_admin")
+      .in("role", ["parking_admin", "manager", "super_admin"])
       .single();
 
     if (error || !user) {

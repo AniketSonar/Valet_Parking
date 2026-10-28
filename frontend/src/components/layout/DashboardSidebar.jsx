@@ -20,12 +20,16 @@ const DashboardSidebar = ({
   setActiveTab,
   onLogout,
   collapsed,
-  setCollapsed,
+  mobileOpen,
 }) => {
   const profileId = config.profileId || "profile";
 
   return (
-    <aside className={`dash-sidebar ${collapsed ? "is-collapsed" : ""}`}>
+    <aside
+      className={`dash-sidebar ${collapsed ? "is-collapsed" : ""} ${
+        mobileOpen ? "is-mobile-open" : ""
+      }`}
+    >
       {/* ========================================================
           1. LUXURY GOLD BRAND LOGO (EXACT MATCH TO IMAGE 1)
       ======================================================== */}

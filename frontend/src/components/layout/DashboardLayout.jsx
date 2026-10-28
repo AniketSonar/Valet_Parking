@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import DashboardSidebar from "./DashboardSidebar";
@@ -26,6 +26,36 @@ const DashboardLayout = ({
 }) => {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    window.matchMedia("(max-width: 600px)").matches
+  );
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 600px)");
+    const handleMediaChange = (event) => {
+      setIsMobile(event.matches);
+      if (!event.matches) setMobileSidebarOpen(false);
+    };
+
+    handleMediaChange(mediaQuery);
+    mediaQuery.addEventListener("change", handleMediaChange);
+    return () => mediaQuery.removeEventListener("change", handleMediaChange);
+  }, []);
+
+  const handleSetActiveTab = (tab) => {
+    setActiveTab(tab);
+    if (isMobile) setMobileSidebarOpen(false);
+  };
+
+  const handleToggleSidebar = () => {
+    if (isMobile) {
+      setMobileSidebarOpen((open) => !open);
+      return;
+    }
+
+    setCollapsed((value) => !value);
+  };
 
   const handleLogout =
     onLogout ||
@@ -43,22 +73,31 @@ const DashboardLayout = ({
       <DashboardSidebar
         config={config}
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleSetActiveTab}
         onLogout={handleLogout}
-        collapsed={collapsed}
-        setCollapsed={setCollapsed}
+        collapsed={collapsed && !isMobile}
+        mobileOpen={mobileSidebarOpen}
       />
 
       <main className={`dash-main ${collapsed ? "sidebar-collapsed" : ""}`}>
         <DashboardTopbar
           config={config}
           user={user}
-          onProfile={() => setActiveTab(profileId)}
-          onToggleSidebar={() => setCollapsed((v) => !v)}
+          onProfile={() => handleSetActiveTab(profileId)}
+          onToggleSidebar={handleToggleSidebar}
         />
 
         <div className="dash-page-content">{children}</div>
       </main>
+
+      {isMobile && mobileSidebarOpen && (
+        <button
+          type="button"
+          className="dash-sidebar-backdrop"
+          onClick={() => setMobileSidebarOpen(false)}
+          aria-label="Close navigation"
+        />
+      )}
     </div>
   );
 };

@@ -1,5 +1,9 @@
 const express = require("express");
-const { getDashboardStats, getDashboardAnalytics } = require("../controllers/adminController");
+const {
+  getDashboardStats,
+  getDashboardAnalytics,
+  getRevenuePerformance,
+} = require("../controllers/adminController");
 const { getParkingReports } = require("../controllers/parkingAdminController");
 
 const authenticate = require("../middleware/authMiddleware");
@@ -19,6 +23,13 @@ router.get(
   authenticate,
   authorizeRoles("super_admin", "manager"),
   getDashboardAnalytics
+);
+
+router.get(
+  "/revenue-performance",
+  authenticate,
+  authorizeRoles("super_admin", "manager"),
+  getRevenuePerformance
 );
 
 router.get(

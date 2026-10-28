@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import {
   ChevronDown,
   RefreshCw,
@@ -70,6 +70,7 @@ function useElapsedTimer(startTime) {
 const TopDownRealisticCar = ({ color = "white", className = "" }) => {
   // Map car colors to luxury metallic gradients
   const colorNorm = String(color || "").toLowerCase();
+  const idPrefix = useId().replace(/:/g, "");
 
   let bodyGradientStart = "#FFFFFF";
   let bodyGradientMid = "#E2E5EB";
@@ -98,7 +99,10 @@ const TopDownRealisticCar = ({ color = "white", className = "" }) => {
     highlightColor = "#F1F5F9";
   }
 
-  const gradId = `carBodyGrad_${colorNorm.replace(/[^a-z]/g, "") || "default"}`;
+  const gradId = `carBodyGrad_${idPrefix}`;
+  const windshieldGradId = `windshieldGrad_${idPrefix}`;
+  const sunroofGradId = `sunroofGrad_${idPrefix}`;
+  const shadowId = `carDepthShadow_${idPrefix}`;
 
   return (
     <svg
@@ -116,23 +120,23 @@ const TopDownRealisticCar = ({ color = "white", className = "" }) => {
           <stop offset="100%" stopColor={bodyGradientMid} />
         </linearGradient>
 
-        <linearGradient id="windshieldGrad" x1="27" y1="18" x2="27" y2="44" gradientUnits="userSpaceOnUse">
+        <linearGradient id={windshieldGradId} x1="27" y1="18" x2="27" y2="44" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#1E293B" stopOpacity="0.95" />
           <stop offset="45%" stopColor="#0F172A" />
           <stop offset="100%" stopColor="#020617" />
         </linearGradient>
 
-        <linearGradient id="sunroofGrad" x1="27" y1="46" x2="27" y2="68" gradientUnits="userSpaceOnUse">
+        <linearGradient id={sunroofGradId} x1="27" y1="46" x2="27" y2="68" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#1E293B" stopOpacity="0.8" />
           <stop offset="100%" stopColor="#090D16" />
         </linearGradient>
 
-        <filter id="carDepthShadow" x="-30%" y="-15%" width="160%" height="135%">
+        <filter id={shadowId} x="-30%" y="-15%" width="160%" height="135%">
           <feDropShadow dx="0" dy="6" stdDeviation="4.5" floodColor="#0F172A" floodOpacity="0.4" />
         </filter>
       </defs>
 
-      <g filter="url(#carDepthShadow)">
+      <g filter={`url(#${shadowId})`}>
         {/* Wheels & Tires */}
         <rect x="2.5" y="16" width="4.5" height="15" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
         <rect x="47" y="16" width="4.5" height="15" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
@@ -164,7 +168,7 @@ const TopDownRealisticCar = ({ color = "white", className = "" }) => {
         {/* Front Windshield */}
         <path
           d="M13.5 21C15 15 19 12.5 27 12.5C35 12.5 39 15 40.5 21L43.5 37C44 39.5 42 41 39.5 41H14.5C12 41 10 39.5 10.5 37L13.5 21Z"
-          fill="url(#windshieldGrad)"
+          fill={`url(#${windshieldGradId})`}
           stroke="#1E293B"
           strokeWidth="0.7"
         />
@@ -172,13 +176,13 @@ const TopDownRealisticCar = ({ color = "white", className = "" }) => {
         <path d="M15 20C18 15 24 14 27 14" stroke="#FFFFFF" strokeWidth="1.2" strokeOpacity="0.4" strokeLinecap="round" />
 
         {/* Panoramic Glass Sunroof */}
-        <rect x="15" y="44" width="24" height="24" rx="2" fill="url(#sunroofGrad)" stroke="#1E293B" strokeWidth="0.6" />
+        <rect x="15" y="44" width="24" height="24" rx="2" fill={`url(#${sunroofGradId})`} stroke="#1E293B" strokeWidth="0.6" />
         <line x1="17" y1="56" x2="37" y2="56" stroke="#334155" strokeWidth="0.5" strokeOpacity="0.6" />
 
         {/* Rear Windshield */}
         <path
           d="M13 71C14 69 16.5 68 20 68H34C37.5 68 40 69 41 71L43 80C43.5 82 41.5 83.5 39.5 83.5H14.5C12.5 83.5 10.5 82 11 80L13 71Z"
-          fill="url(#windshieldGrad)"
+          fill={`url(#${windshieldGradId})`}
           stroke="#1E293B"
           strokeWidth="0.7"
         />
@@ -196,116 +200,14 @@ const TopDownRealisticCar = ({ color = "white", className = "" }) => {
 };
 
 /* ==========================================================================
-   REALISTIC 3D PERSPECTIVE CAR RENDER (INSPECTOR PANEL)
-   Renault Megane RS / Mercedes C-Class style luxury coupe render
+   CAR RENDER IN THE SPACE TELEMETRY PANEL
+   Reuses the parking-bay illustration to keep both views in sync.
    ========================================================================== */
-const PerspectiveCarIllustration = ({ color = "white", model = "Renault Megane RS" }) => {
+const InspectorCarIllustration = ({ color = "white" }) => {
   return (
     <div className="inspector-car-visual">
       <div className="inspector-car-ambient-glow" />
-      <svg
-        className="inspector-car-svg"
-        viewBox="0 0 340 180"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <linearGradient id="body3DGrad" x1="170" y1="30" x2="170" y2="150" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="40%" stopColor="#F1F5F9" />
-            <stop offset="75%" stopColor="#CBD5E1" />
-            <stop offset="100%" stopColor="#94A3B8" />
-          </linearGradient>
-
-          <linearGradient id="glass3DGrad" x1="170" y1="40" x2="170" y2="90" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#1E293B" />
-            <stop offset="70%" stopColor="#0F172A" />
-            <stop offset="100%" stopColor="#020617" />
-          </linearGradient>
-
-          <radialGradient id="wheelRimGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#64748B" />
-            <stop offset="70%" stopColor="#1E293B" />
-            <stop offset="100%" stopColor="#0F172A" />
-          </radialGradient>
-
-          <filter id="groundShadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
-          </filter>
-        </defs>
-
-        {/* Soft realistic ground shadow under vehicle */}
-        <ellipse cx="170" cy="148" rx="145" ry="14" fill="#0F172A" fillOpacity="0.35" filter="url(#groundShadow)" />
-        <ellipse cx="170" cy="146" rx="115" ry="8" fill="#000000" fillOpacity="0.45" />
-
-        {/* Rear Wheel */}
-        <g transform="translate(68, 126)">
-          <circle cx="0" cy="0" r="23" fill="#1E2229" stroke="#0F172A" strokeWidth="2" />
-          <circle cx="0" cy="0" r="16" fill="url(#wheelRimGrad)" />
-          {/* Alloy Spokes */}
-          <line x1="-14" y1="0" x2="14" y2="0" stroke="#94A3B8" strokeWidth="2.5" />
-          <line x1="0" y1="-14" x2="0" y2="14" stroke="#94A3B8" strokeWidth="2.5" />
-          <line x1="-10" y1="-10" x2="10" y2="10" stroke="#94A3B8" strokeWidth="2.5" />
-          <line x1="-10" y1="10" x2="10" y2="-10" stroke="#94A3B8" strokeWidth="2.5" />
-          <circle cx="0" cy="0" r="5" fill="#E2E8F0" />
-          {/* Brake Caliper */}
-          <rect x="5" y="-12" width="6" height="12" rx="2" fill="#DC2626" />
-        </g>
-
-        {/* Front Wheel */}
-        <g transform="translate(254, 126)">
-          <circle cx="0" cy="0" r="23" fill="#1E2229" stroke="#0F172A" strokeWidth="2" />
-          <circle cx="0" cy="0" r="16" fill="url(#wheelRimGrad)" />
-          {/* Alloy Spokes */}
-          <line x1="-14" y1="0" x2="14" y2="0" stroke="#94A3B8" strokeWidth="2.5" />
-          <line x1="0" y1="-14" x2="0" y2="14" stroke="#94A3B8" strokeWidth="2.5" />
-          <line x1="-10" y1="-10" x2="10" y2="10" stroke="#94A3B8" strokeWidth="2.5" />
-          <line x1="-10" y1="10" x2="10" y2="-10" stroke="#94A3B8" strokeWidth="2.5" />
-          <circle cx="0" cy="0" r="5" fill="#E2E8F0" />
-          {/* Brake Caliper */}
-          <rect x="5" y="-12" width="6" height="12" rx="2" fill="#DC2626" />
-        </g>
-
-        {/* Main Aerodynamic Car Profile (Renault / Mercedes Coupé Line) */}
-        <path
-          d="M26 122C24 116 26 108 30 102C36 94 48 90 70 88C95 86 118 70 148 54C172 41 206 40 236 50C254 56 270 72 284 86L304 94C316 100 322 106 322 116C322 124 316 130 304 133C292 136 278 136 276 134C274 120 262 108 248 108C234 108 222 120 220 134C198 135 138 135 116 134C114 120 102 108 88 108C74 108 62 120 60 134C48 134 34 132 28 128C26 126 26 124 26 122Z"
-          fill="url(#body3DGrad)"
-          stroke="#64748B"
-          strokeWidth="1.2"
-        />
-
-        {/* Windows / Greenhouse Cabin */}
-        <path
-          d="M110 84C128 68 152 56 178 48C202 44 228 47 242 56C254 64 264 74 270 84H110Z"
-          fill="url(#glass3DGrad)"
-          stroke="#0F172A"
-          strokeWidth="1.2"
-        />
-        {/* B-Pillar divider */}
-        <line x1="190" y1="46" x2="190" y2="84" stroke="#0F172A" strokeWidth="3" />
-
-        {/* Cabin Glass Light Reflection */}
-        <path d="M130 76C148 62 170 54 186 52" stroke="#FFFFFF" strokeWidth="1.8" strokeOpacity="0.6" strokeLinecap="round" />
-        <path d="M204 52C220 54 240 64 252 74" stroke="#FFFFFF" strokeWidth="1.8" strokeOpacity="0.4" strokeLinecap="round" />
-
-        {/* Body Character Crease Lines */}
-        <path d="M72 96C112 96 160 100 220 102C260 103 286 102 308 105" stroke="#94A3B8" strokeWidth="1.2" />
-        <path d="M76 112C120 114 180 115 224 116" stroke="#FFFFFF" strokeWidth="1" strokeOpacity="0.8" />
-
-        {/* Side Mirror */}
-        <path d="M228 72C226 69 232 66 238 67C244 68 246 72 242 74L230 74Z" fill="#E2E8F0" stroke="#475569" strokeWidth="0.8" />
-
-        {/* Headlight Assembly (Sharp Angular LED) */}
-        <polygon points="296,96 318,102 316,110 292,106" fill="#38BDF8" fillOpacity="0.9" />
-        <polygon points="298,98 314,103 312,107 295,104" fill="#FFFFFF" />
-
-        {/* Taillight Assembly (Rear LED glow) */}
-        <path d="M28 104C34 104 40 107 42 112L30 112Z" fill="#EF4444" />
-
-        {/* Front Grille & Fog Lamp Accents */}
-        <rect x="314" y="114" width="6" height="12" rx="2" fill="#0F172A" />
-        <line x1="304" y1="124" x2="318" y2="124" stroke="#475569" strokeWidth="2" />
-      </svg>
+      <TopDownRealisticCar color={color} className="inspector-topdown-car-svg" />
       <div className="inspector-car-meta-tag">
         <Sparkles size={12} className="sparkle-icon" />
         <span>PREMIUM ALLOCATION</span>
@@ -1015,9 +917,8 @@ const ParkingSlots = ({ scope = "manager" }) => {
                 {/* 3D / Perspective Luxury Car Visual Render (matching Image 1) */}
                 {selectedSlot.assigned_vehicle || selectedSlot.status === "occupied" ? (
                   <div className="inspector-section vehicle-showcase">
-                    <PerspectiveCarIllustration
+                    <InspectorCarIllustration
                       color={selectedSlot.vehicle_color || "white"}
-                      model={[selectedSlot.vehicle_make, selectedSlot.vehicle_model].filter(Boolean).join(" ") || "Vehicle details unavailable"}
                     />
 
                     <div className="vehicle-primary-details">

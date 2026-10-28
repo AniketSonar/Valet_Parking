@@ -11,7 +11,8 @@ import {
   AlertCircle,
   Banknote,
   CreditCard,
-  Printer
+  Printer,
+  UserCheck
 } from "lucide-react";
 import {
   createReceptionSession,
@@ -346,7 +347,9 @@ const CheckInVehicleModal = ({
         session: res.session,
         ticket: res.ticket,
         payment: res.payment,
-        whatsapp: res.whatsapp
+        whatsapp: res.whatsapp,
+        valet: res.valet || null,
+        valetMessage: res.valet_assignment?.message || ""
       });
 
       if (onSuccess) {
@@ -454,6 +457,30 @@ const CheckInVehicleModal = ({
               The parking session and vehicle inspection
               have been recorded successfully.
             </p>
+
+            {created.session?.parking_type === "valet" && (
+              created.valet ? (
+                <div className="valet-assigned-banner" role="status">
+                  <UserCheck size={20} />
+                  <div>
+                    <span>Assigned valet</span>
+                    <strong>{created.valet.name}</strong>
+                    {created.valet.phone && <small>{created.valet.phone}</small>}
+                  </div>
+                </div>
+              ) : (
+                <div className="valet-assigned-banner valet-assigned-banner--none" role="status">
+                  <AlertCircle size={20} />
+                  <div>
+                    <span>No valet assigned</span>
+                    <small>
+                      {created.valetMessage ||
+                        "Assign a valet from Valet Management."}
+                    </small>
+                  </div>
+                </div>
+              )
+            )}
 
             <div className="parking-receipt" id="parking-receipt">
               <div className="parking-receipt-head">

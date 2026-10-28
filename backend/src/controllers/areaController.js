@@ -330,7 +330,13 @@ const getMyAreas = handle("fetch assigned areas", async (req, res) => {
   return res.json({ success: true, floors: data || [], unrestricted: scope.unrestricted });
 });
 
-const getFloorMap = handle("fetch floor map", async (req, res) => {
+/**
+ * Floor overview for the manager's Valet Positions page: the floor itself,
+ * its entry/exit gates and valet posts (with the valets standing on them).
+ * Parking slots are NOT mapped here any more - the super admin creates them
+ * as parking areas (see "SUPER ADMIN - parking areas" below).
+ */
+const getFloorMap = handle("fetch floor", async (req, res) => {
   const { floorId } = req.params;
   const scope = await getAreaScope(req.user);
 
@@ -338,42 +344,22 @@ const getFloorMap = handle("fetch floor map", async (req, res) => {
     return fail(res, 403, "This floor is not assigned to you.");
   }
 
-  const [floorRes, zonesRes, slotsRes, gatesRes, postsRes, assignRes, sessionsRes] =
-    await Promise.all([
-      supabase.from("parking_floors").select(FLOOR_SELECT).eq("id", floorId).maybeSingle(),
-      supabase.from("parking_zones").select("*").eq("floor_id", floorId).order("zone_code"),
-      supabase
-        .from("parking_slots")
-        .select("id, slot_number, parking_type, status, zone_id, map_row, map_col")
-        .eq("floor_id", floorId),
-      supabase.from("parking_gates").select("*").eq("floor_id", floorId).order("gate_name"),
-      supabase.from("valet_posts").select("*").eq("floor_id", floorId).order("post_name"),
-      supabase
-        .from("valet_assignments")
-        .select("id, post_id, valet:employees ( id, name, phone, email )")
-        .eq("floor_id", floorId)
-        .eq("is_active", true),
-      supabase
-        .from("parking_sessions")
-        .select("parking_slot, status, vehicle:vehicles ( license_plate )")
-        .in("status", ["checked_in", "parked", "retrieval_requested", "retrieving", "ready_for_pickup"])
-        .not("parking_slot", "is", null)
-    ]);
+  const [floorRes, gatesRes, postsRes, assignRes] = await Promise.all([
+    supabase.from("parking_floors").select(FLOOR_SELECT).eq("id", floorId).maybeSingle(),
+    supabase.from("parking_gates").select("*").eq("floor_id", floorId).order("gate_name"),
+    supabase.from("valet_posts").select("*").eq("floor_id", floorId).order("post_name"),
+    supabase
+      .from("valet_assignments")
+      .select("id, post_id, valet:employees ( id, name, phone, email )")
+      .eq("floor_id", floorId)
+      .eq("is_active", true)
+  ]);
 
-  for (const result of [floorRes, zonesRes, slotsRes, gatesRes, postsRes, assignRes, sessionsRes]) {
+  for (const result of [floorRes, gatesRes, postsRes, assignRes]) {
     if (result.error) throw result.error;
   }
 
   if (!floorRes.data) return fail(res, 404, "Floor not found.");
-
-  const plateBySlot = new Map(
-    (sessionsRes.data || []).map((s) => [s.parking_slot, s.vehicle?.license_plate || null])
-  );
-
-  const slots = (slotsRes.data || []).map((slot) => ({
-    ...slot,
-    vehicle: plateBySlot.get(slot.slot_number) || null
-  }));
 
   const posts = (postsRes.data || []).map((post) => ({
     ...post,
@@ -385,266 +371,191 @@ const getFloorMap = handle("fetch floor map", async (req, res) => {
   return res.json({
     success: true,
     floor: floorRes.data,
-    zones: zonesRes.data || [],
-    slots,
     gates: gatesRes.data || [],
     posts
   });
 });
 
-const removePreviousSlots = handle("remove all slots", async (req, res) => {
-  const { floorId } = req.params;
-  const scope = await getAreaScope(req.user);
+/* ========================================================================
+   SUPER ADMIN - parking areas
+   "Block A, slot 1 to 50" creates slots A-01 ... A-50 on a manager's floor.
+   ======================================================================== */
 
-  if (!floorInScope(scope, floorId)) {
-    return fail(res, 403, "This floor is not assigned to you.");
+const AREA_SELECT = `
+  id, floor_id, block_code, start_number, end_number, parking_type, created_at,
+  floor:parking_floors ( id, floor_name, floor_number, building:parking_buildings ( building_name ) )
+`;
+
+const MAX_SLOTS_PER_AREA = 500;
+
+const formatSlotNumber = (block, number, width) =>
+  `${block}-${String(number).padStart(width, "0")}`;
+
+const getParkingAreas = handle("fetch parking areas", async (req, res) => {
+  const [areasRes, assignmentsRes, slotsRes] = await Promise.all([
+    supabase.from("parking_areas").select(AREA_SELECT).order("created_at", { ascending: false }),
+    supabase
+      .from("manager_assignments")
+      .select("floor_id, manager:users!manager_assignments_manager_id_fkey ( id, name )")
+      .eq("is_active", true),
+    supabase.from("parking_slots").select("area_id, status").not("area_id", "is", null)
+  ]);
+
+  for (const result of [areasRes, assignmentsRes, slotsRes]) {
+    if (result.error) throw result.error;
   }
 
-  const { data: slots, error: slotsError } = await supabase
-    .from("parking_slots")
-    .select("id")
-    .eq("floor_id", floorId);
+  const managerByFloor = new Map(
+    (assignmentsRes.data || []).map((row) => [row.floor_id, row.manager || null])
+  );
 
-  if (slotsError) throw slotsError;
-
-  if (slots?.length) {
-    const { error: deleteError } = await supabase
-      .from("parking_slots")
-      .delete()
-      .in("id", slots.map((slot) => slot.id));
-
-    if (deleteError) throw deleteError;
+  const countsByArea = new Map();
+  for (const slot of slotsRes.data || []) {
+    const entry = countsByArea.get(slot.area_id) || { total: 0, occupied: 0 };
+    entry.total += 1;
+    if (slot.status === "occupied") entry.occupied += 1;
+    countsByArea.set(slot.area_id, entry);
   }
 
-  return res.json({
-    success: true,
-    deleted: slots?.length || 0,
-    message: slots?.length
-      ? `${slots.length} slot${slots.length === 1 ? "" : "s"} removed.`
-      : "No slots found."
-  });
+  const areas = (areasRes.data || []).map((area) => ({
+    ...area,
+    manager: managerByFloor.get(area.floor_id) || null,
+    slot_count: countsByArea.get(area.id)?.total || 0,
+    occupied_count: countsByArea.get(area.id)?.occupied || 0
+  }));
+
+  return res.json({ success: true, areas });
 });
 
-/* ------------------------------ zones ----------------------------------- */
-
-const createZone = handle("create zone", async (req, res) => {
+const createParkingArea = handle("create parking area", async (req, res) => {
   const { floor_id } = req.body;
-  const zone_name = String(req.body.zone_name || "").trim();
-  const zone_code = String(req.body.zone_code || "").trim().toUpperCase();
-  const map_rows = Number(req.body.map_rows || 4);
-  const map_cols = Number(req.body.map_cols || 6);
-
-  if (!floor_id || !zone_name || !zone_code) {
-    return fail(res, 400, "floor_id, zone_name and zone_code are required.");
-  }
-
-  if (![map_rows, map_cols].every((n) => Number.isInteger(n) && n >= 1 && n <= 40)) {
-    return fail(res, 400, "map_rows and map_cols must be whole numbers from 1 to 40.");
-  }
-
-  const scope = await getAreaScope(req.user);
-  if (!floorInScope(scope, floor_id)) {
-    return fail(res, 403, "This floor is not assigned to you.");
-  }
-
-  const { data, error } = await supabase
-    .from("parking_zones")
-    .insert([{ floor_id, zone_name, zone_code, map_rows, map_cols, created_by: req.user.id }])
-    .select()
-    .single();
-
-  if (error) return fail(res, 400, error.message);
-
-  return res.status(201).json({ success: true, zone: data });
-});
-
-const updateZone = handle("update zone", async (req, res) => {
-  const loaded = await loadScoped(req, res, "parking_zones", req.params.id);
-  if (!loaded) return;
-
-  const patch = {};
-  if (req.body.zone_name) patch.zone_name = String(req.body.zone_name).trim();
-  if (req.body.status && ["active", "inactive"].includes(req.body.status)) {
-    patch.status = req.body.status;
-  }
-
-  for (const key of ["map_rows", "map_cols"]) {
-    if (req.body[key] === undefined) continue;
-    const value = Number(req.body[key]);
-    if (!Number.isInteger(value) || value < 1 || value > 40) {
-      return fail(res, 400, `${key} must be a whole number from 1 to 40.`);
-    }
-    patch[key] = value;
-  }
-
-  if (patch.map_rows || patch.map_cols) {
-    const rows = patch.map_rows || loaded.row.map_rows;
-    const cols = patch.map_cols || loaded.row.map_cols;
-
-    const { count } = await supabase
-      .from("parking_slots")
-      .select("id", { count: "exact", head: true })
-      .eq("zone_id", loaded.row.id)
-      .or(`map_row.gte.${rows},map_col.gte.${cols}`);
-
-    if (count) {
-      return fail(res, 400, "Some slots sit outside the smaller map. Remove them first.");
-    }
-  }
-
-  const { data, error } = await supabase
-    .from("parking_zones")
-    .update(patch)
-    .eq("id", loaded.row.id)
-    .select()
-    .single();
-
-  if (error) return fail(res, 400, error.message);
-
-  return res.json({ success: true, zone: data });
-});
-
-const deleteZone = handle("delete zone", async (req, res) => {
-  const loaded = await loadScoped(req, res, "parking_zones", req.params.id);
-  if (!loaded) return;
-
-  const { data: slots } = await supabase
-    .from("parking_slots")
-    .select("id, status")
-    .eq("zone_id", loaded.row.id);
-
-  if ((slots || []).some((slot) => slot.status !== "available")) {
-    return fail(res, 400, "This zone still has occupied or maintenance slots.");
-  }
-
-  if (slots?.length) {
-    await supabase.from("parking_slots").delete().in("id", slots.map((s) => s.id));
-  }
-
-  const { error } = await supabase.from("parking_zones").delete().eq("id", loaded.row.id);
-  if (error) throw error;
-
-  return res.json({ success: true, message: "Zone removed." });
-});
-
-/* ------------------------------ slots ----------------------------------- */
-
-const createSlotOnMap = handle("create slot", async (req, res) => {
-  const loaded = await loadScoped(req, res, "parking_zones", req.params.id);
-  if (!loaded) return;
-
-  const zone = loaded.row;
-  const slot_number = String(req.body.slot_number || "").trim().toUpperCase();
-  const parking_type = req.body.parking_type || "car";
-  const map_row = Number(req.body.map_row);
-  const map_col = Number(req.body.map_col);
-
-  if (!slot_number) return fail(res, 400, "slot_number is required.");
-  if (!SLOT_TYPES.includes(parking_type)) return fail(res, 400, "Use car, bike or truck.");
-
-  if (
-    !Number.isInteger(map_row) || !Number.isInteger(map_col) ||
-    map_row < 0 || map_col < 0 || map_row >= zone.map_rows || map_col >= zone.map_cols
-  ) {
-    return fail(res, 400, "That cell is outside the zone map.");
-  }
-
-  const { data, error } = await supabase
-    .from("parking_slots")
-    .insert([{
-      slot_number,
-      parking_type,
-      floor_id: zone.floor_id,
-      zone_id: zone.id,
-      map_row,
-      map_col,
-      created_by: req.user.id
-    }])
-    .select()
-    .single();
-
-  if (error) {
-    return fail(
-      res,
-      400,
-      error.code === "23505" ? "That slot number or map cell is already used." : error.message
-    );
-  }
-
-  return res.status(201).json({ success: true, slot: data });
-});
-
-const generateSlots = handle("generate slots", async (req, res) => {
-  const loaded = await loadScoped(req, res, "parking_zones", req.params.id);
-  if (!loaded) return;
-
-  const zone = loaded.row;
-  const prefix = String(req.body.prefix || zone.zone_code).trim().toUpperCase();
+  const block = String(req.body.block || "").trim().toUpperCase();
+  const start = Number(req.body.start_number);
+  const end = Number(req.body.end_number);
   const parking_type = req.body.parking_type || "car";
 
-  if (!prefix) return fail(res, 400, "prefix is required.");
-  if (!SLOT_TYPES.includes(parking_type)) return fail(res, 400, "Use car, bike or truck.");
-
-  const { data: existing, error } = await supabase
-    .from("parking_slots")
-    .select("map_row, map_col")
-    .eq("zone_id", zone.id);
-
-  if (error) throw error;
-
-  const taken = new Set((existing || []).map((s) => `${s.map_row}:${s.map_col}`));
-  const rows = [];
-  let counter = (existing || []).length;
-
-  for (let r = 0; r < zone.map_rows; r += 1) {
-    for (let c = 0; c < zone.map_cols; c += 1) {
-      if (taken.has(`${r}:${c}`)) continue;
-      counter += 1;
-      rows.push({
-        slot_number: `${prefix}-${String(counter).padStart(2, "0")}`,
-        parking_type,
-        floor_id: zone.floor_id,
-        zone_id: zone.id,
-        map_row: r,
-        map_col: c,
-        created_by: req.user.id
-      });
-    }
+  if (!floor_id || !block) {
+    return fail(res, 400, "floor_id and block are required.");
   }
 
-  if (rows.length === 0) return fail(res, 400, "Every cell of this zone already has a slot.");
+  if (!/^[A-Z0-9]{1,6}$/.test(block)) {
+    return fail(res, 400, "Block must be 1 to 6 letters or digits, for example A.");
+  }
 
-  const { data: clash } = await supabase
+  if (!SLOT_TYPES.includes(parking_type)) {
+    return fail(res, 400, "Use car, bike or truck.");
+  }
+
+  if (!Number.isInteger(start) || !Number.isInteger(end) || start < 1 || end < start) {
+    return fail(res, 400, "Slot range must be whole numbers, starting at 1 or more, with the end not below the start.");
+  }
+
+  if (end - start + 1 > MAX_SLOTS_PER_AREA) {
+    return fail(res, 400, `One area can hold at most ${MAX_SLOTS_PER_AREA} slots.`);
+  }
+
+  const { data: floor, error: floorError } = await supabase
+    .from("parking_floors")
+    .select("id")
+    .eq("id", floor_id)
+    .maybeSingle();
+
+  if (floorError) throw floorError;
+  if (!floor) return fail(res, 404, "Floor not found.");
+
+  const width = Math.max(2, String(end).length);
+  const slotNumbers = [];
+  for (let n = start; n <= end; n += 1) slotNumbers.push(formatSlotNumber(block, n, width));
+
+  // slot_number is unique across the system, so refuse the whole block on a clash.
+  const { data: clash, error: clashError } = await supabase
     .from("parking_slots")
     .select("slot_number")
-    .in("slot_number", rows.map((r) => r.slot_number));
+    .in("slot_number", slotNumbers);
+
+  if (clashError) throw clashError;
 
   if (clash?.length) {
     return fail(
       res,
       409,
-      `Slot numbers already exist (${clash.slice(0, 3).map((c) => c.slot_number).join(", ")}). Use a different prefix.`
+      `Slots already exist (${clash.slice(0, 3).map((c) => c.slot_number).join(", ")}${clash.length > 3 ? ", ..." : ""}). Use a different block or range.`
     );
   }
 
+  const { data: area, error: areaError } = await supabase
+    .from("parking_areas")
+    .insert([{
+      floor_id,
+      block_code: block,
+      start_number: start,
+      end_number: end,
+      parking_type,
+      created_by: req.user.id
+    }])
+    .select(AREA_SELECT)
+    .single();
+
+  if (areaError) return fail(res, 400, areaError.message);
+
+  const rows = slotNumbers.map((slot_number) => ({
+    slot_number,
+    parking_type,
+    floor_id,
+    area_id: area.id,
+    created_by: req.user.id
+  }));
+
   const { error: insertError } = await supabase.from("parking_slots").insert(rows);
-  if (insertError) return fail(res, 400, insertError.message);
 
-  return res.status(201).json({ success: true, created: rows.length });
-});
-
-const deleteSlot = handle("delete slot", async (req, res) => {
-  const loaded = await loadScoped(req, res, "parking_slots", req.params.id);
-  if (!loaded) return;
-
-  if (loaded.row.status !== "available") {
-    return fail(res, 400, "Only available slots can be removed.");
+  if (insertError) {
+    // do not leave an empty area behind
+    await supabase.from("parking_areas").delete().eq("id", area.id);
+    return fail(res, 400, insertError.message);
   }
 
-  const { error } = await supabase.from("parking_slots").delete().eq("id", loaded.row.id);
-  if (error) throw error;
+  return res.status(201).json({
+    success: true,
+    area,
+    created: rows.length,
+    message: `Block ${block} created: ${slotNumbers[0]} to ${slotNumbers[slotNumbers.length - 1]} (${rows.length} slots).`
+  });
+});
 
-  return res.json({ success: true, message: "Slot removed." });
+const deleteParkingArea = handle("delete parking area", async (req, res) => {
+  const { data: area, error } = await supabase
+    .from("parking_areas")
+    .select("id, block_code")
+    .eq("id", req.params.id)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!area) return fail(res, 404, "Parking area not found.");
+
+  const { data: slots, error: slotsError } = await supabase
+    .from("parking_slots")
+    .select("id, status")
+    .eq("area_id", area.id);
+
+  if (slotsError) throw slotsError;
+
+  if ((slots || []).some((slot) => slot.status !== "available")) {
+    return fail(res, 400, "This block has occupied or reserved slots. Free them before removing the block.");
+  }
+
+  if (slots?.length) {
+    const { error: deleteSlotsError } = await supabase
+      .from("parking_slots")
+      .delete()
+      .in("id", slots.map((slot) => slot.id));
+
+    if (deleteSlotsError) throw deleteSlotsError;
+  }
+
+  const { error: deleteError } = await supabase.from("parking_areas").delete().eq("id", area.id);
+  if (deleteError) throw deleteError;
+
+  return res.json({ success: true, message: `Block ${area.block_code} removed.` });
 });
 
 /* ------------------------------ gates ----------------------------------- */
@@ -965,15 +876,11 @@ module.exports = {
   removeManagerAssignment,
   getUnassignedSlots,
   assignSlotsToFloor,
+  getParkingAreas,
+  createParkingArea,
+  deleteParkingArea,
   getMyAreas,
   getFloorMap,
-  removePreviousSlots,
-  createZone,
-  updateZone,
-  deleteZone,
-  createSlotOnMap,
-  generateSlots,
-  deleteSlot,
   createGate,
   updateGate,
   deleteGate,

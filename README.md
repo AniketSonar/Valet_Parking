@@ -121,6 +121,15 @@ VITE_API_URL=http://localhost:5000
 1. Open your **Supabase Dashboard** -> **SQL Editor**.
 2. Run `backend/supabase/schema.sql` to create all tables, relationships, triggers, and storage buckets.
 3. Run `backend/supabase/seed.sql` (or run `node seed.js` in the `backend/` folder) to seed all default role accounts and sample slots with password `Password123!`.
+4. Run `backend/supabase/migrate_area_management.sql` (buildings, floors, manager assignment, valet posts), then `backend/supabase/migrate_parking_areas.sql` (parking areas). Both are safe to re-run.
+
+---
+
+### Parking areas and valet dispatch
+
+**Parking areas (super admin).** In *Areas & Managers*, assign a floor to a manager, then use *Create a parking area*: pick the manager, the floor, a block and a slot range. Block `A`, slots `1` to `50` creates `A-01` ... `A-50` on that floor. The manager sees only those slots and manages the valets there (*Valet Management*, *Valet Positions*, including the floor's entry / exit points). Managers can no longer map or create slots, and the Area Map page has been removed. Slot numbers are unique system-wide, so a block that would reuse an existing number (for example a second `A-01`) is refused.
+
+**Valet assignment (automatic).** Checking in a valet-parking vehicle now assigns a valet and hands over the key in the same step; there is no separate key-management or assign-valet step. The valet is the one who is free at that moment: valets posted by a manager come first, then the fewest open jobs (a car waiting to be parked, or a retrieval in progress), then whoever has gone longest without a new car. The assigned valet's name appears on the check-in confirmation and in the session lists. If everyone is busy, the least busy valet gets the car; if no valet is active, check-in still succeeds and the confirmation says to assign one manually. A manager can still reassign a car from *Valet Management*.
 
 ---
 

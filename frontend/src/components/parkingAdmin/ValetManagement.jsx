@@ -5,6 +5,8 @@ import "./css/ValetManagement.css";
 
 
 
+const OPEN_JOB_STATUSES = ["checked_in", "retrieval_requested", "retrieving"];
+
 const getInitials = (name) => {
   if (!name) return "NA";
   return name
@@ -79,8 +81,13 @@ function ValetManagement() {
   // Derive staff status and active assignment
   const staffWithStatus = useMemo(() => {
     return staff.map((member) => {
+      // Same rule the server uses for automatic assignment: a valet is busy only
+      // while a car waits to be parked or a retrieval is under way. Cars they
+      // have already parked do not make them busy.
       const activeAssignment = activeSessions.find(
-        (s) => s.valet?.id === member.id
+        (s) =>
+          s.valet?.id === member.id &&
+          OPEN_JOB_STATUSES.includes(s.status)
       );
 
       let availability = "Offline";

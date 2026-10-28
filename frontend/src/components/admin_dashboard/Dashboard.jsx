@@ -129,6 +129,7 @@ function Dashboard() {
         )}
 
         {activePage === "staff" && <StaffManagement />}
+        {activePage === "areas" && <AreaManagement />}
         {activePage === "reports" && <Reports />}
         {activePage === "profile" && <Profile />}
       </div>

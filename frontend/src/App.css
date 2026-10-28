@@ -2841,3 +2841,58 @@ a { text-decoration: none; }
   border: 1px solid rgba(255, 255, 255, 0.8) !important;
   box-sizing: border-box !important;
 }
+
+/* Match the staff login accents to the dashboard's burgundy and gold palette. */
+.app-shell .vp-auth-card {
+  background: linear-gradient(145deg, #fff 0%, #fffaf7 100%) !important;
+  border-color: rgba(139, 18, 48, 0.16) !important;
+  box-shadow:
+    0 20px 60px rgba(80, 12, 32, 0.2),
+    0 1px 0 rgba(201, 138, 44, 0.16) inset !important;
+}
+
+.app-shell .vp-card-heading h2 {
+  color: #571025;
+}
+
+.app-shell .vp-input-field {
+  background: #faf6f6;
+}
+
+.app-shell .vp-input-field:focus-within {
+  border-color: #8b1230;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.12);
+}
+
+.app-shell .vp-checkbox-label input:checked + .vp-checkbox-custom {
+  border-color: #8b1230;
+  background: #8b1230;
+}
+
+.app-shell .vp-signin-btn {
+  background: linear-gradient(135deg, #8b1230 0%, #6e0d25 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(139, 18, 48, 0.26);
+}
+
+.app-shell .vp-signin-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #730c26 0%, #57091c 100%);
+  box-shadow: 0 6px 18px rgba(139, 18, 48, 0.34);
+}
+
+.app-shell .vp-forgot-link,
+.app-shell .vp-signup-link,
+.app-shell .vp-switch-btn {
+  color: #8b1230;
+}
+
+.app-shell .vp-forgot-link:hover,
+.app-shell .vp-signup-link:hover,
+.app-shell .vp-switch-btn:hover {
+  color: #c98a2c;
+}
+
+.app-shell .vp-google-btn:hover {
+  background: #fffaf7;
+  border-color: rgba(139, 18, 48, 0.24);
+}

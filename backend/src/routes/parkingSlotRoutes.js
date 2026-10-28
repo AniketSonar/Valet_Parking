@@ -1,7 +1,6 @@
 const express = require("express");
 
 const {
-  createParkingSlot,
   getParkingSlots,
   getValetParkingSlots,
   getParkingSlotById,
@@ -12,13 +11,6 @@ const authenticate = require("../middleware/authMiddleware");
 const authorizeRoles = require("../middleware/roleMiddleware");
 
 const router = express.Router();
-
-router.post(
-  "/",
-  authenticate,
-  authorizeRoles("super_admin", "parking_admin"),
-  createParkingSlot
-);
 
 router.get(
   "/",

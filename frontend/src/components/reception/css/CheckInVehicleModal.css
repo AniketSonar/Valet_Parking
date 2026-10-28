@@ -1101,3 +1101,46 @@
     border: 0;
   }
 }
+
+
+/* Valet picked automatically at check-in */
+.valet-assigned-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px auto 4px;
+  max-width: 420px;
+  padding: 12px 16px;
+  border: 1px solid rgba(34, 139, 94, 0.35);
+  border-radius: 12px;
+  background: rgba(34, 139, 94, 0.1);
+  color: #1f7a54;
+  text-align: left;
+}
+
+.valet-assigned-banner > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.valet-assigned-banner span {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.valet-assigned-banner strong {
+  font-size: 16px;
+}
+
+.valet-assigned-banner small {
+  opacity: 0.85;
+}
+
+.valet-assigned-banner--none {
+  border-color: rgba(200, 130, 20, 0.4);
+  background: rgba(200, 130, 20, 0.1);
+  color: #9a6208;
+}

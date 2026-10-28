@@ -25,7 +25,6 @@ import VehicleOperations from "./VehicleOperations";
 import RetrievalRequests from "./RetrievalRequests";
 import ParkingHistory from "./ParkingHistory";
 import ValetManagement from "./ValetManagement";
-import AreaMap from "./AreaMap";
 import ValetPosts from "./ValetPosts";
 import ParkingReports from "./ParkingReports";
 import ParkingAdminProfile from "./ParkingAdminProfile";
@@ -281,11 +280,8 @@ const ParkingAdminDashboard = ({ onLogout }) => {
         return <ValetManagement />;
 
       // ========================================================
-      // AREA MAP + VALET POSITIONS
+      // VALET POSITIONS
       // ========================================================
-
-      case "area-map":
-        return <AreaMap />;
 
       case "valet-positions":
         return <ValetPosts />;

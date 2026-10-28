@@ -220,7 +220,6 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
       ======================================================== */}
       <section className="lux-welcome-banner">
         <div className="lux-welcome-text">
-          <span className="lux-welcome-greeting">GOOD MORNING,</span>
           <h1 className="lux-welcome-title">Welcome Back!</h1>
           <p className="lux-welcome-sub">
             Here's what's happening with your valet parking today.

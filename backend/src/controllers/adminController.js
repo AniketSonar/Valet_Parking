@@ -38,10 +38,20 @@ if (paymentError) {
   throw paymentError;
 }
 
-const todayRevenue = todayPayments.reduce(
-  (total, payment) => total + Number(payment.total_amount || 0),
-  0
-);
+    const todayRevenue = todayPayments.reduce(
+      (total, payment) => total + Number(payment.total_amount || 0),
+      0
+    );
+
+    const { count: totalVehicles } = await supabase
+      .from("vehicles")
+      .select("*", { count: "exact", head: true });
+
+    const { count: todayCheckouts } = await supabase
+      .from("parking_sessions")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "returned_completed")
+      .gte("completed_at", startOfDay.toISOString());
 
     return res.status(200).json({
       success: true,
@@ -51,7 +61,9 @@ const todayRevenue = todayPayments.reduce(
         totalCustomers: totalCustomers || 0,
         activeParkingSessions: activeParkingSessions || 0,
         openIncidents: openIncidents || 0,
-        todayRevenue: todayRevenue || 0
+        todayRevenue: todayRevenue || 0,
+        totalVehicles: totalVehicles || 0,
+        todayCheckouts: todayCheckouts || 0
       }
     });
 
@@ -81,8 +93,8 @@ const getDashboardAnalytics = async (req, res) => {
     startOfDay.setHours(0, 0, 0, 0);
     const startISO = startOfDay.toISOString();
 
-    // Past 24 hours timestamp for fallback if today is early/empty
     const past24hISO = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const past7DaysISO = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
     // 1. All sessions created today with vehicle info
     let { data: sessions, error: sessionsError } = await supabase
@@ -109,9 +121,9 @@ const getDashboardAnalytics = async (req, res) => {
 
     if (sessionsError) throw sessionsError;
 
-    // If no sessions today, check past 24 hours so analytics remain live and meaningful
-    let is24hFallback = false;
-    if (!sessions || sessions.length === 0) {
+    // Fallback logic for trend calculation so charts are never flat/empty if today has 0 sessions
+    let trendSessions = sessions && sessions.length > 0 ? [...sessions] : [];
+    if (trendSessions.length === 0) {
       const { data: pastSessions } = await supabase
         .from("parking_sessions")
         .select(`
@@ -131,14 +143,34 @@ const getDashboardAnalytics = async (req, res) => {
             color
           )
         `)
-        .gte("checked_in_at", past24hISO)
+        .gte("checked_in_at", past7DaysISO)
         .order("checked_in_at", { ascending: false });
 
       if (pastSessions && pastSessions.length > 0) {
-        sessions = pastSessions;
-        is24hFallback = true;
+        trendSessions = pastSessions;
       } else {
-        sessions = [];
+        const { data: latestSessions } = await supabase
+          .from("parking_sessions")
+          .select(`
+            id,
+            ticket_code,
+            parking_type,
+            status,
+            parking_slot,
+            checked_in_at,
+            parked_at,
+            completed_at,
+            vehicle:vehicles (
+              id,
+              license_plate,
+              make,
+              model,
+              color
+            )
+          `)
+          .order("checked_in_at", { ascending: false })
+          .limit(100);
+        trendSessions = latestSessions || [];
       }
     }
 
@@ -152,7 +184,8 @@ const getDashboardAnalytics = async (req, res) => {
           ? `${h} AM`
           : `${h - 12} PM`;
 
-      const count = sessions.filter((s) => {
+      const count = (trendSessions || []).filter((s) => {
+        if (!s.checked_in_at) return false;
         const hour = new Date(s.checked_in_at).getHours();
         return hour >= h && hour < h + 2;
       }).length;
@@ -160,28 +193,50 @@ const getDashboardAnalytics = async (req, res) => {
       hourlyTrend.push({ time: label, value: count });
     }
 
+    // Weekly trend (last 7 days by day name: Mon, Tue, etc.)
+    const weeklyTrend = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dayName = d.toLocaleDateString("en-US", { weekday: "short" });
+      const dayStart = new Date(d);
+      dayStart.setHours(0, 0, 0, 0);
+      const dayEnd = new Date(d);
+      dayEnd.setHours(23, 59, 59, 999);
+
+      const count = (trendSessions || []).filter((s) => {
+        if (!s.checked_in_at) return false;
+        const sessionDate = new Date(s.checked_in_at);
+        return sessionDate >= dayStart && sessionDate <= dayEnd;
+      }).length;
+
+      weeklyTrend.push({ time: dayName, value: count });
+    }
+
     // 3. Vehicle categorization helper based on make and model
     const categorizeVehicle = (make = "", model = "") => {
-      const text = `${make} ${model}`.toLowerCase();
+      const text = `${make || ""} ${model || ""}`.toLowerCase().trim();
 
       const SUV_KEYWORDS = [
         "suv", "fortunar", "fortuner", "thar", "scorpio", "creta",
         "seltos", "brezza", "safari", "harrier", "nexon", "xuv",
-        "innova", "ertiga", "compass", "defender", "duster"
+        "innova", "ertiga", "compass", "defender", "duster",
+        "tiago", "punch", "venue", "sonet", "hector", "taigun",
+        "kushaq", "vitara", "hyryder", "tucson", "evoque"
       ];
       const LUXURY_KEYWORDS = [
         "bmw", "mercedes", "audi", "jaguar", "land rover",
         "range rover", "porsche", "lexus", "volvo", "bentley",
-        "rolls", "rolls-royce", "maybach"
+        "rolls", "rolls-royce", "maybach", "mini"
       ];
       const SPORTS_KEYWORDS = [
         "ferrari", "lamborghini", "sports", "mustang", "gt",
-        "maserati", "mclaren", "bugatti", "supra"
+        "maserati", "mclaren", "bugatti", "supra", "corvette"
       ];
       const SEDAN_KEYWORDS = [
         "sedan", "city", "verna", "civic", "accord", "camry",
         "corolla", "octavia", "superb", "slavia", "virtus",
-        "dzire", "amaze", "ciaz", "etios"
+        "dzire", "amaze", "ciaz", "etios", "aura", "tigor", "passat"
       ];
 
       if (SPORTS_KEYWORDS.some((kw) => text.includes(kw))) return "Sports";
@@ -189,16 +244,41 @@ const getDashboardAnalytics = async (req, res) => {
       if (SUV_KEYWORDS.some((kw) => text.includes(kw))) return "SUV";
       if (SEDAN_KEYWORDS.some((kw) => text.includes(kw))) return "Sedan";
 
-      return "Sedan"; // Default car classification
+      return "Others";
     };
 
+    // Query all sessions for vehicle categorization
+    const { data: allSessions } = await supabase
+      .from("parking_sessions")
+      .select("vehicle:vehicles ( make, model )")
+      .order("checked_in_at", { ascending: false })
+      .limit(500);
+
+    // Also query registered vehicles
+    const { data: allRegisteredVehicles } = await supabase
+      .from("vehicles")
+      .select("make, model")
+      .limit(500);
+
     const categoryCounts = { Sedan: 0, SUV: 0, Luxury: 0, Sports: 0, Others: 0 };
-    sessions.forEach((s) => {
-      const cat = categorizeVehicle(s.vehicle?.make, s.vehicle?.model);
-      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+    let totalCategorized = 0;
+
+    (allSessions || []).forEach((s) => {
+      if (s.vehicle) {
+        const cat = categorizeVehicle(s.vehicle.make, s.vehicle.model);
+        categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+        totalCategorized++;
+      }
     });
 
-    const totalCategorized = Object.values(categoryCounts).reduce((a, b) => a + b, 0);
+    if (totalCategorized === 0 && allRegisteredVehicles && allRegisteredVehicles.length > 0) {
+      allRegisteredVehicles.forEach((v) => {
+        const cat = categorizeVehicle(v.make, v.model);
+        categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+        totalCategorized++;
+      });
+    }
+
     const COLORS = {
       Sedan: "#6b0e24",
       SUV: "#a82042",
@@ -284,7 +364,7 @@ const getDashboardAnalytics = async (req, res) => {
     });
 
     // 5. Today's checkout count
-    const todayCheckouts = sessions.filter(
+    const todayCheckouts = (sessions || []).filter(
       (s) => s.status === "returned_completed"
     ).length;
 
@@ -317,11 +397,13 @@ const getDashboardAnalytics = async (req, res) => {
     return res.status(200).json({
       success: true,
       analytics: {
-        totalVehiclesToday: sessions.length,
+        totalVehiclesToday: (sessions || []).length,
+        totalVehiclesAllTime: totalCategorized,
         activeParkingSessions: activeParkingSessions || 0,
         todayCheckouts,
         satisfaction,
         hourlyTrend,
+        weeklyTrend,
         vehicleTypes,
         recentActivity,
       },

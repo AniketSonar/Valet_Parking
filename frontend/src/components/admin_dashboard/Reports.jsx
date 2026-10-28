@@ -1,7 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { RefreshCw } from "lucide-react";
-import { getDashboardStats } from "../../api/adminApi";
+import {
+  getDashboardStats,
+  getRevenuePerformance,
+} from "../../api/adminApi";
 import { getParkingReports } from "../../api/parkingApi";
+import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./Reports.css";
 
 function Reports() {
@@ -22,6 +26,7 @@ function Reports() {
     occupiedSlots: 0,
     occupancyRate: 0,
   });
+  const [revenueData, setRevenueData] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -31,41 +36,91 @@ function Reports() {
       setLoading(true);
       setError("");
 
-      const [adminRes, parkingRes] = await Promise.all([
-        getDashboardStats().catch(() => null),
-        getParkingReports().catch(() => null),
+      const [adminRes, parkingRes, revenueRes] = await Promise.all([
+        getDashboardStats(),
+        getParkingReports(),
+        getRevenuePerformance(Number(range)),
       ]);
 
-      if (adminRes && adminRes.success && adminRes.stats) {
-        setStats(adminRes.stats);
+      if (!adminRes?.success || !adminRes.stats) {
+        throw new Error("Failed to load dashboard statistics.");
+      }
+      if (!parkingRes?.success || !parkingRes.reports) {
+        throw new Error("Failed to load parking reports.");
+      }
+      if (!revenueRes?.success || !Array.isArray(revenueRes.revenue)) {
+        throw new Error("Failed to load revenue performance.");
       }
 
-      if (parkingRes && parkingRes.success && parkingRes.reports) {
-        setParkingReports(parkingRes.reports);
-      }
+      setStats(adminRes.stats);
+      setParkingReports(parkingRes.reports);
+      setRevenueData(revenueRes.revenue);
     } catch (err) {
       console.error("Load reports data error:", err);
       setError(err.message || "Failed to load reporting data.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [range]);
 
   useEffect(() => {
     loadData();
   }, [loadData]);
 
-  const formattedRevenue = Number(stats.todayRevenue || 0).toLocaleString("en-IN");
+  useRealtimeSync({
+    tables: ["payments"],
+    onUpdate: loadData,
+    interval: 30000,
+  });
 
-  const revenueData = [
-    { day: "Mon", value: Math.round(stats.todayRevenue * 0.7) || 2800 },
-    { day: "Tue", value: Math.round(stats.todayRevenue * 0.85) || 3400 },
-    { day: "Wed", value: Math.round(stats.todayRevenue * 0.9) || 3600 },
-    { day: "Thu", value: Math.round(stats.todayRevenue * 0.95) || 3800 },
-    { day: "Fri", value: Math.round(stats.todayRevenue * 1.1) || 4400 },
-    { day: "Sat", value: Math.round(stats.todayRevenue * 1.3) || 5200 },
-    { day: "Sun", value: stats.todayRevenue || 4000 },
-  ];
+  const formattedRevenue = Number(stats.todayRevenue || 0).toLocaleString("en-IN");
+  const periodRevenue = revenueData.reduce(
+    (total, item) => total + Number(item.value || 0),
+    0
+  );
+  const highestRevenue = Math.max(
+    0,
+    ...revenueData.map((item) => Number(item.value || 0))
+  );
+  const axisMaximum =
+    highestRevenue === 0
+      ? 1000
+      : Math.ceil(highestRevenue / 4000) * 4000;
+  const chartCoordinates = revenueData.map((item, index) => {
+    const x =
+      revenueData.length === 1
+        ? 350
+        : (index / (revenueData.length - 1)) * 700;
+    const y = 205 - (Number(item.value || 0) / axisMaximum) * 185;
+
+    return { ...item, x, y };
+  });
+  const chartLinePoints = chartCoordinates
+    .map(({ x, y }) => `${x},${y}`)
+    .join(" ");
+  const labelIndexes = new Set(
+    Array.from({ length: Math.min(7, revenueData.length) }, (_, index) =>
+      Math.round(
+        (index * (revenueData.length - 1)) /
+          Math.max(1, Math.min(7, revenueData.length) - 1)
+      )
+    )
+  );
+  const formatChartDate = (date) => {
+    const [year, month, day] = date.split("-").map(Number);
+    const parsedDate = new Date(Date.UTC(year, month - 1, day));
+    return parsedDate.toLocaleDateString("en-IN", {
+      timeZone: "UTC",
+      ...(revenueData.length <= 7
+        ? { weekday: "short" }
+        : { day: "numeric", month: "short" }),
+    });
+  };
+  const formatAxisValue = (value) => {
+    if (value >= 100000) return `₹${(value / 100000).toFixed(1)}L`;
+    if (value >= 1000) return `₹${(value / 1000).toFixed(1)}k`;
+    return `₹${Math.round(value)}`;
+  };
 
   return (
     <div className="reports-page">
@@ -161,22 +216,24 @@ function Reports() {
           <div className="report-panel-header">
             <div>
               <h3>Revenue Performance</h3>
-              <p>Estimated revenue trend over the selected period</p>
+              <p>Paid revenue over the selected period</p>
             </div>
           </div>
 
           <div className="revenue-summary">
-            <strong>{loading ? "₹ --" : `₹ ${formattedRevenue}`}</strong>
-            <span>Total collected today</span>
+            <strong>
+              {loading ? "₹ --" : `₹ ${periodRevenue.toLocaleString("en-IN")}`}
+            </strong>
+            <span>Total collected in {range} days</span>
           </div>
 
           <div className="revenue-chart">
             <div className="chart-y-axis">
-              <span>₹10k</span>
-              <span>₹7.5k</span>
-              <span>₹5k</span>
-              <span>₹2.5k</span>
-              <span>₹0</span>
+              {[1, 0.75, 0.5, 0.25, 0].map((fraction) => (
+                <span key={fraction}>
+                  {formatAxisValue(axisMaximum * fraction)}
+                </span>
+              ))}
             </div>
 
             <div className="chart-area">
@@ -194,35 +251,43 @@ function Reports() {
                 preserveAspectRatio="none"
               >
                 <polyline
-                  points="
-                    0,145
-                    116,110
-                    233,130
-                    350,72
-                    466,92
-                    583,40
-                    700,60
-                  "
+                  points={chartLinePoints}
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="3"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
+                {chartCoordinates.map((item) => (
+                  <circle
+                    key={item.date}
+                    cx={item.x}
+                    cy={item.y}
+                    r="3"
+                    fill="currentColor"
+                  >
+                    <title>
+                      {`${item.date}: ₹${Number(item.value || 0).toLocaleString("en-IN")}`}
+                    </title>
+                  </circle>
+                ))}
               </svg>
 
               <div className="chart-points">
                 {revenueData.map((item, index) => (
+                  labelIndexes.has(index) && (
                   <div
                     className="chart-point"
-                    key={item.day}
+                    key={item.date}
                     style={{
-                      left: `${index * 16.66}%`,
+                      left: `${revenueData.length === 1 ? 50 : (index / (revenueData.length - 1)) * 100}%`,
                     }}
+                    title={`${item.date}: ₹${Number(item.value || 0).toLocaleString("en-IN")}`}
                   >
                     <span></span>
-                    <label>{item.day}</label>
+                    <label>{formatChartDate(item.date)}</label>
                   </div>
+                  )
                 ))}
               </div>
             </div>

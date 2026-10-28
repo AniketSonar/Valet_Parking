@@ -77,6 +77,76 @@ if (paymentError) {
   }
 };
 
+const getRevenuePerformance = async (req, res) => {
+  try {
+    const days = Number(req.query.days || 7);
+    if (![7, 30, 90].includes(days)) {
+      return res.status(400).json({
+        success: false,
+        message: "Revenue period must be 7, 30, or 90 days.",
+      });
+    }
+
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+
+    const startDate = new Date(today);
+    startDate.setUTCDate(startDate.getUTCDate() - days + 1);
+
+    const endDate = new Date(today);
+    endDate.setUTCDate(endDate.getUTCDate() + 1);
+
+    const revenueByDate = new Map();
+    const pageSize = 1000;
+    let offset = 0;
+
+    while (true) {
+      const { data: payments, error } = await supabase
+        .from("payments")
+        .select("total_amount, paid_at")
+        .eq("payment_status", "paid")
+        .gte("paid_at", startDate.toISOString())
+        .lt("paid_at", endDate.toISOString())
+        .order("paid_at", { ascending: true })
+        .order("id", { ascending: true })
+        .range(offset, offset + pageSize - 1);
+
+      if (error) throw error;
+
+      for (const payment of payments || []) {
+        const date = new Date(payment.paid_at).toISOString().slice(0, 10);
+        revenueByDate.set(
+          date,
+          (revenueByDate.get(date) || 0) + Number(payment.total_amount || 0)
+        );
+      }
+
+      if (!payments || payments.length < pageSize) break;
+      offset += pageSize;
+    }
+
+    const revenue = [];
+    for (let index = 0; index < days; index += 1) {
+      const date = new Date(startDate);
+      date.setUTCDate(startDate.getUTCDate() + index);
+      const dateKey = date.toISOString().slice(0, 10);
+
+      revenue.push({
+        date: dateKey,
+        value: revenueByDate.get(dateKey) || 0,
+      });
+    }
+
+    return res.status(200).json({ success: true, days, revenue });
+  } catch (error) {
+    console.error("Revenue performance error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch revenue performance.",
+    });
+  }
+};
+
 /**
  * getDashboardAnalytics
  * Returns real-time data for the luxury graphical dashboard:
@@ -420,5 +490,6 @@ const getDashboardAnalytics = async (req, res) => {
 
 module.exports = {
   getDashboardStats,
-  getDashboardAnalytics
+  getDashboardAnalytics,
+  getRevenuePerformance,
 };

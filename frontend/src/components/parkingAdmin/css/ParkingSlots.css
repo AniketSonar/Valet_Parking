@@ -999,10 +999,10 @@
   pointer-events: none;
 }
 
-.inspector-car-svg {
-  width: 100%;
-  max-width: 290px;
-  height: auto;
+.inspector-topdown-car-svg {
+  width: 92px;
+  height: 170px;
+  flex-shrink: 0;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.08));
 }
 

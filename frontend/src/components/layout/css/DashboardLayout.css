@@ -1162,3 +1162,48 @@
 .dash-page-content {
   padding-top: 20px;
 }
+
+@media (max-width: 600px) {
+  .dash-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: min(280px, 85vw) !important;
+    height: 100dvh !important;
+    transform: translateX(-105%);
+    transition: transform 0.25s ease !important;
+    z-index: 1200 !important;
+  }
+
+  .dash-sidebar .dash-brand-title,
+  .dash-sidebar .dash-section-label {
+    display: flex;
+  }
+
+  .dash-sidebar .dash-menu-item,
+  .dash-sidebar .dash-logout-btn {
+    justify-content: flex-start;
+    gap: 12px;
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .dash-sidebar .dash-item-text {
+    width: auto;
+    opacity: 1;
+  }
+
+  .dash-sidebar.is-mobile-open {
+    transform: translateX(0);
+  }
+
+  .dash-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    border: 0;
+    background: rgba(15, 10, 12, 0.48);
+    cursor: pointer;
+  }
+}

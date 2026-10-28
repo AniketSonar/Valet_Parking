@@ -534,6 +534,21 @@
   color: #b42318;
 }
 
+.lux-status-pill.status-checked-in {
+  background: #eff8ff;
+  color: #175cd3;
+}
+
+.lux-status-pill.status-retrieval {
+  background: #fef6ee;
+  color: #b54708;
+}
+
+.lux-status-pill.status-ready {
+  background: #fdf2fa;
+  color: #c11574;
+}
+
 /* Right: Premium Valet Services Promo Card (Image 2) */
 .lux-promo-card {
   position: relative;

@@ -4,6 +4,10 @@ export const getDashboardStats = async () => {
   return apiClient("/api/admin/dashboard");
 };
 
+export const getDashboardAnalytics = async () => {
+  return apiClient("/api/admin/dashboard-analytics");
+};
+
 export const getAllStaff = async (params = {}) => {
   const query = new URLSearchParams(params).toString();
   return apiClient(`/api/users${query ? `?${query}` : ""}`);

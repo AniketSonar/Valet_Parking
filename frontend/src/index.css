@@ -16,3 +16,91 @@ body,
 #root {
   display: block;
 }
+
+/* ============================================================
+   UNIVERSAL DASHBOARD BUTTON THEME: #8B1230
+   ============================================================ */
+:root {
+  --primary-button: #8b1230;
+  --primary-button-hover: #730c26;
+  --primary-button-active: #5c081c;
+}
+
+/* All primary, action, and submit buttons across all dashboards */
+button.primary,
+button[type="submit"]:not(.secondary):not(.cancel):not(.btn-secondary),
+.btn-primary,
+.primary-action,
+.reception-action-btn.primary,
+.act-btn.primary,
+.incident-primary-btn,
+.customer-action-button.primary,
+.customer-primary-button,
+.create-staff-btn,
+.add-staff-btn,
+.check-in-button,
+.session-action.primary,
+.ar-btn-primary,
+.action-btn-primary,
+.reception-payment-process-button,
+.reception-payment-submit-button,
+.reception-payment-download-button,
+.start-retrieval-btn,
+.key-primary-btn,
+.save-status-action-btn {
+  background: #8b1230 !important;
+  border-color: #8b1230 !important;
+  color: #ffffff !important;
+}
+
+button.primary:hover:not(:disabled),
+button[type="submit"]:not(.secondary):not(.cancel):not(.btn-secondary):hover:not(:disabled),
+.btn-primary:hover:not(:disabled),
+.primary-action:hover:not(:disabled),
+.reception-action-btn.primary:hover:not(:disabled),
+.act-btn.primary:hover:not(:disabled),
+.incident-primary-btn:hover:not(:disabled),
+.customer-action-button.primary:hover:not(:disabled),
+.customer-primary-button:hover:not(:disabled),
+.create-staff-btn:hover:not(:disabled),
+.add-staff-btn:hover:not(:disabled),
+.check-in-button:hover:not(:disabled),
+.session-action.primary:hover:not(:disabled),
+.ar-btn-primary:hover:not(:disabled),
+.action-btn-primary:hover:not(:disabled),
+.reception-payment-process-button:hover:not(:disabled),
+.reception-payment-submit-button:hover:not(:disabled),
+.reception-payment-download-button:hover:not(:disabled),
+.start-retrieval-btn:hover:not(:disabled),
+.key-primary-btn:hover:not(:disabled),
+.save-status-action-btn:hover:not(:disabled) {
+  background: #730c26 !important;
+  border-color: #730c26 !important;
+  color: #ffffff !important;
+}
+
+button.primary:active:not(:disabled),
+button[type="submit"]:not(.secondary):not(.cancel):not(.btn-secondary):active:not(:disabled),
+.btn-primary:active:not(:disabled),
+.primary-action:active:not(:disabled),
+.reception-action-btn.primary:active:not(:disabled),
+.act-btn.primary:active:not(:disabled),
+.incident-primary-btn:active:not(:disabled),
+.customer-action-button.primary:active:not(:disabled),
+.customer-primary-button:active:not(:disabled),
+.create-staff-btn:active:not(:disabled),
+.add-staff-btn:active:not(:disabled),
+.check-in-button:active:not(:disabled),
+.session-action.primary:active:not(:disabled),
+.ar-btn-primary:active:not(:disabled),
+.action-btn-primary:active:not(:disabled),
+.reception-payment-process-button:active:not(:disabled),
+.reception-payment-submit-button:active:not(:disabled),
+.reception-payment-download-button:active:not(:disabled),
+.start-retrieval-btn:active:not(:disabled),
+.key-primary-btn:active:not(:disabled),
+.save-status-action-btn:active:not(:disabled) {
+  background: #5c081c !important;
+  border-color: #5c081c !important;
+  color: #ffffff !important;
+}

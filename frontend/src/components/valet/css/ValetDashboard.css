@@ -605,14 +605,14 @@
 }
 
 .primary-action {
-  border: 1px solid #753bd6;
-  background: #763bd7;
+  border: 1px solid #8b1230;
+  background: #8b1230;
   color: #ffffff;
 }
 
 .primary-action:hover {
-  background: #6930c7;
-  border-color: #6930c7;
+  background: #730c26;
+  border-color: #730c26;
 }
 
 .secondary-action {
@@ -1023,7 +1023,7 @@
 }
 
 .inspection-condition-toggle button.active {
-  border-color: #763bd7;
+  border-color: #8b1230;
   background: #f8efff;
   color: #6830c2;
   box-shadow: 0 0 0 3px rgba(118, 59, 215, 0.1);

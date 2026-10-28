@@ -73,7 +73,7 @@
 
 
 .incident-primary-btn:hover {
-    background: #6d28d9
+    background: #730c26
 }
 
 
@@ -517,8 +517,8 @@
 
 
 .row-actions button:hover {
-    border-color: #cfc4dc;
-    color: #6d28d9
+    border-color: #8b1230;
+    color: #8b1230
 }
 
 
@@ -772,7 +772,7 @@
 
 
 .details-status-actions button.next-status:hover {
-    background: #6d28d9
+    background: #730c26
 }
 
 

@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import {
   Menu,
-  MapPin,
   Bell,
   ChevronDown,
   User,
@@ -19,9 +18,7 @@ const readStoredUser = () => {
 };
 
 /**
- * Shared Luxury Topbar matching Image 1 & Image 2:
- * - Hotel location branding: "Grand Horizon Hotel & Resort"
- * - "Valet Parking Management" subtitle
+ * Shared Luxury Topbar:
  * - Notification bell with badge & Admin profile pill
  */
 const DashboardTopbar = ({ config, user: userOverride, onProfile, onToggleSidebar }) => {
@@ -36,7 +33,7 @@ const DashboardTopbar = ({ config, user: userOverride, onProfile, onToggleSideba
 
   return (
     <header className="dash-topbar lux-topbar">
-      {/* LEFT: HOTEL BRANDING & LOCATION */}
+      {/* LEFT: TOGGLE BUTTON ONLY */}
       <div className="lux-topbar-left">
         <button
           type="button"
@@ -46,17 +43,6 @@ const DashboardTopbar = ({ config, user: userOverride, onProfile, onToggleSideba
         >
           <Menu size={20} />
         </button>
-
-        <div className="lux-hotel-brand">
-          <div className="lux-hotel-pin-wrap">
-            <MapPin size={18} className="lux-hotel-pin" />
-          </div>
-
-          <div className="lux-hotel-text">
-            <h2 className="lux-hotel-name">Grand Horizon Hotel & Resort</h2>
-            <span className="lux-hotel-sub">Valet Parking Management</span>
-          </div>
-        </div>
       </div>
 
       {/* RIGHT: NOTIFICATIONS & ADMIN PROFILE CHIP */}

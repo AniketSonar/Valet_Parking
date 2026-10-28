@@ -2,8 +2,6 @@ import React from "react";
 import {
   UserRoundPen,
   LogOut,
-  PanelLeftClose,
-  PanelLeftOpen,
 } from "lucide-react";
 
 import "./css/DashboardLayout.css";
@@ -158,23 +156,6 @@ const DashboardSidebar = ({
         )}
 
         <div className="dash-footer-controls">
-          <button
-            type="button"
-            className="dash-collapse-btn"
-            onClick={() => setCollapsed((value) => !value)}
-            title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            <span className="dash-item-icon">
-              {collapsed ? (
-                <PanelLeftOpen size={16} />
-              ) : (
-                <PanelLeftClose size={16} />
-              )}
-            </span>
-
-            <span className="dash-item-text">Collapse</span>
-          </button>
 
           <button
             type="button"

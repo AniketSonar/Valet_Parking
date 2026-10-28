@@ -91,8 +91,8 @@
 }
 
 .key-primary-btn:hover:not(:disabled) {
-  background: #6d28d9;
-  border-color: #6d28d9;
+  background: #730c26;
+  border-color: #730c26;
 }
 
 .key-secondary-btn {
@@ -474,7 +474,7 @@
   text-align: left;
 }
 
-.key-action-menu button:hover { background: #f8f5fb; color: #6d28d9; }
+.key-action-menu button:hover { background: #f8f5fb; color: #8b1230; }
 .key-action-menu button.danger { color: #b91c1c; }
 .key-action-menu button.danger:hover { background: #fff3f3; }
 

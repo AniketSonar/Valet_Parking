@@ -18,6 +18,7 @@ import "./LuxuryDashboardView.css";
 
 function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, loading = false }) {
   const [timeFilter, setTimeFilter] = useState("Today");
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const [activeSegment, setActiveSegment] = useState(null);
 
@@ -25,9 +26,9 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
   const analytics = directAnalytics || stats?.analytics || null;
 
   // Real-time KPI values with safe fallbacks
-  const kpiTotalVehicles = analytics?.totalVehiclesToday ?? stats?.totalVehicles ?? 124;
-  const kpiActiveParked = analytics?.activeParkingSessions ?? stats?.activeParkingSessions ?? 38;
-  const kpiCheckouts = analytics?.todayCheckouts ?? stats?.todayCheckouts ?? 32;
+  const kpiTotalVehicles = analytics?.totalVehiclesToday ?? stats?.totalVehicles ?? 0;
+  const kpiActiveParked = analytics?.activeParkingSessions ?? stats?.activeParkingSessions ?? 0;
+  const kpiCheckouts = analytics?.todayCheckouts ?? stats?.todayCheckouts ?? 0;
   const kpiSatisfaction = analytics?.satisfaction ?? stats?.satisfaction ?? 4.8;
 
   // Default fallback trend matching Image 2 curve
@@ -42,11 +43,16 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
     { time: "10 PM", value: 32, label: "32 vehicles" },
   ], []);
 
-  // Time trend data points (8 AM to 10 PM)
+  // Time trend data points (Hourly today or Weekly)
   const trendData = useMemo(() => {
-    if (analytics?.hourlyTrend && analytics.hourlyTrend.some((t) => t.value > 0)) {
-      const peakVal = Math.max(...analytics.hourlyTrend.map((t) => t.value));
-      return analytics.hourlyTrend.map((t) => ({
+    const rawTrend =
+      timeFilter === "This Week"
+        ? analytics?.weeklyTrend
+        : analytics?.hourlyTrend;
+
+    if (rawTrend && rawTrend.length > 0) {
+      const peakVal = Math.max(...rawTrend.map((t) => t.value));
+      return rawTrend.map((t) => ({
         ...t,
         label: `${t.value} vehicle${t.value === 1 ? "" : "s"}${
           t.value === peakVal && t.value > 0 ? " (Peak)" : ""
@@ -54,7 +60,7 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
       }));
     }
     return defaultTrendData;
-  }, [analytics?.hourlyTrend, defaultTrendData]);
+  }, [timeFilter, analytics?.hourlyTrend, analytics?.weeklyTrend, defaultTrendData]);
 
   // SVG Chart dimensions & dynamic path calculation
   const chartWidth = 620;
@@ -63,6 +69,7 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
   // Calculate dynamic maxY so chart never clips and scales smoothly
   const maxY = useMemo(() => {
     const maxVal = Math.max(...trendData.map((d) => d.value), 0);
+    if (maxVal <= 2) return 4;
     if (maxVal <= 5) return 10;
     if (maxVal <= 15) return 20;
     if (maxVal <= 30) return 40;
@@ -113,26 +120,26 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
   ], []);
 
   const vehicleTypes = useMemo(() => {
-    if (analytics?.vehicleTypes && analytics.vehicleTypes.some((t) => t.count > 0)) {
-      const activeTypes = analytics.vehicleTypes.filter((t) => t.count > 0);
-      const totalCount = activeTypes.reduce((a, b) => a + b.count, 0);
-      return activeTypes.map((t) => ({
+    if (analytics?.vehicleTypes && analytics.vehicleTypes.length > 0) {
+      const totalCount = analytics.vehicleTypes.reduce((a, b) => a + (b.count || 0), 0);
+      return analytics.vehicleTypes.map((t) => ({
         ...t,
-        percentage: totalCount > 0 ? Math.round((t.count / totalCount) * 100) : 0,
+        percentage: totalCount > 0 ? Math.round(((t.count || 0) / totalCount) * 100) : 0,
       }));
     }
     return defaultVehicleTypes;
   }, [analytics?.vehicleTypes, defaultVehicleTypes]);
 
   const totalDonutCount = useMemo(() => {
-    if (analytics?.totalVehiclesToday !== undefined && analytics.totalVehiclesToday > 0) {
-      return analytics.totalVehiclesToday;
+    if (analytics?.vehicleTypes && analytics.vehicleTypes.length > 0) {
+      const sum = analytics.vehicleTypes.reduce((a, b) => a + (b.count || 0), 0);
+      return sum;
     }
-    if (stats?.totalVehicles !== undefined && stats.totalVehicles > 0) {
-      return stats.totalVehicles;
+    if (analytics?.totalVehiclesAllTime !== undefined) {
+      return analytics.totalVehiclesAllTime;
     }
-    return 124;
-  }, [analytics?.totalVehiclesToday, stats?.totalVehicles]);
+    return stats?.totalVehicles ?? 0;
+  }, [analytics?.vehicleTypes, analytics?.totalVehiclesAllTime, stats?.totalVehicles]);
 
   // SVG Donut calculation
   const totalPercentage = 100;
@@ -141,8 +148,26 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
   const circumference = 2 * Math.PI * radius;
 
   const donutSegments = useMemo(() => {
+    const activeTypes = vehicleTypes.filter((t) => (t.count || 0) > 0 || (t.percentage || 0) > 0);
+    if (!activeTypes.length) {
+      return [{
+        label: "Empty",
+        color: "#3a131e",
+        strokeDasharray: `${circumference} ${circumference}`,
+        strokeDashoffset: 0,
+      }];
+    }
+
+    if (activeTypes.length === 1) {
+      return [{
+        ...activeTypes[0],
+        strokeDasharray: `${circumference} ${circumference}`,
+        strokeDashoffset: 0,
+      }];
+    }
+
     let cumulativePercent = 0;
-    return vehicleTypes.map((type) => {
+    return activeTypes.map((type) => {
       const pct = Math.max(type.percentage, 1);
       const strokeDasharray = `${(pct / totalPercentage) * circumference} ${circumference}`;
       const strokeDashoffset = -((cumulativePercent / totalPercentage) * circumference);
@@ -220,7 +245,6 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
       ======================================================== */}
       <section className="lux-welcome-banner">
         <div className="lux-welcome-text">
-          <span className="lux-welcome-greeting">GOOD MORNING,</span>
           <h1 className="lux-welcome-title">Welcome Back!</h1>
           <p className="lux-welcome-sub">
             Here's what's happening with your valet parking today.
@@ -343,10 +367,62 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
               <h3>Vehicle Trend</h3>
             </div>
 
-            <div className="lux-dropdown-pill">
-              <Calendar size={14} />
-              <span>{timeFilter}</span>
-              <ChevronDown size={14} />
+            <div className="lux-dropdown-container" style={{ position: "relative" }}>
+              <button
+                type="button"
+                className="lux-dropdown-pill"
+                onClick={() => setShowFilterMenu((prev) => !prev)}
+                style={{ cursor: "pointer", background: "none" }}
+              >
+                <Calendar size={14} />
+                <span>{timeFilter}</span>
+                <ChevronDown size={14} />
+              </button>
+              {showFilterMenu && (
+                <div
+                  className="lux-filter-menu"
+                  style={{
+                    position: "absolute",
+                    top: "100%",
+                    right: 0,
+                    marginTop: "6px",
+                    background: "#ffffff",
+                    border: "1px solid #ebdcd5",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 24px rgba(60, 10, 20, 0.12)",
+                    padding: "6px",
+                    zIndex: 20,
+                    minWidth: "120px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "4px",
+                  }}
+                >
+                  {["Today", "This Week"].map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => {
+                        setTimeFilter(opt);
+                        setShowFilterMenu(false);
+                      }}
+                      style={{
+                        padding: "8px 12px",
+                        textAlign: "left",
+                        fontSize: "12px",
+                        fontWeight: timeFilter === opt ? "700" : "500",
+                        color: timeFilter === opt ? "#8b1230" : "#4a4a4a",
+                        backgroundColor: timeFilter === opt ? "#fbeff2" : "transparent",
+                        border: "none",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

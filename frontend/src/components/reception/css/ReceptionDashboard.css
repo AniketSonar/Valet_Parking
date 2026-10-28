@@ -494,7 +494,7 @@
 
 
 .reception-table tbody td button {
-  background: #70418f;
+  background: #8b1230;
   color: #ffffff;
   box-shadow: 0 4px 10px rgba(112, 65, 143, 0.13);
   height: 30px;
@@ -1575,8 +1575,8 @@
 
 
 .reception-action-btn.small.primary:hover {
-  border-color: #6d28d9;
-  background: #6d28d9;
+  border-color: #730c26;
+  background: #730c26;
   box-shadow: 0 3px 8px rgba(139, 18, 48, 0.18);
 }
 

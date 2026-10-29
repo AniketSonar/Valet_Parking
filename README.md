@@ -1,6 +1,6 @@
-# Valet Parking - Aura Valet System
+# Valet Parking System
 
-Aura Valet Parking is an enterprise full-stack valet and parking management application built with a React 19 / Vite frontend and an Express 5 backend with Supabase PostgreSQL and Supabase Authentication.
+Valet Parking is an enterprise full-stack valet and parking management application built with a React 19 / Vite frontend and an Express 5 backend with Supabase PostgreSQL and Supabase Authentication.
 
 ---
 

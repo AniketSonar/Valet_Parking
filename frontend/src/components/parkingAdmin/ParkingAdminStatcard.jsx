@@ -9,7 +9,7 @@ const ParkingAdminStatcard = ({
   theme = "purple",
 }) => {
   return (
-    <div className={`aura-card theme-${theme}`}>
+    <div className={`app-card theme-${theme}`}>
       <div className="card-top-row">
         <div className="card-icon-box">
           {Icon && <Icon size={20} strokeWidth={2} />}

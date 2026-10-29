@@ -1,4 +1,4 @@
-.aura-card {
+.app-card {
   background: #ffffff;
   border-radius: 18px;
   padding: 20px;
@@ -81,8 +81,8 @@
 .theme-red .card-icon-box { background: #fde8e8; color: #ef4444; }
 .theme-red .card-corner-shape { background: rgba(253, 232, 232, 0.5); }
 
-/* AURA KPI refinement */
-.aura-card { background: var(--bg-card, #ffffff); border: 1px solid rgba(139, 18, 48, 0.10); border-radius: 18px; box-shadow: 0 8px 24px -4px rgba(139, 18, 48, 0.08); }
-.aura-card::before { content: ""; position: absolute; top: 0; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, #8b1230, #a855f7); }
-.aura-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -6px rgba(139, 18, 48, 0.16); }
+/* VALET KPI refinement */
+.app-card { background: var(--bg-card, #ffffff); border: 1px solid rgba(139, 18, 48, 0.10); border-radius: 18px; box-shadow: 0 8px 24px -4px rgba(139, 18, 48, 0.08); }
+.app-card::before { content: ""; position: absolute; top: 0; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, #8b1230, #a855f7); }
+.app-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -6px rgba(139, 18, 48, 0.16); }
 .card-value { color: var(--text-main, #171324); }.card-subtext { display: inline-flex; align-self: flex-start; margin-top: 8px; padding: 5px 8px; border-radius: 9999px; background: #fce7eb; color: #8b1230; }.card-corner-shape { display: none; } 

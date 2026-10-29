@@ -1,5 +1,5 @@
 -- =========================================================================
--- Aura Valet Parking - Seed SQL Script
+-- Valet Parking - Seed SQL Script
 -- Run this in Supabase Dashboard -> SQL Editor after running schema.sql
 -- =========================================================================
 

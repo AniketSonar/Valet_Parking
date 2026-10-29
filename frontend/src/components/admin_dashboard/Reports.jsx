@@ -1,3 +1,4 @@
+import ValetReport from "../reports/ValetReport";
 import { useState, useEffect, useCallback } from "react";
 import { RefreshCw } from "lucide-react";
 import {
@@ -159,6 +160,9 @@ function Reports() {
           </div>
         </div>
       </section>
+
+      {/* VALET REPORT: filter, view and download */}
+      <ValetReport />
 
       {error && (
         <div style={{ background: "#fef2f2", color: "#b91c1c", padding: "12px 16px", borderRadius: "10px", marginBottom: "16px", fontWeight: "600", fontSize: "13px" }}>

@@ -56,13 +56,13 @@ function CustomerSidebar({
       <div className="customer-brand">
         <div className="customer-brand-logo">
           <img
-            src="/aura-logo.svg"
-            alt="Aura Valet Parking"
+            src="/valet-logo.svg"
+            alt="Valet Parking"
           />
         </div>
 
         <div className="customer-brand-title">
-          <strong>AURA</strong>
+          <strong>VALET</strong>
           <span>CUSTOMER PORTAL</span>
         </div>
       </div>

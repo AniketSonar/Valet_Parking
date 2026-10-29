@@ -44,12 +44,12 @@ function Sidebar({ activePage, setActivePage }) {
       <div className="sidebar-brand">
 
         <div className="brand-logo-wrapper">
-          <img src="/aura-logo.svg" alt="Aura Valet Parking" className="brand-logo" />
+          <img src="/valet-logo.svg" alt="Valet Parking" className="brand-logo" />
         </div>
 
         <div className="sidebar-brand-text">
-          <h2>AURA</h2>
-          <span>VALET PARKING</span>
+          <h2>VALET</h2>
+          <span>PARKING</span>
         </div>
 
         {/* Collapse Button */}

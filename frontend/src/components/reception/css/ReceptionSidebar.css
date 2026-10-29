@@ -1,4 +1,4 @@
-.aura-sidebar {
+.app-sidebar {
   width: 260px;
   height: calc(100vh - 28px);
   position: sticky;
@@ -17,7 +17,7 @@
   box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08);
 }
 
-.aura-brand {
+.app-brand {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -160,11 +160,11 @@
   color: #b91c1c;
 }
 
-.aura-sidebar::-webkit-scrollbar {
+.app-sidebar::-webkit-scrollbar {
   width: 4px;
 }
 
-.aura-sidebar::-webkit-scrollbar-thumb {
+.app-sidebar::-webkit-scrollbar-thumb {
   background: rgba(139, 18, 48, 0.14);
   border-radius: 10px;
 }
@@ -174,7 +174,7 @@
 
 
 @media (max-width: 900px) {
-  .aura-sidebar {
+  .app-sidebar {
     width: 76px;
     height: calc(100vh - 16px);
     top: 8px;
@@ -182,7 +182,7 @@
     padding: 20px 9px 14px;
   }
 
-  .aura-brand {
+  .app-brand {
     justify-content: center;
     padding: 0 0 20px;
   }
@@ -219,7 +219,7 @@
 }
 
 @media (max-width: 650px) {
-  .aura-sidebar {
+  .app-sidebar {
     position: relative;
     width: calc(100% - 16px);
     height: auto;
@@ -231,7 +231,7 @@
     overflow: hidden;
   }
 
-  .aura-brand {
+  .app-brand {
     border-bottom: 0;
     padding: 0;
   }
@@ -292,34 +292,34 @@
   margin-top: 5px;
 }
 
-.aura-sidebar.is-collapsed {
+.app-sidebar.is-collapsed {
   width: 78px;
   padding-left: 9px;
   padding-right: 9px;
 }
 
-.aura-sidebar.is-collapsed .aura-brand {
+.app-sidebar.is-collapsed .app-brand {
   justify-content: center;
   padding-left: 0;
   padding-right: 0;
 }
 
-.aura-sidebar.is-collapsed .brand-title,
-.aura-sidebar.is-collapsed .section-label,
-.aura-sidebar.is-collapsed .item-text {
+.app-sidebar.is-collapsed .brand-title,
+.app-sidebar.is-collapsed .section-label,
+.app-sidebar.is-collapsed .item-text {
   display: none;
 }
 
-.aura-sidebar.is-collapsed .menu-item,
-.aura-sidebar.is-collapsed .logout-btn,
-.aura-sidebar.is-collapsed .sidebar-collapse-btn {
+.app-sidebar.is-collapsed .menu-item,
+.app-sidebar.is-collapsed .logout-btn,
+.app-sidebar.is-collapsed .sidebar-collapse-btn {
   justify-content: center;
   padding-left: 0;
   padding-right: 0;
   gap: 0;
 }
 
-.aura-sidebar.is-collapsed .menu-item.active::after {
+.app-sidebar.is-collapsed .menu-item.active::after {
   right: 5px;
 }
 
@@ -334,11 +334,11 @@
 }
 
 @media (max-width: 650px) {
-  .aura-sidebar.is-collapsed {
+  .app-sidebar.is-collapsed {
     width: calc(100% - 16px);
   }
 
-  .aura-sidebar.is-collapsed .brand-title {
+  .app-sidebar.is-collapsed .brand-title {
     display: none;
   }
 }

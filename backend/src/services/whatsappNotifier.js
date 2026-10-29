@@ -9,13 +9,13 @@ const {
   sendWhatsAppTemplate
 } = require("../config/whatsapp");
 
-const BRAND = "Aura Valet Parking";
+const BRAND = "Valet Parking";
 
 const money = (amount) => `Rs. ${Number(amount || 0).toFixed(2)}`;
 const plateOf = (d) => d.plate || "your vehicle";
 
 /**
- * One entry per customer-facing event that used to be an email.
+ * One entry per customer-facing WhatsApp event.
  *  - text(d)    : plain-text body (used when templates are disabled)
  *  - template   : name of the Meta-approved template (used when
  *                 WHATSAPP_USE_TEMPLATES=true)

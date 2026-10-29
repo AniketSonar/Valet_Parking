@@ -13,6 +13,7 @@ import {
   getParkingSlots,
 } from "../../api/parkingApi";
 
+import ValetReport from "../reports/ValetReport";
 import "./css/ParkingReports.css";
 
 const DEFAULT_REPORTS = {
@@ -189,6 +190,9 @@ const ParkingReports = () => {
           </span>
         </button>
       </header>
+
+      {/* VALET REPORT: filter, view and download */}
+      <ValetReport />
 
       {/* ======================================================
           ERROR

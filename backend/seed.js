@@ -56,7 +56,7 @@ const ACCOUNTS = [
 
 async function seed() {
   console.log("=================================================");
-  console.log("  AURA VALET PARKING - DATABASE SEED SCRIPT");
+  console.log("  VALET PARKING - DATABASE SEED SCRIPT");
   console.log("=================================================\n");
 
   for (const account of ACCOUNTS) {

@@ -157,7 +157,7 @@ const generateInvoicePDF = async ({
     doc
       .fontSize(11)
       .font("Helvetica-Bold")
-      .text("Aura Valet Parking System", left, 82);
+      .text("Valet Parking System", left, 82);
 
     doc
       .fontSize(9)
@@ -628,8 +628,7 @@ const createPayment = async (req, res) => {
 
     if (customer?.phone) {
       try {
-        // Same PDF the customer/reception can download, sent on WhatsApp
-        // exactly as the email attachment used to be.
+        // Same PDF the customer/reception can download, sent on WhatsApp.
         const details = await getPaymentDetails(payment.id);
         const pdfBuffer = await generateInvoicePDF(details);
 

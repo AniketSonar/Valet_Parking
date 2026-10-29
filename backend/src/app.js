@@ -21,6 +21,7 @@ const parkingFloorRoutes = require("./routes/parkingFloorRoutes");
 const parkingSystemRoutes = require("./routes/parkingSystemRoutes");
 const parkingPositionRoutes = require("./routes/parkingPositionRoutes");
 const areaRoutes = require("./routes/areaRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 console.log("PARKING FLOOR ROUTE LOADED");
 const app = express();
 
@@ -96,6 +97,7 @@ app.use("/api/incidents", incidentRoutes);
 app.use("/api/feedback", feedbackRoutes);
 
 app.use("/api/payments", paymentRoutes);
+app.use("/api/reports", reportRoutes);
 
 /*
 |--------------------------------------------------------------------------
@@ -105,7 +107,7 @@ app.use("/api/payments", paymentRoutes);
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Aura Valet Parking API is running."
+    message: "Valet Parking API is running."
   });
 });
 

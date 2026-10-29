@@ -60,7 +60,7 @@ const createNotification = async (req, res) => {
     });
 
     /*
-     * Email failed, but notification record was created.
+     * WhatsApp failed, but notification record was created.
      */
     if (channel === "whatsapp" && !result.whatsappSent) {
       return res.status(500).json({

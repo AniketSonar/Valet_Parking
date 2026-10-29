@@ -5,7 +5,7 @@ function Chatbot({ onClose }) {
   const [messages, setMessages] = useState([
     {
       type: "bot",
-      text: "Hi! 👋 I'm Aura Assistant. How can I help you today?"
+      text: "Hi! 👋 I'm the Valet Assistant. How can I help you today?"
     }
   ]);
 
@@ -49,7 +49,7 @@ function Chatbot({ onClose }) {
       text.includes("help") ||
       text.includes("contact")
     ) {
-      return "For further assistance, please contact the Aura reception or support desk.";
+      return "For further assistance, please contact the reception or support desk.";
     }
 
     return "I can help you with parking, vehicle retrieval, payments, invoices, key management, and support. Please tell me what you need help with.";
@@ -95,7 +95,7 @@ function Chatbot({ onClose }) {
     <div className="chatbot">
       <div className="chatbot-header">
         <div>
-          <h3>Aura Assistant</h3>
+          <h3>Valet Assistant</h3>
           <span>Here to help you</span>
         </div>
 

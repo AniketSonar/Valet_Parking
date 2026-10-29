@@ -71,7 +71,7 @@ const ValetProfile = () => {
         <h1>Profile</h1>
 
         <p>
-          Your AURA valet account information.
+          Your valet account information.
         </p>
       </div>
 

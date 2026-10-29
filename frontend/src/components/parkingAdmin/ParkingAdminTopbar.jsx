@@ -37,7 +37,7 @@ const ParkingAdminTopbar = ({
     : "M";
 
   return (
-    <header className="aura-topbar">
+    <header className="app-topbar">
       <div className="breadcrumb">
         <span>Admin</span> /{" "}
         <strong className="capitalize">

@@ -245,6 +245,7 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
       ======================================================== */}
       <section className="lux-welcome-banner">
         <div className="lux-welcome-text">
+          <span className="lux-welcome-greeting">Good Morning,</span>
           <h1 className="lux-welcome-title">Welcome Back!</h1>
           <p className="lux-welcome-sub">
             Here's what's happening with your valet parking today.
@@ -263,93 +264,93 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
       </section>
 
       {/* ========================================================
-          2. TOP 4 KPI STAT CARDS (MATCHING IMAGE 2)
+          2. TOP 4 KPI STAT CARDS (MERGED INTO BANNER WITH LEFT ACCENT)
       ======================================================== */}
       <section className="lux-stats-grid">
         {/* Card 1: Total Vehicles Today */}
         <div className="lux-kpi-card">
-          <div className="lux-kpi-header">
-            <div className="lux-kpi-icon-wrap rose">
-              <Car size={20} className="lux-kpi-icon" />
-            </div>
-            <div className="lux-kpi-badge green">
-              <span className="lux-trend-arrow">↑</span>
-              <span className="lux-trend-num">12%</span>
-            </div>
+          <div className="lux-kpi-icon-wrap rose">
+            <Car size={18} className="lux-kpi-icon" />
           </div>
-          <div className="lux-kpi-body">
-            <div className="lux-kpi-value">
-              {loading ? "--" : kpiTotalVehicles}
+          <div className="lux-kpi-content-row">
+            <div className="lux-kpi-left-col">
+              <div className="lux-kpi-value">
+                {loading ? "--" : kpiTotalVehicles}
+              </div>
+              <div className="lux-kpi-title">Total Vehicles Today</div>
             </div>
-            <div className="lux-kpi-footer-row">
-              <span className="lux-kpi-title">Total Vehicles Today</span>
-              <span className="lux-kpi-compare">vs. yesterday</span>
+            <div className="lux-kpi-right-col">
+              <div className="lux-kpi-badge green">
+                <span className="lux-trend-arrow">↑</span>
+                <span className="lux-trend-num">12%</span>
+              </div>
+              <div className="lux-kpi-compare">vs. yesterday</div>
             </div>
           </div>
         </div>
 
         {/* Card 2: Active Parked Vehicles */}
         <div className="lux-kpi-card">
-          <div className="lux-kpi-header">
-            <div className="lux-kpi-icon-wrap rose">
-              <Clock size={20} className="lux-kpi-icon" />
-            </div>
-            <div className="lux-kpi-badge green">
-              <span className="lux-trend-arrow">↑</span>
-              <span className="lux-trend-num">8%</span>
-            </div>
+          <div className="lux-kpi-icon-wrap rose">
+            <Clock size={18} className="lux-kpi-icon" />
           </div>
-          <div className="lux-kpi-body">
-            <div className="lux-kpi-value">
-              {loading ? "--" : kpiActiveParked}
+          <div className="lux-kpi-content-row">
+            <div className="lux-kpi-left-col">
+              <div className="lux-kpi-value">
+                {loading ? "--" : kpiActiveParked}
+              </div>
+              <div className="lux-kpi-title">Active Parked Vehicles</div>
             </div>
-            <div className="lux-kpi-footer-row">
-              <span className="lux-kpi-title">Active Parked Vehicles</span>
-              <span className="lux-kpi-compare">vs. yesterday</span>
+            <div className="lux-kpi-right-col">
+              <div className="lux-kpi-badge green">
+                <span className="lux-trend-arrow">↑</span>
+                <span className="lux-trend-num">8%</span>
+              </div>
+              <div className="lux-kpi-compare">vs. yesterday</div>
             </div>
           </div>
         </div>
 
         {/* Card 3: Vehicle Check Outs */}
         <div className="lux-kpi-card">
-          <div className="lux-kpi-header">
-            <div className="lux-kpi-icon-wrap rose">
-              <LogOut size={20} className="lux-kpi-icon" />
-            </div>
-            <div className="lux-kpi-badge green">
-              <span className="lux-trend-arrow">↑</span>
-              <span className="lux-trend-num">15%</span>
-            </div>
+          <div className="lux-kpi-icon-wrap rose">
+            <LogOut size={18} className="lux-kpi-icon" />
           </div>
-          <div className="lux-kpi-body">
-            <div className="lux-kpi-value">
-              {loading ? "--" : kpiCheckouts}
+          <div className="lux-kpi-content-row">
+            <div className="lux-kpi-left-col">
+              <div className="lux-kpi-value">
+                {loading ? "--" : kpiCheckouts}
+              </div>
+              <div className="lux-kpi-title">Vehicle Check Outs</div>
             </div>
-            <div className="lux-kpi-footer-row">
-              <span className="lux-kpi-title">Vehicle Check Outs</span>
-              <span className="lux-kpi-compare">vs. yesterday</span>
+            <div className="lux-kpi-right-col">
+              <div className="lux-kpi-badge green">
+                <span className="lux-trend-arrow">↑</span>
+                <span className="lux-trend-num">15%</span>
+              </div>
+              <div className="lux-kpi-compare">vs. yesterday</div>
             </div>
           </div>
         </div>
 
         {/* Card 4: Customer Satisfaction */}
         <div className="lux-kpi-card">
-          <div className="lux-kpi-header">
-            <div className="lux-kpi-icon-wrap rose">
-              <Star size={20} className="lux-kpi-icon" />
-            </div>
-            <div className="lux-kpi-badge green">
-              <span className="lux-trend-arrow">↑</span>
-              <span className="lux-trend-num">2%</span>
-            </div>
+          <div className="lux-kpi-icon-wrap rose">
+            <Star size={18} className="lux-kpi-icon" />
           </div>
-          <div className="lux-kpi-body">
-            <div className="lux-kpi-value">
-              {loading ? "--" : kpiSatisfaction} <span className="lux-kpi-denom">/ 5</span>
+          <div className="lux-kpi-content-row">
+            <div className="lux-kpi-left-col">
+              <div className="lux-kpi-value">
+                {loading ? "--" : kpiSatisfaction} <span className="lux-kpi-denom">/ 5</span>
+              </div>
+              <div className="lux-kpi-title">Customer Satisfaction</div>
             </div>
-            <div className="lux-kpi-footer-row">
-              <span className="lux-kpi-title">Customer Satisfaction</span>
-              <span className="lux-kpi-compare">vs. last week</span>
+            <div className="lux-kpi-right-col">
+              <div className="lux-kpi-badge green">
+                <span className="lux-trend-arrow">↑</span>
+                <span className="lux-trend-num">2%</span>
+              </div>
+              <div className="lux-kpi-compare">vs. last week</div>
             </div>
           </div>
         </div>

@@ -19,15 +19,15 @@
 .lux-welcome-banner {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  min-height: 140px;
-  background: linear-gradient(90deg, #ffffff 0%, #faf8f6 45%, rgba(250, 248, 246, 0.4) 100%);
+  min-height: 220px;
+  background: linear-gradient(90deg, #fdfbf8 0%, #f7f2ed 45%, rgba(247, 242, 237, 0.35) 100%);
   border-radius: 20px;
   border: 1px solid rgba(139, 18, 48, 0.08);
   box-shadow: 0 4px 20px rgba(139, 18, 48, 0.04);
   overflow: hidden;
-  padding: 24px 32px;
+  padding: 30px 34px 85px; /* bottom padding accommodates the merged cards */
 }
 
 .lux-welcome-text {
@@ -37,20 +37,19 @@
 }
 
 .lux-welcome-greeting {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: #8c827a;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #64748b;
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .lux-welcome-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 2.6vw, 2.7rem);
+  font-size: clamp(2rem, 2.7vw, 2.85rem);
   font-weight: 700;
-  color: #1c1917;
+  color: #4a0817;
   margin: 0 0 6px 0;
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -65,7 +64,7 @@
 }
 
 .lux-gold-line {
-  width: 48px;
+  width: 52px;
   height: 2.5px;
   background: linear-gradient(90deg, #cba358, #dfb76c);
   border-radius: 2px;
@@ -76,7 +75,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 48%;
+  width: 52%;
   overflow: hidden;
   pointer-events: none;
 }
@@ -91,63 +90,107 @@
 .lux-welcome-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 18%, transparent 55%);
+  background: linear-gradient(90deg, #fdfbf8 0%, rgba(253, 251, 248, 0.75) 20%, transparent 60%);
 }
 
 /* ================================================================
-   2. TOP 4 KPI STAT CARDS GRID
+   2. TOP 4 KPI STAT CARDS (MERGED INTO BANNER & LEFT SIDE ACCENT)
    ================================================================ */
 
 .lux-stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 16px;
+  margin-top: -68px; /* Perfectly merges cards into above welcome banner */
+  position: relative;
+  z-index: 4;
+  padding: 0 16px;
 }
 
 .lux-kpi-card {
-  background: #ffffff;
-  border-radius: 18px;
-  border: 1px solid rgba(139, 18, 48, 0.07);
-  box-shadow: 0 4px 18px rgba(139, 18, 48, 0.035), 0 1px 2px rgba(0, 0, 0, 0.02);
-  padding: 22px 24px;
+  background: #fffdfb;
+  border-radius: 16px;
+  border: 1px solid #eadfd7;
+  border-left: 4.5px solid #caa060; /* Left side golden-bronze design matching image */
+  box-shadow: 0 8px 24px rgba(45, 10, 18, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02);
+  padding: 18px 20px 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
 }
 
 .lux-kpi-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(139, 18, 48, 0.08);
-}
-
-.lux-kpi-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-
-.lux-kpi-icon-wrap {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(139, 18, 48, 0.1);
+  border-color: #dfb76c;
+  border-left-color: #8b1230;
 }
 
 .lux-kpi-icon-wrap.rose {
-  background: rgba(139, 18, 48, 0.07);
-  color: #8b1230;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #5b0a1e;
+  border: 1.5px solid #cba358;
+  box-shadow: 0 2px 8px rgba(91, 10, 30, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.lux-kpi-content-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.lux-kpi-left-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.lux-kpi-value {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1c1917;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.lux-kpi-denom {
+  font-size: 17px;
+  font-weight: 600;
+  color: #8c827a;
+}
+
+.lux-kpi-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11.5px;
+  color: #57534e;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lux-kpi-right-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-bottom: 2px;
 }
 
 .lux-kpi-badge {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
 }
 
@@ -160,45 +203,12 @@
   line-height: 1;
 }
 
-.lux-kpi-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.lux-kpi-value {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 32px;
-  font-weight: 800;
-  color: #1c1917;
-  line-height: 1.1;
-  margin-bottom: 4px;
-}
-
-.lux-kpi-denom {
-  font-size: 18px;
-  font-weight: 600;
-  color: #a8a29e;
-}
-
-.lux-kpi-footer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.lux-kpi-title {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 12.5px;
-  color: #78716c;
-  font-weight: 500;
-}
-
 .lux-kpi-compare {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 11px;
-  color: #a8a29e;
+  font-size: 10.5px;
+  color: #8c827a;
   white-space: nowrap;
+  margin-top: 1px;
 }
 
 /* ================================================================

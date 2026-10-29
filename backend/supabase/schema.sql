@@ -1,4 +1,4 @@
--- Aura Valet Parking database schema
+-- Valet Parking database schema
 -- Run this file in Supabase Dashboard -> SQL Editor.
 -- The backend uses the service-role key, so these tables can start with
 -- RLS disabled while the application authorization remains in the API.

@@ -1,4 +1,4 @@
-.aura-topbar {
+.app-topbar {
     position: sticky;
     top: 0;
     z-index: 90;
@@ -183,7 +183,7 @@
 
 
 
-.aura-topbar {
+.app-topbar {
     height: 72px;
     padding: 0 42px;
     background: rgba(255, 255, 255, .82);
@@ -218,19 +218,19 @@
 
 
 @media (max-width: 1200px) {
-    .aura-topbar {
+    .app-topbar {
         padding: 0 24px;
     }
 }
 
 @media (max-width: 650px) {
-    .aura-topbar {
+    .app-topbar {
         padding: 0 15px;
     }
 }
 
 @media (max-width: 1200px) {
-    .aura-topbar {
+    .app-topbar {
         padding: 0 22px;
     }
 
@@ -244,7 +244,7 @@
 }
 
 @media (max-width: 900px) {
-    .aura-topbar {
+    .app-topbar {
         padding: 0 18px;
     }
 
@@ -267,7 +267,7 @@
 }
 
 @media (max-width: 650px) {
-    .aura-topbar {
+    .app-topbar {
         height: 64px;
         padding: 0 14px;
     }
@@ -304,7 +304,7 @@
 }
 
 @media (max-width: 450px) {
-    .aura-topbar {
+    .app-topbar {
         padding: 0 11px;
     }
 

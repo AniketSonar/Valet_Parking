@@ -376,7 +376,7 @@ function ValetDashboard() {
       <header className="valet-header">
         <div>
           <div className="valet-breadcrumb">
-            AURA <span>/</span> Valet Dashboard
+            Valet Parking <span>/</span> Dashboard
           </div>
 
           <h1>

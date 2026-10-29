@@ -2,7 +2,7 @@
    SIDEBAR
 ============================================================ */
 
-.aura-sidebar {
+.app-sidebar {
   position: fixed;
   top: 0;
   left: 0;
@@ -45,7 +45,7 @@
    BRAND
 ============================================================ */
 
-.aura-brand {
+.app-brand {
   position: relative;
 
   display: flex;
@@ -449,10 +449,10 @@
 /* ============================================================
    COLLAPSED SIDEBAR
    Add class:
-   aura-sidebar aura-sidebar-collapsed
+   app-sidebar app-sidebar-collapsed
 ============================================================ */
 
-.aura-sidebar.aura-sidebar-collapsed {
+.app-sidebar.app-sidebar-collapsed {
   width: 78px;
 
   padding-left: 10px;
@@ -464,14 +464,14 @@
    COLLAPSED BRAND
 ============================================================ */
 
-.aura-sidebar.aura-sidebar-collapsed .aura-brand {
+.app-sidebar.app-sidebar-collapsed .app-brand {
   justify-content: center;
 
   padding-left: 0;
   padding-right: 0;
 }
 
-.aura-sidebar.aura-sidebar-collapsed .brand-title {
+.app-sidebar.app-sidebar-collapsed .brand-title {
   width: 0;
 
   opacity: 0;
@@ -482,7 +482,7 @@
    COLLAPSED LABEL
 ============================================================ */
 
-.aura-sidebar.aura-sidebar-collapsed .section-label {
+.app-sidebar.app-sidebar-collapsed .section-label {
   width: 0;
   height: 0;
 
@@ -499,8 +499,8 @@
    COLLAPSED MENU
 ============================================================ */
 
-.aura-sidebar.aura-sidebar-collapsed .menu-item,
-.aura-sidebar.aura-sidebar-collapsed .logout-btn {
+.app-sidebar.app-sidebar-collapsed .menu-item,
+.app-sidebar.app-sidebar-collapsed .logout-btn {
   justify-content: center;
 
   padding-left: 0;
@@ -509,7 +509,7 @@
   gap: 0;
 }
 
-.aura-sidebar.aura-sidebar-collapsed .item-text {
+.app-sidebar.app-sidebar-collapsed .item-text {
   width: 0;
 
   opacity: 0;
@@ -520,7 +520,7 @@
    COLLAPSED ACTIVE
 ============================================================ */
 
-.aura-sidebar.aura-sidebar-collapsed .menu-item.active {
+.app-sidebar.app-sidebar-collapsed .menu-item.active {
   box-shadow:
     inset 3px 0 0 #c084fc,
     0 5px 14px rgba(0, 0, 0, 0.10);
@@ -531,8 +531,8 @@
    COLLAPSED TOOLTIP
 ============================================================ */
 
-.aura-sidebar.aura-sidebar-collapsed .menu-item::before,
-.aura-sidebar.aura-sidebar-collapsed .logout-btn::before {
+.app-sidebar.app-sidebar-collapsed .menu-item::before,
+.app-sidebar.app-sidebar-collapsed .logout-btn::before {
   position: absolute;
 
   left: calc(100% + 10px);
@@ -575,10 +575,10 @@
   z-index: 2000;
 }
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .menu-item:hover::before,
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .logout-btn:hover::before {
   transform:
     translateY(-50%)
@@ -593,42 +593,42 @@
    TOOLTIP LABELS
 ============================================================ */
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .menu-item:nth-child(1)::before {
   content: "Dashboard";
 }
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .menu-item:nth-child(2)::before {
   content: "Parking Slots";
 }
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .menu-item:nth-child(3)::before {
   content: "Parking Operations";
 }
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .menu-item:nth-child(4)::before {
   content: "Valet Management";
 }
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .menu-item:nth-child(5)::before {
   content: "Parking Sessions";
 }
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .menu-item:nth-child(6)::before {
   content: "Reports";
 }
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .account-section .menu-item::before {
   content: "Profile";
 }
 
-.aura-sidebar.aura-sidebar-collapsed
+.app-sidebar.app-sidebar-collapsed
 .logout-btn::before {
   content: "Logout";
 }
@@ -638,7 +638,7 @@
    ICON CONSISTENCY
 ============================================================ */
 
-.aura-sidebar svg {
+.app-sidebar svg {
   flex-shrink: 0;
 }
 
@@ -657,15 +657,15 @@
    SCROLLBAR
 ============================================================ */
 
-.aura-sidebar::-webkit-scrollbar {
+.app-sidebar::-webkit-scrollbar {
   width: 4px;
 }
 
-.aura-sidebar::-webkit-scrollbar-track {
+.app-sidebar::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.aura-sidebar::-webkit-scrollbar-thumb {
+.app-sidebar::-webkit-scrollbar-thumb {
   background:
     rgba(255, 255, 255, 0.12);
 
@@ -692,14 +692,14 @@
 
 @media (max-width: 900px) {
 
-  .aura-sidebar {
+  .app-sidebar {
     width: 78px;
 
     padding-left: 10px;
     padding-right: 10px;
   }
 
-  .aura-brand {
+  .app-brand {
     justify-content: center;
 
     padding-left: 0;
@@ -735,7 +735,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-  .aura-sidebar,
+  .app-sidebar,
   .brand-badge,
   .menu-item,
   .logout-btn,
@@ -746,5 +746,5 @@
   }
 }
 
-.parking-admin-layout .aura-sidebar { position: sticky; top: 14px; width: 260px; height: calc(100vh - 28px); min-height: 0; margin: 0 0 14px 14px; border: 1px solid rgba(139, 18, 48, 0.08); border-radius: 20px; background: var(--bg-sidebar, #fdfbfc); color: var(--text-main, #171324); box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08); }
-.parking-admin-layout .aura-brand { border-bottom-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .brand-badge { background: #fce7eb; color: #8b1230; box-shadow: none; }.parking-admin-layout .brand-title h2 { color: var(--text-main, #171324); }.parking-admin-layout .brand-title span, .parking-admin-layout .section-label { color: #8b7ba8; }.parking-admin-layout .menu-item { border-radius: 12px; background: transparent; color: var(--text-muted, #6b647b); }.parking-admin-layout .menu-item:hover { background: #f9f7ff; color: var(--text-main, #171324); }.parking-admin-layout .menu-item.active { background: #8b1230; color: #ffffff; box-shadow: 0 8px 18px rgba(139, 18, 48, 0.18); }.parking-admin-layout .sidebar-footer { border-top-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .logout-btn { color: var(--text-muted, #6b647b); } 
+.parking-admin-layout .app-sidebar { position: sticky; top: 14px; width: 260px; height: calc(100vh - 28px); min-height: 0; margin: 0 0 14px 14px; border: 1px solid rgba(139, 18, 48, 0.08); border-radius: 20px; background: var(--bg-sidebar, #fdfbfc); color: var(--text-main, #171324); box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08); }
+.parking-admin-layout .app-brand { border-bottom-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .brand-badge { background: #fce7eb; color: #8b1230; box-shadow: none; }.parking-admin-layout .brand-title h2 { color: var(--text-main, #171324); }.parking-admin-layout .brand-title span, .parking-admin-layout .section-label { color: #8b7ba8; }.parking-admin-layout .menu-item { border-radius: 12px; background: transparent; color: var(--text-muted, #6b647b); }.parking-admin-layout .menu-item:hover { background: #f9f7ff; color: var(--text-main, #171324); }.parking-admin-layout .menu-item.active { background: #8b1230; color: #ffffff; box-shadow: 0 8px 18px rgba(139, 18, 48, 0.18); }.parking-admin-layout .sidebar-footer { border-top-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .logout-btn { color: var(--text-muted, #6b647b); } 

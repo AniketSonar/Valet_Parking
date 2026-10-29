@@ -1,7 +1,7 @@
 /* ============================================================
-   AURA VALET PARKING
+   VALET PARKING
    DASHBOARD STAT CARDS
-   Reception-aligned AURA KPI Design
+   Reception-aligned VALET KPI Design
    ============================================================ */
 
 .stat-card {
@@ -30,7 +30,7 @@
 
 
 /* ============================================================
-   SUBTLE AURA BACKGROUND ACCENTS
+   SUBTLE VALET BACKGROUND ACCENTS
    ============================================================ */
 
 .stat-card::before {

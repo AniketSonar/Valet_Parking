@@ -25,7 +25,7 @@ const ReceptionTopbar = ({ activeTab, setActiveTab, onLogout }) => {
   };
 
   return (
-    <header className="aura-topbar">
+    <header className="app-topbar">
       <div className="breadcrumb">
         <span>Reception</span> / <strong className="capitalize">{tabLabels[activeTab] || activeTab}</strong>
       </div>

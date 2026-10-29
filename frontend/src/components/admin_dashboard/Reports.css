@@ -1,5 +1,5 @@
 /* ============================================================
-   AURA VALET PARKING
+   VALET PARKING
    REPORTS & SYSTEM OVERVIEW
    Premium Light Purple Dashboard Theme
    ============================================================ */
@@ -230,7 +230,7 @@
     box-shadow 0.25s ease;
 }
 
-/* Decorative AURA circles */
+/* Decorative VALET circles */
 .report-kpi-card::before {
   content: "";
   position: absolute;

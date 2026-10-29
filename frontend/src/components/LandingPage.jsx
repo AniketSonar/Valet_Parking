@@ -119,11 +119,11 @@ const LandingPage = () => {
         <div className="landing-nav-inner">
           <div className="landing-brand" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             <div className="brand-logo-wrapper">
-              <img src="/aura-logo.svg" alt="AURA Logo" className="brand-logo" />
+              <img src="/valet-logo.svg" alt="Valet Parking Logo" className="brand-logo" />
             </div>
             <div className="brand-text">
-              <h2>AURA</h2>
-              <span>SMART VALET</span>
+              <h2>VALET</h2>
+              <span>PARKING</span>
             </div>
           </div>
 
@@ -164,7 +164,7 @@ const LandingPage = () => {
             </h1>
 
             <p className="landing-hero-subtitle">
-              Say goodbye to paper tokens and curbside delays. Aura Valet transforms your
+              Say goodbye to paper tokens and curbside delays. Valet Parking transforms your
               valet parking with automated check-in, real-time slot allocation, and 1-tap guest
               retrieval.
             </p>
@@ -412,7 +412,7 @@ const LandingPage = () => {
       <section id="how-it-works" className="landing-section">
         <div className="section-header">
           <span className="section-eyebrow">DIGITAL VEHICLE JOURNEY</span>
-          <h2>How Aura Smart Valet Works</h2>
+          <h2>How Valet Parking Works</h2>
           <p>
             An interconnected workflow keeping receptionists, valets, and guests on the exact same page.
           </p>
@@ -619,7 +619,7 @@ const LandingPage = () => {
                 <Mail size={20} />
                 <div>
                   <strong>Email</strong>
-                  <span>sales@auravalet.com / contact@valet.com</span>
+                  <span>contact@valet.com</span>
                 </div>
               </div>
 
@@ -627,7 +627,7 @@ const LandingPage = () => {
                 <MapPin size={20} />
                 <div>
                   <strong>Headquarters</strong>
-                  <span>Aura Smart Mobility Labs, Metro Business Towers</span>
+                  <span>Metro Business Towers</span>
                 </div>
               </div>
             </div>
@@ -656,9 +656,9 @@ const LandingPage = () => {
         <div className="footer-top">
           <div className="footer-brand">
             <div className="brand-logo-wrapper">
-              <img src="/aura-logo.svg" alt="AURA Logo" className="brand-logo" />
+              <img src="/valet-logo.svg" alt="Valet Parking Logo" className="brand-logo" />
             </div>
-            <h3>AURA VALET</h3>
+            <h3>VALET PARKING</h3>
             <p>Next-Generation Smart Valet Parking Platform.</p>
           </div>
 
@@ -679,13 +679,13 @@ const LandingPage = () => {
 
           <div className="footer-links-group">
             <h4>Contact</h4>
-            <p>Email: contact@auravalet.com</p>
+            <p>Email: contact@valet.com</p>
             <p>Support: 24/7 Operations Desk</p>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>© 2026 Aura Smart Valet Parking Technologies. All rights reserved.</p>
+          <p>© 2026 Valet Parking. All rights reserved.</p>
         </div>
       </footer>
     </div>

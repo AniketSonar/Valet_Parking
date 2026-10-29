@@ -24,14 +24,14 @@ const menuItems = [
 
 const ReceptionSidebar = ({ activeTab, setActiveTab, onLogout, collapsed, setCollapsed }) => {
   return (
-    <aside className={`aura-sidebar ${collapsed ? "is-collapsed" : ""}`}>
+    <aside className={`app-sidebar ${collapsed ? "is-collapsed" : ""}`}>
       {/* BRAND */}
-      <div className="aura-brand">
+      <div className="app-brand">
         <div className="brand-logo-wrapper">
-          <img src="/aura-logo.svg" alt="Aura Valet Parking" className="brand-logo" />
+          <img src="/valet-logo.svg" alt="Valet Parking" className="brand-logo" />
         </div>
         <div className="brand-title">
-          <h2>AURA</h2>
+          <h2>VALET</h2>
           <span>RECEPTION DESK</span>
         </div>
       </div>

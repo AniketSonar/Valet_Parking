@@ -110,14 +110,14 @@ function CustomerRegister() {
         <div className="customer-auth-brand">
           <div className="customer-brand-logo">
             <img
-              src="/aura-logo.svg"
-              alt="Aura Valet Parking"
+              src="/valet-logo.svg"
+              alt="Valet Parking"
             />
           </div>
 
           <div>
-            <h2>AURA</h2>
-            <span>VALET PARKING</span>
+            <h2>VALET</h2>
+            <span>PARKING</span>
           </div>
         </div>
 

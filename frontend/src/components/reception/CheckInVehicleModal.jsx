@@ -486,7 +486,7 @@ const CheckInVehicleModal = ({
               <div className="parking-receipt-head">
                 <Car size={26} />
                 <h5>PARKING RECEIPT</h5>
-                <p>Aura Valet Parking</p>
+                <p>Valet Parking</p>
               </div>
 
               <div className="parking-receipt-ticket">

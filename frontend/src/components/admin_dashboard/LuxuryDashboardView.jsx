@@ -648,25 +648,11 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
 
         {/* Right: Premium Valet Services Promo Card (Image 2) */}
         <div className="lux-card lux-promo-card">
-          <div className="lux-promo-content">
-            <div className="lux-promo-gold-divider" />
-            <h3 className="lux-promo-title">Premium Valet Services</h3>
-            <p className="lux-promo-subtitle">
-              Safe. Secure. Seamless.
-            </p>
-            <span className="lux-promo-desc">
-              Safe, secure and professional valet parking for hotels, malls and luxury venues.
-            </span>
-            <div className="lux-promo-gold-divider bottom" />
-          </div>
-
-          <div className="lux-promo-visual">
-            <img
-              src="/dashboard-promo-banner.png"
-              alt="Premium Valet Luxury Service"
-              className="lux-promo-img"
-            />
-          </div>
+          <img
+            src="/dashboard-promo-banner.png"
+            alt="Premium Valet Services - Safe. Secure. Seamless."
+            className="lux-promo-img"
+          />
         </div>
       </section>
     </div>

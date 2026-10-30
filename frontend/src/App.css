@@ -14,39 +14,39 @@
   font-family: "DM Sans", sans-serif;
   line-height: 1.5;
   font-weight: 500;
-  color: #171324;
-  background: #fbf8f9;
+  color: #38261f;
+  background: #f7f1e8;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --bg: #fbf8f9;
-  --bg-strong: #fce7eb;
-  --surface: rgba(255, 255, 255, 0.86);
-  --surface-strong: #ffffff;
-  --surface-alt: #f9f7ff;
-  --surface-muted: #fce7eb;
-  --text: #171324;
-  --text-soft: #6b647b;
-  --text-muted: #8a8398;
-  --primary: #8b1230;
-  --primary-strong: #730c26;
-  --primary-soft: #fdf2f4;
-  --border: rgba(139, 18, 48, 0.12);
-  --shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08);
+  --bg: #f7f1e8;
+  --bg-strong: #ead9c5;
+  --surface: rgba(255, 250, 242, 0.9);
+  --surface-strong: #fffaf2;
+  --surface-alt: #f2e7d8;
+  --surface-muted: #f4e9dc;
+  --text: #38261f;
+  --text-soft: #76665c;
+  --text-muted: #89796e;
+  --primary: #5b0a1e;
+  --primary-strong: #3d0614;
+  --primary-soft: #f2e4df;
+  --border: rgba(91, 10, 30, 0.14);
+  --shadow: 0 10px 30px -5px rgba(45, 10, 18, 0.1);
   --success: #10b981;
   --warning: #f59e0b;
   --danger: #ef4444;
-  --panel-glow: rgba(139, 18, 48, 0.18);
-  --bg-app: linear-gradient(135deg, #fce7eb 0%, #fbf8f9 50%, #ffffff 100%);
-  --bg-card: #ffffff;
-  --bg-card-secondary: #fdfbfc;
+  --panel-glow: rgba(91, 10, 30, 0.16);
+  --bg-app: linear-gradient(135deg, #f1e5d6 0%, #fbf7f0 52%, #fffaf2 100%);
+  --bg-card: #fffaf2;
+  --bg-card-secondary: #fbf4e9;
   --bg-sidebar: #fdfbfc;
-  --border-color: rgba(139, 18, 48, 0.12);
-  --text-main: #171324;
-  --text-muted: #6b647b;
-  --accent-purple: #8b1230;
-  --shadow-ambient: 0 10px 30px -5px rgba(139, 18, 48, 0.08);
+  --border-color: rgba(91, 10, 30, 0.14);
+  --text-main: #38261f;
+  --text-muted: #76665c;
+  --accent-purple: #caa060;
+  --shadow-ambient: 0 10px 30px -5px rgba(45, 10, 18, 0.1);
 }
 
 
@@ -102,7 +102,7 @@ a { text-decoration: none; }
   height: 420px;
   bottom: -100px;
   left: -40px;
-  background: rgba(168, 139, 250, 0.16);
+  background: rgba(202, 160, 96, 0.18);
 }
 
 .hero {
@@ -730,8 +730,8 @@ a { text-decoration: none; }
 
   background: linear-gradient(
     135deg,
-    #70408d,
-    #8d56aa
+    var(--primary),
+    var(--primary-strong)
   );
 
   box-shadow:
@@ -750,7 +750,7 @@ a { text-decoration: none; }
 .brand-text h2 {
   margin: 0;
 
-  color: #21172e;
+  color: #38261f;
 
   font-size: 1.45rem;
   line-height: 1;
@@ -765,7 +765,7 @@ a { text-decoration: none; }
 
   margin-top: 6px;
 
-  color: #756d7d;
+  color: #89796e;
 
   font-size: 0.58rem;
   line-height: 1;
@@ -823,9 +823,9 @@ a { text-decoration: none; }
 .hero-gradient {
   background: linear-gradient(
     135deg,
-    #61327e 0%,
-    #8d4bb2 55%,
-    #70408d 100%
+    var(--primary) 0%,
+    #8b1230 55%,
+    #caa060 100%
   );
 
   -webkit-background-clip: text;
@@ -844,7 +844,7 @@ a { text-decoration: none; }
 
   margin: 38px 0 0;
 
-  color: #504958;
+  color: #76665c;
 
   font-size: 1.05rem;
   line-height: 1.72;
@@ -943,7 +943,7 @@ a { text-decoration: none; }
 
 
 .help:hover {
-  color: #63347f;
+  color: var(--primary);
   transform: translateY(-1px);
 }
 
@@ -1021,7 +1021,7 @@ a { text-decoration: none; }
 .login-heading h1 {
   margin: 0;
 
-  color: #1c1830;
+  color: #38261f;
 
   font-size: clamp(
     2rem,
@@ -1040,7 +1040,7 @@ a { text-decoration: none; }
 .login-heading p {
   margin: 12px 0 0;
 
-  color: #837b8c;
+  color: #89796e;
 
   font-size: 0.9rem;
   line-height: 1.5;
@@ -1061,7 +1061,7 @@ a { text-decoration: none; }
 
   margin-bottom: 8px;
 
-  color: #3b3543;
+  color: #4b3b33;
 
   font-size: 0.78rem;
 
@@ -1085,7 +1085,7 @@ a { text-decoration: none; }
 
   border: 1px solid rgba(121, 111, 130, 0.18);
 
-  color: #756d7c;
+  color: #76665c;
 
   transition:
     border-color 0.2s ease,
@@ -1122,7 +1122,7 @@ a { text-decoration: none; }
 
   background: transparent;
 
-  color: #28222f;
+  color: #38261f;
 
   font-size: 0.88rem;
 }
@@ -1156,7 +1156,7 @@ a { text-decoration: none; }
 
 
 .password-toggle:hover {
-  color: #693886;
+  color: var(--primary);
 }
 
 
@@ -1178,7 +1178,7 @@ a { text-decoration: none; }
   margin-top: 3px;
   margin-bottom: 22px;
 
-  color: #837b8b;
+  color: #89796e;
 
   font-size: 0.78rem;
 }
@@ -1204,7 +1204,7 @@ a { text-decoration: none; }
 
 
 .password-options a {
-  color: #774394;
+  color: var(--primary);
 
   font-weight: 700;
 }
@@ -1253,8 +1253,8 @@ a { text-decoration: none; }
 
   background: linear-gradient(
     135deg,
-    #74409a,
-    #8a4daf
+    var(--primary),
+    var(--primary-strong)
   );
 
   color: #ffffff;
@@ -1264,7 +1264,7 @@ a { text-decoration: none; }
   font-weight: 800;
 
   box-shadow:
-    0 12px 24px rgba(111, 58, 142, 0.24);
+    0 12px 24px rgba(45, 10, 18, 0.22);
 
   transition:
     transform 0.2s ease,
@@ -1277,7 +1277,7 @@ a { text-decoration: none; }
   transform: translateY(-1px);
 
   box-shadow:
-    0 15px 28px rgba(111, 58, 142, 0.3);
+    0 15px 28px rgba(45, 10, 18, 0.28);
 }
 
 

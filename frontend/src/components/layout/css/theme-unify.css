@@ -1,52 +1,151 @@
-/* ============================================================
-   UNIFIED THEME  (maroon #8b1230 + gold #dfb76c + warm cream)
-   Scoped to .dash-layout and the landing page, so the staff
-   login and customer login pages are NOT affected.
-============================================================ */
-.dash-layout,
-.landing-container {
+/* Keep the existing navigation shell; apply the reference palette to page UI. */
+.dash-layout {
   --primary: #8b1230;
   --primary-strong: #730c26;
   --gold: #dfb76c;
   --bg-app: linear-gradient(135deg, #fce7eb 0%, #fbf8f9 50%, #ffffff 100%);
   --bg-card: #ffffff;
   --text-main: #171324;
+  --text-muted: #6b647b;
   --border-color: rgba(139, 18, 48, 0.12);
   --accent-purple: #8b1230;
   font-family: "Plus Jakarta Sans", "DM Sans", sans-serif;
 }
 
-/* serif luxury headings like the manager / superadmin dashboards */
-.dash-page-content h1,
-.landing-container h1,
-.landing-container h2 {
-  font-family: "Playfair Display", Georgia, serif;
-  color: #5c081c;
-  letter-spacing: -0.01em;
+.dash-main {
+  --primary: #5b0a1e;
+  --primary-strong: #3d0614;
+  --gold: #caa060;
+  --bg-app: #f7f1e8;
+  --bg-card: #fffaf2;
+  --bg-card-secondary: #fbf4e9;
+  --text-main: #38261f;
+  --text-muted: #76665c;
+  --border-color: rgba(91, 10, 30, 0.14);
+  --accent-purple: #caa060;
+  background: linear-gradient(135deg, #f1e5d6 0%, #fbf7f0 52%, #fffaf2 100%);
+  color: #38261f;
 }
 
-/* cards: white, soft maroon shadow, thin gold accent on the left */
-.dash-page-content [class*="stat-card"],
-.dash-page-content [class*="-card"]:not(button):not([class*="modal"]) {
-  border-color: rgba(139, 18, 48, 0.1);
-  box-shadow: 0 10px 30px -8px rgba(139, 18, 48, 0.1);
+.landing-container {
+  --primary: #5b0a1e;
+  --primary-strong: #3d0614;
+  --gold: #caa060;
+  --bg-app: linear-gradient(135deg, #f1e5d6 0%, #fbf7f0 52%, #fffaf2 100%);
+  --bg-card: #fffaf2;
+  --text-main: #38261f;
+  --border-color: rgba(91, 10, 30, 0.14);
+  --accent-purple: #caa060;
 }
 
-/* table headers */
+.dash-main .dash-topbar.lux-topbar {
+  background: rgba(255, 250, 242, 0.94) !important;
+  border-bottom-color: rgba(91, 10, 30, 0.12) !important;
+  box-shadow: 0 4px 18px rgba(45, 10, 18, 0.06) !important;
+}
+
+.dash-main .lux-topbar-menu-btn,
+.dash-main .lux-hotel-pin,
+.dash-main .lux-profile-name {
+  color: #5b0a1e;
+}
+
+.dash-main .lux-hotel-pin-wrap {
+  background: #f2e7d8;
+}
+
+.dash-main .lux-avatar-circle {
+  border: 1px solid #caa060;
+  background: #5b0a1e;
+}
+
+.dash-main .dash-page-content {
+  color: #38261f;
+}
+
+.dash-page-content :is(h1, h2, h3, h4, h5, h6) {
+  color: #4b0918;
+}
+
+.dash-page-content :is(p, small, label, th) {
+  color: #76665c;
+}
+
+.dash-page-content :is(input, select, textarea) {
+  border-color: #e2d2bd;
+  background-color: #fffaf2;
+  color: #38261f;
+}
+
+.dash-page-content :is(input, select, textarea)::placeholder {
+  color: #96877a;
+}
+
+.dash-page-content :is(input, select, textarea):focus {
+  outline: none;
+  border-color: #caa060;
+  box-shadow: 0 0 0 3px rgba(202, 160, 96, 0.2);
+}
+
+.dash-page-content :is(
+  .primary-action,
+  .reception-action-btn.primary,
+  .customer-action-button.primary,
+  .act-btn.primary,
+  .login-button,
+  .dashboard-refresh-btn,
+  .valet-refresh-btn
+) {
+  border-color: #5b0a1e;
+  background: linear-gradient(135deg, #5b0a1e, #3d0614);
+  color: #fffaf2;
+  box-shadow: 0 8px 18px rgba(45, 10, 18, 0.16);
+}
+
+.dash-page-content :is(
+  .primary-action,
+  .reception-action-btn.primary,
+  .customer-action-button.primary,
+  .act-btn.primary,
+  .dashboard-refresh-btn,
+  .valet-refresh-btn
+):hover:not(:disabled) {
+  border-color: #caa060;
+  background: #3d0614;
+}
+
+.dash-page-content :is(
+  .secondary-action,
+  .reception-action-btn:not(.primary),
+  .customer-action-button:not(.primary),
+  .act-btn:not(.primary)
+) {
+  border-color: #e2d2bd;
+  background: #fffaf2;
+  color: #5b0a1e;
+}
+
 .dash-page-content th,
 .dash-page-content [class*="table-head"] {
-  background: #fdf2f4;
+  background: #f2e7d8;
+  color: #5b0a1e;
+}
+
+.dash-page-content a {
+  color: #5b0a1e;
+}
+
+.dash-page-content a:hover {
   color: #8b1230;
 }
 
-/* focus ring */
-.dash-page-content input:focus,
-.dash-page-content select:focus,
-.dash-page-content textarea:focus {
-  outline: none;
-  border-color: #8b1230;
-  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.14);
+.dash-page-content .lux-kpi-icon-wrap.rose {
+  border-color: #caa060;
+  background: #5b0a1e;
+  color: #fffaf2;
 }
 
-/* any leftover blue/purple links & tabs → maroon */
-.dash-page-content a { color: #8b1230; }
+.dash-page-content :is(.lux-kpi-card, .lux-card):hover {
+  border-color: #caa060;
+  box-shadow: 0 12px 28px rgba(45, 10, 18, 0.1);
+}

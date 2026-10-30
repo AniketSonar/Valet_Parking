@@ -154,11 +154,6 @@ const LandingPage = () => {
         <div className="landing-hero-backdrop"></div>
         <div className="landing-hero-inner">
           <div className="landing-hero-text">
-            <div className="landing-badge pulse-badge">
-              <Sparkles size={14} />
-              <span>Next-Gen Smart Valet Operations</span>
-            </div>
-
             <h1 className="landing-hero-title">
               Elevate Your Arrival. <br />
               <span className="landing-gradient-text">We Digitize the Journey.</span>
@@ -191,7 +186,7 @@ const LandingPage = () => {
               <div className="trust-text">
                 <div className="stars-row">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} fill="#fbbf24" color="#fbbf24" />
+                    <Star key={i} size={14} fill="#caa060" color="#caa060" />
                   ))}
                 </div>
                 <span>Trusted by luxury hotels, malls & corporate parks</span>
@@ -562,31 +557,31 @@ const LandingPage = () => {
         </div>
 
         <div className="sectors-grid">
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(42, 15, 22, 0.95), rgba(42, 15, 22, 0.45)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(139, 18, 48, 0.95), rgba(139, 18, 48, 0.45)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80')" }}>
             <Hotel className="sector-icon" size={34} />
             <h3>Hotels & Resorts</h3>
             <p>Elevate the prestigious guest arrival and departure standard matching five-star hospitality.</p>
           </div>
 
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(42, 15, 22, 0.95), rgba(42, 15, 22, 0.45)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(139, 18, 48, 0.95), rgba(139, 18, 48, 0.45)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80')" }}>
             <UtensilsCrossed className="sector-icon" size={34} />
             <h3>Fine Dining & Lounges</h3>
             <p>Ensure weekend evening crowds never endure 20-minute porch bottlenecks when arriving or leaving.</p>
           </div>
 
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(42, 15, 22, 0.95), rgba(42, 15, 22, 0.45)), url('https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(139, 18, 48, 0.95), rgba(139, 18, 48, 0.45)), url('https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&w=600&q=80')" }}>
             <ShoppingBag className="sector-icon" size={34} />
             <h3>Malls & Retail Plazas</h3>
             <p>Process hundreds of vehicles per hour with high-speed digital tokens and automated bay tracking.</p>
           </div>
 
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(42, 15, 22, 0.95), rgba(42, 15, 22, 0.45)), url('https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(139, 18, 48, 0.95), rgba(139, 18, 48, 0.45)), url('https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=600&q=80')" }}>
             <Hospital className="sector-icon" size={34} />
             <h3>Hospitals & Healthcare</h3>
             <p>Provide patients and visiting family members with fast, caring curbside handoffs at entry gates.</p>
           </div>
 
-          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(42, 15, 22, 0.95), rgba(42, 15, 22, 0.45)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80')" }}>
+          <div className="sector-card" style={{ backgroundImage: "linear-gradient(to top, rgba(139, 18, 48, 0.95), rgba(139, 18, 48, 0.45)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80')" }}>
             <Building2 className="sector-icon" size={34} />
             <h3>Corporate Hubs & Events</h3>
             <p>Smoothly coordinate executive movements, VIP conferences, and summit delegations without a hitch.</p>

@@ -79,13 +79,19 @@ const createVehicleInspection = async (req, res) => {
     }
 
     if (inspection_stage === "initial") {
-      const allowedInitialStatuses = ["checked_in", "parked"];
+      const allowedInitialStatuses = [
+        "checked_in",
+        "parked",
+        "retrieval_requested",
+        "retrieving",
+        "ready_for_pickup"
+      ];
 
       if (!allowedInitialStatuses.includes(session.status)) {
         return res.status(400).json({
           success: false,
           message:
-            "Initial inspection can only be recorded during vehicle check-in or parking."
+            "Initial inspection can only be recorded during an active parking session."
         });
       }
     }

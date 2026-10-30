@@ -48,6 +48,13 @@ export const createVehicle = async (vehicleData) => {
   });
 };
 
+export const updateVehicle = async (vehicleId, vehicleData) => {
+  return apiClient(`/api/vehicles/${vehicleId}`, {
+    method: "PUT",
+    body: JSON.stringify(vehicleData),
+  });
+};
+
 export const getVehicles = async (search = "") => {
   const query = search ? `?search=${encodeURIComponent(search)}` : "";
   return apiClient(`/api/vehicles${query}`);

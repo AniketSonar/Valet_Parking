@@ -28,13 +28,13 @@
 }
 
 .landing-container {
-  --primary: #5b0a1e;
-  --primary-strong: #3d0614;
+  --primary: #8b1230;
+  --primary-strong: #8b1230;
   --gold: #caa060;
-  --bg-app: linear-gradient(135deg, #f1e5d6 0%, #fbf7f0 52%, #fffaf2 100%);
+  --bg-app: #fffaf2;
   --bg-card: #fffaf2;
-  --text-main: #38261f;
-  --border-color: rgba(91, 10, 30, 0.14);
+  --text-main: #8b1230;
+  --border-color: rgba(202, 160, 96, 0.55);
   --accent-purple: #caa060;
 }
 

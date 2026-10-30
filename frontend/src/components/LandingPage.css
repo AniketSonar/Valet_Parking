@@ -1270,3 +1270,604 @@
     bottom: -15px;
   }
 }
+
+/* Public home screen palette aligned with the valet dashboards. */
+.landing-container {
+  --landing-burgundy: #8b1230;
+  --landing-burgundy-dark: #8b1230;
+  --landing-gold: #caa060;
+  --landing-ivory: #fffaf2;
+  --landing-cream: #fffaf2;
+  --landing-text: #302a28;
+  --landing-muted: #625954;
+  background: var(--landing-ivory);
+  color: var(--landing-text);
+  font-family: "Plus Jakarta Sans", "DM Sans", sans-serif;
+}
+
+.landing-container .glow-orb {
+  opacity: 0.6;
+}
+
+.landing-container .orb-1 {
+  background: radial-gradient(circle, rgba(91, 10, 30, 0.09), transparent 70%);
+}
+
+.landing-container .orb-2 {
+  background: radial-gradient(circle, rgba(202, 160, 96, 0.13), transparent 70%);
+}
+
+.landing-container .orb-3 {
+  background: radial-gradient(circle, rgba(139, 18, 48, 0.07), transparent 70%);
+}
+
+.landing-container .landing-navbar {
+  background: rgba(255, 250, 242, 0.96);
+  border-bottom-color: rgba(202, 160, 96, 0.35);
+  box-shadow: 0 3px 14px rgba(139, 18, 48, 0.06);
+}
+
+.landing-container .landing-nav-inner {
+  max-width: 1240px;
+  min-height: 72px;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.landing-container .landing-brand .brand-logo-wrapper,
+.landing-container .footer-brand .brand-logo-wrapper {
+  background: var(--landing-burgundy);
+  box-shadow: 0 5px 16px rgba(139, 18, 48, 0.2);
+}
+
+.landing-container .landing-brand .brand-text h2 {
+  color: var(--landing-burgundy-dark);
+}
+
+.landing-container .landing-brand .brand-text span {
+  color: var(--landing-gold);
+}
+
+.landing-container .landing-nav-links a {
+  color: var(--landing-burgundy);
+}
+
+.landing-container .landing-nav-links a::after {
+  background: var(--landing-gold);
+}
+
+.landing-container .landing-nav-links a:hover,
+.landing-container .landing-btn-ghost:hover,
+.landing-container .landing-btn-hero-secondary:hover {
+  color: var(--landing-burgundy);
+}
+
+.landing-container .landing-btn-ghost,
+.landing-container .landing-btn-hero-secondary {
+  border-color: var(--landing-gold);
+  background: var(--landing-ivory);
+  color: var(--landing-burgundy);
+}
+
+.landing-container .landing-btn-primary,
+.landing-container .landing-btn-hero-primary,
+.landing-container .form-submit-btn,
+.landing-container .btn-banner-staff {
+  background: var(--landing-burgundy);
+  color: var(--landing-ivory);
+  box-shadow: 0 8px 20px rgba(139, 18, 48, 0.18);
+}
+
+.landing-container .landing-hero {
+  background:
+    radial-gradient(ellipse at 68% 12%, rgba(202, 160, 96, 0.12), transparent 38%),
+    var(--landing-ivory);
+}
+
+.landing-container .landing-hero-backdrop {
+  background-image:
+    linear-gradient(rgba(202, 160, 96, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(202, 160, 96, 0.08) 1px, transparent 1px);
+}
+
+.landing-container .landing-badge {
+  border-color: var(--landing-gold);
+  background: var(--landing-ivory);
+  color: var(--landing-burgundy);
+  box-shadow: 0 5px 18px rgba(139, 18, 48, 0.07);
+}
+
+.landing-container .landing-hero-title {
+  color: var(--landing-burgundy-dark);
+  font-family: "Plus Jakarta Sans", "DM Sans", sans-serif;
+  font-size: clamp(2.8rem, 4.2vw, 4rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.055em;
+}
+
+.landing-container .landing-hero-text {
+  max-width: 610px;
+}
+
+.landing-container .landing-hero-title {
+  max-width: 590px;
+}
+
+.landing-container .landing-gradient-text {
+  background: linear-gradient(110deg, var(--landing-burgundy) 0%, var(--landing-burgundy) 62%, var(--landing-gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.landing-container .landing-hero-subtitle {
+  color: var(--landing-muted);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.landing-container .landing-hero-form-container {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.landing-container .hero-form-card {
+  padding: clamp(1.5rem, 2.6vw, 2.25rem);
+  border-color: rgba(202, 160, 96, 0.5);
+  border-radius: 20px;
+  background: var(--landing-ivory);
+  box-shadow: 0 20px 52px rgba(139, 18, 48, 0.1);
+}
+
+.landing-container .form-kicker,
+.landing-container .section-eyebrow {
+  color: var(--landing-burgundy);
+}
+
+.landing-container .contact-form h3,
+.landing-container .section-header h2,
+.landing-container .step-card-text h3,
+.landing-container .contact-info h2 {
+  color: var(--landing-burgundy-dark);
+}
+
+.landing-container .contact-form p,
+.landing-container .section-header p,
+.landing-container .step-card-text p,
+.landing-container .contact-info p {
+  color: var(--landing-muted);
+}
+
+.landing-container .form-group label {
+  color: var(--landing-burgundy);
+}
+
+.landing-container .form-group input,
+.landing-container .form-group select,
+.landing-container .form-group textarea {
+  border-color: var(--landing-gold);
+  background: var(--landing-ivory);
+  color: var(--landing-text);
+}
+
+.landing-container .form-group input:focus,
+.landing-container .form-group select:focus,
+.landing-container .form-group textarea:focus {
+  border-color: var(--landing-gold);
+  box-shadow: 0 0 0 3px rgba(202, 160, 96, 0.2);
+}
+
+.landing-container .landing-stats-grid,
+.landing-container .interactive-step-card,
+.landing-container .feature-item,
+.landing-container .login-quick-banner {
+  border-color: rgba(202, 160, 96, 0.55);
+  background-color: var(--landing-ivory);
+  box-shadow: 0 10px 28px rgba(139, 18, 48, 0.06);
+}
+
+.landing-container .landing-stats-grid {
+  position: relative;
+  z-index: 2;
+}
+
+.landing-container .stat-num-row strong,
+.landing-container .step-metric-highlight strong,
+.landing-container .contact-item {
+  color: var(--landing-burgundy);
+}
+
+.landing-container .landing-bg-alt {
+  border-color: rgba(202, 160, 96, 0.55);
+  background: var(--landing-ivory);
+}
+
+.landing-container .step-tab-btn {
+  border-color: rgba(202, 160, 96, 0.55);
+  background: var(--landing-ivory);
+}
+
+.landing-container .step-tab-btn:hover,
+.landing-container .step-tab-btn.active {
+  border-color: var(--landing-gold);
+  background: rgba(202, 160, 96, 0.16);
+}
+
+.landing-container .step-badge {
+  background: rgba(202, 160, 96, 0.2);
+  color: var(--landing-burgundy);
+}
+
+.landing-container .feature-item:hover {
+  border-color: var(--landing-gold);
+}
+
+.landing-container .landing-footer {
+  background: var(--landing-burgundy);
+  border-top-color: rgba(202, 160, 96, 0.28);
+}
+
+@media (max-width: 1024px) {
+  .landing-container .landing-hero-inner {
+    gap: 2.5rem;
+  }
+
+  .landing-container .landing-hero-title {
+    font-size: clamp(2.6rem, 6vw, 3.6rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-container .landing-nav-inner {
+    min-height: 64px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .landing-container .landing-nav-actions {
+    gap: 0.5rem;
+  }
+
+  .landing-container .landing-btn-ghost,
+  .landing-container .landing-btn-primary {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.78rem;
+  }
+
+  .landing-container .landing-hero {
+    padding: 3.25rem 1rem 3rem;
+  }
+
+  .landing-container .landing-hero-title {
+    font-size: clamp(2.3rem, 9vw, 3rem);
+    letter-spacing: -0.045em;
+  }
+
+  .landing-container .landing-hero-subtitle {
+    font-size: 0.98rem;
+  }
+
+  .landing-container .hero-form-card {
+    padding: 1.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-container .glow-orb,
+  .landing-container .pulse-badge {
+    animation: none;
+  }
+}
+
+.landing-container .landing-hero-inner {
+  align-items: start;
+}
+
+.landing-container .landing-hero-form-container {
+  align-self: start;
+  width: 100%;
+}
+
+.landing-container .hero-form-card {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.landing-container .contact-form .form-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+}
+
+.landing-container .contact-form .form-row > .form-group {
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 1rem;
+}
+
+.landing-container .contact-form .form-group input,
+.landing-container .contact-form .form-group select,
+.landing-container .contact-form .form-group textarea {
+  display: block;
+  min-width: 0;
+}
+
+.landing-container .hero-mini-badge-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+}
+
+.landing-container .hero-mini-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid rgba(202, 160, 96, 0.55);
+  border-radius: 14px;
+  background: var(--landing-ivory);
+  box-shadow: 0 8px 20px rgba(139, 18, 48, 0.05);
+}
+
+.landing-container .hero-mini-badge > div:last-child {
+  min-width: 0;
+}
+
+.landing-container .hero-mini-badge small,
+.landing-container .hero-mini-badge strong,
+.landing-container .hero-mini-badge span {
+  display: block;
+}
+
+.landing-container .hero-mini-badge small {
+  margin-bottom: 0.25rem;
+  color: var(--landing-burgundy);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.landing-container .hero-mini-badge strong {
+  color: var(--landing-text);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.landing-container .hero-mini-badge span {
+  margin-top: 0.25rem;
+  color: var(--landing-muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.landing-container .hero-mini-badge .time-highlight {
+  color: var(--landing-burgundy);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .landing-container .contact-form .form-row,
+  .landing-container .hero-mini-badge-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.landing-container {
+  --primary: #8b1230;
+  --primary-strong: #8b1230;
+  --gold: #caa060;
+  --bg-app: #fffaf2;
+  --bg-card: #fffaf2;
+  --text-main: #8b1230;
+  --text-muted: #8b1230;
+  --landing-text: #302a28;
+  --landing-muted: #625954;
+  --border-color: rgba(202, 160, 96, 0.55);
+  background-color: var(--landing-ivory);
+  color: var(--landing-text);
+}
+
+.landing-container :is(
+  .landing-hero,
+  .landing-bg-alt,
+  .landing-stats-grid,
+  .interactive-step-card,
+  .step-tab-btn,
+  .feature-item,
+  .contact-form-card,
+  .login-quick-banner,
+  .hero-mini-badge
+) {
+  background-color: var(--landing-ivory);
+}
+
+.landing-container :is(
+  .landing-navbar,
+  .landing-stats-grid,
+  .interactive-step-card,
+  .step-tab-btn,
+  .feature-item,
+  .contact-form-card,
+  .login-quick-banner,
+  .hero-mini-badge,
+  .step-card-visual,
+  .showcase-card-main
+) {
+  border-color: rgba(202, 160, 96, 0.55);
+}
+
+.landing-container :is(p, small, label, .step-feature-item, .stat-pill span, .step-label, .contact-item span, .footer-bottom, .trust-text span, .hero-mini-badge span) {
+  color: var(--landing-muted);
+}
+
+.landing-container :is(h1, h2, h3, h4, h5, h6, strong) {
+  color: var(--landing-burgundy);
+}
+
+.landing-container :is(
+  .landing-btn-primary,
+  .landing-btn-hero-primary,
+  .form-submit-btn,
+  .btn-banner-staff
+) {
+  border-color: var(--landing-burgundy);
+  background: var(--landing-burgundy);
+  color: var(--landing-ivory);
+}
+
+.landing-container :is(
+  .landing-btn-primary,
+  .landing-btn-hero-primary,
+  .form-submit-btn,
+  .btn-banner-staff
+) :is(span, svg) {
+  color: var(--landing-ivory);
+}
+
+.landing-container :is(
+  .landing-btn-ghost,
+  .landing-btn-hero-secondary,
+  .btn-banner-customer
+) {
+  border-color: var(--landing-gold);
+  background: var(--landing-ivory);
+  color: var(--landing-burgundy);
+}
+
+.landing-container :is(
+  .form-group input,
+  .form-group select,
+  .form-group textarea
+) {
+  border-color: var(--landing-gold);
+  background: var(--landing-ivory);
+  color: var(--landing-burgundy);
+}
+
+.landing-container :is(input, textarea)::placeholder {
+  color: rgba(139, 18, 48, 0.62);
+}
+
+.landing-container .step-tab-btn {
+  color: var(--landing-burgundy);
+}
+
+.landing-container .contact-form .form-submit-btn,
+.landing-container .contact-form .form-submit-btn span,
+.landing-container .contact-form .form-submit-btn svg {
+  color: var(--landing-ivory);
+}
+
+.landing-container .form-submit-btn {
+  color: var(--landing-ivory);
+}
+
+.landing-container :is(
+  .landing-badge,
+  .step-tab-btn.active,
+  .step-tab-btn:hover,
+  .step-badge,
+  .step-sub-badge,
+  .feature-purple,
+  .feature-blue,
+  .feature-emerald,
+  .feature-amber,
+  .feature-indigo,
+  .feature-rose,
+  .stat-icon-circle.green,
+  .stat-icon-circle.purple
+) {
+  border-color: var(--landing-gold);
+  background: rgba(202, 160, 96, 0.16);
+  color: var(--landing-burgundy);
+}
+
+.landing-container :is(
+  .feature-icon,
+  .stat-icon-circle,
+  .step-badge
+) {
+  color: var(--landing-burgundy);
+}
+
+.landing-container :is(
+  .section-eyebrow,
+  .form-kicker,
+  .step-metric-highlight strong,
+  .stat-num-row strong,
+  .contact-item,
+  .check-icon,
+  .trend-up,
+  .success-icon,
+  .floating-stat-card small,
+  .floating-stat-card .time-highlight,
+  .hero-mini-badge .time-highlight
+) {
+  color: var(--landing-gold);
+}
+
+.landing-container .landing-footer {
+  background: var(--landing-burgundy);
+  color: var(--landing-ivory);
+}
+
+.landing-container .landing-footer :is(h3, h4, p, a, .footer-bottom) {
+  color: var(--landing-ivory);
+}
+
+.landing-container .landing-footer a:hover {
+  color: var(--landing-gold);
+}
+
+.landing-container .landing-footer .brand-logo-wrapper {
+  background: var(--landing-gold);
+}
+
+.landing-container .landing-footer .brand-logo {
+  color: var(--landing-burgundy);
+}
+
+.landing-container .avatar,
+.landing-container .av-1,
+.landing-container .av-3 {
+  background: var(--landing-burgundy);
+  color: var(--landing-ivory);
+  border-color: var(--landing-ivory);
+}
+
+.landing-container .av-2,
+.landing-container .av-4 {
+  background: var(--landing-gold);
+  color: var(--landing-burgundy);
+}
+
+.landing-container .sector-card {
+  border-color: var(--landing-gold);
+}
+
+.landing-container .sector-card :is(h3, p, .sector-icon) {
+  color: var(--landing-ivory);
+}
+
+.landing-container .floating-stat-card,
+.landing-container .showcase-card-main {
+  background-color: var(--landing-ivory);
+  border-color: var(--landing-gold);
+}
+
+.landing-container .glow-orb {
+  opacity: 0.4;
+}
+
+.landing-container .orb-1 {
+  background: radial-gradient(circle, rgba(139, 18, 48, 0.08), transparent 70%);
+}
+
+.landing-container .orb-2,
+.landing-container .orb-3 {
+  background: radial-gradient(circle, rgba(202, 160, 96, 0.12), transparent 70%);
+}

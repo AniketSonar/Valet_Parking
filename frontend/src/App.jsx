@@ -13,6 +13,7 @@ import CustomerLogin from "./components/customer/CustomerLogin";
 import CustomerRegister from "./components/customer/CustomerRegister";
 import LandingPage from "./components/LandingPage";
 import "./App.css";
+import "./components/layout/css/card-design-system.css";
 
 function LoginPage() {
   return (

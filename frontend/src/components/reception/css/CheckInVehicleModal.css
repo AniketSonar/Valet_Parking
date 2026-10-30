@@ -911,6 +911,212 @@
   line-height: 1.4;
 }
 
+/* Keep the check-in context and primary action visible while the form scrolls. */
+.check-in-modal {
+  display: flex;
+  flex-direction: column;
+  width: min(640px, 100%);
+  max-width: 640px;
+  height: min(760px, calc(100vh - 48px));
+  overflow: hidden;
+}
+
+.check-in-modal .reception-modal-header {
+  flex: 0 0 auto;
+  background: #ffffff;
+}
+
+.check-in-modal .modal-form-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 0 18px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.check-in-modal .modal-form-body > .modal-error,
+.check-in-modal .inspection-fields,
+.check-in-modal .modal-footer {
+  grid-column: 1 / -1;
+}
+
+.check-in-modal .modal-field {
+  margin-bottom: 16px;
+}
+
+.check-in-modal .vehicle-field {
+  grid-column: 1 / -1;
+}
+
+.check-in-modal .payment-fields {
+  grid-column: 1 / -1;
+}
+
+.check-in-modal .parking-type-field {
+  grid-column: 1 / -1;
+}
+
+.check-in-modal .payment-fields .modal-input-wrap {
+  margin-top: 12px;
+}
+
+.check-in-modal .modal-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-top: 2px;
+  padding: 14px 0 4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.9),
+    #ffffff 24%
+  );
+}
+
+.check-in-modal .modal-success-body {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.check-in-modal .inspection-upload-help,
+.check-in-modal .inspection-photo-count {
+  display: block;
+  color: #806f74;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.check-in-modal .inspection-upload-label {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  min-height: 76px;
+  margin-top: 12px;
+  align-items: center;
+  justify-content: initial;
+  justify-items: start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px dashed #d9b8c0;
+  border-radius: 12px;
+  background: #fdf9fa;
+  color: #7a2e41;
+  text-align: left;
+}
+
+.check-in-modal .inspection-upload-label::before {
+  display: none;
+}
+
+.check-in-modal .inspection-upload-icon {
+  display: grid;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 10px;
+  background: #f6e8eb;
+  color: #8b1230;
+}
+
+.check-in-modal .inspection-upload-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.check-in-modal .inspection-upload-copy {
+  display: grid;
+  justify-items: start;
+  align-content: center;
+  min-width: 0;
+  gap: 3px;
+}
+
+.check-in-modal .inspection-upload-copy strong {
+  color: #5a2533;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.check-in-modal .inspection-upload-copy small {
+  color: #8c7c80;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.check-in-modal .inspection-upload-label:focus-within {
+  outline: 3px solid rgba(139, 18, 48, 0.12);
+  outline-offset: 2px;
+}
+
+.check-in-modal .inspection-photo-previews {
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: 12px;
+}
+
+.check-in-modal .inspection-photo-preview {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: auto;
+}
+
+.check-in-modal .inspection-photo-preview img {
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+}
+
+.check-in-modal .inspection-photo-info {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 7px 8px 34px;
+}
+
+.check-in-modal .inspection-photo-info span {
+  overflow: hidden;
+  color: #514044;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.check-in-modal .inspection-photo-info small {
+  color: #8c7c80;
+  font-size: 9px;
+}
+
+.check-in-modal .inspection-photo-preview button {
+  right: 7px;
+  bottom: 7px;
+}
+
+@media (max-width: 700px) {
+  .check-in-modal .modal-form-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .check-in-modal .modal-form-body > .modal-field,
+  .check-in-modal .modal-form-body > .modal-error,
+  .check-in-modal .inspection-fields,
+  .check-in-modal .modal-footer {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 650px) {
+  .check-in-modal {
+    height: calc(100vh - 28px);
+  }
+}
+
+@media (max-width: 450px) {
+  .check-in-modal {
+    height: calc(100vh - 16px);
+  }
+}
+
 
 /* ---------------------------------------------------------
    INSPECTION ERROR

@@ -15,8 +15,9 @@ import {
   X,
   Play,
   MessageCircle,
+  ChevronRight,
 } from "lucide-react";
-import { openWhatsAppDraft } from "../../utils/whatsappDraft";
+import { openWhatsAppDraft, openReadyDraft } from "../../utils/whatsappDraft";
 
 import {
   getValetDashboard,
@@ -26,7 +27,12 @@ import {
   markReadyForPickup,
   completeReturn,
 } from "../../api/parkingApi";
-import { createVehicleInspection } from "../../api/receptionApi";
+import {
+  createVehicleInspection,
+  uploadInspectionPhoto,
+  getInspectionBySession,
+} from "../../api/receptionApi";
+import HandoverPhotos from "./HandoverPhotos";
 
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ValetDashboard.css";
@@ -73,6 +79,22 @@ const getKey = (session) =>
     ? session.key[0]
     : session?.key;
 
+const greeting = () => {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+};
+
+const FILTERS = [
+  { id: "all", label: "All" },
+  { id: "checked_in", label: "To park" },
+  { id: "parked", label: "Parked" },
+  { id: "retrieval_requested", label: "Requested" },
+  { id: "retrieving", label: "Retrieving" },
+  { id: "ready_for_pickup", label: "Ready" },
+];
+
 function ValetDashboard() {
   const [valet, setValet] = useState(null);
   const [dashboard, setDashboard] = useState(null);
@@ -89,6 +111,9 @@ function ValetDashboard() {
   const [justParked, setJustParked] = useState(null);
 
   const [selectedSession, setSelectedSession] = useState(null);
+  const [detailInspections, setDetailInspections] = useState([]);
+  const [loadingDetailInspections, setLoadingDetailInspections] = useState(false);
+  const [detailInspectionError, setDetailInspectionError] = useState("");
   const [selectedSlot, setSelectedSlot] = useState("");
 
   const [slotModalSession, setSlotModalSession] = useState(null);
@@ -97,10 +122,13 @@ function ValetDashboard() {
   const [inspectionCondition, setInspectionCondition] =
     useState("good");
   const [inspectionNotes, setInspectionNotes] = useState("");
+  const [handoverPhotos, setHandoverPhotos] = useState([]);
+  const [checkInPhotos, setCheckInPhotos] = useState([]);
 
   const [actionLoading, setActionLoading] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const loadDashboard = useCallback(async (showLoader = true) => {
     try {
@@ -148,6 +176,42 @@ function ValetDashboard() {
     loadSlots();
   }, [loadDashboard, loadSlots]);
 
+  useEffect(() => {
+    if (!selectedSession?.id) {
+      setDetailInspections([]);
+      setDetailInspectionError("");
+      return undefined;
+    }
+
+    let active = true;
+    setLoadingDetailInspections(true);
+    setDetailInspectionError("");
+
+    getInspectionBySession(selectedSession.id)
+      .then((response) => {
+        if (active) {
+          setDetailInspections(response?.inspections || []);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to load vehicle inspection photos:", err);
+        if (active) {
+          setDetailInspectionError(
+            err?.message || "Unable to load inspection photos."
+          );
+        }
+      })
+      .finally(() => {
+        if (active) {
+          setLoadingDetailInspections(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [selectedSession?.id]);
+
   useRealtimeSync({
     tables: ["parking_sessions", "parking_slots", "retrieval_requests"],
     onUpdate: () => {
@@ -180,20 +244,21 @@ function ValetDashboard() {
         slot?.status || ""
       ).toLowerCase();
 
-      return (
-        status === "available" ||
-        status === "free" ||
-        status === "vacant"
-      );
+      return status === "available" && !slot?.session_id;
     });
   }, [slots]);
 
   const filteredSessions = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
 
-    if (!term) return sessions;
+    const byStatus =
+      statusFilter === "all"
+        ? sessions
+        : sessions.filter((session) => session.status === statusFilter);
 
-    return sessions.filter((session) => {
+    if (!term) return byStatus;
+
+    return byStatus.filter((session) => {
       const vehicle = getVehicle(session);
       const customer = getCustomer(session);
 
@@ -213,7 +278,7 @@ function ValetDashboard() {
           String(value).toLowerCase().includes(term)
         );
     });
-  }, [sessions, searchTerm]);
+  }, [sessions, searchTerm, statusFilter]);
 
   const performAction = async (
     session,
@@ -291,7 +356,19 @@ function ValetDashboard() {
     setInspectionSession(session);
     setInspectionCondition("good");
     setInspectionNotes("");
+    setHandoverPhotos([]);
+    setCheckInPhotos([]);
     setConfirmationSession(null);
+
+    // show the photos taken at check-in so the valet can compare
+    getInspectionBySession(session.id)
+      .then((res) => {
+        const initial = (res?.inspections || []).find(
+          (i) => i.inspection_stage === "initial"
+        );
+        setCheckInPhotos(initial?.vehicle_inspection_photos || []);
+      })
+      .catch(() => {});
   };
 
   const submitFinalInspection = async () => {
@@ -301,13 +378,61 @@ function ValetDashboard() {
       setActionLoading(`final-inspection-${inspectionSession.id}`);
       setError("");
 
-      await createVehicleInspection({
-        session_id: inspectionSession.id,
-        vehicle_id: getVehicle(inspectionSession)?.id,
-        inspection_stage: "final",
-        condition_status: inspectionCondition,
-        inspection_notes: inspectionNotes.trim() || undefined,
-      });
+      if (inspectionCondition === "damaged" && !inspectionNotes.trim()) {
+        setError("Please describe what looks wrong before saving.");
+        setActionLoading(null);
+        return;
+      }
+
+      const inspectionsResponse = await getInspectionBySession(
+        inspectionSession.id
+      );
+      let finalInspection = (inspectionsResponse?.inspections || []).find(
+        (inspection) => inspection.inspection_stage === "final"
+      );
+
+      if (!finalInspection) {
+        try {
+          const created = await createVehicleInspection({
+            session_id: inspectionSession.id,
+            vehicle_id: getVehicle(inspectionSession)?.id,
+            inspection_stage: "final",
+            condition_status: inspectionCondition,
+            damage_description:
+              inspectionCondition === "damaged"
+                ? inspectionNotes.trim()
+                : undefined,
+            inspection_notes: inspectionNotes.trim() || undefined,
+          });
+          finalInspection = created?.inspection || null;
+        } catch (inspectionError) {
+          if (!/already exists/i.test(inspectionError?.message || "")) {
+            throw inspectionError;
+          }
+
+          const retryResponse = await getInspectionBySession(
+            inspectionSession.id
+          );
+          finalInspection = (retryResponse?.inspections || []).find(
+            (inspection) => inspection.inspection_stage === "final"
+          );
+
+          if (!finalInspection) {
+            throw inspectionError;
+          }
+        }
+      }
+
+      // photos are optional; a failed upload never blocks the handover
+      let failedPhotos = 0;
+      if (finalInspection?.id && handoverPhotos.length > 0) {
+        const results = await Promise.allSettled(
+          handoverPhotos.map(({ file }) =>
+            uploadInspectionPhoto(finalInspection.id, file)
+          )
+        );
+        failedPhotos = results.filter((r) => r.status === "rejected").length;
+      }
 
       const session = inspectionSession;
       setInspectionSession(null);
@@ -315,8 +440,11 @@ function ValetDashboard() {
         session,
         "complete-return",
         completeReturn,
-        "Final inspection recorded and vehicle return completed successfully."
+        failedPhotos > 0
+          ? `Return completed, but ${failedPhotos} photo${failedPhotos > 1 ? "s" : ""} could not be uploaded.`
+          : "Final inspection recorded and vehicle return completed successfully."
       );
+      setHandoverPhotos([]);
     } catch (err) {
       console.error("Final vehicle inspection failed:", err);
       setError(
@@ -328,43 +456,26 @@ function ValetDashboard() {
   };
 
   const stats = [
+    { label: "To park", value: dashboard?.assigned_vehicles ?? 0, icon: Car, tone: "plain" },
+    { label: "Parked", value: dashboard?.parked_vehicles ?? 0, icon: Warehouse, tone: "plain" },
     {
-      label: "Assigned Vehicles",
-      value: dashboard?.assigned_vehicles ?? 0,
-      icon: Car,
-      className: "stat-blue",
-    },
-    {
-      label: "Parked Vehicles",
-      value: dashboard?.parked_vehicles ?? 0,
-      icon: Warehouse,
-      className: "stat-purple",
-    },
-    {
-      label: "Retrieval Requests",
+      label: "Waiting for retrieval",
       value: dashboard?.retrieval_requests ?? 0,
       icon: Clock3,
-      className: "stat-orange",
+      tone: (dashboard?.retrieval_requests ?? 0) > 0 ? "alert" : "plain",
     },
-    {
-      label: "Retrieving Vehicles",
-      value: dashboard?.retrieving_vehicles ?? 0,
-      icon: RefreshCw,
-      className: "stat-cyan",
-    },
-    {
-      label: "Ready for Pickup",
-      value: dashboard?.ready_for_pickup ?? 0,
-      icon: PackageCheck,
-      className: "stat-green",
-    },
-    {
-      label: "Completed Returns",
-      value: dashboard?.completed_returns ?? 0,
-      icon: CheckCircle2,
-      className: "stat-indigo",
-    },
+    { label: "Retrieving now", value: dashboard?.retrieving_vehicles ?? 0, icon: RefreshCw, tone: "plain" },
+    { label: "Ready for pickup", value: dashboard?.ready_for_pickup ?? 0, icon: PackageCheck, tone: "plain" },
+    { label: "Returned", value: dashboard?.completed_returns ?? 0, icon: CheckCircle2, tone: "done" },
   ];
+
+  const waitingCount = dashboard?.retrieval_requests ?? 0;
+  const heroLine =
+    waitingCount > 0
+      ? `${waitingCount} ${waitingCount === 1 ? "car is" : "cars are"} waiting to be brought out.`
+      : (dashboard?.assigned_vehicles ?? 0) > 0
+      ? "A car is waiting for a parking slot."
+      : "You're all caught up. New jobs appear here automatically.";
 
   if (loading) {
     return (
@@ -379,43 +490,6 @@ function ValetDashboard() {
 
   return (
     <div className="valet-page">
-      <header className="valet-header">
-        <div>
-          <div className="valet-breadcrumb">
-            Valet Parking <span>/</span> Dashboard
-          </div>
-
-          <h1>
-            Welcome, {valet?.name || "Valet"}
-          </h1>
-
-          <p>
-            Manage your assigned vehicles and complete
-            retrieval tasks efficiently.
-          </p>
-        </div>
-
-        <div className="valet-header-actions">
-          <div className="valet-role-badge">
-            <UserRound size={15} />
-            Valet
-          </div>
-
-          <button
-            className="valet-refresh-btn"
-            onClick={handleRefresh}
-            disabled={refreshing}
-            title="Refresh dashboard"
-          >
-            <RefreshCw
-              size={17}
-              className={refreshing ? "spin" : ""}
-            />
-            Refresh
-          </button>
-        </div>
-      </header>
-
       {error && (
         <div className="valet-alert valet-alert-error">
           <div>
@@ -424,6 +498,17 @@ function ValetDashboard() {
           </div>
 
           <button onClick={() => setError("")}>
+            <X size={17} />
+          </button>
+        </div>
+      )}
+
+      {successMessage && (
+        <div className="valet-alert valet-alert-success">
+          <CheckCircle2 size={18} />
+          <span>{successMessage}</span>
+
+          <button onClick={() => setSuccessMessage("")}>
             <X size={17} />
           </button>
         </div>
@@ -454,82 +539,165 @@ function ValetDashboard() {
         </div>
       )}
 
-      {successMessage && (
-        <div className="valet-alert valet-alert-success">
-          <CheckCircle2 size={18} />
-          <span>{successMessage}</span>
+      <section className="vd-hero">
+        <div className="vd-hero-text">
+          <span className="vd-hero-greeting">{greeting()},</span>
+          <h1>{valet?.name || "Valet"}</h1>
+          <p>{heroLine}</p>
+          <div className="vd-gold-line" />
 
-          <button onClick={() => setSuccessMessage("")}>
-            <X size={17} />
+          <button
+            className="vd-refresh"
+            onClick={handleRefresh}
+            disabled={refreshing}
+            title="Refresh dashboard"
+          >
+            <RefreshCw size={15} className={refreshing ? "spin" : ""} />
+            {refreshing ? "Refreshing" : "Refresh"}
           </button>
         </div>
-      )}
 
-      <section className="valet-stats-grid">
+        <div className="vd-hero-visual" aria-hidden="true">
+          <img src="/welcome-hero-banner.png" alt="" />
+          <div className="vd-hero-fade" />
+        </div>
+      </section>
+
+      <section className="vd-kpis" aria-label="Today at a glance">
         {stats.map((stat) => {
           const Icon = stat.icon;
 
           return (
-            <div
-              className={`valet-stat-card ${stat.className}`}
-              key={stat.label}
-            >
-              <div className="valet-stat-icon">
-                <Icon size={21} />
-              </div>
-
-              <div className="valet-stat-content">
-                <span>{stat.label}</span>
-                <strong>{stat.value}</strong>
-              </div>
+            <div className={`vd-kpi vd-kpi-${stat.tone}`} key={stat.label}>
+              <span className="vd-kpi-icon">
+                <Icon size={18} />
+              </span>
+              <strong>{stat.value}</strong>
+              <span className="vd-kpi-label">{stat.label}</span>
             </div>
           );
         })}
       </section>
 
-      <section className="valet-main-section">
-        <div className="valet-section-heading">
-          <div>
-            <h2>My Assigned Vehicles</h2>
-            <p>
-              Vehicles currently assigned to you.
-            </p>
+      {retrievalRequests.length > 0 && (
+        <section className="vd-panel vd-queue">
+          <div className="vd-panel-head">
+            <div>
+              <h2>Waiting for retrieval</h2>
+              <p>Open to every valet. Start one and the car and key are yours.</p>
+            </div>
+            <span className="vd-count vd-count-alert">{retrievalRequests.length}</span>
           </div>
 
-          <div className="valet-search">
-            <Search size={17} />
+          <div className="vd-queue-list">
+            {retrievalRequests.map((session) => {
+              const vehicle = getVehicle(session);
+              const customer = getCustomer(session);
+              const isLoading = actionLoading?.endsWith(session.id);
 
+              return (
+                <div className="vd-queue-row" key={session.id}>
+                  <span className="vd-plate">
+                    {vehicle?.license_plate || "No plate"}
+                  </span>
+
+                  <div className="vd-queue-car">
+                    <strong>
+                      {[vehicle?.make, vehicle?.model].filter(Boolean).join(" ") || "Vehicle"}
+                    </strong>
+                    <span>{customer?.name || "Customer unavailable"}</span>
+                  </div>
+
+                  <div className="vd-queue-meta">
+                    <span>Slot</span>
+                    <strong>{session?.parking_slot || "—"}</strong>
+                  </div>
+
+                  <div className="vd-queue-meta">
+                    <span>Ticket</span>
+                    <strong>{session?.ticket_code || "—"}</strong>
+                  </div>
+
+                  <button
+                    className="vd-btn vd-btn-primary"
+                    onClick={() =>
+                      performAction(
+                        session,
+                        "start-retrieval",
+                        startRetrieval,
+                        "Retrieval started. The car and key are now yours."
+                      )
+                    }
+                    disabled={isLoading}
+                  >
+                    <Play size={15} />
+                    {isLoading ? "Starting..." : "Start retrieval"}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      <section className="vd-panel">
+        <div className="vd-panel-head">
+          <div>
+            <h2>My vehicles</h2>
+            <p>Cars you are parking or bringing out.</p>
+          </div>
+
+          <label className="vd-search">
+            <Search size={16} />
             <input
               type="text"
-              placeholder="Search vehicle, customer or ticket..."
+              placeholder="Search plate, customer or ticket"
               value={searchTerm}
-              onChange={(event) =>
-                setSearchTerm(event.target.value)
-              }
+              onChange={(event) => setSearchTerm(event.target.value)}
             />
-          </div>
+          </label>
+        </div>
+
+        <div className="vd-filters" role="tablist" aria-label="Filter vehicles by status">
+          {FILTERS.map((filter) => {
+            const count =
+              filter.id === "all"
+                ? sessions.length
+                : sessions.filter((s) => s.status === filter.id).length;
+
+            return (
+              <button
+                key={filter.id}
+                role="tab"
+                aria-selected={statusFilter === filter.id}
+                className={`vd-filter ${statusFilter === filter.id ? "active" : ""}`}
+                onClick={() => setStatusFilter(filter.id)}
+              >
+                {filter.label}
+                <span>{count}</span>
+              </button>
+            );
+          })}
         </div>
 
         {filteredSessions.length === 0 ? (
-          <div className="valet-empty-state">
-            <div className="valet-empty-icon">
-              <Car size={28} />
-            </div>
-
+          <div className="vd-empty">
+            <span className="vd-empty-icon">
+              <Car size={26} />
+            </span>
             <h3>
-              {searchTerm
-                ? "No vehicles found"
-                : "No assigned vehicles"}
+              {searchTerm || statusFilter !== "all"
+                ? "No vehicles match"
+                : "No vehicles right now"}
             </h3>
-
             <p>
-              {searchTerm
-                ? "Try a different search term."
-                : "You currently have no active vehicles assigned to you."}
+              {searchTerm || statusFilter !== "all"
+                ? "Clear the search or pick another status."
+                : "Cars checked in to you will show up here."}
             </p>
           </div>
         ) : (
-          <div className="valet-task-grid">
+          <div className="vd-grid">
             {filteredSessions.map((session) => {
               const vehicle = getVehicle(session);
               const customer = getCustomer(session);
@@ -541,151 +709,101 @@ function ValetDashboard() {
 
               return (
                 <article
-                  className="valet-task-card"
+                  className={`vd-vehicle vd-vehicle-${session.status}`}
                   key={session.id}
                 >
-                  <div className="task-card-top">
-                    <div className="vehicle-icon">
-                      <Car size={23} />
-                    </div>
-
-                    <div className="vehicle-heading">
-                      <h3>
-                        {vehicle?.make || "Vehicle"}{" "}
-                        {vehicle?.model || ""}
-                      </h3>
-
-                      <span className="vehicle-plate">
-                        {vehicle?.license_plate ||
-                          "Plate unavailable"}
+                  <header className="vd-vehicle-head">
+                    <div className="vd-vehicle-title">
+                      <span className="vd-plate">
+                        {vehicle?.license_plate || "No plate"}
                       </span>
+                      <h3>
+                        {[vehicle?.make, vehicle?.model].filter(Boolean).join(" ") ||
+                          "Vehicle"}
+                        {vehicle?.color ? (
+                          <small> · {vehicle.color}</small>
+                        ) : null}
+                      </h3>
                     </div>
 
-                    <span
-                      className={`status-pill status-${session.status}`}
-                    >
+                    <span className={`vd-status vd-status-${session.status}`}>
+                      <i />
                       {formatStatus(session.status)}
                     </span>
+                  </header>
+
+                  <dl className="vd-facts">
+                    <div>
+                      <dt><UserRound size={14} /> Customer</dt>
+                      <dd>{customer?.name || "Unavailable"}</dd>
+                    </div>
+                    <div>
+                      <dt><Phone size={14} /> Phone</dt>
+                      <dd>{customer?.phone || "Unavailable"}</dd>
+                    </div>
+                    <div>
+                      <dt><MapPin size={14} /> Slot</dt>
+                      <dd>{session?.parking_slot || "Not assigned"}</dd>
+                    </div>
+                    <div>
+                      <dt><KeyRound size={14} /> Key</dt>
+                      <dd>{key?.key_number || "Unavailable"}</dd>
+                    </div>
+                  </dl>
+
+                  <div className="vd-vehicle-foot">
+                    <span>
+                      Ticket <strong>{session?.ticket_code || "—"}</strong>
+                    </span>
+                    <span>{formatDateTime(session?.checked_in_at)}</span>
                   </div>
 
-                  <div className="task-details">
-                    <div className="task-detail">
-                      <UserRound size={16} />
-                      <div>
-                        <span>Customer</span>
-                        <strong>
-                          {customer?.name || "Unavailable"}
-                        </strong>
-                      </div>
-                    </div>
-
-                    <div className="task-detail">
-                      <Phone size={16} />
-                      <div>
-                        <span>Phone</span>
-                        <strong>
-                          {customer?.phone || "Unavailable"}
-                        </strong>
-                      </div>
-                    </div>
-
-                    <div className="task-detail">
-                      <MapPin size={16} />
-                      <div>
-                        <span>Parking Slot</span>
-                        <strong>
-                          {session?.parking_slot || "Not assigned"}
-                        </strong>
-                      </div>
-                    </div>
-
-                    <div className="task-detail">
-                      <KeyRound size={16} />
-                      <div>
-                        <span>Key</span>
-                        <strong>
-                          {key?.key_number || "Unavailable"}
-                        </strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="task-meta">
-                    <div>
-                      <span>Ticket</span>
-                      <strong>
-                        {session?.ticket_code || "—"}
-                      </strong>
-                    </div>
-
-                    <div>
-                      <span>Parking Type</span>
-                      <strong>
-                        {session?.parking_type || "—"}
-                      </strong>
-                    </div>
-
-                    <div>
-                      <span>Checked In</span>
-                      <strong>
-                        {formatDateTime(
-                          session?.checked_in_at
-                        )}
-                      </strong>
-                    </div>
-
-                    {session?.parked_at && (
-                      <div>
-                        <span>Parked</span>
-                        <strong>
-                          {formatDateTime(
-                            session.parked_at
-                          )}
-                        </strong>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="task-card-actions">
+                  <div className="vd-actions">
                     <button
-                      className="secondary-action"
-                      onClick={() =>
-                        setSelectedSession(session)
-                      }
+                      className="vd-btn vd-btn-ghost"
+                      onClick={() => setSelectedSession(session)}
                     >
-                      View Details
+                      Details
+                      <ChevronRight size={15} />
                     </button>
 
                     {(session.status === "parked" ||
                       session.status === "ready_for_pickup") && (
                       <button
-                        className="secondary-action whatsapp-draft-btn"
-                        onClick={() => openWhatsAppDraft(session)}
-                        title="Open a WhatsApp draft for the customer"
+                        className="vd-btn vd-btn-whatsapp"
+                        onClick={() =>
+                          session.status === "parked"
+                            ? openWhatsAppDraft(session)
+                            : openReadyDraft(session)
+                        }
+                        title={
+                          session.status === "parked"
+                            ? "Open a WhatsApp draft for the customer"
+                            : "Tell the customer the car is ready"
+                        }
                       >
-                        <MessageCircle size={16} />
-                        WhatsApp
+                        <MessageCircle size={15} />
+                        {session.status === "parked" ? "WhatsApp" : "Car ready"}
                       </button>
                     )}
 
                     {session.status === "checked_in" && (
                       <button
-                        className="primary-action"
+                        className="vd-btn vd-btn-primary"
                         onClick={() => {
                           setSlotModalSession(session);
                           setSelectedSlot("");
                         }}
                         disabled={isLoading}
                       >
-                        <MapPin size={16} />
-                        Assign Slot
+                        <MapPin size={15} />
+                        Assign slot
                       </button>
                     )}
 
-                    {session.status ===
-                      "retrieval_requested" && (
+                    {session.status === "retrieval_requested" && (
                       <button
-                        className="primary-action"
+                        className="vd-btn vd-btn-primary"
                         onClick={() =>
                           performAction(
                             session,
@@ -696,16 +814,14 @@ function ValetDashboard() {
                         }
                         disabled={isLoading}
                       >
-                        <Play size={16} />
-                        {isLoading
-                          ? "Starting..."
-                          : "Start Retrieval"}
+                        <Play size={15} />
+                        {isLoading ? "Starting..." : "Start retrieval"}
                       </button>
                     )}
 
                     {session.status === "retrieving" && (
                       <button
-                        className="primary-action"
+                        className="vd-btn vd-btn-primary"
                         onClick={() =>
                           performAction(
                             session,
@@ -716,26 +832,19 @@ function ValetDashboard() {
                         }
                         disabled={isLoading}
                       >
-                        <PackageCheck size={16} />
-                        {isLoading
-                          ? "Updating..."
-                          : "Mark Ready for Pickup"}
+                        <PackageCheck size={15} />
+                        {isLoading ? "Updating..." : "Mark ready"}
                       </button>
                     )}
 
-                    {session.status ===
-                      "ready_for_pickup" && (
+                    {session.status === "ready_for_pickup" && (
                       <button
-                        className="primary-action"
-                        onClick={() =>
-                          handleCompleteReturn(session)
-                        }
+                        className="vd-btn vd-btn-primary"
+                        onClick={() => handleCompleteReturn(session)}
                         disabled={isLoading}
                       >
-                        <CheckCircle2 size={16} />
-                        {isLoading
-                          ? "Completing..."
-                          : "Complete Return"}
+                        <CheckCircle2 size={15} />
+                        {isLoading ? "Completing..." : "Complete return"}
                       </button>
                     )}
                   </div>
@@ -744,148 +853,6 @@ function ValetDashboard() {
             })}
           </div>
         )}
-      </section>
-
-      <section className="valet-main-section">
-        <div className="valet-section-heading">
-          <div>
-            <h2>Retrieval Requests</h2>
-            <p>
-              Vehicles requested by customers for pickup.
-            </p>
-          </div>
-
-          <span className="section-count">
-            {retrievalRequests.length}
-          </span>
-        </div>
-
-        {retrievalRequests.length === 0 ? (
-          <div className="valet-empty-state compact">
-            <div className="valet-empty-icon">
-              <Clock3 size={25} />
-            </div>
-
-            <h3>No retrieval requests</h3>
-
-            <p>
-              There are no vehicles waiting for retrieval.
-            </p>
-          </div>
-        ) : (
-          <div className="retrieval-list">
-            {retrievalRequests.map((session) => {
-              const vehicle = getVehicle(session);
-              const customer = getCustomer(session);
-
-              const isLoading =
-                actionLoading?.endsWith(session.id);
-
-              return (
-                <div
-                  className="retrieval-row"
-                  key={session.id}
-                >
-                  <div className="retrieval-vehicle">
-                    <div className="vehicle-icon small">
-                      <Car size={19} />
-                    </div>
-
-                    <div>
-                      <strong>
-                        {vehicle?.license_plate ||
-                          "Plate unavailable"}
-                      </strong>
-
-                      <span>
-                        {vehicle?.make || ""}{" "}
-                        {vehicle?.model || ""}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="retrieval-customer">
-                    <span>Customer</span>
-                    <strong>
-                      {customer?.name || "Unavailable"}
-                    </strong>
-                  </div>
-
-                  <div className="retrieval-slot">
-                    <span>Slot</span>
-                    <strong>
-                      {session?.parking_slot || "—"}
-                    </strong>
-                  </div>
-
-                  <div className="retrieval-ticket">
-                    <span>Ticket</span>
-                    <strong>
-                      {session?.ticket_code || "—"}
-                    </strong>
-                  </div>
-
-                  <button
-                    className="primary-action"
-                    onClick={() =>
-                      performAction(
-                        session,
-                        "start-retrieval",
-                        startRetrieval,
-                        "Vehicle retrieval started."
-                      )
-                    }
-                    disabled={isLoading}
-                  >
-                    <Play size={15} />
-                    {isLoading
-                      ? "Starting..."
-                      : "Start Retrieval"}
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </section>
-
-      <section className="valet-profile-strip">
-        <div className="profile-avatar">
-          {(valet?.name || "V")
-            .charAt(0)
-            .toUpperCase()}
-        </div>
-
-        <div className="profile-info">
-          <strong>
-            {valet?.name || "Valet"}
-          </strong>
-
-          <span>
-            {valet?.email || "—"}
-          </span>
-        </div>
-
-        <div className="profile-detail">
-          <span>Phone</span>
-          <strong>
-            {valet?.phone || "Unavailable"}
-          </strong>
-        </div>
-
-        <div className="profile-detail">
-          <span>Role</span>
-          <strong>Valet</strong>
-        </div>
-
-        <div className="profile-detail">
-          <span>Account</span>
-          <strong>
-            {valet?.is_active
-              ? "Active"
-              : "Inactive"}
-          </strong>
-        </div>
       </section>
 
       {slotModalSession && (
@@ -1145,6 +1112,67 @@ function ValetDashboard() {
               </div>
             </div>
 
+            <div className="details-section">
+              <h3>Inspection Photos</h3>
+
+              {loadingDetailInspections ? (
+                <p className="inspection-photo-message">
+                  Loading inspection photos...
+                </p>
+              ) : detailInspectionError ? (
+                <p className="inspection-photo-message inspection-photo-error">
+                  {detailInspectionError}
+                </p>
+              ) : detailInspections.length === 0 ? (
+                <p className="inspection-photo-message">
+                  No inspection photos are available for this vehicle.
+                </p>
+              ) : (
+                <div className="details-inspections">
+                  {detailInspections.map((inspection) => {
+                    const photos =
+                      (inspection.vehicle_inspection_photos || []).filter(
+                        (photo) => photo.photo_url
+                      );
+                    const stage =
+                      inspection.inspection_stage === "initial"
+                        ? "Check-in"
+                        : "Final";
+
+                    return (
+                      <div
+                        className="details-inspection"
+                        key={inspection.id}
+                      >
+                        <strong>{stage} inspection</strong>
+                        {photos.length > 0 ? (
+                          <div className="details-photo-grid">
+                            {photos.map((photo) => (
+                              <a
+                                href={photo.photo_url}
+                                key={photo.id}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <img
+                                  src={photo.photo_url}
+                                  alt={`${stage} vehicle inspection`}
+                                />
+                              </a>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="inspection-photo-message">
+                            No photos uploaded.
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
             <div className="details-section key-section">
               <h3>Key Information</h3>
 
@@ -1288,12 +1316,19 @@ function ValetDashboard() {
                 </button>
               </div>
 
+              <HandoverPhotos
+                photos={handoverPhotos}
+                setPhotos={setHandoverPhotos}
+                onError={setError}
+                checkInPhotos={checkInPhotos}
+              />
+
               <textarea
                 value={inspectionNotes}
                 onChange={(event) =>
                   setInspectionNotes(event.target.value)
                 }
-                placeholder="Add inspection notes (optional)"
+                placeholder={inspectionCondition === "damaged" ? "Describe what looks wrong (required)" : "Add inspection notes (optional)"}
                 rows={4}
               />
             </div>

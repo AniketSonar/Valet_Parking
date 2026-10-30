@@ -119,6 +119,7 @@ const getParkingSlots = async (req, res) => {
 
       return {
         ...slot,
+        status: session ? "occupied" : slot.status,
         assigned_vehicle: session?.vehicle?.license_plate || null,
         vehicle_make: session?.vehicle?.make || null,
         vehicle_model: session?.vehicle?.model || null,

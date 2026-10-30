@@ -1,5 +1,22 @@
 const supabase = require("../config/supabase");
 
+const PHOTO_BUCKET = "vehicle-inspection-photos";
+
+// The bucket is public, so a plain URL lets the dashboards show the photo.
+const withPhotoUrl = (photo) => {
+  if (!photo || !photo.photo_path) return photo;
+  const { data } = supabase.storage.from(PHOTO_BUCKET).getPublicUrl(photo.photo_path);
+  return { ...photo, photo_url: data?.publicUrl || null };
+};
+
+const withInspectionPhotoUrls = (inspection) =>
+  inspection
+    ? {
+        ...inspection,
+        vehicle_inspection_photos: (inspection.vehicle_inspection_photos || []).map(withPhotoUrl)
+      }
+    : inspection;
+
 const createVehicleInspection = async (req, res) => {
   try {
     const {
@@ -214,12 +231,13 @@ const getInspectionBySession = async (req, res) => {
       });
     }
 
-    const inspection = inspections?.[0] || null;
+    const withUrls = (inspections || []).map(withInspectionPhotoUrls);
+    const inspection = withUrls[0] || null;
 
     return res.status(200).json({
       success: true,
       inspection,
-      inspections: inspections || []
+      inspections: withUrls
     });
   } catch (error) {
     console.error(
@@ -509,7 +527,7 @@ const getInspectionPhotos = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      photos: photos || []
+      photos: (photos || []).map(withPhotoUrl)
     });
   } catch (error) {
     console.error(

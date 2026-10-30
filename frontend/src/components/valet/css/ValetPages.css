@@ -598,3 +598,28 @@
 }
 .whatsapp-draft-btn:hover:not(:disabled) { background: #e9f8ef !important; }
 .whatsapp-draft-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ---------- Handover photos (optional) ---------- */
+.handover-photos { display: grid; gap: 14px; margin: 14px 0; }
+.handover-photos-block { display: grid; gap: 8px; }
+.handover-photos-block small { font-weight: 500; color: #8a7a7e; }
+.handover-photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.handover-photo-grid img,
+.handover-photo-item img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 1px solid rgba(139, 18, 48, 0.15); display: block; }
+.handover-photo-item { position: relative; }
+.handover-photo-item button { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: rgba(0, 0, 0, 0.65); color: #fff; padding: 0; }
+.handover-add-photo { display: inline-flex; align-items: center; gap: 6px; justify-self: start; }
+
+/* ---------- Request from WhatsApp ---------- */
+.whatsapp-retrieval-card { display: grid; gap: 12px; margin-bottom: 18px; padding: 16px; border-radius: 16px; background: #ffffff; border: 1px solid rgba(139, 18, 48, 0.12); border-left: 4px solid #dfb76c; box-shadow: 0 10px 30px -8px rgba(139, 18, 48, 0.1); }
+.whatsapp-retrieval-title { display: flex; gap: 10px; align-items: center; color: #11863f; }
+.whatsapp-retrieval-title div { display: grid; }
+.whatsapp-retrieval-title strong { color: #2a0f16; }
+.whatsapp-retrieval-title span { font-size: 13px; color: #8a7a7e; }
+.whatsapp-retrieval-form { display: flex; gap: 8px; flex-wrap: wrap; }
+.whatsapp-retrieval-form input { flex: 1; min-width: 160px; padding: 10px 12px; border: 1px solid rgba(139, 18, 48, 0.2); border-radius: 10px; text-transform: uppercase; }
+.whatsapp-retrieval-form button { display: inline-flex; align-items: center; gap: 6px; }
+.whatsapp-retrieval-result { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; background: #fdf2f4; flex-wrap: wrap; }
+.whatsapp-retrieval-result div { display: grid; flex: 1; min-width: 140px; }
+.whatsapp-retrieval-result span { font-size: 13px; color: #6f6064; }
+.page-success { padding: 10px 12px; border-radius: 10px; background: #e9f8ef; color: #11863f; font-weight: 600; }

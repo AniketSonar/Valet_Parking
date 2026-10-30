@@ -669,28 +669,24 @@ const ReceptionDashboard = ({
           icon={<Car size={20} />}
           label="Total Active Vehicles"
           value={loading ? "--" : stats.totalActive}
-          sub="Currently in facility"
           accent="purple"
         />
         <ReceptionStatCard
           icon={<LogIn size={20} />}
           label="Today's Check-Ins"
           value={loading ? "--" : stats.todayCheckIns}
-          sub="Sessions created today"
           accent="green"
         />
         <ReceptionStatCard
           icon={<Clock3 size={20} />}
           label="Awaiting Retrieval"
           value={loading ? "--" : stats.awaitingRetrieval}
-          sub="Requested or in retrieval"
           accent="amber"
         />
         <ReceptionStatCard
           icon={<CheckCircle2 size={20} />}
           label="Ready for Pickup"
           value={loading ? "--" : stats.readyForPickup}
-          sub="Customer can collect vehicle"
           accent="green"
         />
       </div>

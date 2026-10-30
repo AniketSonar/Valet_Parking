@@ -1,4 +1,5 @@
 const supabase = require("../config/supabase");
+const { createAuthClient } = supabase;
 const { normalizeRole } = require("../middleware/roleMiddleware");
 
 /*
@@ -19,8 +20,9 @@ const login = async (req, res) => {
 
     const normalizedEmail = email.trim().toLowerCase();
 
+    // separate client: signing in must not turn the shared admin client into this user
     const { data, error } =
-      await supabase.auth.signInWithPassword({
+      await createAuthClient().auth.signInWithPassword({
         email: normalizedEmail,
         password
       });
@@ -83,7 +85,7 @@ const refreshSession = async (req, res) => {
       });
     }
 
-    const { data, error } = await supabase.auth.refreshSession({
+    const { data, error } = await createAuthClient().auth.refreshSession({
       refresh_token
     });
 

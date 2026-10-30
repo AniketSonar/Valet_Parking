@@ -826,7 +826,7 @@ const CheckInVehicleModal = ({
               <div
                 className="modal-input-wrap"
                 style={{
-                  background: "#f8f7fa"
+                  background: "#faf7f8"
                 }}
               >
                 <input
@@ -836,14 +836,14 @@ const CheckInVehicleModal = ({
                   style={{
                     fontFamily: "monospace",
                     fontWeight: "700",
-                    color: "#7b7389"
+                    color: "#887479"
                   }}
                 />
               </div>
 
               <small
                 style={{
-                  color: "#7b7389",
+                  color: "#887479",
                   fontSize: "11px",
                   marginTop: "4px",
                   display: "block"

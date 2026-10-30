@@ -14,7 +14,9 @@ import {
   Warehouse,
   X,
   Play,
+  MessageCircle,
 } from "lucide-react";
+import { openWhatsAppDraft } from "../../utils/whatsappDraft";
 
 import {
   getValetDashboard,
@@ -84,6 +86,7 @@ function ValetDashboard() {
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [justParked, setJustParked] = useState(null);
 
   const [selectedSession, setSelectedSession] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState("");
@@ -264,6 +267,9 @@ function ValetDashboard() {
         `Parking slot ${selectedSlot} assigned successfully.`
       );
 
+      // keep the session + slot so the valet can send the WhatsApp draft
+      setJustParked({ ...slotModalSession, parking_slot: selectedSlot });
+
       setSlotModalSession(null);
       setSelectedSlot("");
 
@@ -418,6 +424,31 @@ function ValetDashboard() {
           </div>
 
           <button onClick={() => setError("")}>
+            <X size={17} />
+          </button>
+        </div>
+      )}
+
+      {justParked && (
+        <div className="valet-alert valet-alert-success">
+          <MessageCircle size={18} />
+          <span>
+            {justParked?.vehicle?.license_plate || "Vehicle"} parked at slot{" "}
+            {justParked.parking_slot}. Tell the customer?
+          </span>
+
+          <button
+            type="button"
+            className="whatsapp-draft-btn"
+            onClick={() => {
+              openWhatsAppDraft(justParked);
+              setJustParked(null);
+            }}
+          >
+            Open WhatsApp draft
+          </button>
+
+          <button onClick={() => setJustParked(null)} aria-label="Dismiss">
             <X size={17} />
           </button>
         </div>
@@ -624,6 +655,18 @@ function ValetDashboard() {
                     >
                       View Details
                     </button>
+
+                    {(session.status === "parked" ||
+                      session.status === "ready_for_pickup") && (
+                      <button
+                        className="secondary-action whatsapp-draft-btn"
+                        onClick={() => openWhatsAppDraft(session)}
+                        title="Open a WhatsApp draft for the customer"
+                      >
+                        <MessageCircle size={16} />
+                        WhatsApp
+                      </button>
+                    )}
 
                     {session.status === "checked_in" && (
                       <button

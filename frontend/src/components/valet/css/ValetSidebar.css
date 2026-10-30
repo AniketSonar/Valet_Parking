@@ -20,9 +20,9 @@
 
   flex-shrink: 0;
 
-  background: var(--bg-sidebar, #fdfbfc);
+  background: var(--bg-sidebar, #fdfbfb);
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   border: 1px solid rgba(139, 18, 48, 0.08);
 
@@ -105,7 +105,7 @@
 .valet-brand-title h2 {
   margin: 0;
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   font-size: 20px;
   line-height: 1.1;
@@ -119,7 +119,7 @@
 .valet-brand-title span {
   margin-top: 4px;
 
-  color: #8b7ba8;
+  color: #a1828a;
 
   font-size: 8px;
 
@@ -146,7 +146,7 @@
 
   padding: 0 12px;
 
-  color: #8b7ba8;
+  color: #a1828a;
 
   font-size: 9px;
 
@@ -195,7 +195,7 @@
 
   background: transparent;
 
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 
   font-family: inherit;
 
@@ -226,7 +226,7 @@
   align-items: center;
   justify-content: center;
 
-  color: #8b7ba8;
+  color: #a1828a;
 }
 
 
@@ -250,9 +250,9 @@
 
 .valet-menu-item:hover,
 .valet-collapse-btn:hover {
-  background: #f9f7ff;
+  background: #fefcf8;
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   transform: translateX(2px);
 }
@@ -316,12 +316,12 @@
 
 
 .valet-collapse-btn {
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 }
 
 
 .valet-logout-btn {
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 }
 
 
@@ -425,7 +425,7 @@
 
   border-radius: 7px;
 
-  background: #2b1738;
+  background: #39161f;
 
   color: #ffffff;
 

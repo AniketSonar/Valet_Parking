@@ -31,10 +31,6 @@ const ValetLayout = () => {
   const renderPage = () => {
     switch (activeTab) {
       case "security-dashboard":
-      case "security-sessions":
-      case "security-customers":
-      case "security-vehicles":
-      case "security-keys":
       case "security-payments": {
         const securityTab = activeTab.replace("security-", "");
         return (

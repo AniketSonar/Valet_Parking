@@ -4,7 +4,7 @@
   border-radius: 16px;
   padding: 22px;
   margin: 0 0 24px;
-  color: #1f2937;
+  color: #3e1821;
   box-shadow: 0 6px 22px rgba(139, 18, 48, 0.06);
 }
 
@@ -17,7 +17,7 @@
   margin-bottom: 18px;
 }
 .vr-header h2 { margin: 0; font-size: 1.25rem; color: #6a0c24; }
-.vr-header p { margin: 4px 0 0; color: #6b7280; font-size: 0.88rem; }
+.vr-header p { margin: 4px 0 0; color: #7f6c71; font-size: 0.88rem; }
 .vr-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
 .vr-btn {
@@ -49,13 +49,13 @@
 .vr-badge { background: #8b1230; color: #fff; border-radius: 999px; font-size: 0.7rem; padding: 1px 7px; }
 .vr-flip { transform: rotate(180deg); }
 .vr-field { display: flex; flex-direction: column; gap: 5px; position: relative; }
-.vr-field > label { font-size: 0.74rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; }
+.vr-field > label { font-size: 0.74rem; font-weight: 700; color: #7f6c71; text-transform: uppercase; letter-spacing: 0.04em; }
 .vr-field select,
 .vr-field input[type="date"],
 .vr-select-btn,
 .vr-search {
   height: 42px; border: 1px solid #e3d5d9; border-radius: 10px; padding: 0 12px;
-  background: #fff; font-size: 0.88rem; color: #1f2937; width: 100%; box-sizing: border-box;
+  background: #fff; font-size: 0.88rem; color: #3e1821; width: 100%; box-sizing: border-box;
 }
 .vr-select-btn { display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-align: left; }
 .vr-search { display: flex; align-items: center; gap: 8px; }
@@ -68,16 +68,16 @@
 }
 .vr-menu > input { width: 100%; box-sizing: border-box; height: 34px; border: 1px solid #e3d5d9; border-radius: 8px; padding: 0 10px; margin-bottom: 8px; }
 .vr-menu-list { max-height: 210px; overflow-y: auto; }
-.vr-check { display: flex; align-items: center; gap: 8px; padding: 6px 4px; font-size: 0.88rem; cursor: pointer; text-transform: none; letter-spacing: 0; font-weight: 500; color: #1f2937; }
-.vr-check em { color: #9ca3af; font-style: normal; font-size: 0.78rem; }
-.vr-menu-empty { color: #9ca3af; font-size: 0.82rem; margin: 6px 4px; }
+.vr-check { display: flex; align-items: center; gap: 8px; padding: 6px 4px; font-size: 0.88rem; cursor: pointer; text-transform: none; letter-spacing: 0; font-weight: 500; color: #3e1821; }
+.vr-check em { color: #ad9ea2; font-style: normal; font-size: 0.78rem; }
+.vr-menu-empty { color: #ad9ea2; font-size: 0.82rem; margin: 6px 4px; }
 
 .vr-chips-row { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
 .vr-chips { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-.vr-chips-label { font-size: 0.74rem; font-weight: 700; color: #6b7280; text-transform: uppercase; width: 56px; }
+.vr-chips-label { font-size: 0.74rem; font-weight: 700; color: #7f6c71; text-transform: uppercase; width: 56px; }
 .vr-chip { border: 1px solid #e3c9d0; background: #fff; color: #6a0c24; border-radius: 999px; padding: 5px 13px; font-size: 0.8rem; cursor: pointer; }
 .vr-chip.is-active { background: #8b1230; color: #fff; border-color: #8b1230; }
-.vr-hint { color: #9ca3af; font-size: 0.78rem; }
+.vr-hint { color: #ad9ea2; font-size: 0.78rem; }
 
 .vr-generate-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 .vr-spin { animation: vr-rotate 1s linear infinite; }
@@ -87,26 +87,26 @@
 
 .vr-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 22px; }
 .vr-card { background: #fbf6f7; border: 1px solid #f0e1e5; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
-.vr-card span { font-size: 0.76rem; color: #6b7280; }
+.vr-card span { font-size: 0.76rem; color: #7f6c71; }
 .vr-card strong { font-size: 1.15rem; color: #6a0c24; }
 
-.vr-subtitle { margin: 24px 0 10px; font-size: 1rem; color: #1f2937; }
-.vr-subtitle small { color: #9ca3af; font-weight: 500; }
+.vr-subtitle { margin: 24px 0 10px; font-size: 1rem; color: #3e1821; }
+.vr-subtitle small { color: #ad9ea2; font-weight: 500; }
 
 .vr-table-wrap { overflow-x: auto; border: 1px solid #f0e1e5; border-radius: 12px; }
 .vr-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; min-width: 760px; }
 .vr-table th { text-align: left; background: #8b1230; color: #fff; padding: 10px 12px; font-weight: 600; white-space: nowrap; }
 .vr-table td { padding: 9px 12px; border-top: 1px solid #f3e9ec; white-space: nowrap; }
 .vr-table tbody tr:nth-child(even) { background: #fcf8f9; }
-.vr-empty { text-align: center; color: #9ca3af; padding: 22px !important; }
+.vr-empty { text-align: center; color: #ad9ea2; padding: 22px !important; }
 
-.vr-status, .vr-pay { padding: 3px 9px; border-radius: 999px; font-size: 0.74rem; font-weight: 600; background: #f3f4f6; color: #374151; text-transform: capitalize; }
+.vr-status, .vr-pay { padding: 3px 9px; border-radius: 999px; font-size: 0.74rem; font-weight: 600; background: #f6f3f4; color: #4d3b3f; text-transform: capitalize; }
 .vr-status-returned_completed, .vr-pay-paid { background: #dcfce7; color: #166534; }
-.vr-status-parked, .vr-status-checked_in { background: #e0e7ff; color: #3730a3; }
+.vr-status-parked, .vr-status-checked_in { background: #faf2e5; color: #a37930; }
 .vr-status-retrieval_requested, .vr-status-retrieving, .vr-status-ready_for_pickup, .vr-pay-pending { background: #fef3c7; color: #92400e; }
 
 .vr-pager { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 14px; font-size: 0.86rem; }
-.vr-footnote { display: flex; align-items: center; gap: 6px; margin: 14px 0 0; color: #9ca3af; font-size: 0.78rem; }
+.vr-footnote { display: flex; align-items: center; gap: 6px; margin: 14px 0 0; color: #ad9ea2; font-size: 0.78rem; }
 
 @media (max-width: 900px) {
   .vr-filters, .vr-filters-more { grid-template-columns: repeat(2, minmax(0, 1fr)); }

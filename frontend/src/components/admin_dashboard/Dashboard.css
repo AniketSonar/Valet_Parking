@@ -6,11 +6,11 @@
 :root {
   --dashboard-bg: #fbf8f9;
   --dashboard-card: #ffffff;
-  --dashboard-surface: #faf9ff;
+  --dashboard-surface: #fefdfa;
 
-  --dashboard-text: #171324;
-  --dashboard-muted: #6b647b;
-  --dashboard-faint: #8a8398;
+  --dashboard-text: #280f15;
+  --dashboard-muted: #78676b;
+  --dashboard-faint: #978489;
 
   --dashboard-purple: #8b1230;
   --dashboard-purple-dark: #730c26;
@@ -513,7 +513,7 @@
 
 
 .panel-action:hover {
-  background: #e9ddff;
+  background: #faf1e2;
 
   transform: translateY(-1px);
 }
@@ -839,7 +839,7 @@
 
   border-color: rgba(139, 18, 48, 0.16);
 
-  background: #fdfcff;
+  background: #fffefc;
 
   box-shadow: var(--dashboard-shadow-hover);
 }
@@ -872,8 +872,8 @@
 
 
 .report-icon {
-  background: #eaf2ff;
-  color: #2563eb;
+  background: #fcf6ed;
+  color: #db9e35;
 }
 
 

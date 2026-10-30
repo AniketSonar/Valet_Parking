@@ -5,6 +5,7 @@ import DashboardSidebar from "./DashboardSidebar";
 import DashboardTopbar from "./DashboardTopbar";
 
 import "./css/DashboardLayout.css";
+import "./css/theme-unify.css";
 
 /**
  * <DashboardLayout> — the ONE luxury shell used by every dashboard.

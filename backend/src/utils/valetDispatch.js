@@ -152,18 +152,26 @@ const handKeyToValet = async (session, userId) => {
  * Pick the available valet for a freshly checked-in session and assign it.
  * Resolves to { assigned: true, valet, was_free } or { assigned: false, message }.
  */
-const assignAvailableValet = async (session) => {
+const assignAvailableValet = async (session, actor = null) => {
   try {
     const candidates = (await loadCandidates()).sort(rank);
 
-    if (candidates.length === 0) {
+    // Rule 1: if a valet is the one checking the car in, the car is theirs.
+    // (No manual key-management / assign-valet step.)
+    const actorEmail = String(actor?.email || "").toLowerCase();
+    const isValetActor = ["valet", "valet_attendant"].includes(actor?.role);
+    const self = isValetActor
+      ? candidates.find((c) => String(c.email || "").toLowerCase() === actorEmail)
+      : null;
+
+    if (candidates.length === 0 && !self) {
       return {
         assigned: false,
         message: "No active valet is available right now. Assign one from Valet Management."
       };
     }
 
-    const pick = candidates[0];
+    const pick = self || candidates[0];
 
     const { error: sessionError } = await supabase
       .from("parking_sessions")

@@ -204,7 +204,7 @@ function ParkingHistory() {
         {/* TABLE */}
         <div className="parking-history-table-wrapper">
           {loading && filteredHistory.length === 0 ? (
-            <div style={{ padding: "50px", textAlign: "center", color: "#7b7389" }}>
+            <div style={{ padding: "50px", textAlign: "center", color: "#887479" }}>
               <RefreshCw size={24} className="refresh-spinning" style={{ marginBottom: "12px" }} />
               <div>Loading parking history...</div>
             </div>
@@ -243,7 +243,7 @@ function ParkingHistory() {
                           <div className="history-vehicle-icon">🚗</div>
                           <div>
                             <strong>{session.vehicle_number || session.vehicle?.license_plate || "N/A"}</strong>
-                            <div style={{ fontSize: "11px", color: "#7b879e" }}>
+                            <div style={{ fontSize: "11px", color: "#998086" }}>
                               Ticket #{session.ticket_code}
                             </div>
                           </div>
@@ -254,7 +254,7 @@ function ParkingHistory() {
                         <span className="history-customer">
                           {session.customer_name || session.vehicle?.customer?.name || "N/A"}
                         </span>
-                        <div style={{ fontSize: "11px", color: "#7b879e" }}>
+                        <div style={{ fontSize: "11px", color: "#998086" }}>
                           {session.customer_phone || session.vehicle?.customer?.phone || ""}
                         </div>
                       </td>
@@ -264,7 +264,7 @@ function ParkingHistory() {
                       </td>
 
                       <td>
-                        <span style={{ textTransform: "capitalize", fontWeight: "600", color: "#43506a" }}>
+                        <span style={{ textTransform: "capitalize", fontWeight: "600", color: "#644950" }}>
                           {session.parking_type || "Valet"}
                         </span>
                       </td>
@@ -282,7 +282,7 @@ function ParkingHistory() {
                       </td>
 
                       <td>
-                        <span style={{ color: "#43506a", fontSize: "12px" }}>
+                        <span style={{ color: "#644950", fontSize: "12px" }}>
                           {session.valet_name || "—"}
                         </span>
                       </td>

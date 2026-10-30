@@ -23,7 +23,6 @@ import RegisterVehicleModal from "./RegisterVehicleModal";
 import CheckInVehicleModal from "./CheckInVehicleModal";
 import ReceptionTicketModal from "./ReceptionTicketModal";
 import ReceptionSessionDetailsModal from "./ReceptionSessionDetailsModal";
-import ReceptionKeyManagement from "./ReceptionKeyManagement";
 import ReceptionPayments from "./ReceptionPayments";
 import {
   getReceptionSessions,
@@ -150,7 +149,7 @@ const CustomersView = ({ onOpenRegisterModal }) => {
                 <td>{c.phone}</td>
                 <td>{c.email || "—"}</td>
                 <td>{c.vehicles?.length ?? 0}</td>
-                <td style={{ fontSize: "12px", color: "#7b7389" }}>{c.created_at ? new Date(c.created_at).toLocaleDateString("en-IN") : "—"}</td>
+                <td style={{ fontSize: "12px", color: "#887479" }}>{c.created_at ? new Date(c.created_at).toLocaleDateString("en-IN") : "—"}</td>
                 <td>
                   <button
                     type="button"
@@ -390,16 +389,16 @@ const SessionsView = ({ sessions, loading, onRefresh, onRequestRetrieval, onView
                       <div className="reception-primary-value">
                         {s.vehicle?.license_plate || "—"}
                       </div>
-                      <div style={{ fontSize: "11px", color: "#7b7389" }}>
+                      <div style={{ fontSize: "11px", color: "#887479" }}>
                         {s.vehicle?.make} {s.vehicle?.model}
                       </div>
                     </td>
                     <td>
                       <div className="reception-primary-value reception-customer-name">{s.vehicle?.customer?.name || "—"}</div>
-                      <div style={{ fontSize: "11px", color: "#7b7389" }}>{s.vehicle?.customer?.phone || ""}</div>
+                      <div style={{ fontSize: "11px", color: "#887479" }}>{s.vehicle?.customer?.phone || ""}</div>
                     </td>
                     <td>
-                      <span style={{ textTransform: "capitalize", fontWeight: "600", color: "#5e3573" }}>
+                      <span style={{ textTransform: "capitalize", fontWeight: "600", color: "#7a2e41" }}>
                         {s.parking_type || "valet"}
                       </span>
                     </td>
@@ -409,7 +408,7 @@ const SessionsView = ({ sessions, loading, onRefresh, onRequestRetrieval, onView
                         : <span style={{ color: "#bbb", fontSize: "12px" }}>—</span>
                       }
                     </td>
-                    <td style={{ fontSize: "12px", color: "#7b7389" }}>
+                    <td style={{ fontSize: "12px", color: "#887479" }}>
                       {formatTime(s.checked_in_at)}
                     </td>
                     <td>
@@ -619,7 +618,7 @@ const ReceptionDashboard = ({
       {/* Quick Actions */}
       <div className="reception-quick-actions">
         <button className="quick-action-card" onClick={() => openModal("customer")}>
-          <div className="quick-action-icon" style={{ background: "#f4eef8", color: "#5e3573" }}>
+          <div className="quick-action-icon" style={{ background: "#f8eef0", color: "#7a2e41" }}>
             <UserPlus size={20} />
           </div>
           <div>
@@ -629,7 +628,7 @@ const ReceptionDashboard = ({
         </button>
 
         <button className="quick-action-card" onClick={() => openModal("vehicle")}>
-          <div className="quick-action-icon" style={{ background: "#eff6ff", color: "#1d4ed8" }}>
+          <div className="quick-action-icon" style={{ background: "#fdf8f1", color: "#d09125" }}>
             <Car size={20} />
           </div>
           <div>
@@ -730,12 +729,12 @@ const ReceptionDashboard = ({
                   <td><span className="reception-ticket-code">{s.ticket_code}</span></td>
                   <td>
                     <strong>{s.vehicle?.license_plate || "—"}</strong>
-                    <div style={{ fontSize: "11px", color: "#7b7389" }}>{s.vehicle?.make} {s.vehicle?.model}</div>
+                    <div style={{ fontSize: "11px", color: "#887479" }}>{s.vehicle?.make} {s.vehicle?.model}</div>
                   </td>
                   <td>{s.vehicle?.customer?.name || "—"}</td>
-                  <td style={{ textTransform: "capitalize", fontWeight: "600", color: "#5e3573" }}>{s.parking_type}</td>
+                  <td style={{ textTransform: "capitalize", fontWeight: "600", color: "#7a2e41" }}>{s.parking_type}</td>
                   <td><span className={`reception-status-tag ${statusInfo.cls}`}>{statusInfo.label}</span></td>
-                  <td style={{ fontSize: "12px", color: "#7b7389" }}>
+                  <td style={{ fontSize: "12px", color: "#887479" }}>
                     {s.checked_in_at ? new Date(s.checked_in_at).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true }) : "—"}
                   </td>
                 </tr>
@@ -769,7 +768,6 @@ const ReceptionDashboard = ({
       );
       case "customers": return <CustomersView onOpenRegisterModal={() => openModal("customer")} />;
       case "vehicles": return <VehiclesView />;
-      case "keys": return <ReceptionKeyManagement />;
       case "payments":
         return <ReceptionPayments />;
       case "profile": return <ProfileView onLogout={handleLogout} />;

@@ -73,30 +73,30 @@ const TopDownRealisticCar = ({ color = "white", className = "" }) => {
   const idPrefix = useId().replace(/:/g, "");
 
   let bodyGradientStart = "#FFFFFF";
-  let bodyGradientMid = "#E2E5EB";
-  let bodyGradientEnd = "#9DA4B0";
+  let bodyGradientMid = "#eae3e5";
+  let bodyGradientEnd = "#ae9fa3";
   let highlightColor = "#FFFFFF";
 
   if (colorNorm.includes("black") || colorNorm.includes("dark")) {
-    bodyGradientStart = "#3A3D44";
-    bodyGradientMid = "#1F2126";
-    bodyGradientEnd = "#0F1012";
-    highlightColor = "#666B75";
+    bodyGradientStart = "#443a3c";
+    bodyGradientMid = "#252021";
+    bodyGradientEnd = "#120f10";
+    highlightColor = "#766569";
   } else if (colorNorm.includes("red") || colorNorm.includes("crimson")) {
     bodyGradientStart = "#EF4444";
     bodyGradientMid = "#B91C1C";
     bodyGradientEnd = "#7F1D1D";
     highlightColor = "#FCA5A5";
   } else if (colorNorm.includes("blue") || colorNorm.includes("navy")) {
-    bodyGradientStart = "#3B82F6";
-    bodyGradientMid = "#1D4ED8";
-    bodyGradientEnd = "#1E3A8A";
-    highlightColor = "#93C5FD";
+    bodyGradientStart = "#e0ac51";
+    bodyGradientMid = "#d09125";
+    bodyGradientEnd = "#8a621e";
+    highlightColor = "#efd2a1";
   } else if (colorNorm.includes("grey") || colorNorm.includes("gray") || colorNorm.includes("silver")) {
-    bodyGradientStart = "#CBD5E1";
-    bodyGradientMid = "#94A3B8";
-    bodyGradientEnd = "#475569";
-    highlightColor = "#F1F5F9";
+    bodyGradientStart = "#e1cbd0";
+    bodyGradientMid = "#b399a0";
+    bodyGradientEnd = "#644c52";
+    highlightColor = "#f9f1f3";
   }
 
   const gradId = `carBodyGrad_${idPrefix}`;
@@ -121,47 +121,47 @@ const TopDownRealisticCar = ({ color = "white", className = "" }) => {
         </linearGradient>
 
         <linearGradient id={windshieldGradId} x1="27" y1="18" x2="27" y2="44" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#1E293B" stopOpacity="0.95" />
-          <stop offset="45%" stopColor="#0F172A" />
-          <stop offset="100%" stopColor="#020617" />
+          <stop offset="0%" stopColor="#411822" stopOpacity="0.95" />
+          <stop offset="45%" stopColor="#2a0f16" />
+          <stop offset="100%" stopColor="#150f04" />
         </linearGradient>
 
         <linearGradient id={sunroofGradId} x1="27" y1="46" x2="27" y2="68" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#1E293B" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#090D16" />
+          <stop offset="0%" stopColor="#411822" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="#16090c" />
         </linearGradient>
 
         <filter id={shadowId} x="-30%" y="-15%" width="160%" height="135%">
-          <feDropShadow dx="0" dy="6" stdDeviation="4.5" floodColor="#0F172A" floodOpacity="0.4" />
+          <feDropShadow dx="0" dy="6" stdDeviation="4.5" floodColor="#2a0f16" floodOpacity="0.4" />
         </filter>
       </defs>
 
       <g filter={`url(#${shadowId})`}>
         {/* Wheels & Tires */}
-        <rect x="2.5" y="16" width="4.5" height="15" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
-        <rect x="47" y="16" width="4.5" height="15" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
-        <rect x="2.5" y="68" width="4.5" height="16" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
-        <rect x="47" y="68" width="4.5" height="16" rx="2" fill="#1E2229" stroke="#000" strokeWidth="0.5" />
+        <rect x="2.5" y="16" width="4.5" height="15" rx="2" fill="#272022" stroke="#000" strokeWidth="0.5" />
+        <rect x="47" y="16" width="4.5" height="15" rx="2" fill="#272022" stroke="#000" strokeWidth="0.5" />
+        <rect x="2.5" y="68" width="4.5" height="16" rx="2" fill="#272022" stroke="#000" strokeWidth="0.5" />
+        <rect x="47" y="68" width="4.5" height="16" rx="2" fill="#272022" stroke="#000" strokeWidth="0.5" />
 
         {/* Side Mirrors */}
-        <path d="M4.5 32C2 31.5 1 33 1.5 35.5L3.5 38.5H6.5L6 33.5L4.5 32Z" fill={bodyGradientMid} stroke="#475569" strokeWidth="0.5" />
-        <path d="M49.5 32C52 31.5 53 33 52.5 35.5L50.5 38.5H47.5L48 33.5L49.5 32Z" fill={bodyGradientMid} stroke="#475569" strokeWidth="0.5" />
+        <path d="M4.5 32C2 31.5 1 33 1.5 35.5L3.5 38.5H6.5L6 33.5L4.5 32Z" fill={bodyGradientMid} stroke="#644c52" strokeWidth="0.5" />
+        <path d="M49.5 32C52 31.5 53 33 52.5 35.5L50.5 38.5H47.5L48 33.5L49.5 32Z" fill={bodyGradientMid} stroke="#644c52" strokeWidth="0.5" />
 
         {/* Outer Aerodynamic Car Body */}
         <path
           d="M17 3.5C12.5 4.5 9 9 8 16L5.5 38C5 43.5 5 56.5 5.5 62L8 84C9 91 12.5 95.5 17 96.5C20.5 97.2 33.5 97.2 37 96.5C41.5 95.5 45 91 46 84L48.5 62C49 56.5 49 43.5 48.5 38L46 16C45 9 41.5 4.5 37 3.5C33.5 2.8 20.5 2.8 17 3.5Z"
           fill={`url(#${gradId})`}
-          stroke="#475569"
+          stroke="#644c52"
           strokeWidth="0.8"
         />
 
         {/* Hood Contours & Center Character Lines */}
         <path d="M16 5.5L19 20M38 5.5L35 20" stroke={highlightColor} strokeWidth="0.8" strokeOpacity="0.6" strokeLinecap="round" />
-        <path d="M21 4L22 17M33 4L32 17" stroke="#334155" strokeWidth="0.5" strokeOpacity="0.4" />
+        <path d="M21 4L22 17M33 4L32 17" stroke="#50383e" strokeWidth="0.5" strokeOpacity="0.4" />
 
         {/* Front Headlights - Xenon Ice Blue Flare */}
-        <polygon points="10,6 16,5 15,10 9,11" fill="#E0F2FE" />
-        <polygon points="44,6 38,5 39,10 45,11" fill="#E0F2FE" />
+        <polygon points="10,6 16,5 15,10 9,11" fill="#faf2e4" />
+        <polygon points="44,6 38,5 39,10 45,11" fill="#faf2e4" />
         <ellipse cx="12.5" cy="8" rx="2" ry="1.2" fill="#38BDF8" />
         <ellipse cx="41.5" cy="8" rx="2" ry="1.2" fill="#38BDF8" />
 
@@ -169,26 +169,26 @@ const TopDownRealisticCar = ({ color = "white", className = "" }) => {
         <path
           d="M13.5 21C15 15 19 12.5 27 12.5C35 12.5 39 15 40.5 21L43.5 37C44 39.5 42 41 39.5 41H14.5C12 41 10 39.5 10.5 37L13.5 21Z"
           fill={`url(#${windshieldGradId})`}
-          stroke="#1E293B"
+          stroke="#411822"
           strokeWidth="0.7"
         />
         {/* Windshield Reflection Sheen */}
         <path d="M15 20C18 15 24 14 27 14" stroke="#FFFFFF" strokeWidth="1.2" strokeOpacity="0.4" strokeLinecap="round" />
 
         {/* Panoramic Glass Sunroof */}
-        <rect x="15" y="44" width="24" height="24" rx="2" fill={`url(#${sunroofGradId})`} stroke="#1E293B" strokeWidth="0.6" />
-        <line x1="17" y1="56" x2="37" y2="56" stroke="#334155" strokeWidth="0.5" strokeOpacity="0.6" />
+        <rect x="15" y="44" width="24" height="24" rx="2" fill={`url(#${sunroofGradId})`} stroke="#411822" strokeWidth="0.6" />
+        <line x1="17" y1="56" x2="37" y2="56" stroke="#50383e" strokeWidth="0.5" strokeOpacity="0.6" />
 
         {/* Rear Windshield */}
         <path
           d="M13 71C14 69 16.5 68 20 68H34C37.5 68 40 69 41 71L43 80C43.5 82 41.5 83.5 39.5 83.5H14.5C12.5 83.5 10.5 82 11 80L13 71Z"
           fill={`url(#${windshieldGradId})`}
-          stroke="#1E293B"
+          stroke="#411822"
           strokeWidth="0.7"
         />
 
         {/* Rear Spoiler / Trunk Lip */}
-        <path d="M13 88C18 89.5 36 89.5 41 88" stroke="#1E293B" strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M13 88C18 89.5 36 89.5 41 88" stroke="#411822" strokeWidth="1.2" strokeLinecap="round" />
 
         {/* Rear LED Taillight Strip with Red Glow */}
         <rect x="10.5" y="87" width="9" height="3" rx="1.2" fill="#DC2626" />
@@ -208,10 +208,6 @@ const InspectorCarIllustration = ({ color = "white" }) => {
     <div className="inspector-car-visual">
       <div className="inspector-car-ambient-glow" />
       <TopDownRealisticCar color={color} className="inspector-topdown-car-svg" />
-      <div className="inspector-car-meta-tag">
-        <Sparkles size={12} className="sparkle-icon" />
-        <span>PREMIUM ALLOCATION</span>
-      </div>
     </div>
   );
 };

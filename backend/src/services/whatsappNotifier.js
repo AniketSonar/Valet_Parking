@@ -190,6 +190,12 @@ const deliver = async ({ phone, event, data, media }) => {
  * Never throws - a WhatsApp failure must not break check-in, payment, etc.
  */
 const notifyCustomer = async ({ event, sessionId, customer, data = {} }) => {
+  // WhatsApp is manual now: valets send a prefilled wa.me draft from the
+  // dashboard. Automatic Cloud-API sending only runs if explicitly enabled.
+  if (String(process.env.WHATSAPP_AUTO_SEND || "").toLowerCase() !== "true") {
+    return { sent: false, manual: true, error: null };
+  }
+
   if (!EVENTS[event]) {
     throw new Error(`Unknown WhatsApp event: ${event}`);
   }

@@ -7,17 +7,17 @@
   --parking-accent: #8b1230;
   --parking-accent-dark: #6e0d25;
   --parking-accent-light: #fff1f4;
-  --parking-indigo: #4f46e5;
-  --parking-indigo-light: #eef2ff;
+  --parking-indigo: #dfa94c;
+  --parking-indigo-light: #fcf8f1;
   --parking-green: #10b981;
   --parking-green-light: #ecfdf5;
   --parking-amber: #f59e0b;
   --parking-amber-light: #fffbeb;
-  --parking-dark: #0f172a;
-  --parking-slate: #334155;
-  --parking-muted: #64748b;
-  --parking-border: #e2e8f0;
-  --parking-bg: #f8fafc;
+  --parking-dark: #2a0f16;
+  --parking-slate: #50383e;
+  --parking-muted: #856a71;
+  --parking-border: #f0e2e5;
+  --parking-bg: #fcf8f9;
   --parking-card: #ffffff;
 }
 
@@ -51,8 +51,8 @@
   align-items: center;
   gap: 8px;
   padding: 4px 10px;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  background: #f9f1f3;
+  border: 1px solid #f0e2e5;
   border-radius: 999px;
   font-size: 10px;
   font-weight: 700;
@@ -145,8 +145,8 @@
 }
 
 .action-btn-secondary:hover:not(:disabled) {
-  background: #f8fafc;
-  border-color: #cbd5e1;
+  background: #fcf8f9;
+  border-color: #e1cbd0;
   color: var(--parking-dark);
 }
 
@@ -186,13 +186,13 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+  box-shadow: 0 2px 6px rgba(42, 15, 22, 0.03);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .facility-kpi-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 6px 18px rgba(42, 15, 22, 0.06);
 }
 
 .kpi-icon-wrap {
@@ -206,7 +206,7 @@
 }
 
 .kpi-icon-wrap.total {
-  background: #f1f5f9;
+  background: #f9f1f3;
   color: var(--parking-slate);
 }
 
@@ -306,7 +306,7 @@
   align-items: center;
   gap: 8px;
   padding: 6px 14px;
-  background: #f8fafc;
+  background: #fcf8f9;
   color: var(--parking-slate);
   border: 1px solid var(--parking-border);
   border-radius: 999px;
@@ -317,15 +317,15 @@
 }
 
 .zone-pill-btn:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: #f9f1f3;
+  border-color: #e1cbd0;
 }
 
 .zone-pill-btn.active {
   background: var(--parking-dark);
   border-color: var(--parking-dark);
   color: #ffffff;
-  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 3px 8px rgba(42, 15, 22, 0.18);
 }
 
 .pill-count-bubble {
@@ -352,7 +352,7 @@
   width: 280px;
   display: flex;
   align-items: center;
-  background: #f8fafc;
+  background: #fcf8f9;
   border: 1px solid var(--parking-border);
   border-radius: 10px;
   padding: 0 10px;
@@ -402,7 +402,7 @@
   appearance: none;
   height: 38px;
   padding: 0 28px 0 12px;
-  background: #f8fafc;
+  background: #fcf8f9;
   border: 1px solid var(--parking-border);
   border-radius: 10px;
   font-size: 12px;
@@ -445,7 +445,7 @@
   background: var(--parking-card);
   border: 1px solid var(--parking-border);
   border-radius: 18px;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 4px 16px rgba(42, 15, 22, 0.04);
   overflow: hidden;
 }
 
@@ -475,7 +475,7 @@
   font-size: 11px;
   font-weight: 700;
   color: var(--parking-slate);
-  background: #f1f5f9;
+  background: #f9f1f3;
   padding: 3px 9px;
   border-radius: 999px;
 }
@@ -514,12 +514,12 @@
 }
 
 .status-dot.grey {
-  background: #94a3b8;
+  background: #b399a0;
 }
 
 /* ASPHALT ROAD & PARKING BAY FLOOR */
 .parking-asphalt-floor {
-  background: #f1f4f8;
+  background: #f8f1f3;
   padding: 22px 24px;
   box-sizing: border-box;
 }
@@ -546,7 +546,7 @@
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 1.2px;
-  color: #64748b;
+  color: #856a71;
   text-transform: uppercase;
 }
 
@@ -559,8 +559,8 @@
   height: 2px;
   background-image: repeating-linear-gradient(
     90deg,
-    #cbd5e1,
-    #cbd5e1 14px,
+    #e1cbd0,
+    #e1cbd0 14px,
     transparent 14px,
     transparent 28px
   );
@@ -581,14 +581,14 @@
 
 .row-tag-badge {
   width: 32px;
-  background: #e2e8f0;
+  background: #f0e2e5;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
   font-weight: 800;
-  color: #475569;
+  color: #644c52;
   letter-spacing: 0.5px;
 }
 
@@ -600,9 +600,9 @@
 }
 
 .bay-empty-filler {
-  border: 1.5px dashed #cbd5e1;
+  border: 1.5px dashed #e1cbd0;
   border-radius: 12px;
-  background: rgba(241, 245, 249, 0.4);
+  background: rgba(249, 241, 243, 0.4);
 }
 
 /* DRIVEWAY BETWEEN ROWS */
@@ -630,7 +630,7 @@
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 1.6px;
-  color: #94a3b8;
+  color: #b399a0;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -641,7 +641,7 @@
 .luxury-parking-bay {
   position: relative;
   background: #ffffff;
-  border: 1.5px solid #d9e1ec;
+  border: 1.5px solid #ecd9de;
   border-radius: 12px;
   padding: 10px 8px 8px;
   min-height: 142px;
@@ -653,13 +653,13 @@
   box-sizing: border-box;
   outline: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 3px rgba(42, 15, 22, 0.04);
 }
 
 .luxury-parking-bay:hover {
   transform: translateY(-2px);
-  border-color: #94a3b8;
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+  border-color: #b399a0;
+  box-shadow: 0 6px 16px rgba(42, 15, 22, 0.08);
   z-index: 2;
 }
 
@@ -724,11 +724,11 @@
 
 .bay-status-pulse.occupied {
   background: var(--parking-indigo);
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 0 0 2px rgba(223, 169, 76, 0.2);
 }
 
 .bay-status-pulse.maintenance {
-  background: #94a3b8;
+  background: #b399a0;
 }
 
 .bay-vehicle-canvas {
@@ -743,7 +743,7 @@
 .topdown-car-svg {
   width: 44px;
   height: 78px;
-  filter: drop-shadow(0 4px 6px rgba(15, 23, 42, 0.25));
+  filter: drop-shadow(0 4px 6px rgba(42, 15, 22, 0.25));
   transition: transform 0.2s ease;
 }
 
@@ -756,7 +756,7 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  color: #94a3b8;
+  color: #b399a0;
 }
 
 .bay-maintenance-icon span {
@@ -772,9 +772,9 @@
   justify-content: center;
   width: 36px;
   height: 60px;
-  border: 1px dashed #cbd5e1;
+  border: 1px dashed #e1cbd0;
   border-radius: 6px;
-  background: rgba(241, 245, 249, 0.5);
+  background: rgba(249, 241, 243, 0.5);
 }
 
 .open-label {
@@ -793,15 +793,15 @@
 .bay-license-pill {
   display: inline-flex;
   align-items: center;
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: #2a0f16;
+  border: 1px solid #50383e;
   border-radius: 4px;
   overflow: hidden;
   max-width: 100%;
 }
 
 .plate-country-code {
-  background: #1d4ed8;
+  background: #d09125;
   color: #ffffff;
   font-size: 8px;
   font-weight: 800;
@@ -832,14 +832,14 @@
 }
 
 .bay-spec-pill.ev {
-  background: #e0f2fe;
-  color: #0284c7;
+  background: #faf2e4;
+  color: #ab771e;
 }
 
 .bay-available-hint {
   font-size: 10px;
   font-weight: 600;
-  color: #94a3b8;
+  color: #b399a0;
 }
 
 .map-no-results {
@@ -876,7 +876,7 @@
   background: var(--parking-card);
   border: 1px solid var(--parking-border);
   border-radius: 18px;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 4px 20px rgba(42, 15, 22, 0.06);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -888,7 +888,7 @@
   justify-content: space-between;
   padding: 18px 20px;
   border-bottom: 1px solid var(--parking-border);
-  background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #fcfafb 100%);
 }
 
 .inspector-title-area {
@@ -933,8 +933,8 @@
 }
 
 .status-chip.maintenance {
-  background: #f1f5f9;
-  color: #64748b;
+  background: #f9f1f3;
+  color: #856a71;
 }
 
 .pulse-dot {
@@ -954,7 +954,7 @@
 }
 
 .inspector-section {
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f9f1f3;
   padding-bottom: 18px;
 }
 
@@ -974,7 +974,7 @@
 
 /* VEHICLE SHOWCASE & 3D PERSPECTIVE CAR */
 .vehicle-showcase {
-  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  background: linear-gradient(180deg, #fcf8f9 0%, #f9f1f3 100%);
   border: 1px solid var(--parking-border);
   border-radius: 14px;
   padding: 16px;
@@ -994,7 +994,7 @@
   position: absolute;
   width: 220px;
   height: 80px;
-  background: radial-gradient(ellipse at center, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(223, 169, 76, 0.15) 0%, transparent 70%);
   filter: blur(10px);
   pointer-events: none;
 }
@@ -1021,7 +1021,7 @@
   backdrop-filter: blur(4px);
   padding: 2px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(79, 70, 229, 0.2);
+  border: 1px solid rgba(223, 169, 76, 0.2);
 }
 
 .sparkle-icon {
@@ -1051,7 +1051,7 @@
   font-size: 10px;
   font-weight: 700;
   color: var(--parking-slate);
-  background: #e2e8f0;
+  background: #f0e2e5;
   padding: 2px 8px;
   border-radius: 999px;
 }
@@ -1068,20 +1068,20 @@
   display: inline-flex;
   align-items: center;
   background: #ffffff;
-  border: 2px solid #0f172a;
+  border: 2px solid #2a0f16;
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .plate-band-country {
-  background: #1d4ed8;
+  background: #d09125;
   color: #ffffff;
   font-size: 9px;
   font-weight: 800;
   padding: 4px 6px;
   letter-spacing: 0.8px;
-  border-right: 1.5px solid #0f172a;
+  border-right: 1.5px solid #2a0f16;
 }
 
 .plate-alphanumeric {
@@ -1089,7 +1089,7 @@
   font-size: 13px;
   font-weight: 850;
   letter-spacing: 1.2px;
-  color: #0f172a;
+  color: #2a0f16;
   padding: 3px 10px;
 }
 
@@ -1098,11 +1098,11 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #0f172a;
+  background: #2a0f16;
   color: #facc15;
   padding: 5px 12px;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 2px 6px rgba(42, 15, 22, 0.2);
 }
 
 .timer-icon {
@@ -1119,8 +1119,8 @@
 
 /* EMPTY BAY BANNER */
 .inspector-empty-bay-banner {
-  background: #f8fafc;
-  border: 1.5px dashed #cbd5e1;
+  background: #fcf8f9;
+  border: 1.5px dashed #e1cbd0;
   border-radius: 14px;
   padding: 32px 20px;
   text-align: center;
@@ -1142,7 +1142,7 @@
 
 /* VALET IN CHARGE VIP CARD */
 .incharge-valet-showcase {
-  background: linear-gradient(135deg, rgba(139, 18, 48, 0.04) 0%, rgba(79, 70, 229, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(139, 18, 48, 0.04) 0%, rgba(223, 169, 76, 0.05) 100%);
   border: 1px solid rgba(139, 18, 48, 0.15);
   border-radius: 14px;
   padding: 16px;
@@ -1264,7 +1264,7 @@
 }
 
 .key-value-card {
-  background: #f8fafc;
+  background: #fcf8f9;
   border: 1px solid var(--parking-border);
   border-radius: 10px;
   padding: 10px;
@@ -1309,9 +1309,9 @@
   font-weight: 650;
   padding: 4px 10px;
   border-radius: 8px;
-  background: #f1f5f9;
+  background: #f9f1f3;
   color: var(--parking-slate);
-  border: 1px solid #e2e8f0;
+  border: 1px solid #f0e2e5;
 }
 
 .service-tag.active {
@@ -1321,14 +1321,14 @@
 }
 
 .service-tag.ev {
-  background: #e0f2fe;
-  color: #0369a1;
-  border-color: #bae6fd;
+  background: #faf2e4;
+  color: #8b6119;
+  border-color: #f4e2c3;
 }
 
 /* LIVE CAMERA SURVEILLANCE WIDGET (MATCHING IMAGE 2) */
 .camera-live-feed-card {
-  background: #0f172a;
+  background: #2a0f16;
   border-radius: 12px;
   padding: 12px;
   color: #ffffff;
@@ -1348,7 +1348,7 @@
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.8px;
-  color: #94a3b8;
+  color: #b399a0;
 }
 
 .cam-live-indicator {
@@ -1372,8 +1372,8 @@
 .camera-visual-window {
   position: relative;
   height: 80px;
-  background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
-  border: 1px solid #334155;
+  background: radial-gradient(circle at center, #411822 0%, #16090c 100%);
+  border: 1px solid #50383e;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
@@ -1428,7 +1428,7 @@
 .cam-status-overlay {
   font-size: 8px;
   font-weight: 800;
-  color: #94a3b8;
+  color: #b399a0;
   letter-spacing: 1px;
 }
 
@@ -1457,8 +1457,8 @@
 }
 
 .status-btn:hover:not(:disabled) {
-  border-color: #cbd5e1;
-  background: #f8fafc;
+  border-color: #e1cbd0;
+  background: #fcf8f9;
 }
 
 .status-btn.active.available {
@@ -1468,15 +1468,15 @@
 }
 
 .status-btn.active.occupied {
-  background: #eef2ff;
-  border-color: #a5b4fc;
-  color: #4338ca;
+  background: #fcf8f1;
+  border-color: #f1d9b0;
+  color: #ca9438;
 }
 
 .status-btn.active.maintenance {
-  background: #f8fafc;
-  border-color: #cbd5e1;
-  color: #475569;
+  background: #fcf8f9;
+  border-color: #e1cbd0;
+  color: #644c52;
 }
 
 .btn-dot {
@@ -1494,7 +1494,7 @@
 }
 
 .btn-dot.grey {
-  background: #94a3b8;
+  background: #b399a0;
 }
 
 .status-error-callout {
@@ -1525,7 +1525,7 @@
 }
 
 .save-status-action-btn:hover:not(:disabled) {
-  background: #1e293b;
+  background: #411822;
   transform: translateY(-1px);
 }
 
@@ -1562,7 +1562,7 @@
 .facility-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(42, 15, 22, 0.6);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -1627,7 +1627,7 @@
 }
 
 .modal-close-icon:hover {
-  background: #f1f5f9;
+  background: #f9f1f3;
   color: var(--parking-dark);
 }
 
@@ -1654,7 +1654,7 @@
   padding: 0 12px;
   border: 1px solid var(--parking-border);
   border-radius: 10px;
-  background: #f8fafc;
+  background: #fcf8f9;
   color: var(--parking-dark);
   font-size: 13px;
   font-weight: 600;
@@ -1720,7 +1720,7 @@
 }
 
 .modal-cancel-btn:hover {
-  background: #f8fafc;
+  background: #fcf8f9;
 }
 
 .modal-submit-btn {

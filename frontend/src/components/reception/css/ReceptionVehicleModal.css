@@ -13,7 +13,7 @@
 
   padding: 20px;
 
-  background: rgba(35, 22, 51, 0.48);
+  background: rgba(53, 20, 28, 0.48);
 
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
@@ -30,12 +30,12 @@
 
   background: #ffffff;
 
-  border: 1px solid #e9e4f0;
+  border: 1px solid #f0e4e7;
   border-radius: 16px;
 
   box-shadow:
-    0 20px 60px rgba(35, 22, 51, 0.20),
-    0 4px 16px rgba(35, 22, 51, 0.08);
+    0 20px 60px rgba(53, 20, 28, 0.20),
+    0 4px 16px rgba(53, 20, 28, 0.08);
 
   animation: modalIn 0.25s ease;
 }
@@ -52,7 +52,7 @@
 
   padding: 22px 24px 18px;
 
-  border-bottom: 1px solid #eee9f2;
+  border-bottom: 1px solid #f2e9eb;
 }
 
 .reception-modal-header > div {
@@ -62,7 +62,7 @@
 .modal-eyebrow {
   margin: 0 0 5px;
 
-  color: #7d6b93;
+  color: #8d7178;
 
   font-size: 9px;
   font-weight: 800;
@@ -73,7 +73,7 @@
 .reception-modal-header h3 {
   margin: 0;
 
-  color: #231633;
+  color: #35141c;
 
   font-size: 19px;
   font-weight: 800;
@@ -85,7 +85,7 @@
 
   margin-top: 5px;
 
-  color: #8c7f9e;
+  color: #998489;
 
   font-size: 11px;
   line-height: 1.4;
@@ -103,11 +103,11 @@
 
   margin-left: 15px;
 
-  border: 1px solid #e9e4f0;
+  border: 1px solid #f0e4e7;
   border-radius: 8px;
 
   background: #ffffff;
-  color: #82758e;
+  color: #8c777c;
 
   cursor: pointer;
 
@@ -118,9 +118,9 @@
 }
 
 .modal-close-btn:hover {
-  background: #f4eef8;
-  border-color: #d9cce3;
-  color: #5e3573;
+  background: #f8eef0;
+  border-color: #e3ccd2;
+  color: #7a2e41;
 }
 
 
@@ -141,7 +141,7 @@
 
   margin-bottom: 7px;
 
-  color: #493c55;
+  color: #514044;
 
   font-size: 11px;
   font-weight: 700;
@@ -156,7 +156,7 @@
 
   margin-left: 4px !important;
 
-  color: #a69bab !important;
+  color: #aa9c9f !important;
 
   font-size: 10px !important;
   font-weight: 500 !important;
@@ -177,12 +177,12 @@
 
   padding: 0 12px;
 
-  background: #faf9fb;
+  background: #fbf9fa;
 
-  border: 1px solid #e3dce9;
+  border: 1px solid #e7dee0;
   border-radius: 9px;
 
-  color: #94889e;
+  color: #9c8a8f;
 
   transition:
     border-color 0.18s ease,
@@ -193,11 +193,11 @@
 .modal-input-wrap:focus-within {
   background: #ffffff;
 
-  border-color: #9b78b9;
+  border-color: #c76a81;
 
-  box-shadow: 0 0 0 3px rgba(107, 59, 167, 0.08);
+  box-shadow: 0 0 0 3px rgba(167, 59, 86, 0.08);
 
-  color: #6b3ba7;
+  color: #a73b56;
 }
 
 .modal-input-wrap svg {
@@ -214,7 +214,7 @@
 
   background: transparent;
 
-  color: #231633;
+  color: #35141c;
 
   font-family: inherit;
   font-size: 12px;
@@ -222,13 +222,13 @@
 }
 
 .modal-input-wrap input::placeholder {
-  color: #aaa1b1;
+  color: #b0a2a6;
 }
 
 .modal-input-wrap input:-webkit-autofill,
 .modal-input-wrap input:-webkit-autofill:hover,
 .modal-input-wrap input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #231633;
+  -webkit-text-fill-color: #35141c;
   -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
 }
 
@@ -268,7 +268,7 @@
   margin-top: 22px;
   padding-top: 18px;
 
-  border-top: 1px solid #eee9f2;
+  border-top: 1px solid #f2e9eb;
 }
 
 .modal-btn-secondary,
@@ -295,16 +295,16 @@
 }
 
 .modal-btn-secondary {
-  border: 1px solid #ddd5e5;
+  border: 1px solid #e3d7da;
 
   background: #ffffff;
-  color: #65586f;
+  color: #6c5b5f;
 }
 
 .modal-btn-secondary:hover {
-  background: #f7f4f9;
-  border-color: #cfc3d8;
-  color: #493c55;
+  background: #f9f4f5;
+  border-color: #d5c6ca;
+  color: #514044;
 }
 
 .modal-btn-primary {
@@ -313,16 +313,16 @@
   background: #8b1230;
   color: #ffffff;
 
-  box-shadow: 0 3px 8px rgba(107, 59, 167, 0.18);
+  box-shadow: 0 3px 8px rgba(167, 59, 86, 0.18);
 }
 
 .modal-btn-primary:hover:not(:disabled) {
-  background: #4f277e;
-  border-color: #4f277e;
+  background: #7e273d;
+  border-color: #7e273d;
 
   transform: translateY(-1px);
 
-  box-shadow: 0 5px 12px rgba(107, 59, 167, 0.22);
+  box-shadow: 0 5px 12px rgba(167, 59, 86, 0.22);
 }
 
 .modal-btn-primary:disabled {
@@ -366,7 +366,7 @@
 .modal-success-body h4 {
   margin: 0;
 
-  color: #231633;
+  color: #35141c;
 
   font-size: 18px;
   font-weight: 800;
@@ -375,7 +375,7 @@
 .modal-success-body > p {
   margin: 6px 0 20px;
 
-  color: #8c7f9e;
+  color: #998489;
 
   font-size: 11px;
   line-height: 1.5;
@@ -389,9 +389,9 @@
 .modal-id-badge {
   padding: 13px 15px;
 
-  background: #f4eef8;
+  background: #f8eef0;
 
-  border: 1px solid #e3d5ed;
+  border: 1px solid #edd5db;
   border-radius: 10px;
 }
 
@@ -400,7 +400,7 @@
 
   margin-bottom: 4px;
 
-  color: #7d6b93;
+  color: #8d7178;
 
   font-size: 8px;
   font-weight: 800;
@@ -411,7 +411,7 @@
 .modal-id-badge strong {
   display: block;
 
-  color: #5e3573;
+  color: #7a2e41;
 
   font-family: monospace;
 
@@ -429,7 +429,7 @@
 .modal-success-info {
   margin-top: 14px;
 
-  border: 1px solid #eee9f2;
+  border: 1px solid #f2e9eb;
   border-radius: 10px;
 
   overflow: hidden;
@@ -446,7 +446,7 @@
 
   padding: 11px 13px;
 
-  border-bottom: 1px solid #eee9f2;
+  border-bottom: 1px solid #f2e9eb;
 }
 
 .modal-success-info > div:last-child {
@@ -454,7 +454,7 @@
 }
 
 .modal-success-info span {
-  color: #93879f;
+  color: #9c8a8f;
 
   font-size: 10px;
   font-weight: 600;
@@ -466,7 +466,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  color: #33253e;
+  color: #481b26;
 
   font-size: 11px;
   font-weight: 700;
@@ -515,7 +515,7 @@
 }
 
 .reception-modal::-webkit-scrollbar-thumb {
-  background: #d8cfdf;
+  background: #ddd1d4;
   border-radius: 10px;
 }
 

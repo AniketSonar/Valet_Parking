@@ -17,10 +17,10 @@
   overflow: hidden;
 
   background: #ffffff;
-  border: 1px solid #e9e5ef;
+  border: 1px solid #eee7e8;
   border-radius: 14px;
 
-  box-shadow: 0 10px 30px rgba(55, 38, 91, 0.06);
+  box-shadow: 0 10px 30px rgba(94, 35, 50, 0.06);
 
   transition:
     transform 0.2s ease,
@@ -64,7 +64,7 @@
 
   border-radius: 50%;
 
-  background: rgba(168, 139, 250, 0.045);
+  background: rgba(237, 206, 152, 0.045);
 
   pointer-events: none;
 }
@@ -77,10 +77,10 @@
 .stat-card:hover {
   transform: translateY(-2px);
 
-  border-color: #cfc2f8;
+  border-color: #f5e3c5;
 
   box-shadow:
-    0 16px 34px rgba(76, 49, 130, 0.12);
+    0 16px 34px rgba(130, 49, 69, 0.12);
 }
 
 
@@ -179,8 +179,8 @@
 }
 
 .stat-card.revenue .stat-icon {
-  background: #eaf2ff;
-  color: #2563eb;
+  background: #fcf6ed;
+  color: #db9e35;
 }
 
 
@@ -207,7 +207,7 @@
   border-radius: 8px;
 
   background: transparent;
-  color: #8a8398;
+  color: #978489;
 
   font-family: inherit;
   font-size: 0.9rem;
@@ -252,7 +252,7 @@
 
   margin: 0;
 
-  color: #6b6472;
+  color: #746267;
 
   font-size: 11px;
   line-height: 1.35;
@@ -272,7 +272,7 @@
 
   margin-top: 8px;
 
-  color: #17131f;
+  color: #1d1517;
 
   font-size: 2.25rem;
   line-height: 1;
@@ -292,7 +292,7 @@
 .stat-card-body p {
   margin: 9px 0 0;
 
-  color: #928a99;
+  color: #9a898d;
 
   font-size: 9.5px;
   line-height: 1.45;
@@ -315,7 +315,7 @@
    ============================================================ */
 
 .stat-card-body strong.revenue-value {
-  color: #5e3573;
+  color: #7a2e41;
 
   font-size: 26px;
 

@@ -48,7 +48,7 @@
 .profile-header p {
   margin: 7px 0 0;
 
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 
   font-size: 13px;
 }
@@ -70,7 +70,7 @@
 
   background: var(--bg-card, #ffffff);
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   font-family: inherit;
 
@@ -83,7 +83,7 @@
 
 
 .page-refresh-btn:hover {
-  border-color: #c4b5fd;
+  border-color: #f4e0be;
 
   color: #8b1230;
 }
@@ -118,7 +118,7 @@
 
   text-align: center;
 
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 
   font-size: 13px;
 }
@@ -142,14 +142,14 @@
 
   text-align: center;
 
-  color: #8b7ba8;
+  color: #a1828a;
 }
 
 
 .page-empty h3 {
   margin: 12px 0 5px;
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   font-size: 16px;
 }
@@ -158,7 +158,7 @@
 .page-empty p {
   margin: 0;
 
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 
   font-size: 12px;
 }
@@ -186,7 +186,7 @@
   max-width: 1500px;
   margin: 0 auto;
   padding: 30px 34px 48px;
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
   box-sizing: border-box;
 }
 
@@ -195,7 +195,7 @@
 .parking-slots-header h1,
 .completed-header h1,
 .profile-header h1 {
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
   font-size: clamp(1.8rem, 2.5vw, 2.35rem);
   line-height: 1.15;
   font-weight: 800;
@@ -236,7 +236,7 @@
   margin-bottom: 18px;
   border: 1px solid rgba(139, 18, 48, 0.12);
   border-radius: 9999px;
-  background: #f9f7ff;
+  background: #fefcf8;
   color: #8b1230;
 }
 
@@ -254,7 +254,7 @@
   border: 0;
   outline: 0;
   background: transparent;
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
   font-family: inherit;
   font-size: 12px;
 }
@@ -292,9 +292,9 @@
 
 .vehicle-table-head,
 .completed-table-head {
-  color: #8a8398;
-  background: #fbfaff;
-  border-bottom: 1px solid #eee9f2;
+  color: #978489;
+  background: #fefdfb;
+  border-bottom: 1px solid #f2e9eb;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -303,7 +303,7 @@
 
 .vehicle-table-head,
 .vehicle-table-row {
-  grid-template-columns: 1.3fr 1.2fr 0.7fr 1fr 0.9fr;
+  grid-template-columns: 1.3fr 1.2fr 0.7fr 1fr 0.9fr 1fr;
 }
 
 .completed-table-head,
@@ -314,9 +314,9 @@
 .vehicle-table-row,
 .completed-table-row {
   min-height: 62px;
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
   font-size: 12px;
-  border-bottom: 1px solid #f0edf4;
+  border-bottom: 1px solid #f3eeef;
 }
 
 .vehicle-table-row:last-child,
@@ -327,7 +327,7 @@
 .vehicle-table-row strong,
 .completed-table-row strong {
   display: block;
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
   font-size: 12px;
 }
 
@@ -335,7 +335,7 @@
 .completed-table-row small {
   display: block;
   margin-top: 4px;
-  color: #8a8398;
+  color: #978489;
   font-size: 11px;
 }
 
@@ -362,7 +362,7 @@
 .status-badge.status-parked,
 .slot-occupied .slot-status {
   background: #fce7eb;
-  color: #6d28d9;
+  color: #d92854;
 }
 
 .status-badge.status-retrieval_requested,
@@ -372,8 +372,8 @@
 }
 
 .status-badge.status-retrieving {
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: #fdf8f1;
+  color: #d09125;
 }
 
 .status-badge.status-ready_for_pickup {
@@ -406,19 +406,19 @@
 .retrieval-card-top {
   justify-content: space-between;
   margin-bottom: 16px;
-  color: #8a8398;
+  color: #978489;
   font-size: 11px;
 }
 
 .retrieval-card h3 {
   margin: 0;
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
   font-size: 16px;
 }
 
 .retrieval-card > p {
   margin: 5px 0 18px;
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
   font-size: 12px;
 }
 
@@ -437,14 +437,14 @@
 
 .retrieval-details span,
 .profile-details small {
-  color: #8a8398;
+  color: #978489;
   font-size: 10px;
 }
 
 .retrieval-details strong,
 .profile-details strong {
   overflow: hidden;
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
   font-size: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -488,12 +488,12 @@
 }
 
 .slot-info strong {
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
   font-size: 14px;
 }
 
 .slot-info span {
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
   font-size: 11px;
 }
 
@@ -504,19 +504,19 @@
 
 .profile-hero {
   padding-bottom: 22px;
-  border-bottom: 1px solid #eee9f2;
+  border-bottom: 1px solid #f2e9eb;
 }
 
 .profile-hero h2 {
   margin: 0;
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
   font-size: 20px;
 }
 
 .profile-hero span {
   display: block;
   margin-top: 5px;
-  color: #8a8398;
+  color: #978489;
   font-size: 11px;
 }
 
@@ -582,3 +582,19 @@
     padding: 16px;
   }
 }
+/* ---------- WhatsApp draft button (manual send, no API) ---------- */
+.whatsapp-draft-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid #1fa855 !important;
+  border-radius: 10px;
+  background: #ffffff !important;
+  color: #11863f !important;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+.whatsapp-draft-btn:hover:not(:disabled) { background: #e9f8ef !important; }
+.whatsapp-draft-btn:disabled { opacity: 0.45; cursor: not-allowed; }

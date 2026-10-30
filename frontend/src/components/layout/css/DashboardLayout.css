@@ -10,10 +10,10 @@
   display: flex;
 
   background:
-    var(--bg-app, #f7f5fa);
+    var(--bg-app, #faf5f6);
 
   color:
-    var(--text-main, #171324);
+    var(--text-main, #280f15);
 }
 
 
@@ -74,9 +74,9 @@
 
   flex-shrink: 0;
 
-  background: var(--bg-sidebar, #fdfbfc);
+  background: var(--bg-sidebar, #fdfbfb);
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   border: 1px solid rgba(139, 18, 48, 0.08);
 
@@ -159,7 +159,7 @@
 .dash-brand-title h2 {
   margin: 0;
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   font-size: 20px;
   line-height: 1.1;
@@ -173,7 +173,7 @@
 .dash-brand-title span {
   margin-top: 4px;
 
-  color: #8b7ba8;
+  color: #a1828a;
 
   font-size: 8px;
 
@@ -225,7 +225,7 @@
 
   padding: 0 12px;
 
-  color: #8b7ba8;
+  color: #a1828a;
 
   font-size: 9px;
 
@@ -274,7 +274,7 @@
 
   background: transparent;
 
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 
   font-family: inherit;
 
@@ -305,7 +305,7 @@
   align-items: center;
   justify-content: center;
 
-  color: #8b7ba8;
+  color: #a1828a;
 }
 
 
@@ -329,9 +329,9 @@
 
 .dash-menu-item:hover,
 .dash-collapse-btn:hover {
-  background: #f9f7ff;
+  background: #fefcf8;
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   transform: translateX(2px);
 }
@@ -395,12 +395,12 @@
 
 
 .dash-collapse-btn {
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 }
 
 
 .dash-logout-btn {
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 }
 
 
@@ -504,7 +504,7 @@
 
   border-radius: 7px;
 
-  background: #2b1738;
+  background: #39161f;
 
   color: #ffffff;
 
@@ -642,7 +642,7 @@
 
   border-radius: 11px;
 
-  color: #8b7ba8;
+  color: #a1828a;
 }
 
 
@@ -654,7 +654,7 @@
 
   background: transparent;
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   font-family: inherit;
 
@@ -663,7 +663,7 @@
 
 
 .dash-topbar-search input::placeholder {
-  color: #a49bb2;
+  color: #af9ea2;
 }
 
 
@@ -691,7 +691,7 @@
 
   background: var(--bg-card, #ffffff);
 
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 
   cursor: pointer;
 
@@ -702,7 +702,7 @@
 
 
 .dash-notification-btn:hover {
-  background: #f9f7ff;
+  background: #fefcf8;
 
   color: #8b1230;
 }
@@ -737,7 +737,7 @@
 
   background: var(--bg-card, #ffffff);
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   cursor: pointer;
 }
@@ -782,7 +782,7 @@
 
 
 .dash-profile-text small {
-  color: #8b7ba8;
+  color: #a1828a;
 
   font-size: 10px;
 }

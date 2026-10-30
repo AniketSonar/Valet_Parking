@@ -1,0 +1,52 @@
+/* ============================================================
+   UNIFIED THEME  (maroon #8b1230 + gold #dfb76c + warm cream)
+   Scoped to .dash-layout and the landing page, so the staff
+   login and customer login pages are NOT affected.
+============================================================ */
+.dash-layout,
+.landing-container {
+  --primary: #8b1230;
+  --primary-strong: #730c26;
+  --gold: #dfb76c;
+  --bg-app: linear-gradient(135deg, #fce7eb 0%, #fbf8f9 50%, #ffffff 100%);
+  --bg-card: #ffffff;
+  --text-main: #171324;
+  --border-color: rgba(139, 18, 48, 0.12);
+  --accent-purple: #8b1230;
+  font-family: "Plus Jakarta Sans", "DM Sans", sans-serif;
+}
+
+/* serif luxury headings like the manager / superadmin dashboards */
+.dash-page-content h1,
+.landing-container h1,
+.landing-container h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  color: #5c081c;
+  letter-spacing: -0.01em;
+}
+
+/* cards: white, soft maroon shadow, thin gold accent on the left */
+.dash-page-content [class*="stat-card"],
+.dash-page-content [class*="-card"]:not(button):not([class*="modal"]) {
+  border-color: rgba(139, 18, 48, 0.1);
+  box-shadow: 0 10px 30px -8px rgba(139, 18, 48, 0.1);
+}
+
+/* table headers */
+.dash-page-content th,
+.dash-page-content [class*="table-head"] {
+  background: #fdf2f4;
+  color: #8b1230;
+}
+
+/* focus ring */
+.dash-page-content input:focus,
+.dash-page-content select:focus,
+.dash-page-content textarea:focus {
+  outline: none;
+  border-color: #8b1230;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.14);
+}
+
+/* any leftover blue/purple links & tabs → maroon */
+.dash-page-content a { color: #8b1230; }

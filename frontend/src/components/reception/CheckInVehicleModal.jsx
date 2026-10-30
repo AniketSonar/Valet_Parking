@@ -7,7 +7,6 @@ import {
   Trash2,
   Car,
   ParkingSquare,
-  MessageCircle,
   AlertCircle,
   Banknote,
   CreditCard,
@@ -25,6 +24,7 @@ import "./css/ReceptionVehicleModal.css";
 import "./css/CheckInVehicleModal.css";
 
 const MAX_PHOTO_SIZE = 10 * 1024 * 1024;
+const MAX_INSPECTION_PHOTOS = 10;
 
 const ALLOWED_IMAGE_TYPES = [
   "image/jpeg",
@@ -177,6 +177,10 @@ const CheckInVehicleModal = ({
 
     const validFiles = [];
     const validationErrors = [];
+    let remainingPhotoSlots = Math.max(
+      0,
+      MAX_INSPECTION_PHOTOS - inspectionPhotos.length
+    );
 
     selectedFiles.forEach((file) => {
       const validationError = validateInspectionPhoto(file);
@@ -193,7 +197,15 @@ const CheckInVehicleModal = ({
         return;
       }
 
+      if (remainingPhotoSlots === 0) {
+        validationErrors.push(
+          `You can upload a maximum of ${MAX_INSPECTION_PHOTOS} photos.`
+        );
+        return;
+      }
+
       validFiles.push(file);
+      remainingPhotoSlots -= 1;
     });
 
     if (validationErrors.length > 0) {
@@ -409,17 +421,13 @@ const CheckInVehicleModal = ({
     ? new Date(created.session.checked_in_at)
     : new Date();
 
-  const whatsappSent = created?.whatsapp?.sent === true;
-  const whatsappQueued = created?.whatsapp?.queued === true;
-  const whatsappError = created?.whatsapp?.error;
-
   return (
     <div
       className="reception-modal-overlay"
       onClick={onClose}
     >
       <div
-        className="reception-modal"
+        className="reception-modal check-in-modal"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="reception-modal-header">
@@ -604,70 +612,6 @@ const CheckInVehicleModal = ({
               </div>
             </div>
 
-            <div
-              style={{
-                marginTop: "16px",
-                padding: "14px 16px",
-                borderRadius: "10px",
-                display: "flex",
-                alignItems: "flex-start",
-                gap: "10px",
-                background: whatsappSent || whatsappQueued
-                  ? "#ecfdf5"
-                  : "#fff7ed",
-                border: `1px solid ${
-                  whatsappSent || whatsappQueued ? "#a7f3d0" : "#fed7aa"
-                }`,
-                color: whatsappSent || whatsappQueued ? "#065f46" : "#9a3412"
-              }}
-            >
-              {whatsappSent || whatsappQueued ? (
-                <MessageCircle
-                  size={18}
-                  style={{
-                    flexShrink: 0,
-                    marginTop: "1px"
-                  }}
-                />
-              ) : (
-                <AlertCircle
-                  size={18}
-                  style={{
-                    flexShrink: 0,
-                    marginTop: "1px"
-                  }}
-                />
-              )}
-
-              <div>
-                <strong
-                  style={{
-                    display: "block",
-                    marginBottom: "3px"
-                  }}
-                >
-                  {whatsappSent || whatsappQueued
-                    ? whatsappSent
-                      ? "Check-in WhatsApp sent"
-                      : "Check-in WhatsApp queued"
-                    : "Check-in WhatsApp could not be sent"}
-                </strong>
-
-                <span
-                  style={{
-                    fontSize: "12px"
-                  }}
-                >
-                  {whatsappSent
-                    ? "The customer ticket was sent successfully on WhatsApp."
-                    : whatsappQueued
-                    ? "The vehicle was checked in successfully. The ticket is being sent on WhatsApp in the background."
-                    : whatsappError ||
-                    "The vehicle was checked in successfully, but the WhatsApp message could not be sent."}
-                </span>
-              </div>
-            </div>
-
             <div className="modal-footer">
               <button
                 className="modal-btn-secondary"
@@ -695,7 +639,7 @@ const CheckInVehicleModal = ({
               </div>
             )}
 
-            <div className="modal-field">
+            <div className="modal-field vehicle-field">
               <label>
                 Vehicle{" "}
                 <span className="required">*</span>
@@ -715,8 +659,17 @@ const CheckInVehicleModal = ({
                     onFocus={() =>
                       setVehicleDropdownOpen(true)
                     }
+                    onBlur={() => setVehicleDropdownOpen(false)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        setVehicleDropdownOpen(false);
+                      }
+                    }}
                     placeholder="Search by license plate, make, or model..."
-                    disabled={loading}
+                    disabled={
+                      loading ||
+                      inspectionPhotos.length >= MAX_INSPECTION_PHOTOS
+                    }
                   />
                 </div>
 
@@ -728,6 +681,7 @@ const CheckInVehicleModal = ({
                           key={vehicle.id}
                           type="button"
                           className="modal-dropdown-item"
+                          onMouseDown={(event) => event.preventDefault()}
                           onClick={() =>
                             selectVehicle(vehicle)
                           }
@@ -779,7 +733,7 @@ const CheckInVehicleModal = ({
               )}
             </div>
 
-            <div className="modal-field">
+            <div className="modal-field parking-type-field">
               <label>
                 Parking Type{" "}
                 <span className="required">*</span>
@@ -816,42 +770,6 @@ const CheckInVehicleModal = ({
                   Self Park
                 </button>
               </div>
-            </div>
-
-            <div className="modal-field">
-              <label>
-                Ticket Code
-              </label>
-
-              <div
-                className="modal-input-wrap"
-                style={{
-                  background: "#faf7f8"
-                }}
-              >
-                <input
-                  value="Generated automatically after check-in"
-                  readOnly
-                  disabled={loading}
-                  style={{
-                    fontFamily: "monospace",
-                    fontWeight: "700",
-                    color: "#887479"
-                  }}
-                />
-              </div>
-
-              <small
-                style={{
-                  color: "#887479",
-                  fontSize: "11px",
-                  marginTop: "4px",
-                  display: "block"
-                }}
-              >
-                The system securely generates the ticket
-                code after check-in.
-              </small>
             </div>
 
             <div className="modal-field payment-fields">
@@ -974,10 +892,12 @@ const CheckInVehicleModal = ({
 
               <div className="inspection-upload-wrapper">
                 <label className="inspection-upload-label">
-                  <Upload size={16} />
-
-                  <span>
-                    Upload vehicle photos
+                  <span className="inspection-upload-icon">
+                    <Upload size={19} />
+                  </span>
+                  <span className="inspection-upload-copy">
+                    <strong>Add vehicle photos</strong>
+                    <small>Choose images from your device</small>
                   </span>
 
                   <input
@@ -992,8 +912,7 @@ const CheckInVehicleModal = ({
                 </label>
 
                 <small className="inspection-upload-help">
-                  JPEG, PNG or WebP • Maximum 10 MB per
-                  image • Multiple photos allowed
+                  JPG, PNG or WebP · Up to 10 MB per image · Maximum {MAX_INSPECTION_PHOTOS} photos
                 </small>
               </div>
 

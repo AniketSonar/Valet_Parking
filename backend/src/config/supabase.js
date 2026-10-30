@@ -21,6 +21,22 @@ const supabase = createClient(
   }
 );
 
+/**
+ * IMPORTANT: never call auth.signInWithPassword() on the client above.
+ * Doing so stores the user's session inside it, so every later request is made
+ * as that user (not the service role) and Row Level Security starts rejecting
+ * storage uploads / inserts ("new row violates row-level security policy").
+ * Logins use a throw-away client from createAuthClient() instead.
+ */
+const createAuthClient = () =>
+  createClient(supabaseUrl, supabaseServiceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+      detectSessionInUrl: false
+    }
+  });
+
 console.log("SUPABASE URL:", supabaseUrl);
 console.log(
   "SERVICE ROLE KEY EXISTS:",
@@ -28,3 +44,4 @@ console.log(
 );
 
 module.exports = supabase;
+module.exports.createAuthClient = createAuthClient;

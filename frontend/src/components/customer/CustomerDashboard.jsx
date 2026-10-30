@@ -7,6 +7,7 @@ import {
   Phone,
   RefreshCw,
   UserRound,
+  MessageCircle,
   X,
 } from "lucide-react";
 import {
@@ -15,6 +16,7 @@ import {
   requestVehicleRetrieval,
 } from "../../api/customerApi";
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
+import { openRetrievalRequestOnWhatsApp } from "../../utils/whatsappDraft";
 import "./css/CustomerPortal.css";
 
 const labels = {
@@ -408,6 +410,15 @@ function CustomerDashboard({ onNavigate, onCustomerLoaded }) {
                     {action === "request"
                       ? "Requesting..."
                       : "Request Vehicle Retrieval"}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="customer-action-button"
+                    onClick={() => openRetrievalRequestOnWhatsApp(session)}
+                  >
+                    <MessageCircle size={16} />
+                    Request on WhatsApp
                   </button>
                 </>
               )}

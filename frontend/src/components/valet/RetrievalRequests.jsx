@@ -11,6 +11,7 @@ import {
 } from "../../api/parkingApi";
 
 // import "./css/RetrievalRequests.css";
+import WhatsAppRetrieval from "./WhatsAppRetrieval";
 import "./css/ValetPages.css";
 
 const RetrievalRequests = () => {
@@ -87,6 +88,8 @@ const RetrievalRequests = () => {
           Refresh
         </button>
       </div>
+
+      <WhatsAppRetrieval onRequested={loadRequests} />
 
       {error && (
         <div className="page-error">

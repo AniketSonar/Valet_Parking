@@ -90,6 +90,124 @@ const createVehicle = async (req, res) => {
   }
 };
 
+const updateVehicle = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const allowedFields = ["license_plate", "make", "model", "color"];
+    const body = req.body || {};
+    const updates = {};
+
+    for (const field of allowedFields) {
+      if (!Object.prototype.hasOwnProperty.call(body, field)) continue;
+
+      const value = body[field];
+      if (value !== null && typeof value !== "string") {
+        return res.status(400).json({
+          success: false,
+          message: `${field} must be a string.`
+        });
+      }
+
+      updates[field] = value?.trim() || null;
+    }
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Provide at least one vehicle field to update."
+      });
+    }
+
+    if (Object.prototype.hasOwnProperty.call(updates, "license_plate")) {
+      if (!updates.license_plate) {
+        return res.status(400).json({
+          success: false,
+          message: "License plate is required."
+        });
+      }
+
+      updates.license_plate = updates.license_plate.toUpperCase();
+
+      const { data: existingVehicle, error: existingVehicleError } =
+        await supabase
+          .from("vehicles")
+          .select("id")
+          .eq("license_plate", updates.license_plate)
+          .neq("id", id)
+          .maybeSingle();
+
+      if (existingVehicleError) {
+        return res.status(500).json({
+          success: false,
+          message: existingVehicleError.message
+        });
+      }
+
+      if (existingVehicle) {
+        return res.status(409).json({
+          success: false,
+          message: "A vehicle with this license plate already exists."
+        });
+      }
+    }
+
+    const { data: vehicle, error } = await supabase
+      .from("vehicles")
+      .update(updates)
+      .eq("id", id)
+      .select(`
+        id,
+        customer_id,
+        license_plate,
+        make,
+        model,
+        color,
+        created_at,
+        customer:customers (
+          id,
+          name,
+          phone,
+          email
+        )
+      `)
+      .maybeSingle();
+
+    if (error) {
+      if (error.code === "23505") {
+        return res.status(409).json({
+          success: false,
+          message: "A vehicle with this license plate already exists."
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    }
+
+    if (!vehicle) {
+      return res.status(404).json({
+        success: false,
+        message: "Vehicle not found."
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Vehicle details updated successfully.",
+      vehicle
+    });
+  } catch (error) {
+    console.error("UPDATE VEHICLE ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error."
+    });
+  }
+};
+
 const getVehicles = async (req, res) => {
   try {
     const { search } = req.query;
@@ -239,6 +357,7 @@ const getVehicleById = async (req, res) => {
 
 module.exports = {
   createVehicle,
+  updateVehicle,
   getVehicles,
   getAllVehicles,
   getVehicleById

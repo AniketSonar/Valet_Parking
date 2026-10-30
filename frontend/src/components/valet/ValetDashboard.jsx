@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Car,
   CheckCircle2,
@@ -16,6 +16,10 @@ import {
   Play,
   MessageCircle,
   ChevronRight,
+  Pencil,
+  Save,
+  Camera,
+  Trash2,
 } from "lucide-react";
 import { openWhatsAppDraft, openReadyDraft } from "../../utils/whatsappDraft";
 
@@ -31,6 +35,7 @@ import {
   createVehicleInspection,
   uploadInspectionPhoto,
   getInspectionBySession,
+  updateVehicle,
 } from "../../api/receptionApi";
 import HandoverPhotos from "./HandoverPhotos";
 
@@ -95,6 +100,8 @@ const FILTERS = [
   { id: "ready_for_pickup", label: "Ready" },
 ];
 
+const MAX_DETAIL_PHOTOS = 10;
+
 function ValetDashboard() {
   const [valet, setValet] = useState(null);
   const [dashboard, setDashboard] = useState(null);
@@ -114,6 +121,20 @@ function ValetDashboard() {
   const [detailInspections, setDetailInspections] = useState([]);
   const [loadingDetailInspections, setLoadingDetailInspections] = useState(false);
   const [detailInspectionError, setDetailInspectionError] = useState("");
+  const [isEditingVehicle, setIsEditingVehicle] = useState(false);
+  const [vehicleDraft, setVehicleDraft] = useState({
+    license_plate: "",
+    make: "",
+    model: "",
+    color: "",
+  });
+  const [savingVehicle, setSavingVehicle] = useState(false);
+  const [vehicleEditError, setVehicleEditError] = useState("");
+  const [vehicleEditSuccess, setVehicleEditSuccess] = useState("");
+  const [detailPhotoFiles, setDetailPhotoFiles] = useState([]);
+  const [uploadingDetailPhotos, setUploadingDetailPhotos] = useState(false);
+  const detailPhotoInputRef = useRef(null);
+  const detailPhotoFilesRef = useRef([]);
   const [selectedSlot, setSelectedSlot] = useState("");
 
   const [slotModalSession, setSlotModalSession] = useState(null);
@@ -129,6 +150,15 @@ function ValetDashboard() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+
+  useEffect(
+    () => () => {
+      detailPhotoFilesRef.current.forEach(({ previewUrl }) =>
+        URL.revokeObjectURL(previewUrl)
+      );
+    },
+    []
+  );
 
   const loadDashboard = useCallback(async (showLoader = true) => {
     try {
@@ -211,6 +241,223 @@ function ValetDashboard() {
       active = false;
     };
   }, [selectedSession?.id]);
+
+  const clearDetailPhotoFiles = () => {
+    detailPhotoFilesRef.current.forEach(({ previewUrl }) =>
+      URL.revokeObjectURL(previewUrl)
+    );
+    detailPhotoFilesRef.current = [];
+    setDetailPhotoFiles([]);
+  };
+
+  const openSessionDetails = (session) => {
+    const vehicle = getVehicle(session);
+    setVehicleDraft({
+      license_plate: vehicle?.license_plate || "",
+      make: vehicle?.make || "",
+      model: vehicle?.model || "",
+      color: vehicle?.color || "",
+    });
+    setIsEditingVehicle(false);
+    setVehicleEditError("");
+    setVehicleEditSuccess("");
+    clearDetailPhotoFiles();
+    setSelectedSession(session);
+  };
+
+  const closeSessionDetails = () => {
+    clearDetailPhotoFiles();
+    setIsEditingVehicle(false);
+    setVehicleEditError("");
+    setVehicleEditSuccess("");
+    setSelectedSession(null);
+  };
+
+  const handleVehicleDraftChange = (event) => {
+    const { name, value } = event.target;
+    setVehicleDraft((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleSaveVehicleDetails = async (event) => {
+    event.preventDefault();
+    const vehicle = getVehicle(selectedSession);
+
+    if (!vehicle?.id) {
+      setVehicleEditError("Vehicle information is unavailable.");
+      return;
+    }
+
+    if (!vehicleDraft.license_plate.trim()) {
+      setVehicleEditError("License plate is required.");
+      return;
+    }
+
+    try {
+      setSavingVehicle(true);
+      setVehicleEditError("");
+      setVehicleEditSuccess("");
+      const response = await updateVehicle(vehicle.id, {
+        license_plate: vehicleDraft.license_plate.trim(),
+        make: vehicleDraft.make.trim(),
+        model: vehicleDraft.model.trim(),
+        color: vehicleDraft.color.trim(),
+      });
+      const updatedVehicle = response?.vehicle;
+
+      if (!updatedVehicle) {
+        throw new Error("Vehicle details were not returned by the server.");
+      }
+
+      const applyVehicle = (session) => {
+        if (session.id !== selectedSession.id) return session;
+        const mergedVehicle = { ...getVehicle(session), ...updatedVehicle };
+        return {
+          ...session,
+          vehicle: Array.isArray(session.vehicle)
+            ? session.vehicle.map((item, index) =>
+                index === 0 ? mergedVehicle : item
+              )
+            : mergedVehicle,
+        };
+      };
+
+      setSessions((current) => current.map(applyVehicle));
+      setSelectedSession((current) =>
+        current ? applyVehicle(current) : current
+      );
+      setVehicleDraft({
+        license_plate: updatedVehicle.license_plate || "",
+        make: updatedVehicle.make || "",
+        model: updatedVehicle.model || "",
+        color: updatedVehicle.color || "",
+      });
+      setIsEditingVehicle(detailPhotoFilesRef.current.length > 0);
+      setVehicleEditSuccess("Vehicle details saved.");
+    } catch (err) {
+      console.error("Failed to update vehicle details:", err);
+      setVehicleEditError(
+        err?.message || "Unable to update vehicle details."
+      );
+    } finally {
+      setSavingVehicle(false);
+    }
+  };
+
+  const handleDetailPhotoSelection = (event) => {
+    const picked = Array.from(event.target.files || []);
+    event.target.value = "";
+    const initialInspection = detailInspections.find(
+      (inspection) => inspection.inspection_stage === "initial"
+    );
+    const existingCount =
+      initialInspection?.vehicle_inspection_photos?.length || 0;
+    let remaining = Math.max(
+      0,
+      MAX_DETAIL_PHOTOS - existingCount - detailPhotoFilesRef.current.length
+    );
+    const next = [...detailPhotoFilesRef.current];
+    let error = "";
+
+    for (const file of picked) {
+      if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+        error = `${file.name}: upload a JPEG, PNG, or WebP image.`;
+        continue;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        error = `${file.name}: image must be 10 MB or smaller.`;
+        continue;
+      }
+      if (remaining === 0) {
+        error = `You can add up to ${MAX_DETAIL_PHOTOS} check-in photos.`;
+        break;
+      }
+
+      next.push({ file, previewUrl: URL.createObjectURL(file) });
+      remaining -= 1;
+    }
+
+    detailPhotoFilesRef.current = next;
+    setDetailPhotoFiles(next);
+    setVehicleEditError(error);
+    setVehicleEditSuccess("");
+  };
+
+  const handleUploadDetailPhotos = async () => {
+    if (!selectedSession || detailPhotoFilesRef.current.length === 0) return;
+
+    const vehicle = getVehicle(selectedSession);
+    if (!vehicle?.id) {
+      setVehicleEditError("Vehicle information is unavailable.");
+      return;
+    }
+
+    try {
+      setUploadingDetailPhotos(true);
+      setVehicleEditError("");
+      setVehicleEditSuccess("");
+
+      let inspections = detailInspections;
+      let initialInspection = inspections.find(
+        (inspection) => inspection.inspection_stage === "initial"
+      );
+
+      if (!initialInspection) {
+        try {
+          const created = await createVehicleInspection({
+            session_id: selectedSession.id,
+            vehicle_id: vehicle.id,
+            inspection_stage: "initial",
+            condition_status: "good",
+            inspection_notes: "Vehicle photos added from vehicle details.",
+          });
+          initialInspection = created?.inspection || null;
+        } catch (createError) {
+          if (!/already exists/i.test(createError?.message || "")) {
+            throw createError;
+          }
+          const refreshed = await getInspectionBySession(selectedSession.id);
+          inspections = refreshed?.inspections || [];
+          initialInspection = inspections.find(
+            (inspection) => inspection.inspection_stage === "initial"
+          );
+        }
+      }
+
+      if (!initialInspection?.id) {
+        throw new Error("Could not prepare the check-in photo record.");
+      }
+
+      let uploadedCount = 0;
+      for (const photo of detailPhotoFilesRef.current) {
+        await uploadInspectionPhoto(initialInspection.id, photo.file);
+        uploadedCount += 1;
+        URL.revokeObjectURL(photo.previewUrl);
+        const remaining = detailPhotoFilesRef.current.filter(
+          (item) => item !== photo
+        );
+        detailPhotoFilesRef.current = remaining;
+        setDetailPhotoFiles(remaining);
+      }
+
+      const refreshed = await getInspectionBySession(selectedSession.id);
+      setDetailInspections(refreshed?.inspections || []);
+      setVehicleEditSuccess(
+        `${uploadedCount} photo${uploadedCount === 1 ? "" : "s"} uploaded.`
+      );
+    } catch (err) {
+      console.error("Failed to upload vehicle photos:", err);
+      setVehicleEditError(err?.message || "Unable to upload vehicle photos.");
+
+      try {
+        const refreshed = await getInspectionBySession(selectedSession.id);
+        setDetailInspections(refreshed?.inspections || []);
+      } catch (refreshError) {
+        console.error("Failed to refresh vehicle photos:", refreshError);
+      }
+    } finally {
+      setUploadingDetailPhotos(false);
+    }
+  };
 
   useRealtimeSync({
     tables: ["parking_sessions", "parking_slots", "retrieval_requests"],
@@ -761,7 +1008,7 @@ function ValetDashboard() {
                   <div className="vd-actions">
                     <button
                       className="vd-btn vd-btn-ghost"
-                      onClick={() => setSelectedSession(session)}
+                      onClick={() => openSessionDetails(session)}
                     >
                       Details
                       <ChevronRight size={15} />
@@ -966,7 +1213,7 @@ function ValetDashboard() {
       {selectedSession && (
         <div
           className="valet-modal-overlay"
-          onClick={() => setSelectedSession(null)}
+          onClick={closeSessionDetails}
         >
           <div
             className="valet-modal details-modal"
@@ -984,7 +1231,7 @@ function ValetDashboard() {
               </div>
 
               <button
-                onClick={() => setSelectedSession(null)}
+                onClick={closeSessionDetails}
               >
                 <X size={20} />
               </button>
@@ -999,41 +1246,90 @@ function ValetDashboard() {
             </div>
 
             <div className="details-section">
-              <h3>Vehicle</h3>
-
-              <div className="details-grid">
-                <div>
-                  <span>License Plate</span>
-                  <strong>
-                    {getVehicle(selectedSession)
-                      ?.license_plate || "Unavailable"}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Make</span>
-                  <strong>
-                    {getVehicle(selectedSession)?.make ||
-                      "Unavailable"}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Model</span>
-                  <strong>
-                    {getVehicle(selectedSession)?.model ||
-                      "Unavailable"}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Color</span>
-                  <strong>
-                    {getVehicle(selectedSession)?.color ||
-                      "Unavailable"}
-                  </strong>
-                </div>
+              <div className="details-section-heading">
+                <h3>Vehicle</h3>
+                <button
+                  type="button"
+                  className="details-edit-button"
+                  onClick={() => {
+                    if (isEditingVehicle) {
+                      const vehicle = getVehicle(selectedSession);
+                      setVehicleDraft({
+                        license_plate: vehicle?.license_plate || "",
+                        make: vehicle?.make || "",
+                        model: vehicle?.model || "",
+                        color: vehicle?.color || "",
+                      });
+                      setIsEditingVehicle(false);
+                      setVehicleEditError("");
+                      setVehicleEditSuccess("");
+                      clearDetailPhotoFiles();
+                    } else {
+                      setIsEditingVehicle(true);
+                      setVehicleEditError("");
+                      setVehicleEditSuccess("");
+                    }
+                  }}
+                  disabled={savingVehicle}
+                >
+                  {isEditingVehicle ? <X size={14} /> : <Pencil size={14} />}
+                  {isEditingVehicle ? "Cancel edit" : "Edit vehicle"}
+                </button>
               </div>
+
+              <form onSubmit={handleSaveVehicleDetails}>
+                <div className="details-grid">
+                  {[
+                    ["License Plate", "license_plate"],
+                    ["Make", "make"],
+                    ["Model", "model"],
+                    ["Color", "color"],
+                  ].map(([label, field]) => (
+                    <div key={field}>
+                      <span>{label}</span>
+                      {isEditingVehicle ? (
+                        <input
+                          className="details-edit-input"
+                          name={field}
+                          value={vehicleDraft[field]}
+                          onChange={handleVehicleDraftChange}
+                          maxLength={field === "license_plate" ? 20 : 80}
+                          required={field === "license_plate"}
+                        />
+                      ) : (
+                        <strong>
+                          {getVehicle(selectedSession)?.[field] ||
+                            "Unavailable"}
+                        </strong>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {isEditingVehicle && (
+                  <div className="details-edit-actions">
+                    <button
+                      type="submit"
+                      className="primary-action"
+                      disabled={savingVehicle}
+                    >
+                      <Save size={14} />
+                      {savingVehicle ? "Saving..." : "Save vehicle details"}
+                    </button>
+                  </div>
+                )}
+              </form>
+
+              {vehicleEditError && (
+                <p className="details-edit-message error">
+                  {vehicleEditError}
+                </p>
+              )}
+              {vehicleEditSuccess && (
+                <p className="details-edit-message success">
+                  {vehicleEditSuccess}
+                </p>
+              )}
             </div>
 
             <div className="details-section">
@@ -1113,7 +1409,38 @@ function ValetDashboard() {
             </div>
 
             <div className="details-section">
-              <h3>Inspection Photos</h3>
+              <div className="details-section-heading">
+                <h3>Vehicle Photos</h3>
+                {isEditingVehicle && (
+                  <>
+                    <input
+                      ref={detailPhotoInputRef}
+                      className="details-photo-input"
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      multiple
+                      onChange={handleDetailPhotoSelection}
+                    />
+                    <button
+                      type="button"
+                      className="details-edit-button"
+                      onClick={() => detailPhotoInputRef.current?.click()}
+                      disabled={
+                        uploadingDetailPhotos ||
+                        (detailInspections.find(
+                          (inspection) =>
+                            inspection.inspection_stage === "initial"
+                        )?.vehicle_inspection_photos?.length || 0) +
+                          detailPhotoFiles.length >=
+                          MAX_DETAIL_PHOTOS
+                      }
+                    >
+                      <Camera size={14} />
+                      Add photos
+                    </button>
+                  </>
+                )}
+              </div>
 
               {loadingDetailInspections ? (
                 <p className="inspection-photo-message">
@@ -1171,6 +1498,46 @@ function ValetDashboard() {
                   })}
                 </div>
               )}
+
+              {detailPhotoFiles.length > 0 && (
+                <div className="details-photo-grid details-pending-photos">
+                  {detailPhotoFiles.map((photo) => (
+                    <div className="details-pending-photo" key={photo.previewUrl}>
+                      <img src={photo.previewUrl} alt={photo.file.name} />
+                      <button
+                        type="button"
+                        aria-label={`Remove ${photo.file.name}`}
+                        onClick={() => {
+                          URL.revokeObjectURL(photo.previewUrl);
+                          const remaining = detailPhotoFilesRef.current.filter(
+                            (item) => item !== photo
+                          );
+                          detailPhotoFilesRef.current = remaining;
+                          setDetailPhotoFiles(remaining);
+                        }}
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {isEditingVehicle && detailPhotoFiles.length > 0 && (
+                <div className="details-edit-actions">
+                  <button
+                    type="button"
+                    className="primary-action"
+                    onClick={handleUploadDetailPhotos}
+                    disabled={uploadingDetailPhotos}
+                  >
+                    <Camera size={14} />
+                    {uploadingDetailPhotos
+                      ? "Uploading..."
+                      : `Upload ${detailPhotoFiles.length} photo${detailPhotoFiles.length === 1 ? "" : "s"}`}
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="details-section key-section">
@@ -1207,9 +1574,7 @@ function ValetDashboard() {
             <div className="modal-actions">
               <button
                 className="secondary-action"
-                onClick={() =>
-                  setSelectedSession(null)
-                }
+                onClick={closeSessionDetails}
               >
                 Close
               </button>

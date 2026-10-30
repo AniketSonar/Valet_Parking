@@ -1080,6 +1080,97 @@
   font-weight: 700;
 }
 
+.details-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 11px;
+}
+
+.details-section-heading h3 {
+  margin: 0;
+}
+
+.details-edit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid #e2d2bd;
+  border-radius: 8px;
+  background: #fffaf2;
+  color: #5b0a1e;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.details-edit-button:hover:not(:disabled) {
+  border-color: #caa060;
+  background: #f7efe3;
+}
+
+.details-edit-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.details-edit-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 8px;
+  border: 1px solid #e2d2bd;
+  border-radius: 7px;
+  background: #fffaf2;
+  color: #38261f;
+  font: inherit;
+  font-size: 11px;
+}
+
+.details-edit-input:focus {
+  outline: 2px solid rgba(202, 160, 96, 0.35);
+  border-color: #caa060;
+}
+
+.details-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.details-edit-actions .primary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 10px;
+}
+
+.details-edit-message {
+  margin: 9px 0 0;
+  font-size: 11px;
+}
+
+.details-edit-message.error {
+  color: #a53a3a;
+}
+
+.details-edit-message.success {
+  color: #287943;
+}
+
+.details-photo-input {
+  display: none;
+}
+
 .details-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1131,6 +1222,39 @@
   overflow: hidden;
   border: 1px solid rgba(139, 18, 48, 0.15);
   border-radius: 9px;
+}
+
+.details-pending-photo {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(139, 18, 48, 0.15);
+  border-radius: 9px;
+}
+
+.details-pending-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.details-pending-photo button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 7px;
+  background: rgba(61, 6, 20, 0.88);
+  color: #fffaf2;
+  cursor: pointer;
+}
+
+.details-pending-photo button:hover {
+  background: #5b0a1e;
 }
 
 .details-photo-grid img {

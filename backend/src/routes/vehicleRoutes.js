@@ -3,7 +3,8 @@ const express = require("express");
 const {
   createVehicle,
   getVehicles,
-  getVehicleById
+  getVehicleById,
+  updateVehicle
 } = require("../controllers/vehicleController");
 
 const authenticate = require("../middleware/authMiddleware");
@@ -39,6 +40,13 @@ router.get(
   authenticate,
   authorizeRoles(...VEHICLE_ACCESS_ROLES),
   getVehicleById
+);
+
+router.put(
+  "/:id",
+  authenticate,
+  authorizeRoles(...VEHICLE_ACCESS_ROLES),
+  updateVehicle
 );
 
 module.exports = router;

@@ -18,14 +18,14 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    color: #8a8398;
+    color: #978489;
     font-size: 12px;
     font-weight: 500;
     white-space: nowrap;
 }
 
 .breadcrumb strong {
-    color: #171324;
+    color: #280f15;
     font-size: 12px;
     font-weight: 800;
 }
@@ -46,7 +46,7 @@
     display: flex;
     align-items: center;
     padding: 0 13px;
-    background: #f9f7ff;
+    background: #fefcf8;
     border: 1px solid rgba(139, 18, 48, 0.12);
     border-radius: 9999px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -70,14 +70,14 @@
     border: 0;
     outline: 0;
     background: transparent;
-    color: #171324;
+    color: #280f15;
     font-family: inherit;
     font-size: 11px;
     font-weight: 500;
 }
 
 .search-bar input::placeholder {
-    color: #8a8398;
+    color: #978489;
 }
 
 .notification-bell {
@@ -90,7 +90,7 @@
     border: 1px solid rgba(139, 18, 48, 0.12);
     border-radius: 50%;
     background: #ffffff;
-    color: #6b647b;
+    color: #78676b;
     cursor: pointer;
 }
 
@@ -129,7 +129,7 @@
 }
 
 .profile-chip:hover {
-    background: #f9f7ff;
+    background: #fefcf8;
     border-color: rgba(139, 18, 48, 0.12);
 }
 
@@ -159,14 +159,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #171324;
+    color: #280f15;
     font-size: 11px;
     font-weight: 700;
 }
 
 .profile-meta span {
     margin-top: 2px;
-    color: #8a8398;
+    color: #978489;
     font-size: 9px;
     font-weight: 500;
     white-space: nowrap;
@@ -176,7 +176,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #8a8398;
+    color: #978489;
 }
 
 
@@ -187,33 +187,33 @@
     height: 72px;
     padding: 0 42px;
     background: rgba(255, 255, 255, .82);
-    border-bottom-color: #e9e5ef;
-    box-shadow: 0 8px 24px rgba(55, 38, 91, .05);
+    border-bottom-color: #eee7e8;
+    box-shadow: 0 8px 24px rgba(94, 35, 50, .05);
 }
 
 .breadcrumb {
-    color: #8f8798;
+    color: #98878b;
     font-size: 11px;
 }
 
 .breadcrumb strong {
-    color: #17131f;
+    color: #1d1517;
     font-size: 12px;
 }
 
 .search-bar {
-    background: #faf9ff;
-    border-color: #e9e5ef;
+    background: #fefdfa;
+    border-color: #eee7e8;
 }
 
 .notification-bell {
     background: #ffffff;
-    border-color: #e9e5ef;
+    border-color: #eee7e8;
 }
 
 .profile-chip:hover {
-    background: #faf9ff;
-    border-color: #e9e5ef;
+    background: #fefdfa;
+    border-color: #eee7e8;
 }
 
 
@@ -314,7 +314,7 @@
 
     .breadcrumb::before {
         content: "Reception";
-        color: #8a8398;
+        color: #978489;
         font-size: 11px;
     }
 }

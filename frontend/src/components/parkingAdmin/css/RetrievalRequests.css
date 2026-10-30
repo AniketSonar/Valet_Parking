@@ -6,22 +6,22 @@
 .retrievals-header h2 {
   font-size: 24px;
   font-weight: 800;
-  color: #1a1024;
+  color: #260e14;
   margin: 0;
 }
 
 .retrievals-header p {
   font-size: 13px;
-  color: #6c6377;
+  color: #766469;
   margin: 4px 0 20px;
 }
 
 .table-card {
   background: #ffffff;
-  border: 1px solid #e8e4ee;
+  border: 1px solid #ece6e7;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(26, 16, 36, 0.03);
+  box-shadow: 0 4px 20px rgba(38, 14, 20, 0.03);
 }
 
 .retrieval-table {
@@ -31,28 +31,28 @@
 }
 
 .retrieval-table th {
-  background: #faf8fd;
+  background: #fdf8f9;
   padding: 16px 20px;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 1px;
-  color: #7b7389;
+  color: #887479;
   text-transform: uppercase;
-  border-bottom: 1px solid #e8e4ee;
+  border-bottom: 1px solid #ece6e7;
 }
 
 .retrieval-table td {
   padding: 16px 20px;
   font-size: 13px;
-  border-bottom: 1px solid #f1edfa;
-  color: #1a1024;
+  border-bottom: 1px solid #faf5ed;
+  color: #260e14;
 }
 
 .slot-badge {
   font-family: monospace;
   font-weight: 800;
-  background: #f4eef8;
-  color: #5e3573;
+  background: #f8eef0;
+  color: #7a2e41;
   padding: 4px 8px;
   border-radius: 6px;
 }
@@ -66,9 +66,9 @@
 }
 
 .status-tag.requested { background: #fffbe3; color: #b45309; }
-.status-tag.in-retrieval { background: #eff6ff; color: #1d4ed8; }
+.status-tag.in-retrieval { background: #fdf8f1; color: #d09125; }
 .status-tag.ready { background: #ecfdf5; color: #047857; }
-.status-tag.completed { background: #f4eef8; color: #5e3573; }
+.status-tag.completed { background: #f8eef0; color: #7a2e41; }
 
 .action-buttons {
   display: flex;

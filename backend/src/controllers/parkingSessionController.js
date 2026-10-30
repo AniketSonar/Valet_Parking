@@ -414,7 +414,7 @@ const createParkingSession = async (req, res) => {
     // so there is no separate key-management / assign-valet step.
     const dispatch =
       parking_type === "valet"
-        ? await assignAvailableValet(session)
+        ? await assignAvailableValet(session, req.user)
         : null;
 
     if (dispatch?.assigned) {
@@ -435,8 +435,8 @@ const createParkingSession = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: dispatch?.assigned
-        ? `Parking session created. ${dispatch.valet.name} is assigned to this vehicle. Ticket information is being sent on WhatsApp.`
-        : "Parking session created successfully. Ticket information is being sent on WhatsApp.",
+        ? `Parking session created. ${dispatch.valet.name} is assigned to this vehicle.`
+        : "Parking session created successfully.",
       session,
       payment,
       valet: dispatch?.assigned ? dispatch.valet : null,
@@ -446,9 +446,10 @@ const createParkingSession = async (req, res) => {
         qr_code: qrCode
       },
       whatsapp: {
-        queued: Boolean(customer?.phone),
+        queued: false,
         sent: false,
-        error: customer?.phone ? null : "Customer WhatsApp number not available."
+        manual: true,
+        error: null
       }
     });
   } catch (error) {
@@ -752,7 +753,7 @@ const quickCheckIn = async (req, res) => {
 
     const dispatch =
       parking_type === "valet"
-        ? await assignAvailableValet(session)
+        ? await assignAvailableValet(session, req.user)
         : null;
 
     if (dispatch?.assigned) {
@@ -770,8 +771,8 @@ const quickCheckIn = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: dispatch?.assigned
-        ? `Vehicle checked in. ${dispatch.valet.name} is assigned to this vehicle. Ticket information is being sent on WhatsApp.`
-        : "Vehicle checked in successfully. Ticket information is being sent on WhatsApp.",
+        ? `Vehicle checked in. ${dispatch.valet.name} is assigned to this vehicle.`
+        : "Vehicle checked in successfully.",
       customer,
       vehicle,
       session,
@@ -782,9 +783,10 @@ const quickCheckIn = async (req, res) => {
         qr_code: qrCode
       },
       whatsapp: {
-        queued: Boolean(customer?.phone),
+        queued: false,
         sent: false,
-        error: customer?.phone ? null : "Customer WhatsApp number not available."
+        manual: true,
+        error: null
       }
     });
   } catch (error) {

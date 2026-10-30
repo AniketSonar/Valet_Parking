@@ -139,7 +139,7 @@ function Reports() {
           <button
             type="button"
             className="act-btn primary"
-            style={{ display: "inline-flex", alignItems: "center", gap: "6px", height: "38px", padding: "0 14px", borderRadius: "8px", background: "#5e3573", color: "#ffffff", border: "none", cursor: "pointer", fontWeight: "700", fontSize: "12px" }}
+            style={{ display: "inline-flex", alignItems: "center", gap: "6px", height: "38px", padding: "0 14px", borderRadius: "8px", background: "#7a2e41", color: "#ffffff", border: "none", cursor: "pointer", fontWeight: "700", fontSize: "12px" }}
             onClick={loadData}
             disabled={loading}
           >

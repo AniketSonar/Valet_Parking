@@ -1,8 +1,8 @@
 .incident-page {
     padding: 30px 34px 42px;
-    background: #f8f7fc;
+    background: #fcf7f8;
     min-height: calc(100vh - 76px);
-    color: #17131f;
+    color: #1d1517;
     box-sizing: border-box
 }
 
@@ -38,7 +38,7 @@
 
 .incident-header p {
     margin: 8px 0 0;
-    color: #756e7f;
+    color: #806d72;
     font-size: 14px
 }
 
@@ -79,14 +79,14 @@
 
 .incident-secondary-btn {
     background: #fff;
-    color: #3c3545;
-    border-color: #e9e5ef
+    color: #43373a;
+    border-color: #eee7e8
 }
 
 
 .incident-secondary-btn:hover {
-    border-color: #cfc5dd;
-    background: #fbfaff
+    border-color: #ddc5cb;
+    background: #fefdfb
 }
 
 
@@ -101,12 +101,12 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #f3edff;
-    border: 1px solid #ddd0fb;
+    background: #fcf8f0;
+    border: 1px solid #f7ead4;
     border-radius: 13px;
     padding: 12px 15px;
     margin-bottom: 16px;
-    color: #4c2a91
+    color: #916b2a
 }
 
 
@@ -130,7 +130,7 @@
 
 .incident-notification span {
     font-size: 12px;
-    color: #6e5b8e;
+    color: #86636c;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis
@@ -139,7 +139,7 @@
 
 .incident-notification small {
     margin-left: auto;
-    color: #806fa0;
+    color: #99767f;
     white-space: nowrap
 }
 
@@ -188,10 +188,10 @@
 
 .incident-stat-card {
     background: #fff;
-    border: 1px solid #e9e5ef;
+    border: 1px solid #eee7e8;
     border-radius: 15px;
     padding: 16px;
-    box-shadow: 0 8px 24px rgba(55, 38, 91, .05);
+    box-shadow: 0 8px 24px rgba(94, 35, 50, .05);
     display: grid;
     grid-template-columns: 40px 1fr;
     column-gap: 11px;
@@ -215,7 +215,7 @@
 
 
 .stat-icon.total {
-    background: #f0eaff;
+    background: #fcf6ed;
     color: #8b1230
 }
 
@@ -239,14 +239,14 @@
 
 
 .stat-icon.closed {
-    background: #eef2f6;
-    color: #5b6470
+    background: #f6eef0;
+    color: #6e5d61
 }
 
 
 .incident-stat-card span:not(.stat-icon) {
     font-size: 12px;
-    color: #766e7e
+    color: #7f6d71
 }
 
 
@@ -268,7 +268,7 @@
 .incident-search,
 .incident-toolbar select {
     height: 43px;
-    border: 1px solid #e5e0eb;
+    border: 1px solid #e9e2e4;
     background: #fff;
     border-radius: 11px;
     box-sizing: border-box
@@ -280,7 +280,7 @@
     align-items: center;
     padding: 0 13px;
     gap: 9px;
-    color: #8a8292
+    color: #938185
 }
 
 
@@ -289,23 +289,23 @@
     outline: 0;
     width: 100%;
     font: 400 13px inherit;
-    color: #29232f;
+    color: #2d2527;
     background: transparent
 }
 
 
 .incident-toolbar select {
     padding: 0 12px;
-    color: #3e3746;
+    color: #44393c;
     outline: 0
 }
 
 
 .incident-table-card {
     background: #fff;
-    border: 1px solid #e8e4ed;
+    border: 1px solid #ece5e7;
     border-radius: 16px;
-    box-shadow: 0 10px 28px rgba(55, 38, 91, .05);
+    box-shadow: 0 10px 28px rgba(94, 35, 50, .05);
     overflow: hidden
 }
 
@@ -315,7 +315,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #eeeaf2
+    border-bottom: 1px solid #f1ebed
 }
 
 
@@ -326,7 +326,7 @@
 
 
 .incident-table-heading span:not(.live-data) {
-    color: #81798a;
+    color: #8c777c;
     font-size: 12px
 }
 
@@ -367,15 +367,15 @@
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: .08em;
-    color: #81798a;
-    background: #fbfaff;
+    color: #8c777c;
+    background: #fefdfb;
     font-weight: 800
 }
 
 
 .incident-table td {
     padding: 14px 16px;
-    border-top: 1px solid #f0edf3;
+    border-top: 1px solid #f2eeef;
     font-size: 12px;
     vertical-align: middle
 }
@@ -395,7 +395,7 @@
     display: grid;
     place-items: center;
     flex: 0 0 auto;
-    background: #f0eaff;
+    background: #fcf6ed;
     color: #8b1230
 }
 
@@ -414,7 +414,7 @@
 
 .type-dispute {
     background: #fce7eb;
-    color: #7250c7
+    color: #c79b50
 }
 
 
@@ -432,7 +432,7 @@
 
 .incident-type-cell p {
     margin: 3px 0 0;
-    color: #827a89;
+    color: #8c777c;
     line-height: 1.4;
     max-width: 330px;
     display: -webkit-box;
@@ -445,7 +445,7 @@
 .incident-table td small,
 .reporter-name+small {
     display: block;
-    color: #8b8391;
+    color: #938185;
     font-size: 10px;
     margin-top: 4px
 }
@@ -453,7 +453,7 @@
 
 .session-primary {
     font-weight: 700;
-    color: #342d3d
+    color: #3b2f32
 }
 
 
@@ -492,8 +492,8 @@
 
 
 .status-closed {
-    background: #eef1f4;
-    color: #5d6671
+    background: #f3eff0;
+    color: #6f5f63
 }
 
 
@@ -505,11 +505,11 @@
 
 
 .row-actions button {
-    border: 1px solid #e5e0e9;
+    border: 1px solid #e8e1e3;
     background: #fff;
     border-radius: 8px;
     padding: 6px 8px;
-    color: #5a5263;
+    color: #625357;
     font-size: 10px;
     font-weight: 700;
     cursor: pointer
@@ -533,7 +533,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #8b8391;
+    color: #938185;
     gap: 8px
 }
 
@@ -541,13 +541,13 @@
 .incident-state svg {
     width: 30px;
     height: 30px;
-    color: #9a8aaa
+    color: #a58f94
 }
 
 
 .incident-state h3 {
     margin: 4px 0 0;
-    color: #443c4b;
+    color: #493e41;
     font-size: 15px
 }
 
@@ -566,7 +566,7 @@
 .incident-modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(25, 18, 32, .45);
+    background: rgba(36, 14, 19, .45);
     z-index: 200;
     display: grid;
     place-items: center;
@@ -580,8 +580,8 @@
     overflow: auto;
     background: #fff;
     border-radius: 18px;
-    border: 1px solid #e5dfee;
-    box-shadow: 0 24px 70px rgba(35, 20, 50, .22)
+    border: 1px solid #eedfe3;
+    box-shadow: 0 24px 70px rgba(51, 19, 27, .22)
 }
 
 
@@ -590,7 +590,7 @@
     justify-content: space-between;
     gap: 20px;
     padding: 22px 23px 17px;
-    border-bottom: 1px solid #eeeaf2
+    border-bottom: 1px solid #f1ebed
 }
 
 
@@ -602,7 +602,7 @@
 
 .modal-head p {
     margin: 0;
-    color: #7b7382;
+    color: #847176;
     font-size: 12px;
     line-height: 1.5
 }
@@ -611,10 +611,10 @@
 .modal-head>button {
     width: 34px;
     height: 34px;
-    border: 1px solid #e7e1ec;
+    border: 1px solid #eae3e5;
     border-radius: 9px;
     background: #fff;
-    color: #756d7d;
+    color: #7e6c70;
     display: grid;
     place-items: center;
     cursor: pointer;
@@ -639,14 +639,14 @@
     display: block;
     font-size: 12px;
     font-weight: 800;
-    color: #3d3544;
+    color: #42373a;
     margin-bottom: 16px
 }
 
 
 .report-modal label span {
     font-size: 10px;
-    color: #9b93a2;
+    color: #a39296;
     font-weight: 500;
     margin-left: 5px
 }
@@ -658,12 +658,12 @@
     width: 100%;
     box-sizing: border-box;
     margin-top: 7px;
-    border: 1px solid #e2dce8;
+    border: 1px solid #e6dee0;
     border-radius: 10px;
     padding: 11px 12px;
     outline: 0;
     background: #fff;
-    color: #312a38;
+    color: #362c2f;
     font: 400 13px inherit
 }
 
@@ -676,7 +676,7 @@
 
 .report-modal select:focus,
 .report-modal textarea:focus {
-    border-color: #9b76dc;
+    border-color: #dcb776;
     box-shadow: 0 0 0 3px rgba(139, 18, 48, .08)
 }
 
@@ -702,15 +702,15 @@
 
 .details-grid>div {
     padding: 12px 13px;
-    border: 1px solid #eeeaf2;
+    border: 1px solid #f1ebed;
     border-radius: 11px;
-    background: #fcfbfe
+    background: #fefdfb
 }
 
 
 .details-grid>div>span {
     display: block;
-    color: #8b8391;
+    color: #938185;
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: .06em;
@@ -720,7 +720,7 @@
 
 .details-grid>div>strong {
     font-size: 12px;
-    color: #352e3c
+    color: #3a3033
 }
 
 
@@ -731,7 +731,7 @@
 
 .detail-description p {
     margin: 0;
-    color: #514957;
+    color: #564a4d;
     font-size: 13px;
     line-height: 1.6
 }
@@ -750,9 +750,9 @@
 
 
 .details-status-actions button {
-    border: 1px solid #e4dfea;
-    background: #f8f6fb;
-    color: #8a8290;
+    border: 1px solid #e8e1e3;
+    background: #fbf6f7;
+    color: #928084;
     border-radius: 8px;
     padding: 7px 10px;
     font-size: 10px;
@@ -797,7 +797,7 @@
 
 .history-heading p {
     margin: 3px 0 0;
-    color: #8b8391;
+    color: #938185;
     font-size: 11px
 }
 
@@ -806,7 +806,7 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: #f0eaff;
+    background: #fcf6ed;
     color: #8b1230;
     display: grid;
     place-items: center;
@@ -830,7 +830,7 @@
     top: 17px;
     bottom: 0;
     width: 1px;
-    background: #e7e1ee
+    background: #eee1e4
 }
 
 
@@ -841,7 +841,7 @@
     margin-top: 5px;
     background: #8b1230;
     z-index: 1;
-    box-shadow: 0 0 0 4px #f1ebff
+    box-shadow: 0 0 0 4px #fcf7ee
 }
 
 
@@ -852,14 +852,14 @@
 
 .history-item p {
     margin: 3px 0;
-    color: #5c5464;
+    color: #635558;
     font-size: 12px;
     line-height: 1.45
 }
 
 
 .history-item small {
-    color: #8a8290;
+    color: #928084;
     font-size: 10px
 }
 
@@ -867,9 +867,9 @@
 .empty-history {
     padding: 35px;
     text-align: center;
-    color: #8a8290;
+    color: #928084;
     font-size: 12px;
-    background: #faf9fc;
+    background: #fcf9fa;
     border-radius: 11px
 }
 

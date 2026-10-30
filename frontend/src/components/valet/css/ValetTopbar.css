@@ -33,7 +33,7 @@
 
   border-radius: 11px;
 
-  color: #8b7ba8;
+  color: #a1828a;
 }
 
 
@@ -45,7 +45,7 @@
 
   background: transparent;
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   font-family: inherit;
 
@@ -54,7 +54,7 @@
 
 
 .valet-topbar-search input::placeholder {
-  color: #a49bb2;
+  color: #af9ea2;
 }
 
 
@@ -82,7 +82,7 @@
 
   background: var(--bg-card, #ffffff);
 
-  color: var(--text-muted, #6b647b);
+  color: var(--text-muted, #78676b);
 
   cursor: pointer;
 
@@ -93,7 +93,7 @@
 
 
 .valet-notification-btn:hover {
-  background: #f9f7ff;
+  background: #fefcf8;
 
   color: #8b1230;
 }
@@ -128,7 +128,7 @@
 
   background: var(--bg-card, #ffffff);
 
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 
   cursor: pointer;
 }
@@ -172,7 +172,7 @@
 
 
 .valet-profile-text small {
-  color: #8b7ba8;
+  color: #a1828a;
 
   font-size: 10px;
 }

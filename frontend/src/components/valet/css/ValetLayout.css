@@ -4,10 +4,10 @@
   display: flex;
 
   background:
-    var(--bg-app, #f7f5fa);
+    var(--bg-app, #faf5f6);
 
   color:
-    var(--text-main, #171324);
+    var(--text-main, #280f15);
 }
 
 

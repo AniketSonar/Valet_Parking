@@ -9,7 +9,6 @@ import {
   ShieldAlert,
   MessageSquare,
   History,
-  KeyRound,
   CreditCard,
   FileChartColumn,
   Building2,
@@ -66,7 +65,6 @@ export const receptionConfig = {
     { id: "sessions", label: "Active Sessions", icon: ClipboardList },
     { id: "customers", label: "Customers", icon: Users },
     { id: "vehicles", label: "Vehicles", icon: CarFront },
-    { id: "keys", label: "Key Management", icon: KeyRound },
     { id: "payments", label: "Payments & Invoices", icon: CreditCard },
   ],
 };
@@ -78,16 +76,12 @@ export const valetConfig = {
   searchPlaceholder: "Search vehicles, tickets...",
   menu: [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "security-dashboard", label: "Security Dashboard", icon: ShieldAlert },
-    { id: "security-sessions", label: "Active Sessions", icon: ClipboardList },
-    { id: "security-customers", label: "Customers", icon: Users },
-    { id: "security-vehicles", label: "Vehicles", icon: CarFront },
-    { id: "security-keys", label: "Key Management", icon: KeyRound },
-    { id: "security-payments", label: "Payments & Invoices", icon: CreditCard },
+    { id: "security-dashboard", label: "Check-In", icon: ClipboardList },
     { id: "my-vehicles", label: "My Vehicles", icon: CarFront },
-    { id: "retrieval-requests", label: "Retrieval Requests", icon: ClipboardList },
+    { id: "retrieval-requests", label: "Retrieval Requests", icon: History },
     { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },
     { id: "completed-returns", label: "Completed Returns", icon: History },
+    { id: "security-payments", label: "Payments", icon: CreditCard },
   ],
 };
 

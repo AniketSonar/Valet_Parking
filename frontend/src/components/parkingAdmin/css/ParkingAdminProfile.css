@@ -8,7 +8,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 28px 30px 40px;
-  color: #1f1728;
+  color: #2e1118;
 }
 
 
@@ -57,7 +57,7 @@
 .profile-page-header h2 {
   margin: 0;
 
-  color: #1a1024;
+  color: #260e14;
 
   font-size: 25px;
   line-height: 1.2;
@@ -68,7 +68,7 @@
 .profile-page-header p {
   margin: 6px 0 0;
 
-  color: #6c6377;
+  color: #766469;
 
   font-size: 13px;
   line-height: 1.6;
@@ -90,11 +90,11 @@
   height: 38px;
   padding: 0 15px;
 
-  border: 1px solid #ddd4ed;
+  border: 1px solid #edd4da;
   border-radius: 9px;
 
   background: #ffffff;
-  color: #6d35c7;
+  color: #c73559;
 
   font-size: 12px;
   font-weight: 700;
@@ -108,9 +108,9 @@
 }
 
 .profile-refresh-btn:hover:not(:disabled) {
-  background: #faf7ff;
-  border-color: #cbb7e8;
-  box-shadow: 0 5px 14px rgba(83, 45, 132, 0.07);
+  background: #fdf9fa;
+  border-color: #e8b7c3;
+  box-shadow: 0 5px 14px rgba(132, 45, 67, 0.07);
 }
 
 .profile-refresh-btn:disabled {
@@ -212,11 +212,11 @@
     ),
     #ffffff;
 
-  border: 1px solid #e6deef;
+  border: 1px solid #efdee2;
   border-radius: 16px;
 
   box-shadow:
-    0 5px 18px rgba(50, 28, 70, 0.045);
+    0 5px 18px rgba(71, 27, 38, 0.045);
 }
 
 .profile-overview::after {
@@ -258,13 +258,13 @@
   height: 72px;
   flex: 0 0 72px;
 
-  border: 5px solid #f3edfb;
+  border: 5px solid #fbedf1;
   border-radius: 50%;
 
   background: linear-gradient(
     145deg,
     #8b1230,
-    #9257e8
+    #d96683
   );
 
   color: #ffffff;
@@ -286,7 +286,7 @@
 
   overflow-wrap: anywhere;
 
-  color: #24152d;
+  color: #30121a;
 
   font-size: 20px;
   line-height: 1.25;
@@ -298,7 +298,7 @@
 
   overflow-wrap: anywhere;
 
-  color: #776d7f;
+  color: #7f6d71;
 
   font-size: 12.5px;
 }
@@ -352,10 +352,10 @@
 
   padding: 13px 16px;
 
-  border: 1px solid #e1d6ee;
+  border: 1px solid #eed6dc;
   border-radius: 11px;
 
-  background: #faf8fd;
+  background: #fdf8f9;
 }
 
 .profile-role span {
@@ -363,7 +363,7 @@
 
   margin-bottom: 5px;
 
-  color: #92869c;
+  color: #9a888d;
 
   font-size: 9px;
   font-weight: 800;
@@ -373,7 +373,7 @@
 .profile-role strong {
   display: block;
 
-  color: #6938b7;
+  color: #b73858;
 
   font-size: 13px;
   font-weight: 800;
@@ -384,7 +384,7 @@
 
   margin-top: 4px;
 
-  color: #938999;
+  color: #9a888d;
 
   font-size: 10px;
 }
@@ -418,11 +418,11 @@
 
   background: #ffffff;
 
-  border: 1px solid #e7e0ee;
+  border: 1px solid #eee0e3;
   border-radius: 15px;
 
   box-shadow:
-    0 4px 16px rgba(45, 26, 62, 0.035);
+    0 4px 16px rgba(64, 24, 34, 0.035);
 
   transition:
     border-color 0.2s ease,
@@ -430,10 +430,10 @@
 }
 
 .profile-panel:hover {
-  border-color: #dcd0e9;
+  border-color: #e9d0d6;
 
   box-shadow:
-    0 8px 22px rgba(56, 31, 78, 0.055);
+    0 8px 22px rgba(79, 30, 42, 0.055);
 }
 
 .profile-panel-header {
@@ -445,7 +445,7 @@
 
   padding-bottom: 16px;
 
-  border-bottom: 1px solid #eee9f3;
+  border-bottom: 1px solid #f3e9ec;
 }
 
 .profile-panel-header > div:first-child {
@@ -457,7 +457,7 @@
 
   margin-bottom: 4px;
 
-  color: #9a8da4;
+  color: #a19094;
 
   font-size: 9px;
   font-weight: 800;
@@ -467,7 +467,7 @@
 .profile-panel-header h3 {
   margin: 0;
 
-  color: #2a1a31;
+  color: #36151d;
 
   font-size: 15px;
   font-weight: 800;
@@ -476,7 +476,7 @@
 .profile-panel-header p {
   margin: 5px 0 0;
 
-  color: #857b8b;
+  color: #8d797e;
 
   font-size: 11px;
   line-height: 1.5;
@@ -491,10 +491,10 @@
   height: 34px;
   flex: 0 0 34px;
 
-  border: 1px solid #e3d8ee;
+  border: 1px solid #eed8dd;
   border-radius: 9px;
 
-  background: #f7f2fc;
+  background: #fcf2f5;
 
   color: #8b1230;
 }
@@ -524,11 +524,11 @@
 .profile-field:nth-child(even) {
   padding-left: 17px;
 
-  border-left: 1px solid #eee9f3;
+  border-left: 1px solid #f3e9ec;
 }
 
 .profile-field:nth-child(n + 3) {
-  border-top: 1px solid #eee9f3;
+  border-top: 1px solid #f3e9ec;
 }
 
 .field-icon {
@@ -540,12 +540,12 @@
   height: 30px;
   flex: 0 0 30px;
 
-  border: 1px solid #e5dcef;
+  border: 1px solid #efdce1;
   border-radius: 8px;
 
-  background: #faf7fd;
+  background: #fdf7f8;
 
-  color: #7546b2;
+  color: #b44460;
 }
 
 .field-icon.success {
@@ -569,7 +569,7 @@
 
   margin-bottom: 4px;
 
-  color: #958a99;
+  color: #9a898d;
 
   font-size: 8.5px;
   font-weight: 800;
@@ -583,7 +583,7 @@
 
   overflow-wrap: anywhere;
 
-  color: #302237;
+  color: #342529;
 
   font-size: 11.5px;
   line-height: 1.45;
@@ -623,7 +623,7 @@
 }
 
 .security-option + .security-option {
-  border-top: 1px solid #eee9f3;
+  border-top: 1px solid #f3e9ec;
 }
 
 .security-option-icon {
@@ -635,12 +635,12 @@
   height: 36px;
   flex: 0 0 36px;
 
-  border: 1px solid #e3d8ee;
+  border: 1px solid #eed8dd;
   border-radius: 9px;
 
-  background: #f8f3fc;
+  background: #fcf3f5;
 
-  color: #7040a8;
+  color: #a8405a;
 }
 
 .security-option-icon.danger {
@@ -660,7 +660,7 @@
 }
 
 .security-option-content strong {
-  color: #32223a;
+  color: #431924;
 
   font-size: 12px;
   font-weight: 750;
@@ -669,7 +669,7 @@
 .security-option-content span {
   margin-top: 3px;
 
-  color: #8b818f;
+  color: #927e83;
 
   font-size: 10px;
   line-height: 1.4;
@@ -746,19 +746,19 @@
 
   overflow: hidden;
 
-  border: 1px solid #ded3e9;
+  border: 1px solid #e9d3d8;
   border-radius: 15px;
 
   background:
     linear-gradient(
       110deg,
-      #fbf9fd 0%,
+      #fdf9fa 0%,
       #ffffff 62%,
-      #f8f3fc 100%
+      #fcf3f5 100%
     );
 
   box-shadow:
-    0 5px 18px rgba(45, 26, 62, 0.04);
+    0 5px 18px rgba(64, 24, 34, 0.04);
 
   transition:
     border-color 0.2s ease,
@@ -796,10 +796,10 @@
 }
 
 .profile-access-card:hover {
-  border-color: #d8cbe6;
+  border-color: #e6cbd2;
 
   box-shadow:
-    0 8px 24px rgba(50, 28, 70, 0.055);
+    0 8px 24px rgba(71, 27, 38, 0.055);
 }
 
 .access-card-icon {
@@ -814,10 +814,10 @@
   height: 42px;
   flex: 0 0 42px;
 
-  border: 1px solid #e2d6ee;
+  border: 1px solid #eed6dc;
   border-radius: 10px;
 
-  background: #f4eefb;
+  background: #fbeef1;
 
   color: #8b1230;
 }
@@ -835,7 +835,7 @@
 
   margin-bottom: 3px;
 
-  color: #9a8da4;
+  color: #a19094;
 
   font-size: 8.5px;
   font-weight: 800;
@@ -845,7 +845,7 @@
 .access-card-content h3 {
   margin: 0 0 4px;
 
-  color: #2c1b34;
+  color: #39161f;
 
   font-size: 14px;
   font-weight: 800;
@@ -856,7 +856,7 @@
 
   margin: 0;
 
-  color: #807583;
+  color: #867277;
 
   font-size: 11px;
   line-height: 1.6;
@@ -870,7 +870,7 @@
 
   padding: 9px 13px;
 
-  border: 1px solid #e2d7eb;
+  border: 1px solid #ebd7dc;
   border-radius: 9px;
 
   background: rgba(255, 255, 255, 0.82);
@@ -881,7 +881,7 @@
 
   margin-bottom: 3px;
 
-  color: #968b9b;
+  color: #9c8a8f;
 
   font-size: 8.5px;
   font-weight: 800;
@@ -893,7 +893,7 @@
 
   overflow-wrap: anywhere;
 
-  color: #6738b0;
+  color: #b03856;
 
   font-size: 11.5px;
   font-weight: 800;
@@ -953,7 +953,7 @@
   }
 
   .profile-field:nth-child(n + 2) {
-    border-top: 1px solid #eee9f3;
+    border-top: 1px solid #f3e9ec;
   }
 
   .profile-access-card {

@@ -12,8 +12,8 @@
 
   padding: 14px 32px;
 
-  background: #f3f0f7;
-  border-bottom: 1px solid #e6e0eb;
+  background: #f7f0f2;
+  border-bottom: 1px solid #e9e2e4;
 
   box-sizing: border-box;
 }
@@ -30,13 +30,13 @@
 
   font-size: 12.5px;
   font-weight: 500;
-  color: #8c7f9e;
+  color: #998489;
 
   white-space: nowrap;
 }
 
 .breadcrumb strong {
-  color: #231633;
+  color: #35141c;
   font-weight: 700;
 }
 
@@ -70,7 +70,7 @@
 
   padding: 0 13px;
 
-  background: #e9e4f0;
+  background: #f0e4e7;
   border: 1px solid transparent;
   border-radius: 10px;
 
@@ -83,13 +83,13 @@
 }
 
 .search-bar:hover {
-  background: #e5dfec;
+  background: #ecdfe2;
 }
 
 .search-bar:focus-within {
   background: #ffffff;
-  border-color: #d7cde1;
-  box-shadow: 0 0 0 3px rgba(35, 22, 51, 0.05);
+  border-color: #ded0d3;
+  box-shadow: 0 0 0 3px rgba(53, 20, 28, 0.05);
 }
 
 .search-icon {
@@ -109,13 +109,13 @@
 
   background: transparent;
 
-  color: #231633;
+  color: #35141c;
   font-size: 12.5px;
   font-family: inherit;
 }
 
 .search-bar input::placeholder {
-  color: #9b90a7;
+  color: #a49397;
 }
 
 
@@ -135,11 +135,11 @@
 
   padding: 0;
 
-  background: #e9e4f0;
+  background: #f0e4e7;
   border: 1px solid transparent;
   border-radius: 10px;
 
-  color: #231633;
+  color: #35141c;
   font-size: 15px;
 
   cursor: pointer;
@@ -151,8 +151,8 @@
 }
 
 .notification-bell:hover {
-  background: #e2dbe9;
-  border-color: #d7cde1;
+  background: #e7dde0;
+  border-color: #ded0d3;
   transform: translateY(-1px);
 }
 
@@ -173,7 +173,7 @@
   height: 6px;
 
   background: #ef4444;
-  border: 2px solid #e9e4f0;
+  border: 2px solid #f0e4e7;
   border-radius: 50%;
 
   box-sizing: content-box;
@@ -219,7 +219,7 @@
   align-items: center;
   justify-content: center;
 
-  background: #231633;
+  background: #35141c;
   color: white;
 
   border-radius: 10px;
@@ -228,7 +228,7 @@
   font-weight: 800;
   letter-spacing: 0.3px;
 
-  box-shadow: 0 2px 5px rgba(35, 22, 51, 0.12);
+  box-shadow: 0 2px 5px rgba(53, 20, 28, 0.12);
 }
 
 
@@ -249,14 +249,14 @@
 .profile-meta strong {
   margin-bottom: 3px;
 
-  color: #231633;
+  color: #35141c;
 
   font-size: 12.5px;
   font-weight: 700;
 }
 
 .profile-meta span {
-  color: #8c7f9e;
+  color: #998489;
 
   font-size: 10.5px;
   font-weight: 500;
@@ -274,7 +274,7 @@
 
   margin-left: 2px;
 
-  color: #8c7f9e;
+  color: #998489;
   font-size: 11px;
 
   transition: transform 0.2s ease;
@@ -372,13 +372,13 @@
 }
 
 .parking-admin-layout .breadcrumb strong {
-  color: var(--text-main, #171324);
+  color: var(--text-main, #280f15);
 }
 
 .parking-admin-layout .search-bar {
   border-color: rgba(139, 18, 48, 0.12);
   border-radius: 9999px;
-  background: var(--bg-card-secondary, #fdfbfc);
+  background: var(--bg-card-secondary, #fdfbfb);
 }
 
 .parking-admin-layout .notification-bell {

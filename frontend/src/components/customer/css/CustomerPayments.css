@@ -23,7 +23,7 @@
 
 .customer-payments-header h1 {
   margin: 0;
-  color: #1f1b2d;
+  color: #34141c;
   font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.4px;
@@ -31,7 +31,7 @@
 
 .customer-payments-header p {
   margin: 7px 0 0;
-  color: #777187;
+  color: #867277;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -43,10 +43,10 @@
   gap: 8px;
   min-height: 38px;
   padding: 0 14px;
-  border: 1px solid #e5def4;
+  border: 1px solid #f4ecde;
   border-radius: 9px;
   background: #ffffff;
-  color: #5b21b6;
+  color: #b62146;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -58,8 +58,8 @@
 
 .customer-payments-refresh:hover {
   background: #fdf7f8;
-  border-color: #cfc0ee;
-  box-shadow: 0 3px 10px rgba(76, 29, 149, 0.06);
+  border-color: #eeddc0;
+  box-shadow: 0 3px 10px rgba(149, 29, 59, 0.06);
 }
 
 .customer-payments-refresh:disabled {
@@ -86,7 +86,7 @@
   border: 1px solid #f2e1e5;
   border-radius: 14px;
   background: #ffffff;
-  box-shadow: 0 4px 16px rgba(51, 33, 82, 0.05);
+  box-shadow: 0 4px 16px rgba(83, 32, 45, 0.05);
 }
 
 .customer-payment-card-top {
@@ -104,7 +104,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: #f3effd;
+  background: #fcf8f0;
   color: #8b1230;
 }
 
@@ -122,7 +122,7 @@
 
 .customer-payment-title-row h3 {
   margin: 0;
-  color: #272231;
+  color: #2f2427;
   font-size: 16px;
   font-weight: 650;
 }
@@ -130,7 +130,7 @@
 .customer-payment-plate {
   display: inline-block;
   margin-top: 4px;
-  color: #81798e;
+  color: #8d7a7f;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -180,14 +180,14 @@
 }
 
 .customer-payment-details span {
-  color: #91899b;
+  color: #9b898e;
   font-size: 11px;
   font-weight: 500;
 }
 
 .customer-payment-details strong {
   overflow: hidden;
-  color: #40394b;
+  color: #483c3f;
   font-size: 13px;
   font-weight: 600;
   text-overflow: ellipsis;
@@ -208,13 +208,13 @@
 .customer-payment-amount span {
   display: block;
   margin-bottom: 5px;
-  color: #91899b;
+  color: #9b898e;
   font-size: 11px;
   font-weight: 500;
 }
 
 .customer-payment-amount strong {
-  color: #5b21b6;
+  color: #b62146;
   font-size: 19px;
   font-weight: 700;
   white-space: nowrap;
@@ -230,8 +230,8 @@
   justify-content: space-between;
   gap: 18px;
   padding: 14px 20px;
-  border-top: 1px solid #f0ecf6;
-  background: #fcfbfe;
+  border-top: 1px solid #f6ecee;
+  background: #fefdfb;
 }
 
 .customer-payment-breakdown {
@@ -242,7 +242,7 @@
 }
 
 .customer-payment-breakdown span {
-  color: #766e81;
+  color: #816e73;
   font-size: 11px;
   font-weight: 500;
 }
@@ -297,7 +297,7 @@
   border: 1px solid #f2e1e5;
   border-radius: 14px;
   background: #ffffff;
-  color: #777187;
+  color: #867277;
   font-size: 13px;
 }
 
@@ -316,7 +316,7 @@
   border-radius: 14px;
   background: #ffffff;
   text-align: center;
-  box-shadow: 0 4px 16px rgba(51, 33, 82, 0.04);
+  box-shadow: 0 4px 16px rgba(83, 32, 45, 0.04);
 }
 
 .customer-payments-empty-icon {
@@ -327,13 +327,13 @@
   justify-content: center;
   margin-bottom: 14px;
   border-radius: 12px;
-  background: #f3effd;
+  background: #fcf8f0;
   color: #8b1230;
 }
 
 .customer-payments-empty h3 {
   margin: 0;
-  color: #302a3a;
+  color: #382c2f;
   font-size: 16px;
   font-weight: 650;
 }
@@ -341,7 +341,7 @@
 .customer-payments-empty p {
   max-width: 360px;
   margin: 7px 0 0;
-  color: #827a8c;
+  color: #8d797e;
   font-size: 13px;
   line-height: 1.5;
 }

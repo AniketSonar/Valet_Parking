@@ -21,9 +21,9 @@
 
   background: linear-gradient(
     180deg,
-    #3b1f4c 0%,
-    #2f183f 48%,
-    #251233 100%
+    #4e1d29 0%,
+    #3f1822 48%,
+    #33121a 100%
   );
 
   color: #ffffff;
@@ -31,7 +31,7 @@
   border-right: 1px solid rgba(255, 255, 255, 0.07);
 
   box-shadow:
-    8px 0 28px rgba(35, 18, 48, 0.18);
+    8px 0 28px rgba(48, 18, 25, 0.18);
 
   overflow: hidden;
 
@@ -82,7 +82,7 @@
 
   background: #ffffff;
 
-  color: #5e3573;
+  color: #7a2e41;
 
   font-size: 20px;
   font-weight: 900;
@@ -139,7 +139,7 @@
 .brand-title span {
   margin-top: 4px;
 
-  color: #ad9bbc;
+  color: #b7a0a6;
 
   font-size: 8px;
   line-height: 1;
@@ -168,7 +168,7 @@
 
   padding: 0 12px;
 
-  color: #806b91;
+  color: #8b7177;
 
   font-size: 9px;
 
@@ -224,7 +224,7 @@
 
   background: transparent;
 
-  color: #b9abc8;
+  color: #c4afb4;
 
   font-family: inherit;
 
@@ -255,7 +255,7 @@
   align-items: center;
   justify-content: center;
 
-  color: #9f8eac;
+  color: #a89298;
 
   border-radius: 7px;
 
@@ -296,7 +296,7 @@
 }
 
 .menu-item:hover .item-icon {
-  color: #d8b4fe;
+  color: #f0c2ce;
 
   transform: scale(1.05);
 }
@@ -310,19 +310,19 @@
   background:
     linear-gradient(
       90deg,
-      rgba(192, 132, 252, 0.22),
-      rgba(192, 132, 252, 0.10)
+      rgba(230, 154, 173, 0.22),
+      rgba(230, 154, 173, 0.10)
     );
 
   border-color:
-    rgba(216, 180, 254, 0.12);
+    rgba(240, 194, 206, 0.12);
 
   color: #ffffff;
 
   font-weight: 700;
 
   box-shadow:
-    inset 3px 0 0 #c084fc,
+    inset 3px 0 0 #e69aad,
     0 5px 14px rgba(0, 0, 0, 0.10);
 }
 
@@ -347,10 +347,10 @@
 
   border-radius: 50%;
 
-  background: #d8b4fe;
+  background: #f0c2ce;
 
   box-shadow:
-    0 0 9px rgba(216, 180, 254, 0.65);
+    0 0 9px rgba(240, 194, 206, 0.65);
 }
 
 
@@ -522,7 +522,7 @@
 
 .app-sidebar.app-sidebar-collapsed .menu-item.active {
   box-shadow:
-    inset 3px 0 0 #c084fc,
+    inset 3px 0 0 #e69aad,
     0 5px 14px rgba(0, 0, 0, 0.10);
 }
 
@@ -549,7 +549,7 @@
 
   border-radius: 7px;
 
-  background: #2b1738;
+  background: #39161f;
 
   color: #ffffff;
 
@@ -680,7 +680,7 @@
 .menu-item:focus-visible,
 .logout-btn:focus-visible {
   outline:
-    2px solid #c084fc;
+    2px solid #e69aad;
 
   outline-offset: 2px;
 }
@@ -746,5 +746,5 @@
   }
 }
 
-.parking-admin-layout .app-sidebar { position: sticky; top: 14px; width: 260px; height: calc(100vh - 28px); min-height: 0; margin: 0 0 14px 14px; border: 1px solid rgba(139, 18, 48, 0.08); border-radius: 20px; background: var(--bg-sidebar, #fdfbfc); color: var(--text-main, #171324); box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08); }
-.parking-admin-layout .app-brand { border-bottom-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .brand-badge { background: #fce7eb; color: #8b1230; box-shadow: none; }.parking-admin-layout .brand-title h2 { color: var(--text-main, #171324); }.parking-admin-layout .brand-title span, .parking-admin-layout .section-label { color: #8b7ba8; }.parking-admin-layout .menu-item { border-radius: 12px; background: transparent; color: var(--text-muted, #6b647b); }.parking-admin-layout .menu-item:hover { background: #f9f7ff; color: var(--text-main, #171324); }.parking-admin-layout .menu-item.active { background: #8b1230; color: #ffffff; box-shadow: 0 8px 18px rgba(139, 18, 48, 0.18); }.parking-admin-layout .sidebar-footer { border-top-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .logout-btn { color: var(--text-muted, #6b647b); } 
+.parking-admin-layout .app-sidebar { position: sticky; top: 14px; width: 260px; height: calc(100vh - 28px); min-height: 0; margin: 0 0 14px 14px; border: 1px solid rgba(139, 18, 48, 0.08); border-radius: 20px; background: var(--bg-sidebar, #fdfbfb); color: var(--text-main, #280f15); box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08); }
+.parking-admin-layout .app-brand { border-bottom-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .brand-badge { background: #fce7eb; color: #8b1230; box-shadow: none; }.parking-admin-layout .brand-title h2 { color: var(--text-main, #280f15); }.parking-admin-layout .brand-title span, .parking-admin-layout .section-label { color: #a1828a; }.parking-admin-layout .menu-item { border-radius: 12px; background: transparent; color: var(--text-muted, #78676b); }.parking-admin-layout .menu-item:hover { background: #fefcf8; color: var(--text-main, #280f15); }.parking-admin-layout .menu-item.active { background: #8b1230; color: #ffffff; box-shadow: 0 8px 18px rgba(139, 18, 48, 0.18); }.parking-admin-layout .sidebar-footer { border-top-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .logout-btn { color: var(--text-muted, #78676b); } 

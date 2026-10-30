@@ -40,7 +40,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 15px;
   font-weight: 500;
-  color: #64748b;
+  color: #856a71;
   display: block;
   margin-bottom: 2px;
 }
@@ -545,8 +545,8 @@
 }
 
 .lux-status-pill.status-checked-in {
-  background: #eff8ff;
-  color: #175cd3;
+  background: #fdf8f1;
+  color: #c78b23;
 }
 
 .lux-status-pill.status-retrieval {
@@ -555,8 +555,8 @@
 }
 
 .lux-status-pill.status-ready {
-  background: #fdf2fa;
-  color: #c11574;
+  background: #fcf3f5;
+  color: #c11540;
 }
 
 /* Right: Premium Valet Services Promo Card (Image 2) */

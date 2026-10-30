@@ -11,7 +11,7 @@
   margin: 0 0 14px 5px;
   overflow-y: auto;
   background: #ffffff;
-  color: #171324;
+  color: #280f15;
   border: 1px solid rgba(139, 18, 48, 0.08);
   border-radius: 20px;
   box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08);
@@ -45,7 +45,7 @@
 
 .brand-title h2 {
   margin: 0;
-  color: #171324;
+  color: #280f15;
   font-size: 18px;
   font-weight: 800;
   line-height: 1.1;
@@ -55,7 +55,7 @@
 .brand-title span {
   display: block;
   margin-top: 4px;
-  color: #8b7ba8;
+  color: #a1828a;
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -69,7 +69,7 @@
   display: block;
   padding: 0 12px;
   margin-bottom: 9px;
-  color: #8b7ba8;
+  color: #a1828a;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -94,7 +94,7 @@
   border: 0;
   border-radius: 12px;
   background: transparent;
-  color: #6b647b;
+  color: #78676b;
   font-family: inherit;
   font-size: 12px;
   font-weight: 600;
@@ -104,8 +104,8 @@
 }
 
 .menu-item:hover {
-  background: #f9f7ff;
-  color: #171324;
+  background: #fefcf8;
+  color: #280f15;
   transform: translateX(2px);
 }
 
@@ -275,7 +275,7 @@
   border: 0;
   border-radius: 10px;
   background: transparent;
-  color: #8b7ba8;
+  color: #a1828a;
   font-family: inherit;
   font-size: 11px;
   font-weight: 700;
@@ -284,7 +284,7 @@
 }
 
 .sidebar-collapse-btn:hover {
-  background: #f9f7ff;
+  background: #fefcf8;
   color: #8b1230;
 }
 

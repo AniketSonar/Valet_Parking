@@ -18,7 +18,6 @@ const menuItems = [
   { id: "sessions", label: "Active Sessions", icon: ClipboardList },
   { id: "customers", label: "Customers", icon: Users },
   { id: "vehicles", label: "Vehicles", icon: Car },
-  { id: "keys", label: "Key Management", icon: KeyRound },
   { id: "payments", label: "Payments & Invoices", icon: CreditCard },
 ];
 

@@ -265,7 +265,7 @@ function ValetManagement() {
 
         <div className="parking-staff-table-wrapper">
           {loading && filteredStaff.length === 0 ? (
-            <div style={{ padding: "50px", textAlign: "center", color: "#7b7389" }}>
+            <div style={{ padding: "50px", textAlign: "center", color: "#887479" }}>
               <RefreshCw size={24} className="refresh-spinning" style={{ marginBottom: "12px" }} />
               <div>Loading valet staff...</div>
             </div>
@@ -344,7 +344,7 @@ function ValetManagement() {
                           {member.role === "valet" && member.is_active && (
                             <button
                               className="view-staff-btn"
-                              style={{ background: "#f4eef8", color: "#5e3573", borderColor: "#e8dcf0" }}
+                              style={{ background: "#f8eef0", color: "#7a2e41", borderColor: "#f0dce1" }}
                               onClick={() => {
                                 setAssigningStaff(member);
                                 setSelectedSessionId("");
@@ -448,13 +448,13 @@ function ValetManagement() {
 
             <form onSubmit={handleAssignSubmit} style={{ padding: "20px 24px" }}>
               <div style={{ marginBottom: "20px" }}>
-                <label style={{ display: "block", fontSize: "12px", fontWeight: "700", color: "#5a5067", marginBottom: "8px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "700", color: "#645357", marginBottom: "8px" }}>
                   Select Active Parking Session
                 </label>
                 <select
                   value={selectedSessionId}
                   onChange={(e) => setSelectedSessionId(e.target.value)}
-                  style={{ width: "100%", height: "42px", borderRadius: "10px", border: "1px solid #e8e4ee", padding: "0 12px", fontSize: "13px", outline: "none" }}
+                  style={{ width: "100%", height: "42px", borderRadius: "10px", border: "1px solid #ece6e7", padding: "0 12px", fontSize: "13px", outline: "none" }}
                   required
                 >
                   <option value="">-- Choose a parking session --</option>
@@ -465,7 +465,7 @@ function ValetManagement() {
                   ))}
                 </select>
                 {activeSessions.length === 0 && (
-                  <p style={{ fontSize: "12px", color: "#7b7389", marginTop: "6px" }}>
+                  <p style={{ fontSize: "12px", color: "#887479", marginTop: "6px" }}>
                     No active parking sessions available for assignment.
                   </p>
                 )}

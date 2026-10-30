@@ -14,7 +14,7 @@
   width: 100%;
   min-height: 100%;
   box-sizing: border-box;
-  color: #1f1730;
+  color: #33141c;
   max-width: 1440px;
   padding: 38px 42px 56px;
 
@@ -65,7 +65,7 @@
 .reception-payments-form-header h2,
 .reception-payment-success-card h2 {
   margin: 0;
-  color: #21152f;
+  color: #31131a;
   font-weight: 750;
   letter-spacing: -0.025em;
 }
@@ -77,7 +77,7 @@
 
 .reception-payments-header > div:first-child > p:last-child {
   margin: 9px 0 0;
-  color: #756c80;
+  color: #7f6d71;
   font-size: 14px;
   line-height: 1.6;
 }
@@ -91,9 +91,9 @@
   align-items: center;
   justify-content: center;
 
-  border: 1px solid #e6dcf7;
+  border: 1px solid #f6dde3;
   border-radius: 15px;
-  background: #f5efff;
+  background: #fcf2f5;
   color: #8b1230;
 }
 
@@ -120,13 +120,13 @@
 
   padding: 0 15px;
 
-  border: 1px solid #e5dff0;
+  border: 1px solid #f0dfe3;
   border-radius: 12px;
   background: #ffffff;
 
-  color: #91879c;
+  color: #9a898d;
 
-  box-shadow: 0 3px 12px rgba(67, 42, 92, 0.035);
+  box-shadow: 0 3px 12px rgba(97, 37, 52, 0.035);
 
   transition:
     border-color 0.2s ease,
@@ -134,7 +134,7 @@
 }
 
 .reception-payments-search:focus-within {
-  border-color: #a979f5;
+  border-color: #e28ca1;
   box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.09);
 }
 
@@ -150,12 +150,12 @@
   outline: 0;
   background: transparent;
 
-  color: #30243d;
+  color: #461b26;
   font-size: 13px;
 }
 
 .reception-payments-search input::placeholder {
-  color: #aaa1b3;
+  color: #b1a3a7;
 }
 
 .reception-payments-count {
@@ -163,11 +163,11 @@
 
   padding: 9px 13px;
 
-  border: 1px solid #e8e0f3;
+  border: 1px solid #f3e0e5;
   border-radius: 10px;
-  background: #faf8fd;
+  background: #fdf8f9;
 
-  color: #6d6377;
+  color: #766469;
   font-size: 12px;
   font-weight: 650;
 }
@@ -179,13 +179,13 @@
 .reception-payments-table-card {
   overflow: hidden;
 
-  border: 1px solid #e7e0ef;
+  border: 1px solid #efe0e4;
   border-radius: 16px;
   background: #ffffff;
 
   box-shadow:
-    0 8px 28px rgba(50, 30, 75, 0.045),
-    0 2px 7px rgba(50, 30, 75, 0.025);
+    0 8px 28px rgba(76, 29, 41, 0.045),
+    0 2px 7px rgba(76, 29, 41, 0.025);
 }
 
 .reception-payments-table-wrapper {
@@ -201,15 +201,15 @@
 }
 
 .reception-payments-table thead {
-  background: #faf8fc;
+  background: #fcf8f9;
 }
 
 .reception-payments-table th {
   padding: 15px 18px;
 
-  border-bottom: 1px solid #eee8f3;
+  border-bottom: 1px solid #f3e8eb;
 
-  color: #766b82;
+  color: #806d72;
   font-size: 11px;
   font-weight: 750;
   letter-spacing: 0.06em;
@@ -222,9 +222,9 @@
 .reception-payments-table td {
   padding: 17px 18px;
 
-  border-bottom: 1px solid #f0ebf4;
+  border-bottom: 1px solid #f4ebed;
 
-  color: #62586d;
+  color: #6a5b5f;
   font-size: 13px;
   vertical-align: middle;
 }
@@ -234,7 +234,7 @@
 }
 
 .reception-payments-table tbody tr:hover {
-  background: #fcfaff;
+  background: #fefbfc;
 }
 
 .reception-payments-table tbody tr:last-child td {
@@ -251,23 +251,23 @@
 
   padding: 6px 9px;
 
-  border: 1px solid #e5d9f7;
+  border: 1px solid #f6dae1;
   border-radius: 7px;
-  background: #f7f1ff;
+  background: #fcf4f6;
 
-  color: #6d2fd0;
+  color: #d02f57;
   font-size: 12px;
   font-weight: 750;
 }
 
 .reception-payment-vehicle {
-  color: #29202f;
+  color: #2d2225;
   font-weight: 700;
   letter-spacing: 0.015em;
 }
 
 .reception-payment-customer {
-  color: #30263a;
+  color: #37292c;
   font-weight: 650;
 }
 
@@ -277,9 +277,9 @@
   padding: 5px 8px;
 
   border-radius: 7px;
-  background: #f5f3f7;
+  background: #f6f4f4;
 
-  color: #665c70;
+  color: #6e5e62;
   font-size: 11px;
   font-weight: 650;
   text-transform: capitalize;
@@ -344,11 +344,11 @@
   justify-content: center;
   gap: 12px;
 
-  border: 1px solid #e8e1ef;
+  border: 1px solid #efe1e4;
   border-radius: 16px;
   background: #ffffff;
 
-  color: #766c80;
+  color: #7f6d71;
   font-size: 13px;
 }
 
@@ -380,13 +380,13 @@
 
   padding: 40px 24px;
 
-  border: 1px solid #e8e1ef;
+  border: 1px solid #efe1e4;
   border-radius: 16px;
   background: #ffffff;
 
   text-align: center;
 
-  box-shadow: 0 5px 20px rgba(50, 30, 75, 0.035);
+  box-shadow: 0 5px 20px rgba(76, 29, 41, 0.035);
 }
 
 .reception-payments-empty-icon {
@@ -409,7 +409,7 @@
 .reception-payments-empty h3 {
   margin: 0;
 
-  color: #30243b;
+  color: #38272b;
   font-size: 17px;
   font-weight: 750;
 }
@@ -419,7 +419,7 @@
 
   margin: 8px 0 0;
 
-  color: #81778b;
+  color: #8b777c;
   font-size: 13px;
   line-height: 1.6;
 }
@@ -489,7 +489,7 @@
   border: 0;
   background: transparent;
 
-  color: #756a81;
+  color: #7f6c71;
   font-size: 13px;
   font-weight: 650;
 
@@ -524,7 +524,7 @@
 .reception-payments-form-header > div:first-child > p:last-child {
   margin: 8px 0 0;
 
-  color: #776c81;
+  color: #806d72;
   font-size: 13px;
   line-height: 1.6;
 }
@@ -538,11 +538,11 @@
 
   padding: 10px 13px;
 
-  border: 1px solid #e4d8f4;
+  border: 1px solid #f4d8df;
   border-radius: 10px;
-  background: #f8f3ff;
+  background: #fdf5f7;
 
-  color: #6d2ed1;
+  color: #d12e57;
 
   font-size: 12px;
   font-weight: 750;
@@ -562,13 +562,13 @@
 .reception-payment-form-card,
 .reception-payment-customer-card,
 .reception-payment-summary-card {
-  border: 1px solid #e7e0ef;
+  border: 1px solid #efe0e4;
   border-radius: 16px;
   background: #ffffff;
 
   box-shadow:
-    0 8px 28px rgba(50, 30, 75, 0.045),
-    0 2px 7px rgba(50, 30, 75, 0.025);
+    0 8px 28px rgba(76, 29, 41, 0.045),
+    0 2px 7px rgba(76, 29, 41, 0.025);
 }
 
 .reception-payment-form-card {
@@ -607,9 +607,9 @@
   align-items: center;
   justify-content: center;
 
-  border: 1px solid #e2d6f4;
+  border: 1px solid #f4d6de;
   border-radius: 11px;
-  background: #f7f1ff;
+  background: #fcf4f6;
 
   color: #8b1230;
 }
@@ -617,7 +617,7 @@
 .reception-payment-card-title h3 {
   margin: 0;
 
-  color: #2a2034;
+  color: #312326;
   font-size: 15px;
   font-weight: 750;
 }
@@ -625,7 +625,7 @@
 .reception-payment-card-title p {
   margin: 4px 0 0;
 
-  color: #887d91;
+  color: #917d82;
   font-size: 12px;
   line-height: 1.4;
 }
@@ -648,7 +648,7 @@
 
 .reception-payment-field label,
 .reception-payment-method-section > label {
-  color: #4e4359;
+  color: #56464a;
   font-size: 12px;
   font-weight: 700;
 }
@@ -662,11 +662,11 @@
 
   padding: 0 12px;
 
-  border: 1px solid #e2dbe9;
+  border: 1px solid #e7dde0;
   border-radius: 10px;
   background: #ffffff;
 
-  color: #968b9d;
+  color: #9d8b90;
 
   transition:
     border-color 0.2s ease,
@@ -674,7 +674,7 @@
 }
 
 .reception-payment-input-wrapper:focus-within {
-  border-color: #a979f5;
+  border-color: #e28ca1;
   box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.08);
 }
 
@@ -686,13 +686,13 @@
   outline: 0;
   background: transparent;
 
-  color: #30253b;
+  color: #38282c;
   font-size: 13px;
   font-weight: 600;
 }
 
 .reception-payment-input-wrapper input::placeholder {
-  color: #b1a8b7;
+  color: #b6a9ac;
   font-weight: 400;
 }
 
@@ -733,11 +733,11 @@
 
   padding: 12px 14px;
 
-  border: 1px solid #e5dfe9;
+  border: 1px solid #e7e1e2;
   border-radius: 11px;
   background: #ffffff;
 
-  color: #746a7e;
+  color: #7d6b6f;
 
   text-align: left;
 
@@ -750,14 +750,14 @@
 }
 
 .reception-payment-method:hover {
-  border-color: #cdb5ec;
-  background: #fcfaff;
+  border-color: #ecb5c3;
+  background: #fefbfc;
 }
 
 .reception-payment-method.active {
-  border-color: #a978f0;
-  background: #f8f2ff;
-  color: #6d2ed0;
+  border-color: #e1879d;
+  background: #fcf5f7;
+  color: #d02e56;
   box-shadow: 0 0 0 2px rgba(139, 18, 48, 0.06);
 }
 
@@ -774,17 +774,17 @@
 }
 
 .reception-payment-method strong {
-  color: #33283d;
+  color: #3a2b2f;
   font-size: 12px;
   font-weight: 750;
 }
 
 .reception-payment-method.active strong {
-  color: #6828c8;
+  color: #c82850;
 }
 
 .reception-payment-method small {
-  color: #8c8194;
+  color: #948186;
   font-size: 10px;
   line-height: 1.35;
 }
@@ -855,7 +855,7 @@
 
   padding: 11px 0;
 
-  border-bottom: 1px solid #f0ebf3;
+  border-bottom: 1px solid #f2ecee;
 }
 
 .reception-payment-session-details > div:first-child {
@@ -868,14 +868,14 @@
 }
 
 .reception-payment-session-details span {
-  color: #8b8191;
+  color: #928084;
   font-size: 11px;
 }
 
 .reception-payment-session-details strong {
   max-width: 58%;
 
-  color: #34293e;
+  color: #3b2c30;
   font-size: 11px;
   font-weight: 700;
   text-align: right;
@@ -893,7 +893,7 @@
 .reception-payment-summary-header h3 {
   margin: 0;
 
-  color: #2b2035;
+  color: #322327;
   font-size: 15px;
   font-weight: 750;
 }
@@ -908,12 +908,12 @@
 }
 
 .reception-payment-summary-row span {
-  color: #81768b;
+  color: #8b767b;
   font-size: 12px;
 }
 
 .reception-payment-summary-row strong {
-  color: #3a2e44;
+  color: #413135;
   font-size: 12px;
   font-weight: 700;
 }
@@ -926,7 +926,7 @@
   height: 1px;
   margin: 8px 0;
 
-  background: #eee8f2;
+  background: #f2e8eb;
 }
 
 .reception-payment-total {
@@ -938,17 +938,17 @@
   margin-top: 13px;
   padding-top: 15px;
 
-  border-top: 1px solid #e9e1ef;
+  border-top: 1px solid #efe1e4;
 }
 
 .reception-payment-total span {
-  color: #40334a;
+  color: #47363a;
   font-size: 13px;
   font-weight: 750;
 }
 
 .reception-payment-total strong {
-  color: #6d2ed0;
+  color: #d02e56;
   font-size: 21px;
   font-weight: 800;
 }
@@ -972,15 +972,15 @@
 
   padding: 38px;
 
-  border: 1px solid #e5dcef;
+  border: 1px solid #efdce1;
   border-radius: 20px;
   background: #ffffff;
 
   text-align: center;
 
   box-shadow:
-    0 14px 45px rgba(50, 30, 75, 0.07),
-    0 3px 10px rgba(50, 30, 75, 0.035);
+    0 14px 45px rgba(76, 29, 41, 0.07),
+    0 3px 10px rgba(76, 29, 41, 0.035);
 }
 
 .reception-payment-success-icon {
@@ -1013,7 +1013,7 @@
 
   margin: 10px auto 27px;
 
-  color: #7e7388;
+  color: #887378;
   font-size: 13px;
   line-height: 1.65;
 }
@@ -1030,7 +1030,7 @@
 
   margin-bottom: 22px;
 
-  border: 1px solid #e9e2ef;
+  border: 1px solid #efe2e5;
   border-radius: 13px;
 
   text-align: left;
@@ -1046,11 +1046,11 @@
 
   padding: 13px 15px;
 
-  border-bottom: 1px solid #eee9f3;
+  border-bottom: 1px solid #f3e9ec;
 }
 
 .reception-payment-success-details > div:nth-child(odd) {
-  border-right: 1px solid #eee9f3;
+  border-right: 1px solid #f3e9ec;
 }
 
 .reception-payment-success-details > div:nth-last-child(-n + 2) {
@@ -1058,7 +1058,7 @@
 }
 
 .reception-payment-success-details span {
-  color: #8c8194;
+  color: #948186;
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
@@ -1066,7 +1066,7 @@
 }
 
 .reception-payment-success-details strong {
-  color: #33273d;
+  color: #3a2a2e;
   font-size: 12px;
   font-weight: 750;
 }
@@ -1129,14 +1129,14 @@
 }
 
 .reception-payment-secondary-button {
-  border: 1px solid #ddd5e5;
+  border: 1px solid #e3d7da;
   background: #ffffff;
-  color: #63586d;
+  color: #6a5b5f;
 }
 
 .reception-payment-secondary-button:hover {
-  border-color: #c8b8d8;
-  background: #faf8fc;
+  border-color: #d8b8c0;
+  background: #fcf8f9;
 }
 
 /* ============================================================
@@ -1215,7 +1215,7 @@
   }
 
   .reception-payment-success-details > div:nth-last-child(-n + 2) {
-    border-bottom: 1px solid #eee9f3;
+    border-bottom: 1px solid #f3e9ec;
   }
 
   .reception-payment-success-details > div:last-child {

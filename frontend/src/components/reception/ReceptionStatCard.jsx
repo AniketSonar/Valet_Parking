@@ -3,10 +3,10 @@ import "./css/ReceptionDashboard.css";
 
 const ReceptionStatCard = ({ icon, label, value, sub, accent }) => {
   const accentMap = {
-    purple: { bg: "#f4eef8", color: "#5e3573" },
+    purple: { bg: "#f8eef0", color: "#7a2e41" },
     green:  { bg: "#ecfdf5", color: "#047857" },
     amber:  { bg: "#fffbeb", color: "#b45309" },
-    blue:   { bg: "#eff6ff", color: "#1d4ed8" },
+    blue:   { bg: "#fdf8f1", color: "#d09125" },
   };
   const style = accentMap[accent] || accentMap.purple;
 

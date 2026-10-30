@@ -135,20 +135,20 @@ const RetrievalRequests = () => {
 
       <div style={{ display: "flex", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
         <div style={{ position: "relative", flex: 1, minWidth: "240px" }}>
-          <Search size={16} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "#7b7389" }} />
+          <Search size={16} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "#887479" }} />
           <input
             type="text"
             placeholder="Search license plate, customer, slot, valet..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ width: "100%", height: "40px", paddingLeft: "38px", paddingRight: "12px", borderRadius: "10px", border: "1px solid #e8e4ee", fontSize: "13px", outline: "none" }}
+            style={{ width: "100%", height: "40px", paddingLeft: "38px", paddingRight: "12px", borderRadius: "10px", border: "1px solid #ece6e7", fontSize: "13px", outline: "none" }}
           />
         </div>
 
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          style={{ height: "40px", padding: "0 16px", borderRadius: "10px", border: "1px solid #e8e4ee", fontSize: "13px", background: "#ffffff", outline: "none", cursor: "pointer" }}
+          style={{ height: "40px", padding: "0 16px", borderRadius: "10px", border: "1px solid #ece6e7", fontSize: "13px", background: "#ffffff", outline: "none", cursor: "pointer" }}
         >
           <option value="all">All Active Requests</option>
           <option value="retrieval_requested">Requested</option>
@@ -159,14 +159,14 @@ const RetrievalRequests = () => {
 
       <div className="table-card">
         {loading && requests.length === 0 ? (
-          <div style={{ padding: "50px", textAlign: "center", color: "#7b7389" }}>
+          <div style={{ padding: "50px", textAlign: "center", color: "#887479" }}>
             <RefreshCw size={24} className="refresh-spinning" style={{ marginBottom: "12px" }} />
             <div>Loading retrieval requests...</div>
           </div>
         ) : requests.length === 0 ? (
-          <div style={{ padding: "50px", textAlign: "center", color: "#7b7389" }}>
+          <div style={{ padding: "50px", textAlign: "center", color: "#887479" }}>
             <Clock size={32} style={{ marginBottom: "12px", opacity: 0.5 }} />
-            <div style={{ fontWeight: "700", fontSize: "15px", color: "#1a1024" }}>No active retrieval requests</div>
+            <div style={{ fontWeight: "700", fontSize: "15px", color: "#260e14" }}>No active retrieval requests</div>
             <p style={{ margin: "6px 0 0", fontSize: "13px" }}>All requested vehicles have been picked up.</p>
           </div>
         ) : (
@@ -190,16 +190,16 @@ const RetrievalRequests = () => {
                 return (
                   <tr key={r.id}>
                     <td>
-                      <div style={{ fontWeight: "800", color: "#1a1024" }}>
+                      <div style={{ fontWeight: "800", color: "#260e14" }}>
                         {r.vehicle?.license_plate || "N/A"}
                       </div>
-                      <span style={{ fontSize: "11px", color: "#7b7389" }}>
+                      <span style={{ fontSize: "11px", color: "#887479" }}>
                         Ticket #{r.ticket_code}
                       </span>
                     </td>
                     <td>
                       <div style={{ fontWeight: "600" }}>{r.vehicle?.customer?.name || "N/A"}</div>
-                      <div style={{ fontSize: "11px", color: "#7b7389" }}>{r.vehicle?.customer?.phone || ""}</div>
+                      <div style={{ fontSize: "11px", color: "#887479" }}>{r.vehicle?.customer?.phone || ""}</div>
                     </td>
                     <td>
                       <span className="slot-badge">{r.parking_slot || "Unassigned"}</span>

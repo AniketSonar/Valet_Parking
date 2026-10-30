@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Search, RefreshCw, CarFront } from "lucide-react";
+import { Search, RefreshCw, CarFront, MessageCircle } from "lucide-react";
+import { openWhatsAppDraft } from "../../utils/whatsappDraft";
 
 import { getValetDashboard } from "../../api/parkingApi";
 
@@ -145,6 +146,7 @@ const MyVehicles = () => {
               <span>Slot</span>
               <span>Status</span>
               <span>Ticket</span>
+              <span>Notify</span>
             </div>
 
             {filteredSessions.map((session) => {
@@ -192,6 +194,19 @@ const MyVehicles = () => {
 
                   <div>
                     {session.ticket_code || "—"}
+                  </div>
+
+                  <div>
+                    <button
+                      type="button"
+                      className="whatsapp-draft-btn"
+                      disabled={session.status !== "parked" && session.status !== "ready_for_pickup"}
+                      title="Open a WhatsApp message draft for the customer"
+                      onClick={() => openWhatsAppDraft(session)}
+                    >
+                      <MessageCircle size={14} />
+                      WhatsApp
+                    </button>
                   </div>
                 </div>
               );

@@ -426,6 +426,7 @@ const customerPhoneLogin = async (req, res) => {
       last10,
       `+91${last10}`,
       `91${last10}`,
+      `0${last10}`,
       `+${digits}`
     ].filter(Boolean);
 
@@ -448,8 +449,24 @@ const customerPhoneLogin = async (req, res) => {
 
       foundCustomer = (allCust || []).find((c) => {
         const cDigits = String(c.phone || "").replace(/\D/g, "");
-        return cDigits === digits || cDigits.slice(-10) === last10;
+        return cDigits === digits || (last10 && cDigits.slice(-10) === last10);
       });
+    }
+
+    // If still not found, auto-create customer record so any newly arrived customer gets access
+    if (!foundCustomer) {
+      const { data: newCust, error: newCustErr } = await supabase
+        .from("customers")
+        .insert([{
+          name: "Customer",
+          phone: last10 || raw
+        }])
+        .select("id, name, phone, email, created_at")
+        .single();
+
+      if (!newCustErr && newCust) {
+        foundCustomer = newCust;
+      }
     }
 
     if (!foundCustomer) {

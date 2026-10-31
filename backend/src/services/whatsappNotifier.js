@@ -15,14 +15,15 @@ const FRONTEND_URL = process.env.FRONTEND_URL || process.env.VITE_APP_URL || "ht
 const buildDashboardLink = (phone) => {
   if (!phone) return "";
   const digits = String(phone).replace(/\D/g, "");
-  return digits ? `${FRONTEND_URL}/customer-mobile/${digits}` : "";
+  const queryPhone = digits.length >= 10 ? digits.slice(-10) : digits;
+  return queryPhone ? `${FRONTEND_URL}/customer-mobile/${queryPhone}` : "";
 };
 
 const money = (amount) => `Rs. ${Number(amount || 0).toFixed(2)}`;
 const plateOf = (d) => d.plate || "your vehicle";
 const dashLine = (d) => {
   const link = buildDashboardLink(d.phone);
-  return link ? `\nView your dashboard: ${link}` : "";
+  return link ? `\nDashboard: ${link}` : "";
 };
 
 /**
@@ -58,12 +59,18 @@ const EVENTS = {
   parked: {
     template: "aura_valet_parked",
     params: (d) => [plateOf(d), d.location || "-", d.ticketCode],
-    text: (d) =>
-      `*${BRAND}*\n` +
-      `Your vehicle ${plateOf(d)} is parked.\n` +
-      `Parking location: ${d.location || "-"}\n` +
-      `Ticket: ${d.ticketCode}` +
-      dashLine(d)
+    text: (d) => {
+      const link = buildDashboardLink(d.phone);
+      return (
+        `Hello ${d.customerName || "Customer"},\n\n` +
+        `Your car ${plateOf(d)} has been parked safely at slot ${d.location || "-"}.\n` +
+        `Ticket: ${d.ticketCode}\n` +
+        (link ? `Dashboard: ${link}\n\n` : "\n") +
+        `When you are ready to leave, just reply to this chat with your ticket number\n` +
+        `(e.g. "Please bring my car. Ticket: ${d.ticketCode || "-"}") and we will bring your car to you.\n` +
+        `* Valet Parking`
+      );
+    }
   },
 
   retrieval_requested: {

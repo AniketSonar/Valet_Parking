@@ -416,33 +416,62 @@ const customerPhoneLogin = async (req, res) => {
       });
     }
 
-    const normalizedPhone = phone.trim();
+    const raw = String(phone).trim();
+    const digits = raw.replace(/\D/g, "");
+    const last10 = digits.slice(-10);
+
+    const candidatePhones = [
+      raw,
+      digits,
+      last10,
+      `+91${last10}`,
+      `91${last10}`,
+      `+${digits}`
+    ].filter(Boolean);
+
+    const uniqueCandidates = [...new Set(candidatePhones)];
 
     const { data: customer, error: customerError } = await supabase
       .from("customers")
       .select("id, name, phone, email, created_at")
-      .eq("phone", normalizedPhone)
+      .in("phone", uniqueCandidates)
+      .limit(1)
       .maybeSingle();
 
-    if (customerError || !customer) {
+    let foundCustomer = customer;
+
+    // Fallback: search by last 10 digits in case formatted with dashes/spaces
+    if (!foundCustomer && last10.length === 10) {
+      const { data: allCust } = await supabase
+        .from("customers")
+        .select("id, name, phone, email, created_at");
+
+      foundCustomer = (allCust || []).find((c) => {
+        const cDigits = String(c.phone || "").replace(/\D/g, "");
+        return cDigits === digits || cDigits.slice(-10) === last10;
+      });
+    }
+
+    if (!foundCustomer) {
       return res.status(404).json({
         success: false,
         message: "No customer found with this phone number."
       });
     }
 
-    const token = generateCustomerToken(customer);
+    const token = generateCustomerToken(foundCustomer);
 
     return res.status(200).json({
       success: true,
       message: "Customer mobile login successful.",
       user: {
-        id: customer.id,
-        name: customer.name,
-        email: customer.email,
-        phone: customer.phone,
+        id: foundCustomer.id,
+        name: foundCustomer.name,
+        email: foundCustomer.email,
+        phone: foundCustomer.phone,
         role: "customer"
       },
+      customer: foundCustomer,
       session: {
         access_token: token,
         refresh_token: token

@@ -3,13 +3,11 @@
 
 const DEFAULT_COUNTRY_CODE = "91";
 
-// Base URL of the frontend app – used to build customer dashboard links
-const APP_URL = import.meta.env.VITE_APP_URL || window.location.origin;
-
-/** Build a one-click dashboard link for the customer (no login needed). */
-export const buildCustomerDashboardLink = (phone) => {
-  const digits = normalizePhone(phone);
-  return digits ? `${APP_URL}/customer-mobile/${digits}` : "";
+export const getAppBaseUrl = () => {
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return window.location.origin;
+  }
+  return import.meta.env?.VITE_APP_URL || "http://localhost:5173";
 };
 
 export const normalizePhone = (raw) => {
@@ -20,35 +18,53 @@ export const normalizePhone = (raw) => {
   return digits;
 };
 
+/** Build a one-click dashboard link for the customer (no login needed). */
+export const buildCustomerDashboardLink = (phone) => {
+  const raw = String(phone || "").trim();
+  const digits = raw.replace(/\D/g, "");
+  const base = getAppBaseUrl();
+  const queryPhone = digits.length >= 10 ? digits.slice(-10) : digits;
+  return queryPhone ? `${base}/customer-mobile/${queryPhone}` : "";
+};
+
+export const getCustomerPhone = (session = {}) => {
+  return (
+    session.vehicle?.customer?.phone ||
+    session.customer?.phone ||
+    session.customer_phone ||
+    session.phone ||
+    ""
+  );
+};
+
 export const buildParkedMessage = (session = {}) => {
   const vehicle = session.vehicle || {};
-  const customer = vehicle.customer || {};
+  const customer = vehicle.customer || session.customer || {};
   const plate = vehicle.license_plate || "your vehicle";
   const slot = session.parking_slot || "-";
-  const dashboardLink = buildCustomerDashboardLink(customer.phone);
+  const phone = getCustomerPhone(session);
+  const dashboardLink = buildCustomerDashboardLink(phone);
+
   const lines = [
     `Hello ${customer.name || "Customer"},`,
     "",
     `Your car ${plate} has been parked safely at slot ${slot}.`,
   ];
   if (session.ticket_code) lines.push(`Ticket: ${session.ticket_code}`);
+  if (dashboardLink) {
+    lines.push(`Dashboard: ${dashboardLink}`);
+  }
   lines.push(
     "",
     "When you are ready to leave, just reply to this chat with your ticket number",
     `(e.g. "Please bring my car. Ticket: ${session.ticket_code || "-"}") and we will bring your car to you.`,
+    "* Valet Parking"
   );
-  if (dashboardLink) {
-    lines.push(
-      "",
-      `View your dashboard: ${dashboardLink}`
-    );
-  }
-  lines.push("- Valet Parking");
   return lines.join("\n");
 };
 
 export const buildWhatsAppLink = (session) => {
-  const phone = normalizePhone(session?.vehicle?.customer?.phone);
+  const phone = normalizePhone(getCustomerPhone(session));
   const text = encodeURIComponent(buildParkedMessage(session));
   return phone ? `https://wa.me/${phone}?text=${text}` : `https://wa.me/?text=${text}`;
 };
@@ -82,20 +98,26 @@ export const openRetrievalRequestOnWhatsApp = (session) => {
 /** Draft the VALET sends when the car is on its way / ready. */
 export const buildReadyMessage = (session = {}) => {
   const vehicle = session.vehicle || {};
-  const customer = vehicle.customer || {};
-  const dashboardLink = buildCustomerDashboardLink(customer.phone);
-  return [
+  const customer = vehicle.customer || session.customer || {};
+  const phone = getCustomerPhone(session);
+  const dashboardLink = buildCustomerDashboardLink(phone);
+
+  const lines = [
     `Hello ${customer.name || "Customer"},`,
     "",
     `Your car ${vehicle.license_plate || ""} is ready for pickup at the valet point.`,
-    session.ticket_code ? `Ticket: ${session.ticket_code}` : "",
-    dashboardLink ? `\nView your dashboard: ${dashboardLink}` : "",
-    "- Valet Parking",
-  ].filter((l, i, a) => l !== "" || (a[i - 1] !== "" && i !== a.length - 1)).join("\n");
+  ];
+  if (session.ticket_code) lines.push(`Ticket: ${session.ticket_code}`);
+  if (dashboardLink) lines.push(`Dashboard: ${dashboardLink}`);
+  lines.push(
+    "",
+    "* Valet Parking"
+  );
+  return lines.join("\n");
 };
 
 export const openReadyDraft = (session) => {
-  const phone = normalizePhone(session?.vehicle?.customer?.phone);
+  const phone = normalizePhone(getCustomerPhone(session));
   const text = encodeURIComponent(buildReadyMessage(session));
   window.open(phone ? `https://wa.me/${phone}?text=${text}` : `https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
 };

@@ -8,6 +8,7 @@ import {
   Users,
   ShieldCheck,
   BarChart3,
+  CreditCard,
   UserRoundPen,
   LogOut,
   ClipboardList,
@@ -60,6 +61,11 @@ const ParkingAdminSidebar = ({
       id: "feedback",
       label: "Feedback",
       icon: MessageSquare,
+    },
+    {
+      id: "revenue",
+      label: "Revenue & Payments",
+      icon: CreditCard,
     },
     {
       id: "reports",

@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   CarFront,
+  CreditCard,
 } from "lucide-react";
 
 function Sidebar({ activePage, setActivePage }) {
@@ -128,6 +129,30 @@ function Sidebar({ activePage, setActivePage }) {
 
           <span className="nav-text">
             Staff Management
+          </span>
+
+        </button>
+
+
+        {/* Revenue & Payments */}
+
+        <button
+          type="button"
+          className={`nav-item ${
+            activePage === "revenue"
+              ? "active"
+              : ""
+          }`}
+          onClick={() => handleNavigation("revenue")}
+          data-tooltip="Revenue & Payments"
+        >
+
+          <span className="nav-icon">
+            <CreditCard size={19} />
+          </span>
+
+          <span className="nav-text">
+            Revenue & Payments
           </span>
 
         </button>

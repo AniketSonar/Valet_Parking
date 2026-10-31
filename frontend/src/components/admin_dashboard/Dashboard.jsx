@@ -4,6 +4,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import { adminConfig } from "../layout/dashboardConfigs";
 import StaffManagement from "./StaffManagement";
 import AreaManagement from "./AreaManagement";
+import ReceptionPayments from "../reception/ReceptionPayments";
 import Reports from "./Reports";
 import Profile from "./Profile";
 import LuxuryDashboardView from "./LuxuryDashboardView";
@@ -130,6 +131,7 @@ function Dashboard() {
 
         {activePage === "staff" && <StaffManagement />}
         {activePage === "areas" && <AreaManagement />}
+        {activePage === "revenue" && <ReceptionPayments />}
         {activePage === "reports" && <Reports />}
         {activePage === "profile" && <Profile />}
       </div>

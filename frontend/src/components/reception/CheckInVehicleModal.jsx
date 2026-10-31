@@ -11,8 +11,10 @@ import {
   Banknote,
   CreditCard,
   Printer,
-  UserCheck
+  UserCheck,
+  MessageCircle
 } from "lucide-react";
+import { openTicketDraft } from "../../utils/whatsappDraft";
 import {
   createReceptionSession,
   createVehicleInspection,
@@ -359,6 +361,8 @@ const CheckInVehicleModal = ({
         session: res.session,
         ticket: res.ticket,
         payment: res.payment,
+        customer: res.customer || selectedVehicle?.customer || null,
+        vehicle: res.vehicle || selectedVehicle || null,
         whatsapp: res.whatsapp,
         valet: res.valet || null,
         valetMessage: res.valet_assignment?.message || ""
@@ -557,14 +561,47 @@ const CheckInVehicleModal = ({
               </p>
             </div>
 
-            <button
-              type="button"
-              className="modal-btn-secondary receipt-print-btn"
-              onClick={handlePrint}
-            >
-              <Printer size={15} />
-              Print Receipt
-            </button>
+            <div style={{ display: "flex", gap: "10px", width: "100%", justifyContent: "center", margin: "14px 0" }}>
+              <button
+                type="button"
+                className="modal-btn-secondary receipt-print-btn"
+                onClick={handlePrint}
+                style={{ flex: 1 }}
+              >
+                <Printer size={15} />
+                Print Receipt
+              </button>
+
+              <button
+                type="button"
+                className="modal-btn-secondary"
+                onClick={() => openTicketDraft({
+                  ticket_code: ticketCode,
+                  vehicle: created.vehicle || selectedVehicle,
+                  customer: created.customer || selectedVehicle?.customer,
+                  session: created.session
+                })}
+                style={{
+                  flex: 1,
+                  background: "#25D366",
+                  color: "#ffffff",
+                  border: "none",
+                  fontWeight: "600",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "6px",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  padding: "10px 14px",
+                  fontSize: "0.85rem"
+                }}
+                title="Send ticket & dashboard link to customer on WhatsApp"
+              >
+                <MessageCircle size={15} />
+                Send WhatsApp
+              </button>
+            </div>
 
             <div className="modal-success-info">
               <div>

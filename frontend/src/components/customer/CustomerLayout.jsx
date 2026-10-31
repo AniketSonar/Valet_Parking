@@ -29,9 +29,13 @@ function CustomerLayout() {
 
   const [customer, setCustomer] = useState(authUser);
 
+  const isMobileToken = Boolean(
+    localStorage.getItem("access_token")?.startsWith("cust_phone_")
+  );
+
   const hasCustomerAccess = Boolean(
     localStorage.getItem("access_token") &&
-      authUser?.role === "customer"
+      (authUser?.role === "customer" || isMobileToken)
   );
 
   if (!hasCustomerAccess) {

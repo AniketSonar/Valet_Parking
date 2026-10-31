@@ -186,6 +186,18 @@ const getCustomerById = async (req, res) => {
 };
 
 const getPortalCustomer = async (req) => {
+  if (req.customer) return req.customer;
+
+  if (req.user?.phone) {
+    const { data: customer } = await supabase
+      .from("customers")
+      .select("id, name, phone, email, created_at")
+      .eq("phone", req.user.phone)
+      .maybeSingle();
+
+    if (customer) return customer;
+  }
+
   if (!req.user?.email) return null;
 
   const { data: customer } = await supabase

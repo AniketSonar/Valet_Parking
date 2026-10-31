@@ -398,8 +398,69 @@ const registerCustomer = async (req, res) => {
   }
 };
 
+/*
+|--------------------------------------------------------------------------
+| CUSTOMER PHONE LOGIN (no password – used from WhatsApp dashboard link)
+|--------------------------------------------------------------------------
+*/
+const { generateCustomerToken } = require("../utils/customerToken");
+
+const customerPhoneLogin = async (req, res) => {
+  try {
+    const { phone } = req.body;
+
+    if (!phone) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone number is required."
+      });
+    }
+
+    const normalizedPhone = phone.trim();
+
+    const { data: customer, error: customerError } = await supabase
+      .from("customers")
+      .select("id, name, phone, email, created_at")
+      .eq("phone", normalizedPhone)
+      .maybeSingle();
+
+    if (customerError || !customer) {
+      return res.status(404).json({
+        success: false,
+        message: "No customer found with this phone number."
+      });
+    }
+
+    const token = generateCustomerToken(customer);
+
+    return res.status(200).json({
+      success: true,
+      message: "Customer mobile login successful.",
+      user: {
+        id: customer.id,
+        name: customer.name,
+        email: customer.email,
+        phone: customer.phone,
+        role: "customer"
+      },
+      session: {
+        access_token: token,
+        refresh_token: token
+      }
+    });
+  } catch (error) {
+    console.error("Customer phone login error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error."
+    });
+  }
+};
+
 module.exports = {
   login,
   refreshSession,
-  registerCustomer
+  registerCustomer,
+  customerPhoneLogin
 };

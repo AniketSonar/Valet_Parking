@@ -10,9 +10,20 @@ const {
 } = require("../config/whatsapp");
 
 const BRAND = "Valet Parking";
+const FRONTEND_URL = process.env.FRONTEND_URL || process.env.VITE_APP_URL || "http://localhost:5173";
+
+const buildDashboardLink = (phone) => {
+  if (!phone) return "";
+  const digits = String(phone).replace(/\D/g, "");
+  return digits ? `${FRONTEND_URL}/customer-mobile/${digits}` : "";
+};
 
 const money = (amount) => `Rs. ${Number(amount || 0).toFixed(2)}`;
 const plateOf = (d) => d.plate || "your vehicle";
+const dashLine = (d) => {
+  const link = buildDashboardLink(d.phone);
+  return link ? `\nView your dashboard: ${link}` : "";
+};
 
 /**
  * One entry per customer-facing WhatsApp event.
@@ -40,7 +51,8 @@ const EVENTS = {
       `Ticket: ${d.ticketCode}\n` +
       `Parking: ${d.location || "Will be assigned shortly"}\n` +
       `Payment: ${d.paymentSummary || "At exit"}\n\n` +
-      `Show the QR code on this ticket when collecting your vehicle.`
+      `Show the QR code on this ticket when collecting your vehicle.` +
+      dashLine(d)
   },
 
   parked: {
@@ -50,7 +62,8 @@ const EVENTS = {
       `*${BRAND}*\n` +
       `Your vehicle ${plateOf(d)} is parked.\n` +
       `Parking location: ${d.location || "-"}\n` +
-      `Ticket: ${d.ticketCode}`
+      `Ticket: ${d.ticketCode}` +
+      dashLine(d)
   },
 
   retrieval_requested: {
@@ -59,7 +72,8 @@ const EVENTS = {
     text: (d) =>
       `*${BRAND}*\n` +
       `We received your request for ${plateOf(d)}. A valet is bringing it to you.\n` +
-      `Ticket: ${d.ticketCode}`
+      `Ticket: ${d.ticketCode}` +
+      dashLine(d)
   },
 
   ready_for_pickup: {
@@ -70,7 +84,8 @@ const EVENTS = {
       `Your vehicle ${plateOf(d)} is ready for pickup at ${
         d.pickupPoint || "the valet desk"
       }.\n` +
-      `Ticket: ${d.ticketCode}`
+      `Ticket: ${d.ticketCode}` +
+      dashLine(d)
   },
 
   returned: {
@@ -80,7 +95,8 @@ const EVENTS = {
       `*${BRAND}*\n` +
       `Your vehicle ${plateOf(d)} has been returned. Thank you for choosing us!\n` +
       `Ticket: ${d.ticketCode}\n` +
-      `You can rate your experience from your customer dashboard.`
+      `You can rate your experience from your customer dashboard.` +
+      dashLine(d)
   },
 
   invoice: {
@@ -205,6 +221,9 @@ const notifyCustomer = async ({ event, sessionId, customer, data = {} }) => {
     return { sent: false, error: "Customer WhatsApp number not available." };
   }
 
+  // Ensure phone is in data so dashboard link helpers can use it
+  if (!data.phone) data.phone = customer.phone;
+
   const message = EVENTS[event].text(data);
 
   try {
@@ -261,6 +280,7 @@ const notifySessionEvent = async ({ event, sessionId, data = {} }) => {
         ticketCode: session.ticket_code,
         parkingType: session.parking_type,
         location: session.parking_slot,
+        phone: session.vehicle?.customer?.phone,
         ...data
       }
     });

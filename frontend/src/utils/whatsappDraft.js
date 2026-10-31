@@ -3,6 +3,15 @@
 
 const DEFAULT_COUNTRY_CODE = "91";
 
+// Base URL of the frontend app – used to build customer dashboard links
+const APP_URL = import.meta.env.VITE_APP_URL || window.location.origin;
+
+/** Build a one-click dashboard link for the customer (no login needed). */
+export const buildCustomerDashboardLink = (phone) => {
+  const digits = normalizePhone(phone);
+  return digits ? `${APP_URL}/customer-mobile/${digits}` : "";
+};
+
 export const normalizePhone = (raw) => {
   let digits = String(raw || "").replace(/\D/g, "");
   if (!digits) return "";
@@ -16,6 +25,7 @@ export const buildParkedMessage = (session = {}) => {
   const customer = vehicle.customer || {};
   const plate = vehicle.license_plate || "your vehicle";
   const slot = session.parking_slot || "-";
+  const dashboardLink = buildCustomerDashboardLink(customer.phone);
   const lines = [
     `Hello ${customer.name || "Customer"},`,
     "",
@@ -26,8 +36,14 @@ export const buildParkedMessage = (session = {}) => {
     "",
     "When you are ready to leave, just reply to this chat with your ticket number",
     `(e.g. "Please bring my car. Ticket: ${session.ticket_code || "-"}") and we will bring your car to you.`,
-    "- Valet Parking"
   );
+  if (dashboardLink) {
+    lines.push(
+      "",
+      `View your dashboard: ${dashboardLink}`
+    );
+  }
+  lines.push("- Valet Parking");
   return lines.join("\n");
 };
 
@@ -67,11 +83,13 @@ export const openRetrievalRequestOnWhatsApp = (session) => {
 export const buildReadyMessage = (session = {}) => {
   const vehicle = session.vehicle || {};
   const customer = vehicle.customer || {};
+  const dashboardLink = buildCustomerDashboardLink(customer.phone);
   return [
     `Hello ${customer.name || "Customer"},`,
     "",
     `Your car ${vehicle.license_plate || ""} is ready for pickup at the valet point.`,
     session.ticket_code ? `Ticket: ${session.ticket_code}` : "",
+    dashboardLink ? `\nView your dashboard: ${dashboardLink}` : "",
     "- Valet Parking",
   ].filter((l, i, a) => l !== "" || (a[i - 1] !== "" && i !== a.length - 1)).join("\n");
 };

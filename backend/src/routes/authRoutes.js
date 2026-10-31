@@ -3,7 +3,8 @@ const express = require("express");
 const {
   login,
   refreshSession,
-  registerCustomer
+  registerCustomer,
+  customerPhoneLogin
 } = require("../controllers/authController");
 
 const authenticate = require("../middleware/authMiddleware");
@@ -24,6 +25,13 @@ router.post("/refresh", refreshSession);
 |--------------------------------------------------------------------------
 */
 router.post("/customer-register", registerCustomer);
+
+/*
+|--------------------------------------------------------------------------
+| Customer Phone Login (WhatsApp dashboard access – no password)
+|--------------------------------------------------------------------------
+*/
+router.post("/customer-phone-login", customerPhoneLogin);
 
 /*
 |--------------------------------------------------------------------------

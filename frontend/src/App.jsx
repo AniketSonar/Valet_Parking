@@ -11,6 +11,7 @@ import ValetLayout from "./components/valet/ValetLayout";
 import CustomerLayout from "./components/customer/CustomerLayout";
 import CustomerLogin from "./components/customer/CustomerLogin";
 import CustomerRegister from "./components/customer/CustomerRegister";
+import CustomerMobileLogin from "./components/customer/CustomerMobileLogin";
 import LandingPage from "./components/LandingPage";
 import "./App.css";
 import "./components/layout/css/card-design-system.css";
@@ -48,6 +49,12 @@ function App() {
         <Route
           path="/customer-register"
           element={<CustomerRegister />}
+        />
+
+        {/* Customer Mobile Auto-Login via WhatsApp link */}
+        <Route
+          path="/customer-mobile/:phone"
+          element={<CustomerMobileLogin />}
         />
 
         {/* Operational Dashboards */}

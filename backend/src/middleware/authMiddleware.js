@@ -1,5 +1,6 @@
 const supabase = require("../config/supabase");
 const { normalizeRole } = require("./roleMiddleware");
+const { verifyCustomerToken } = require("../utils/customerToken");
 
 const authenticate = async (req, res, next) => {
   try {
@@ -13,6 +14,45 @@ const authenticate = async (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
+
+    // Customer mobile access session token
+    if (token.startsWith("cust_phone_")) {
+      const payload = verifyCustomerToken(token);
+      if (!payload?.customerId) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid or expired mobile session."
+        });
+      }
+
+      const { data: customer, error: custErr } = await supabase
+        .from("customers")
+        .select("*")
+        .eq("id", payload.customerId)
+        .maybeSingle();
+
+      if (custErr || !customer) {
+        return res.status(401).json({
+          success: false,
+          message: "Customer account not found."
+        });
+      }
+
+      req.customer = customer;
+      req.user = {
+        id: customer.id,
+        name: customer.name || "Customer",
+        email: customer.email || `${customer.phone}@guest.valet`,
+        phone: customer.phone,
+        role: "customer"
+      };
+      req.authUser = {
+        id: customer.id,
+        email: req.user.email
+      };
+
+      return next();
+    }
 
     const { data: authData, error: authError } =
       await supabase.auth.getUser(token);

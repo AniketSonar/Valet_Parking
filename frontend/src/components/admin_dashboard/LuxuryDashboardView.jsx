@@ -176,67 +176,20 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
     });
   }, [vehicleTypes, circumference]);
 
-  // Recent Activity items with live data fallback
-  const defaultRecentActivities = useMemo(() => [
-    {
-      id: "def-1",
-      time: "10:42 AM",
-      vehicleNo: "MH 12 AB 1234",
-      type: "SUV",
-      action: "Check In",
-      status: "Parked",
-      statusClass: "status-parked",
-    },
-    {
-      id: "def-2",
-      time: "10:37 AM",
-      vehicleNo: "KA 05 CD 5678",
-      type: "Sedan",
-      action: "Check In",
-      status: "Parked",
-      statusClass: "status-parked",
-    },
-    {
-      id: "def-3",
-      time: "10:25 AM",
-      vehicleNo: "DL 8C EF 9012",
-      type: "Luxury",
-      action: "Check Out",
-      status: "Departed",
-      statusClass: "status-departed",
-    },
-    {
-      id: "def-4",
-      time: "10:18 AM",
-      vehicleNo: "MH 14 GH 3456",
-      type: "Sedan",
-      action: "Check In",
-      status: "Parked",
-      statusClass: "status-parked",
-    },
-    {
-      id: "def-5",
-      time: "10:05 AM",
-      vehicleNo: "RJ 27 KL 7890",
-      type: "SUV",
-      action: "Check Out",
-      status: "Departed",
-      statusClass: "status-departed",
-    },
-  ], []);
+  // Real-time dynamic greeting
+  const greeting = useMemo(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning,";
+    if (hour < 17) return "Good Afternoon,";
+    return "Good Evening,";
+  }, []);
 
   const recentActivities = useMemo(() => {
-    if (analytics?.recentActivity && analytics.recentActivity.length > 0) {
-      if (analytics.recentActivity.length >= 5) {
-        return analytics.recentActivity.slice(0, 6);
-      }
-      return [
-        ...analytics.recentActivity,
-        ...defaultRecentActivities.slice(analytics.recentActivity.length, 5),
-      ];
+    if (analytics?.recentActivity && Array.isArray(analytics.recentActivity)) {
+      return analytics.recentActivity.slice(0, 10);
     }
-    return defaultRecentActivities;
-  }, [analytics?.recentActivity, defaultRecentActivities]);
+    return [];
+  }, [analytics?.recentActivity]);
 
   return (
     <div className="lux-dashboard">
@@ -245,7 +198,7 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
       ======================================================== */}
       <section className="lux-welcome-banner">
         <div className="lux-welcome-text">
-          <span className="lux-welcome-greeting">Good Morning,</span>
+          <span className="lux-welcome-greeting">{greeting}</span>
           <h1 className="lux-welcome-title">Welcome Back!</h1>
           <p className="lux-welcome-sub">
             Here's what's happening with your valet parking today.
@@ -623,24 +576,32 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
                 </tr>
               </thead>
               <tbody>
-                {recentActivities.map((row, idx) => (
-                  <tr key={row.id || idx}>
-                    <td className="lux-td-time">
-                      <Car size={14} className="lux-car-mini-icon" />
-                      <span>{row.time}</span>
-                    </td>
-                    <td className="lux-td-plate">
-                      <strong>{row.vehicleNo}</strong>
-                    </td>
-                    <td className="lux-td-type">{row.type}</td>
-                    <td className="lux-td-action">{row.action}</td>
-                    <td className="lux-td-status">
-                      <span className={`lux-status-pill ${row.statusClass}`}>
-                        {row.status}
-                      </span>
+                {recentActivities.length === 0 ? (
+                  <tr>
+                    <td colSpan="5" style={{ textAlign: "center", padding: "28px 12px", color: "#8a757b", fontSize: "0.9rem" }}>
+                      No parking activity recorded yet today.
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  recentActivities.map((row, idx) => (
+                    <tr key={row.id || idx}>
+                      <td className="lux-td-time">
+                        <Car size={14} className="lux-car-mini-icon" />
+                        <span>{row.time}</span>
+                      </td>
+                      <td className="lux-td-plate">
+                        <strong>{row.vehicleNo}</strong>
+                      </td>
+                      <td className="lux-td-type">{row.type}</td>
+                      <td className="lux-td-action">{row.action}</td>
+                      <td className="lux-td-status">
+                        <span className={`lux-status-pill ${row.statusClass}`}>
+                          {row.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

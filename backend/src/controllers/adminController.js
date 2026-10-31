@@ -25,18 +25,20 @@ const getDashboardStats = async (req, res) => {
       .select("*", { count: "exact", head: true })
       .neq("status", "closed");
 
-      const startOfDay = new Date();
-startOfDay.setHours(0, 0, 0, 0);
+    // Use Indian Standard Time (Asia/Kolkata) to determine today's start regardless of server host timezone
+    const now = new Date();
+    const kolkataDate = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(now);
+    const startOfDayISO = new Date(`${kolkataDate}T00:00:00+05:30`).toISOString();
 
-const { data: todayPayments, error: paymentError } = await supabase
-  .from("payments")
-  .select("total_amount")
-  .eq("payment_status", "paid")
-  .gte("paid_at", startOfDay.toISOString());
+    const { data: todayPayments, error: paymentError } = await supabase
+      .from("payments")
+      .select("total_amount")
+      .eq("payment_status", "paid")
+      .gte("paid_at", startOfDayISO);
 
-if (paymentError) {
-  throw paymentError;
-}
+    if (paymentError) {
+      throw paymentError;
+    }
 
     const todayRevenue = todayPayments.reduce(
       (total, payment) => total + Number(payment.total_amount || 0),
@@ -51,7 +53,7 @@ if (paymentError) {
       .from("parking_sessions")
       .select("*", { count: "exact", head: true })
       .eq("status", "returned_completed")
-      .gte("completed_at", startOfDay.toISOString());
+      .gte("completed_at", startOfDayISO);
 
     return res.status(200).json({
       success: true,
@@ -159,9 +161,9 @@ const getRevenuePerformance = async (req, res) => {
  */
 const getDashboardAnalytics = async (req, res) => {
   try {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
-    const startISO = startOfDay.toISOString();
+    const now = new Date();
+    const kolkataDate = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(now);
+    const startISO = new Date(`${kolkataDate}T00:00:00+05:30`).toISOString();
 
     const past24hISO = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     const past7DaysISO = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
@@ -244,7 +246,7 @@ const getDashboardAnalytics = async (req, res) => {
       }
     }
 
-    // 2. Hourly trend (8 AM – 10 PM buckets)
+    // 2. Hourly trend (8 AM – 10 PM buckets) in Asia/Kolkata
     const hourlyTrend = [];
     for (let h = 8; h <= 22; h += 2) {
       const label =
@@ -256,28 +258,31 @@ const getDashboardAnalytics = async (req, res) => {
 
       const count = (trendSessions || []).filter((s) => {
         if (!s.checked_in_at) return false;
-        const hour = new Date(s.checked_in_at).getHours();
+        const d = new Date(s.checked_in_at);
+        const kolkataHourStr = new Intl.DateTimeFormat("en-US", {
+          hour: "numeric",
+          hour12: false,
+          timeZone: "Asia/Kolkata"
+        }).format(d);
+        const hour = parseInt(kolkataHourStr, 10);
         return hour >= h && hour < h + 2;
       }).length;
 
       hourlyTrend.push({ time: label, value: count });
     }
 
-    // Weekly trend (last 7 days by day name: Mon, Tue, etc.)
+    // Weekly trend (last 7 days by day name: Mon, Tue, etc.) in Asia/Kolkata
     const weeklyTrend = [];
     for (let i = 6; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      const dayName = d.toLocaleDateString("en-US", { weekday: "short" });
-      const dayStart = new Date(d);
-      dayStart.setHours(0, 0, 0, 0);
-      const dayEnd = new Date(d);
-      dayEnd.setHours(23, 59, 59, 999);
+      const targetDate = new Date();
+      targetDate.setDate(targetDate.getDate() - i);
+      const targetDateKey = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(targetDate);
+      const dayName = new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "Asia/Kolkata" }).format(targetDate);
 
       const count = (trendSessions || []).filter((s) => {
         if (!s.checked_in_at) return false;
-        const sessionDate = new Date(s.checked_in_at);
-        return sessionDate >= dayStart && sessionDate <= dayEnd;
+        const sKey = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date(s.checked_in_at));
+        return sKey === targetDateKey;
       }).length;
 
       weeklyTrend.push({ time: dayName, value: count });
@@ -391,11 +396,12 @@ const getDashboardAnalytics = async (req, res) => {
     const recentActivity = (recentSessions || []).map((s) => {
       const isCheckout = ["returned_completed", "ready_for_pickup"].includes(s.status);
       const eventTime = isCheckout && s.completed_at ? s.completed_at : s.checked_in_at;
-      const d = new Date(eventTime);
-      const timeStr = d.toLocaleTimeString("en-US", {
+      const d = eventTime ? new Date(eventTime) : new Date();
+      const timeStr = d.toLocaleTimeString("en-IN", {
         hour: "numeric",
         minute: "2-digit",
         hour12: true,
+        timeZone: "Asia/Kolkata",
       });
 
       const typeLabel = categorizeVehicle(s.vehicle?.make, s.vehicle?.model);

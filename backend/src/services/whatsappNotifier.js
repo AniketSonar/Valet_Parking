@@ -278,16 +278,20 @@ const notifySessionEvent = async ({ event, sessionId, data = {} }) => {
       throw new Error(error?.message || "Parking session not found.");
     }
 
+    const vehicle = Array.isArray(session.vehicle) ? session.vehicle[0] : session.vehicle;
+    const customer = Array.isArray(vehicle?.customer) ? vehicle.customer[0] : vehicle?.customer;
+
     return await notifyCustomer({
       event,
       sessionId: session.id,
-      customer: session.vehicle?.customer,
+      customer,
       data: {
-        plate: session.vehicle?.license_plate,
+        plate: vehicle?.license_plate,
         ticketCode: session.ticket_code,
         parkingType: session.parking_type,
         location: session.parking_slot,
-        phone: session.vehicle?.customer?.phone,
+        phone: customer?.phone,
+        customerName: customer?.name,
         ...data
       }
     });

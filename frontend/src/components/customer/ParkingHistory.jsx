@@ -3,7 +3,17 @@ import { History, RefreshCw, X } from "lucide-react";
 import { getCustomerHistory } from "../../api/customerApi";
 import "./css/CustomerPortal.css";
 
-const formatDate = (value) => value ? new Date(value).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) : "Unavailable";
+const formatDate = (value) =>
+  value
+    ? new Date(value).toLocaleString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+    : "Unavailable";
 
 function ParkingHistory() {
   const [history, setHistory] = useState([]);

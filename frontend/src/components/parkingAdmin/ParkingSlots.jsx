@@ -1028,9 +1028,10 @@ const ParkingSlots = ({ scope = "manager" }) => {
                         <span className="card-key">PARKED AT</span>
                         <strong className="card-value">
                           {selectedSlot.parked_at
-                            ? new Date(selectedSlot.parked_at).toLocaleTimeString([], {
+                            ? new Date(selectedSlot.parked_at).toLocaleTimeString("en-IN", {
                                 hour: "2-digit",
                                 minute: "2-digit",
+                                hour12: true,
                               })
                             : "Not available"}
                         </strong>

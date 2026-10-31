@@ -1,13 +1,15 @@
 import React, { useMemo } from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { Search, ChevronDown, Clock } from "lucide-react";
 
 import NotificationCenter from "../notifications/NotificationCenter";
+import { useLiveClock } from "../../utils/timeFormat";
 
 import "./css/ValetTopbar.css";
 
 const ValetTopbar = ({
   onProfile,
 }) => {
+  const liveClock = useLiveClock();
   const user = useMemo(() => {
     try {
       return JSON.parse(
@@ -44,6 +46,27 @@ const ValetTopbar = ({
       </div>
 
       <div className="valet-topbar-actions">
+        <div
+          className="valet-live-clock"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "7px",
+            padding: "5px 12px",
+            background: "rgba(255, 255, 255, 0.05)",
+            border: "1px solid rgba(212, 175, 55, 0.22)",
+            borderRadius: "999px",
+            color: "#f8e6c8",
+            fontSize: "0.8rem",
+            fontWeight: "500",
+            fontVariantNumeric: "tabular-nums"
+          }}
+          title="Current Real Time"
+        >
+          <Clock size={13} style={{ color: "#d4af37" }} />
+          <span style={{ fontWeight: "700", color: "#ffffff" }}>{liveClock.timeStr}</span>
+        </div>
+
         <NotificationCenter />
 
         <button

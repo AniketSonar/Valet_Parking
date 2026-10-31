@@ -672,6 +672,8 @@ const quickCheckIn = async (req, res) => {
 
     const qrCode = await QRCode.toDataURL(ticketCode);
 
+    const checkInTime = new Date().toISOString();
+
     const { data: session, error: sessionError } = await supabase
       .from("parking_sessions")
       .insert([
@@ -679,7 +681,8 @@ const quickCheckIn = async (req, res) => {
           vehicle_id: vehicle.id,
           parking_type,
           ticket_code: ticketCode,
-          status: "checked_in"
+          status: "checked_in",
+          checked_in_at: checkInTime
         }
       ])
       .select()

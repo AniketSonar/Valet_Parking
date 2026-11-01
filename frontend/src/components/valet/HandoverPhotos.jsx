@@ -7,7 +7,7 @@ const MAX_SIZE = 10 * 1024 * 1024;
 /**
  * Optional photo picker for the handover inspection.
  * Photos are NOT required - the valet adds them only when something
- * looks off. On phones the button opens the camera directly.
+ * looks off. On phones the image picker may offer camera and gallery options.
  *
  *   photos     [{ file, previewUrl }]
  *   setPhotos  state setter
@@ -101,7 +101,6 @@ const HandoverPhotos = ({ photos, setPhotos, onError, checkInPhotos = [] }) => {
           ref={inputRef}
           type="file"
           accept="image/*"
-          capture="environment"
           multiple
           hidden
           onChange={handleChange}

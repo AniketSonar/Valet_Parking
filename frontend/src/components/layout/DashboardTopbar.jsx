@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import {
-  Menu,
-  Bell,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   User,
   Clock,
 } from "lucide-react";
@@ -23,10 +23,25 @@ const readStoredUser = () => {
  * Shared Luxury Topbar:
  * - Notification bell with badge & Admin profile pill
  */
-const DashboardTopbar = ({ config, user: userOverride, onProfile, onToggleSidebar }) => {
+const DashboardTopbar = ({
+  config,
+  user: userOverride,
+  onProfile,
+  onToggleSidebar,
+  sidebarExpanded,
+  isMobile,
+}) => {
   const stored = useMemo(() => readStoredUser(), []);
   const user = userOverride || stored;
   const liveClock = useLiveClock();
+  const SidebarToggleIcon = sidebarExpanded ? ChevronLeft : ChevronRight;
+  const sidebarToggleLabel = isMobile
+    ? sidebarExpanded
+      ? "Close navigation"
+      : "Open navigation"
+    : sidebarExpanded
+      ? "Collapse sidebar"
+      : "Expand sidebar";
 
   const name =
     user?.name ||
@@ -42,9 +57,10 @@ const DashboardTopbar = ({ config, user: userOverride, onProfile, onToggleSideba
           type="button"
           className="lux-topbar-menu-btn"
           onClick={onToggleSidebar}
-          aria-label="Toggle navigation"
+          aria-label={sidebarToggleLabel}
+          aria-expanded={sidebarExpanded}
         >
-          <Menu size={20} />
+          <SidebarToggleIcon size={20} />
         </button>
 
         <div

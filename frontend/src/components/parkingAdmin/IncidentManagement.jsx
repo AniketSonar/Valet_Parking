@@ -42,7 +42,7 @@ const STATUSES = [
 
 const STATUS_ORDER = ["open", "in_review", "resolved", "closed"];
 
-const IncidentManagement = () => {
+const IncidentManagement = ({ canReport, canUpdateStatus }) => {
     const [incidents, setIncidents] = useState([]);
     const [sessions, setSessions] = useState([]);
     const [notifications, setNotifications] = useState([]);
@@ -314,9 +314,11 @@ const IncidentManagement = () => {
                     <button className="incident-secondary-btn" onClick={fetchIncidents} disabled={loading}>
                         <RefreshCw size={16} className={loading ? "spin" : ""} /> Refresh
                     </button>
-                    <button className="incident-primary-btn" onClick={() => setShowReport(true)}>
-                        <Plus size={17} /> Report Incident
-                    </button>
+                    {canReport && (
+                        <button className="incident-primary-btn" onClick={() => setShowReport(true)}>
+                            <Plus size={17} /> Report Incident
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -368,7 +370,7 @@ const IncidentManagement = () => {
                                             <td><span className={`incident-status status-${incident.status}`}>{formatStatus(incident.status)}</span></td>
                                             <td>{formatDate(incident.created_at)}</td>
                                             <td>{formatDate(incident.resolved_at)}</td>
-                                            <td><div className="row-actions"><button onClick={() => openDetails(incident)}>View</button>{incident.parking_session_id && <button onClick={() => openSessionHistory(incident)}>Session</button>}{nextStatus && <button disabled={actionLoading === `status-${incident.id}`} onClick={() => changeStatus(incident, nextStatus)}>{actionLoading === `status-${incident.id}` ? "..." : formatStatus(nextStatus)}</button>}</div></td>
+                                            <td><div className="row-actions"><button onClick={() => openDetails(incident)}>View</button>{incident.parking_session_id && <button onClick={() => openSessionHistory(incident)}>Session</button>}{canUpdateStatus && nextStatus && <button disabled={actionLoading === `status-${incident.id}`} onClick={() => changeStatus(incident, nextStatus)}>{actionLoading === `status-${incident.id}` ? "..." : formatStatus(nextStatus)}</button>}</div></td>
                                         </tr>
                                     );
                                 })}
@@ -378,7 +380,7 @@ const IncidentManagement = () => {
                 )}
             </div>
 
-            {showReport && (
+            {canReport && showReport && (
                 <div className="incident-modal-backdrop" onMouseDown={(e) => e.target === e.currentTarget && setShowReport(false)}>
                     <div className="incident-modal report-modal">
                         <div className="modal-head"><div><span className="modal-kicker">NEW REPORT</span><h2>Report Incident</h2><p>The backend records the logged-in employee as the reporter.</p></div><button onClick={() => setShowReport(false)}><X /></button></div>
@@ -409,7 +411,7 @@ const IncidentManagement = () => {
                                 <div><span>Created</span><strong>{formatDate(selectedIncident.created_at)}</strong></div>
                                 <div><span>Resolved</span><strong>{formatDate(selectedIncident.resolved_at)}</strong></div>
                                 <div className="detail-description"><span>Description</span><p>{selectedIncident.description}</p></div>
-                                <div className="details-status-actions"><span>Update Status</span><div>{STATUS_ORDER.map((status, index) => { const current = STATUS_ORDER.indexOf(selectedIncident.status); const enabled = index === current + 1; return <button key={status} disabled={!enabled || actionLoading === `status-${selectedIncident.id}`} className={enabled ? "next-status" : ""} onClick={() => changeStatus(selectedIncident, status)}>{formatStatus(status)}{enabled && <ChevronRight size={14} />}</button>; })}</div></div>
+                                {canUpdateStatus && <div className="details-status-actions"><span>Update Status</span><div>{STATUS_ORDER.map((status, index) => { const current = STATUS_ORDER.indexOf(selectedIncident.status); const enabled = index === current + 1; return <button key={status} disabled={!enabled || actionLoading === `status-${selectedIncident.id}`} className={enabled ? "next-status" : ""} onClick={() => changeStatus(selectedIncident, status)}>{formatStatus(status)}{enabled && <ChevronRight size={14} />}</button>; })}</div></div>}
                             </div>
                         )}
                     </div>

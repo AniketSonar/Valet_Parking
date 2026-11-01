@@ -86,6 +86,8 @@ const DashboardLayout = ({
           user={user}
           onProfile={() => handleSetActiveTab(profileId)}
           onToggleSidebar={handleToggleSidebar}
+          sidebarExpanded={isMobile ? mobileSidebarOpen : !collapsed}
+          isMobile={isMobile}
         />
 
         <div className="dash-page-content">{children}</div>

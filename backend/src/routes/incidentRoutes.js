@@ -20,7 +20,6 @@ router.post(
     "reception_security",
     "valet",
     "cashier",
-    "parking_admin",
     "super_admin"
   ),
   createIncident
@@ -68,7 +67,7 @@ router.get(
 router.patch(
   "/:id/status",
   authenticate,
-  authorizeRoles("parking_admin", "super_admin"),
+  authorizeRoles("super_admin"),
   updateIncidentStatus
 );
 

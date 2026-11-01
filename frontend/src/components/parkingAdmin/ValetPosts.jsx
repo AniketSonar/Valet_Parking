@@ -169,11 +169,6 @@ function ValetPosts() {
       <header className="ar-header">
         <div>
           <h1>Valet Positions</h1>
-          <p>
-            Create posts such as Front or Back, say how many valets each needs, optionally tie them to an
-            entry or exit gate, then place valets on them. Only valets posted in your area can be given
-            customer cars.
-          </p>
         </div>
         <button type="button" className="ar-btn" onClick={loadAll} disabled={loading}>
           <RefreshCw size={15} /> Refresh

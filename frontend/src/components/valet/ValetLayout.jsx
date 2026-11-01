@@ -11,6 +11,7 @@ import ParkingSlots from "./ParkingSlots";
 import CompletedReturns from "./CompletedReturns";
 import ValetProfile from "./ValetProfile";
 import ReceptionDashboard from "../reception/ReceptionDashboard";
+import IncidentManagement from "../parkingAdmin/IncidentManagement";
 
 const ValetLayout = () => {
   const navigate = useNavigate();
@@ -49,6 +50,9 @@ const ValetLayout = () => {
 
       case "parking-slots":
         return <ParkingSlots />;
+
+      case "incidents":
+        return <IncidentManagement canReport canUpdateStatus={false} />;
 
       case "completed-returns":
         return <CompletedReturns />;

@@ -83,7 +83,7 @@ export const valetConfig = {
     { id: "retrieval-requests", label: "Retrieval Requests", icon: History },
     { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },
     { id: "completed-returns", label: "Completed Returns", icon: History },
-    { id: "security-payments", label: "Payments", icon: CreditCard },
+    { id: "incidents", label: "Incident Management", icon: ShieldAlert },
   ],
 };
 

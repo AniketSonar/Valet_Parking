@@ -21,6 +21,7 @@ import {
     getIncidentsBySession,
     getParkingAdminNotifications,
     getParkingSessions,
+    getValetDashboard,
     updateIncidentStatus,
 } from "../../api/parkingApi";
 import "./css/IncidentManagement.css";
@@ -109,7 +110,9 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
         try {
             setSessionsLoading(true);
 
-            const response = await getParkingSessions();
+            const response = canReport
+                ? await getValetDashboard()
+                : await getParkingSessions();
 
             if (!response?.success) {
                 throw new Error(
@@ -119,9 +122,19 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
             }
 
             setSessions(
-                Array.isArray(response?.sessions)
-                    ? response.sessions
-                    : []
+                canReport
+                    ? Array.from(
+                        new Map(
+                            [
+                                ...(response?.sessions || []),
+                                ...(response?.retrieval_requests || []),
+                                ...(response?.completed_returns || []),
+                            ].map((session) => [session.id, session])
+                        ).values()
+                    )
+                    : Array.isArray(response?.sessions)
+                        ? response.sessions
+                        : []
             );
         } catch (err) {
             console.error(
@@ -136,7 +149,7 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
         } finally {
             setSessionsLoading(false);
         }
-    }, []);
+    }, [canReport]);
 
     const fetchNotifications = useCallback(async () => {
         try {

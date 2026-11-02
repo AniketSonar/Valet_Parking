@@ -237,13 +237,9 @@ function CustomerPayments() {
                       </div>
 
                       <span
-                        className={`customer-payment-status ${
-                          payment.payment_status === "paid"
-                            ? "paid"
-                            : "pending"
-                        }`}
+                        className="customer-payment-status paid"
                       >
-                        {payment.payment_status || "Unknown"}
+                        Paid
                       </span>
                     </div>
 

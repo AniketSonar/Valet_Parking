@@ -103,7 +103,7 @@
 .vr-status, .vr-pay { padding: 3px 9px; border-radius: 999px; font-size: 0.74rem; font-weight: 600; background: #f6f3f4; color: #4d3b3f; text-transform: capitalize; }
 .vr-status-returned_completed, .vr-pay-paid { background: #dcfce7; color: #166534; }
 .vr-status-parked, .vr-status-checked_in { background: #faf2e5; color: #a37930; }
-.vr-status-retrieval_requested, .vr-status-retrieving, .vr-status-ready_for_pickup, .vr-pay-pending { background: #fef3c7; color: #92400e; }
+.vr-status-retrieval_requested, .vr-status-retrieving, .vr-status-ready_for_pickup { background: #fef3c7; color: #92400e; }
 
 .vr-pager { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 14px; font-size: 0.86rem; }
 .vr-footnote { display: flex; align-items: center; gap: 6px; margin: 14px 0 0; color: #ad9ea2; font-size: 0.78rem; }

@@ -142,6 +142,23 @@ const getParkingSessions = async (req, res) => {
       });
     }
 
+    // Revenue figures are for the super admin and managers only. Everyone
+    // else (valets, reception) gets the payment status without the amount.
+    if (!["super_admin", "manager"].includes(req.user?.role)) {
+      const withoutAmount = (payment) => {
+        if (!payment) return payment;
+        const { total_amount, ...rest } = payment;
+        return rest;
+      };
+
+      result = result.map((session) => ({
+        ...session,
+        payment: Array.isArray(session.payment)
+          ? session.payment.map(withoutAmount)
+          : withoutAmount(session.payment)
+      }));
+    }
+
     return res.status(200).json({
       success: true,
       count: result.length,

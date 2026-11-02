@@ -1,7 +1,3 @@
-.dash-page-content :is([class$="card"], [class*="card "]) {
-  border-left: 4px solid #caa060 !important;
-}
-
 .dash-page-content :is([class$="card"], [class*="card "]):hover {
   border-left-color: #caa060 !important;
 }
@@ -56,11 +52,6 @@
   .reception-profile-card,
   .key-summary-card,
   .key-table-card,
-  .reception-payment-form-card,
-  .reception-payment-customer-card,
-  .reception-payment-summary-card,
-  .reception-payment-success-card,
-  .reception-payments-table-card,
   .detail-session-card,
   .inspection-history-card,
   .session-key-card
@@ -125,11 +116,6 @@
   .reception-profile-card,
   .key-summary-card,
   .key-table-card,
-  .reception-payment-form-card,
-  .reception-payment-customer-card,
-  .reception-payment-summary-card,
-  .reception-payment-success-card,
-  .reception-payments-table-card,
   .detail-session-card,
   .inspection-history-card,
   .session-key-card
@@ -200,11 +186,6 @@
     .reception-profile-card,
     .key-summary-card,
     .key-table-card,
-    .reception-payment-form-card,
-    .reception-payment-customer-card,
-    .reception-payment-summary-card,
-    .reception-payment-success-card,
-    .reception-payments-table-card,
     .detail-session-card,
     .inspection-history-card,
     .session-key-card
@@ -261,11 +242,6 @@
     .reception-profile-card,
     .key-summary-card,
     .key-table-card,
-    .reception-payment-form-card,
-    .reception-payment-customer-card,
-    .reception-payment-summary-card,
-    .reception-payment-success-card,
-    .reception-payments-table-card,
     .detail-session-card,
     .inspection-history-card,
     .session-key-card

@@ -134,7 +134,7 @@ function Sidebar({ activePage, setActivePage }) {
         </button>
 
 
-        {/* Revenue & Payments */}
+        {/* Revenue */}
 
         <button
           type="button"
@@ -144,7 +144,7 @@ function Sidebar({ activePage, setActivePage }) {
               : ""
           }`}
           onClick={() => handleNavigation("revenue")}
-          data-tooltip="Revenue & Payments"
+          data-tooltip="Revenue"
         >
 
           <span className="nav-icon">
@@ -152,7 +152,7 @@ function Sidebar({ activePage, setActivePage }) {
           </span>
 
           <span className="nav-text">
-            Revenue & Payments
+            Revenue
           </span>
 
         </button>

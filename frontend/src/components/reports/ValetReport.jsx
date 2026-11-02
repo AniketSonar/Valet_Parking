@@ -438,7 +438,6 @@ const ValetReport = () => {
             <select value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)}>
               <option value="">All</option>
               <option value="paid">Paid</option>
-              <option value="pending">Pending</option>
               <option value="none">No payment</option>
             </select>
           </div>
@@ -496,10 +495,6 @@ const ValetReport = () => {
             <div className="vr-card">
               <span>Paid revenue</span>
               <strong>{formatMoney(summary.total_revenue)}</strong>
-            </div>
-            <div className="vr-card">
-              <span>Pending amount</span>
-              <strong>{formatMoney(summary.pending_amount)}</strong>
             </div>
             <div className="vr-card">
               <span>Avg. duration</span>

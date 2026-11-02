@@ -274,9 +274,6 @@ const summarise = (rows, filters) => {
       .length,
     unassigned_sessions: rows.filter((row) => !row.valet_id).length,
     total_revenue: paidRows.reduce((sum, row) => sum + row.amount, 0),
-    pending_amount: rows
-      .filter((row) => row.payment_status === "pending")
-      .reduce((sum, row) => sum + row.amount, 0),
     paid_count: paidRows.length,
     avg_duration_minutes: durations.length
       ? Math.round(durations.reduce((a, b) => a + b, 0) / durations.length)
@@ -604,7 +601,7 @@ const sendPdf = (res, report, fileBase) => {
   doc.text(
     `Sessions: ${summary.total_sessions}    Completed: ${summary.completed_sessions}    Active: ${summary.active_sessions}    Paid revenue: Rs. ${summary.total_revenue.toFixed(
       2
-    )}    Pending: Rs. ${summary.pending_amount.toFixed(2)}    Avg duration: ${
+    )}    Avg duration: ${
       formatDuration(summary.avg_duration_minutes) || "-"
     }`
   );

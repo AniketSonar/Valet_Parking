@@ -64,7 +64,7 @@ const ParkingAdminSidebar = ({
     },
     {
       id: "revenue",
-      label: "Revenue & Payments",
+      label: "Revenue",
       icon: CreditCard,
     },
     {

@@ -32,7 +32,7 @@ export const adminConfig = {
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "staff", label: "Staff Management", icon: UserRoundPen },
     { id: "areas", label: "Areas & Managers", icon: Building2 },
-    { id: "revenue", label: "Revenue & Payments", icon: CreditCard },
+    { id: "revenue", label: "Revenue", icon: CreditCard },
     { id: "reports", label: "Reports & Overview", icon: FileChartColumn },
   ],
 };
@@ -51,7 +51,7 @@ export const parkingAdminConfig = {
     { id: "parking-sessions", label: "Parking Sessions", icon: ClipboardList },
     { id: "incidents", label: "Incident Management", icon: ShieldAlert },
     { id: "feedback", label: "Feedback", icon: MessageSquare },
-    { id: "revenue", label: "Revenue & Payments", icon: CreditCard },
+    { id: "revenue", label: "Revenue", icon: CreditCard },
     { id: "reports", label: "Reports", icon: BarChart3 },
   ],
 };
@@ -67,7 +67,6 @@ export const receptionConfig = {
     { id: "sessions", label: "Active Sessions", icon: ClipboardList },
     { id: "customers", label: "Customers", icon: Users },
     { id: "vehicles", label: "Vehicles", icon: CarFront },
-    { id: "payments", label: "Payments & Invoices", icon: CreditCard },
   ],
 };
 

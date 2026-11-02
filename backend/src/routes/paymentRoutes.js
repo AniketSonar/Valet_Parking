@@ -1,33 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  createPayment,
-  downloadInvoice
-} = require("../controllers/paymentController");
+const { downloadInvoice } = require("../controllers/paymentController");
 
 const authenticate = require("../middleware/authMiddleware");
 const authorizeRoles = require("../middleware/roleMiddleware");
 
-router.post(
-  "/",
-  authenticate,
-  authorizeRoles(
-    "cashier",
-    "parking_admin",
-    "super_admin"
-  ),
-  createPayment
-);
-
+// Payments are collected at check-in. Invoices (which show amounts) are
+// available to the super admin and managers only.
 router.get(
   "/:id/invoice",
   authenticate,
-  authorizeRoles(
-    "cashier",
-    "parking_admin",
-    "super_admin"
-  ),
+  authorizeRoles("manager", "super_admin"),
   downloadInvoice
 );
 

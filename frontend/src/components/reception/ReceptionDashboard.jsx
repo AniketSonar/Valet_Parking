@@ -23,7 +23,6 @@ import RegisterVehicleModal from "./RegisterVehicleModal";
 import CheckInVehicleModal from "./CheckInVehicleModal";
 import ReceptionTicketModal from "./ReceptionTicketModal";
 import ReceptionSessionDetailsModal from "./ReceptionSessionDetailsModal";
-import ReceptionPayments from "./ReceptionPayments";
 import {
   getReceptionSessions,
   requestReceptionRetrieval,
@@ -764,8 +763,6 @@ const ReceptionDashboard = ({
       );
       case "customers": return <CustomersView onOpenRegisterModal={() => openModal("customer")} />;
       case "vehicles": return <VehiclesView />;
-      case "payments":
-        return <ReceptionPayments />;
       case "profile": return <ProfileView onLogout={handleLogout} />;
       default: return renderDashboardHome();
     }

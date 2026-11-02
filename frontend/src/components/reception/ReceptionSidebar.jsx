@@ -9,7 +9,6 @@ import {
   LogOut,
   PanelLeftClose,
   PanelLeftOpen,
-  CreditCard,
 } from "lucide-react";
 import "./css/ReceptionSidebar.css";
 
@@ -18,7 +17,6 @@ const menuItems = [
   { id: "sessions", label: "Active Sessions", icon: ClipboardList },
   { id: "customers", label: "Customers", icon: Users },
   { id: "vehicles", label: "Vehicles", icon: Car },
-  { id: "payments", label: "Payments & Invoices", icon: CreditCard },
 ];
 
 const ReceptionSidebar = ({ activeTab, setActiveTab, onLogout, collapsed, setCollapsed }) => {

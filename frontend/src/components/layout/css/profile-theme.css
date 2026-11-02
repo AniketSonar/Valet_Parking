@@ -1,0 +1,616 @@
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page,
+  .valet-profile-page
+) {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 30px 34px 48px;
+  box-sizing: border-box;
+  color: #38261f;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page,
+  .valet-profile-page
+) :is(h1, h2, h3, p, span, small, strong) {
+  font-family: inherit;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.dash-page-content .valet-profile-page .profile-header {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-page-header h2,
+.dash-page-content .valet-profile-page .profile-header h1 {
+  margin: 0;
+  color: #4b0918;
+  font-size: clamp(26px, 3vw, 32px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-page-header p,
+.dash-page-content .valet-profile-page .profile-header p {
+  margin: 7px 0 0;
+  color: #76665c;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-eyebrow,
+.dash-page-content .valet-profile-page .page-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 7px;
+  color: #c1944e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-eyebrow::before {
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: #caa060;
+  box-shadow: none;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-overview {
+  min-height: 140px;
+  margin-bottom: 20px;
+  padding: 24px 26px;
+  border: 1px solid #eadfd7;
+  border-left: 4px solid #caa060;
+  border-radius: 16px;
+  background: linear-gradient(110deg, #fffdf9, #f8efe2);
+  box-shadow: 0 8px 24px rgba(45, 10, 18, 0.06);
+}
+
+.dash-page-content .superadmin-profile-page .profile-overview::before {
+  display: none;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-overview::after {
+  border-color: rgba(202, 160, 96, 0.2);
+  box-shadow: 0 0 0 24px rgba(202, 160, 96, 0.035);
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-main {
+  gap: 17px;
+  min-width: 0;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-large-avatar {
+  width: 68px;
+  height: 68px;
+  flex: 0 0 68px;
+  border: 2px solid #dfb76c;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #730c26, #4b0918);
+  color: #fffaf2;
+  font-size: 21px;
+  box-shadow: 0 6px 18px rgba(91, 10, 30, 0.2);
+}
+
+.dash-page-content .manager-profile-page .profile-large-avatar::before,
+.dash-page-content .manager-profile-page .profile-large-avatar::after,
+.dash-page-content .superadmin-profile-page .profile-large-avatar::before,
+.dash-page-content .superadmin-profile-page .profile-large-avatar::after {
+  display: none;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-main-info h3 {
+  color: #4b0918;
+  font-size: 20px;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-main-info > p {
+  margin: 5px 0 9px;
+  color: #76665c;
+  font-size: 12px;
+}
+
+.dash-page-content .manager-profile-page .profile-status {
+  color: #18764f;
+}
+
+.dash-page-content .manager-profile-page .profile-status.inactive {
+  color: #a52c3b;
+}
+
+.dash-page-content .manager-profile-page .profile-status-dot {
+  background: #2f9466;
+  box-shadow: 0 0 0 4px rgba(47, 148, 102, 0.12);
+}
+
+.dash-page-content .manager-profile-page .profile-status.inactive .profile-status-dot {
+  background: #bd3945;
+  box-shadow: 0 0 0 4px rgba(189, 57, 69, 0.12);
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-role {
+  min-width: 195px;
+  padding: 13px 16px;
+  border: 1px solid #ead9bd;
+  border-radius: 12px;
+  background: rgba(255, 250, 242, 0.8);
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-role span {
+  margin-bottom: 5px;
+  color: #8c7657;
+  font-size: 9px;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-role strong {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #5b0a1e;
+  font-size: 13px;
+  backdrop-filter: none;
+}
+
+.dash-page-content .manager-profile-page .profile-role small {
+  color: #76665c;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-grid {
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) :is(.profile-panel, .profile-security, .profile-access-card) {
+  border: 1px solid #eadfd7;
+  border-radius: 16px;
+  background: #fffdf9;
+  box-shadow: 0 8px 24px rgba(45, 10, 18, 0.06);
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) :is(.profile-panel, .profile-security, .profile-access-card):hover {
+  border-color: #dfb76c;
+  box-shadow: 0 12px 28px rgba(45, 10, 18, 0.09);
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) :is(.profile-panel, .profile-security)::before {
+  background: #caa060;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) :is(.profile-panel, .profile-security)::after {
+  background: rgba(202, 160, 96, 0.06);
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-panel-header h3 {
+  color: #4b0918;
+  font-size: 15px;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-panel-header p {
+  color: #76665c;
+}
+
+.dash-page-content .manager-profile-page .profile-panel-eyebrow,
+.dash-page-content .manager-profile-page .profile-field span,
+.dash-page-content .superadmin-profile-page .profile-field span {
+  color: #8c7657;
+}
+
+.dash-page-content .manager-profile-page .profile-panel-icon {
+  border-color: #ead9bd;
+  background: #f7eddd;
+  color: #5b0a1e;
+}
+
+.dash-page-content .superadmin-profile-page .profile-field {
+  border-color: #eadfd7;
+  border-radius: 11px;
+  background: #fffaf2;
+}
+
+.dash-page-content .superadmin-profile-page .profile-field::before {
+  background: #caa060;
+}
+
+.dash-page-content .superadmin-profile-page .profile-field:hover {
+  border-color: #dfb76c;
+  box-shadow: 0 6px 15px rgba(84, 32, 45, 0.06);
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .profile-field strong {
+  color: #38261f;
+}
+
+.dash-page-content .manager-profile-page .profile-field {
+  border-color: #eadfd7;
+}
+
+.dash-page-content .manager-profile-page .profile-field:nth-child(even),
+.dash-page-content .manager-profile-page .profile-field:nth-child(n + 3) {
+  border-color: #eadfd7;
+}
+
+.dash-page-content .manager-profile-page .field-icon,
+.dash-page-content .manager-profile-page .profile-access-card .access-card-icon {
+  border-color: #ead9bd;
+  background: #f7eddd;
+  color: #5b0a1e;
+}
+
+.dash-page-content .manager-profile-page .field-icon.success {
+  border-color: #cde7d8;
+  background: #edf7f0;
+  color: #18764f;
+}
+
+.dash-page-content .manager-profile-page .field-icon.inactive {
+  border-color: #f0cdd0;
+  background: #fff3f2;
+  color: #a52c3b;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .security-option {
+  border-color: #eadfd7;
+}
+
+.dash-page-content .manager-profile-page .security-option-icon {
+  border-color: #ead9bd;
+  background: #f7eddd;
+  color: #5b0a1e;
+}
+
+.dash-page-content .manager-profile-page .security-option-icon.danger,
+.dash-page-content .superadmin-profile-page .security-icon[style] {
+  border-color: #f0cdd0;
+  background: #fff3f2;
+  color: #a52c3b;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .security-option :is(strong, span) {
+  color: #76665c;
+}
+
+.dash-page-content :is(
+  .superadmin-profile-page,
+  .manager-profile-page
+) .security-option strong {
+  color: #4b0918;
+}
+
+.dash-page-content .superadmin-profile-page .security-icon {
+  border-color: #ead9bd !important;
+  background: #f7eddd !important;
+  color: #5b0a1e !important;
+}
+
+.dash-page-content .superadmin-profile-page .security-active,
+.dash-page-content .manager-profile-page .session-active {
+  border: 1px solid #cde7d8;
+  border-radius: 999px;
+  background: #edf7f0;
+  color: #18764f !important;
+}
+
+.dash-page-content .superadmin-profile-page .security-option button,
+.dash-page-content .superadmin-profile-page .profile-sign-out,
+.dash-page-content .manager-profile-page .security-btn {
+  border: 1px solid #e7c7c7 !important;
+  border-radius: 9px !important;
+  background: #fff4f1 !important;
+  color: #8b1230 !important;
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.dash-page-content .superadmin-profile-page .security-option button:hover,
+.dash-page-content .superadmin-profile-page .profile-sign-out:hover,
+.dash-page-content .manager-profile-page .security-btn:hover {
+  border-color: #caa060 !important;
+  background: #f7eddd !important;
+}
+
+.dash-page-content .manager-profile-page .profile-access-card {
+  background: linear-gradient(110deg, #fffdf9, #f8efe2);
+}
+
+.dash-page-content .manager-profile-page .profile-access-card::before {
+  background: #caa060;
+}
+
+.dash-page-content .manager-profile-page .access-card-eyebrow,
+.dash-page-content .manager-profile-page .access-card-role span {
+  color: #8c7657;
+}
+
+.dash-page-content .manager-profile-page .access-card-content h3,
+.dash-page-content .manager-profile-page .access-card-role strong {
+  color: #4b0918;
+}
+
+.dash-page-content .manager-profile-page .access-card-content p {
+  color: #76665c;
+}
+
+.dash-page-content .manager-profile-page .profile-error {
+  border-color: #f0cdd0;
+  background: #fff4f1;
+  color: #8b1230;
+}
+
+.dash-page-content .manager-profile-page .profile-refresh-btn {
+  border-color: #ead9bd;
+  border-radius: 10px;
+  background: #fffaf2;
+  color: #5b0a1e;
+}
+
+.dash-page-content .manager-profile-page .profile-refresh-btn:hover:not(:disabled) {
+  border-color: #caa060;
+  background: #f7eddd;
+}
+
+.dash-page-content .manager-profile-page .profile-refresh-btn:focus-visible,
+.dash-page-content .manager-profile-page .security-btn:focus-visible,
+.dash-page-content .manager-profile-page .profile-error button:focus-visible,
+.dash-page-content .superadmin-profile-page .security-option button:focus-visible,
+.dash-page-content .superadmin-profile-page .profile-sign-out:focus-visible {
+  outline: 3px solid rgba(202, 160, 96, 0.4);
+  outline-offset: 2px;
+}
+
+.dash-page-content .valet-profile-page .profile-card {
+  max-width: 860px;
+  padding: 24px;
+  border: 1px solid #eadfd7;
+  border-left: 4px solid #caa060;
+  border-radius: 16px;
+  background: #fffdf9;
+  box-shadow: 0 8px 24px rgba(45, 10, 18, 0.06);
+}
+
+.dash-page-content .valet-profile-page .profile-hero {
+  align-items: center;
+  gap: 16px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid #eadfd7;
+}
+
+.dash-page-content .valet-profile-page .profile-avatar {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  place-items: center;
+  border: 2px solid #dfb76c;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #730c26, #4b0918);
+  color: #fffaf2;
+  font-size: 19px;
+  font-weight: 800;
+  box-shadow: 0 6px 18px rgba(91, 10, 30, 0.2);
+}
+
+.dash-page-content .valet-profile-page .profile-hero h2 {
+  color: #4b0918;
+  font-size: 20px;
+}
+
+.dash-page-content .valet-profile-page .profile-hero span {
+  color: #8c7657;
+}
+
+.dash-page-content .valet-profile-page .profile-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 20px;
+}
+
+.dash-page-content .valet-profile-page .profile-details > div {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #eadfd7;
+  border-radius: 11px;
+  background: #fffaf2;
+}
+
+.dash-page-content .valet-profile-page .profile-details svg {
+  color: #5b0a1e;
+}
+
+.dash-page-content .valet-profile-page .profile-details small {
+  color: #8c7657;
+}
+
+.dash-page-content .valet-profile-page .profile-details strong {
+  color: #38261f;
+  overflow-wrap: anywhere;
+}
+
+.dash-page-content .valet-profile-page .page-empty {
+  max-width: 860px;
+  border: 1px solid #eadfd7;
+  border-left: 4px solid #caa060;
+  border-radius: 16px;
+  background: #fffdf9;
+  color: #5b0a1e;
+}
+
+@media (max-width: 900px) {
+  .dash-page-content :is(
+    .superadmin-profile-page,
+    .manager-profile-page,
+    .valet-profile-page
+  ) {
+    padding: 24px 20px 40px;
+  }
+
+  .dash-page-content :is(
+    .superadmin-profile-page,
+    .manager-profile-page
+  ) .profile-overview {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .dash-page-content :is(
+    .superadmin-profile-page,
+    .manager-profile-page
+  ) .profile-role {
+    width: 100%;
+    min-width: 0;
+    padding: 13px 16px;
+  }
+}
+
+@media (max-width: 760px) {
+  .dash-page-content :is(
+    .superadmin-profile-page,
+    .manager-profile-page
+  ) .profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 580px) {
+  .dash-page-content :is(
+    .superadmin-profile-page,
+    .manager-profile-page,
+    .valet-profile-page
+  ) {
+    padding: 20px 14px 30px;
+  }
+
+  .dash-page-content :is(
+    .superadmin-profile-page,
+    .manager-profile-page
+  ) .profile-overview {
+    padding: 19px;
+  }
+
+  .dash-page-content .superadmin-profile-page .profile-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-page-content .manager-profile-page .profile-field:nth-child(even) {
+    padding-left: 8px;
+    border-left: 0;
+  }
+
+  .dash-page-content .manager-profile-page .profile-field:nth-child(n + 2) {
+    border-top: 1px solid #eadfd7;
+  }
+
+  .dash-page-content .valet-profile-page .profile-card {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dash-page-content .valet-profile-page .profile-details {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-page-content .manager-profile-page .security-option {
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-page-content :is(
+    .superadmin-profile-page,
+    .manager-profile-page,
+    .valet-profile-page
+  ) :is(.profile-panel, .profile-access-card, .profile-refresh-btn, .security-btn) {
+    transition: none;
+  }
+}

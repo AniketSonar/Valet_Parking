@@ -12,18 +12,25 @@ const {
 const BRAND = "Valet Parking";
 const FRONTEND_URL = process.env.FRONTEND_URL || process.env.VITE_APP_URL || "http://localhost:5173";
 
-const buildDashboardLink = (phone) => {
+const buildDashboardLinkSuffix = (phone) => {
   if (!phone) return "";
   const digits = String(phone).replace(/\D/g, "");
   const queryPhone = digits.length >= 10 ? digits.slice(-10) : digits;
-  return queryPhone ? `${FRONTEND_URL}/customer-mobile/${queryPhone}` : "";
+  return queryPhone ? `customer-mobile/${queryPhone}` : "";
+};
+
+const buildDashboardLink = (phone) => {
+  const suffix = buildDashboardLinkSuffix(phone);
+  return suffix
+    ? `${FRONTEND_URL.replace(/\/+$/, "")}/${suffix}`
+    : "";
 };
 
 const money = (amount) => `Rs. ${Number(amount || 0).toFixed(2)}`;
 const plateOf = (d) => d.plate || "your vehicle";
 const dashLine = (d) => {
   const link = buildDashboardLink(d.phone);
-  return link ? `\nDashboard: ${link}` : "";
+  return link ? `\nCustomer Portal: ${link}` : "";
 };
 
 /**
@@ -33,6 +40,7 @@ const dashLine = (d) => {
  *                 WHATSAPP_USE_TEMPLATES=true)
  *  - params(d)  : ordered values for {{1}}, {{2}}, ... in that template
  *  - header     : "image" | "document" if the template has a media header
+ *  - URL button : dynamic customer-portal path for the approved template
  */
 const EVENTS = {
   ticket: {
@@ -65,9 +73,8 @@ const EVENTS = {
         `Hello ${d.customerName || "Customer"},\n\n` +
         `Your car ${plateOf(d)} has been parked safely at slot ${d.location || "-"}.\n` +
         `Ticket: ${d.ticketCode}\n` +
-        (link ? `Dashboard: ${link}\n\n` : "\n") +
-        `When you are ready to leave, just reply to this chat with your ticket number\n` +
-        `(e.g. "Please bring my car. Ticket: ${d.ticketCode || "-"}") and we will bring your car to you.\n` +
+        (link ? `Customer Portal: ${link}\n\n` : "\n") +
+        `Use the customer portal for vehicle retrieval and more information.\n` +
         `* Valet Parking`
       );
     }
@@ -102,7 +109,7 @@ const EVENTS = {
       `*${BRAND}*\n` +
       `Your vehicle ${plateOf(d)} has been returned. Thank you for choosing us!\n` +
       `Ticket: ${d.ticketCode}\n` +
-      `You can rate your experience from your customer dashboard.` +
+      `You can rate your experience from your customer portal.` +
       dashLine(d)
   },
 
@@ -116,7 +123,8 @@ const EVENTS = {
       `Ticket: ${d.ticketCode}\n` +
       `Vehicle: ${plateOf(d)}\n` +
       `Total: ${money(d.total)}\n\n` +
-      `Your invoice PDF is attached.`
+      `Your invoice PDF is attached.` +
+      dashLine(d)
   }
 };
 
@@ -180,7 +188,8 @@ const deliver = async ({ phone, event, data, media }) => {
       phone,
       name: def.template,
       params: def.params(data),
-      header
+      header,
+      urlButton: buildDashboardLinkSuffix(data.phone)
     });
     return;
   }

@@ -26,7 +26,7 @@ import RetrievalRequests from "./RetrievalRequests";
 import ParkingHistory from "./ParkingHistory";
 import ValetManagement from "./ValetManagement";
 import ValetPosts from "./ValetPosts";
-import ReceptionPayments from "../reception/ReceptionPayments";
+import RevenueOverview from "../revenue/RevenueOverview";
 import ParkingReports from "./ParkingReports";
 import ParkingAdminProfile from "./ParkingAdminProfile";
 import ParkingSessions from "./ParkingSessions";
@@ -307,10 +307,10 @@ const ParkingAdminDashboard = ({ onLogout }) => {
         return <FeedbackManagement />;
 
       // ========================================================
-      // REVENUE & PAYMENTS
+      // REVENUE
       // ========================================================
       case "revenue":
-        return <ReceptionPayments />;
+        return <RevenueOverview />;
 
       // ========================================================
       // PROFILE

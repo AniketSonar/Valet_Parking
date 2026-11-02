@@ -18,7 +18,7 @@ export const normalizePhone = (raw) => {
   return digits;
 };
 
-/** Build a one-click dashboard link for the customer (no login needed). */
+/** Build a one-click customer portal link for the customer (no login needed). */
 export const buildCustomerDashboardLink = (phone) => {
   const raw = String(phone || "").trim();
   const digits = raw.replace(/\D/g, "");
@@ -69,12 +69,11 @@ export const buildParkedMessage = (session = {}) => {
   ];
   if (session.ticket_code) lines.push(`Ticket: ${session.ticket_code}`);
   if (dashboardLink) {
-    lines.push(`Dashboard: ${dashboardLink}`);
+    lines.push(`Customer Portal: ${dashboardLink}`);
   }
   lines.push(
     "",
-    "When you are ready to leave, just reply to this chat with your ticket number",
-    `(e.g. "Please bring my car. Ticket: ${session.ticket_code || "-"}") and we will bring your car to you.`,
+    "Use the customer portal for vehicle retrieval and more information.",
     "* Valet Parking"
   );
   return lines.join("\n");
@@ -105,11 +104,11 @@ export const buildTicketMessage = (session = {}) => {
   ];
   if (session.ticket_code) lines.push(`Ticket: ${session.ticket_code}`);
   if (dashboardLink) {
-    lines.push(`Dashboard: ${dashboardLink}`);
+    lines.push(`Customer Portal: ${dashboardLink}`);
   }
   lines.push(
     "",
-    "You can track your vehicle and request retrieval directly from your dashboard link above.",
+    "Use the customer portal for vehicle retrieval and more information.",
     "* Valet Parking"
   );
   return lines.join("\n");
@@ -157,7 +156,7 @@ export const buildReadyMessage = (session = {}) => {
     `Your car ${vehicle.license_plate || ""} is ready for pickup at the valet point.`,
   ];
   if (session.ticket_code) lines.push(`Ticket: ${session.ticket_code}`);
-  if (dashboardLink) lines.push(`Dashboard: ${dashboardLink}`);
+  if (dashboardLink) lines.push(`Customer Portal: ${dashboardLink}`);
   lines.push(
     "",
     "* Valet Parking"

@@ -14,6 +14,7 @@ import { getValetDashboard } from "../../api/parkingApi";
 
 // import "./css/ValetProfile.css";
 import "./css/ValetPages.css";
+import "../layout/css/profile-theme.css";
 
 const ValetProfile = () => {
   const [valet, setValet] =

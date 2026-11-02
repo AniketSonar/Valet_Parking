@@ -15,6 +15,7 @@ import {
 import { getParkingAdminProfile } from "../../api/parkingApi";
 
 import "./css/ParkingAdminProfile.css";
+import "../layout/css/profile-theme.css";
 
 const getStoredUser = () => {
   try {
@@ -140,7 +141,7 @@ const ParkingAdminProfile = ({ onLogout }) => {
     profile?.accountStatus === "Active";
 
   return (
-    <main className="profile-page">
+    <main className="profile-page manager-profile-page">
 
       {/* ======================================================
           PAGE HEADER

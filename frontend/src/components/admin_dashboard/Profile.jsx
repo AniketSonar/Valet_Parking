@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
+import "../layout/css/profile-theme.css";
 
 function Profile() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function Profile() {
   };
 
   return (
-    <div className="profile-page">
+    <div className="profile-page superadmin-profile-page">
       {/* Header */}
       <section className="profile-page-header">
         <div>
@@ -165,8 +166,9 @@ function Profile() {
               <span>End your administrative session on this device</span>
             </div>
             <button
+              type="button"
+              className="profile-sign-out"
               onClick={handleLogout}
-              style={{ background: "#fef2f2", color: "#b91c1c", borderColor: "#fecaca", cursor: "pointer", padding: "8px 16px", borderRadius: "8px", border: "1px solid #fecaca", fontWeight: "700", fontSize: "12px" }}
             >
               Sign Out
             </button>

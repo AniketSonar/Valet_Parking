@@ -13,6 +13,14 @@ export const getRevenuePerformance = async (days = 7) => {
   return apiClient(`/api/admin/revenue-performance?${query}`);
 };
 
+export const getRevenue = async (days = 30) => {
+  const query = new URLSearchParams({
+    days: String(days),
+    tz_offset: String(-new Date().getTimezoneOffset()),
+  }).toString();
+  return apiClient(`/api/revenue?${query}`);
+};
+
 export const getAllStaff = async (params = {}) => {
   const query = new URLSearchParams(params).toString();
   return apiClient(`/api/users${query ? `?${query}` : ""}`);

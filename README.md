@@ -77,6 +77,14 @@ only delivers this if the customer messaged your business number in the last
 | `aura_valet_returned` | none | plate, ticket |
 | `aura_valet_invoice` | Document | invoice no., ticket, plate, total |
 
+Add a dynamic **Visit website** URL button at index 0 to each template so
+customers can open their portal from template messages. Set its static URL
+prefix to `${FRONTEND_URL}/` (for example,
+`https://your-site.example/`) and leave the final path dynamic. The backend
+provides `customer-mobile/<customer-phone>` as the dynamic URL suffix. Keep
+`FRONTEND_URL` set to the public website origin in production. Meta requires
+the URL button to be part of the approved template before it can be used.
+
 Example body for `aura_valet_parked`:
 `Your vehicle {{1}} is parked. Parking location: {{2}}. Ticket: {{3}}`
 

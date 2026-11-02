@@ -149,8 +149,15 @@ const sendWhatsAppDocument = async ({ phone, mediaId, filename, caption }) =>
 /**
  * header: optional { type: "image" | "document", mediaId, filename }
  * params: ordered array of strings for {{1}}, {{2}}, ...
+ * urlButton: dynamic URL suffix for a URL button on the approved template.
  */
-const sendWhatsAppTemplate = async ({ phone, name, params = [], header }) => {
+const sendWhatsAppTemplate = async ({
+  phone,
+  name,
+  params = [],
+  header,
+  urlButton
+}) => {
   const components = [];
 
   if (header?.mediaId) {
@@ -175,6 +182,15 @@ const sendWhatsAppTemplate = async ({ phone, name, params = [], header }) => {
         // Template parameters may not contain newlines or tabs.
         text: String(text ?? "-").replace(/[\r\n\t]+/g, " ").trim() || "-"
       }))
+    });
+  }
+
+  if (urlButton) {
+    components.push({
+      type: "button",
+      sub_type: "url",
+      index: "0",
+      parameters: [{ type: "text", text: urlButton }]
     });
   }
 

@@ -22,6 +22,7 @@ const parkingSystemRoutes = require("./routes/parkingSystemRoutes");
 const parkingPositionRoutes = require("./routes/parkingPositionRoutes");
 const areaRoutes = require("./routes/areaRoutes");
 const reportRoutes = require("./routes/reportRoutes");
+const revenueRoutes = require("./routes/revenueRoutes");
 console.log("PARKING FLOOR ROUTE LOADED");
 const app = express();
 
@@ -98,6 +99,7 @@ app.use("/api/feedback", feedbackRoutes);
 
 app.use("/api/payments", paymentRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/revenue", revenueRoutes);
 
 /*
 |--------------------------------------------------------------------------

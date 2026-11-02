@@ -4,7 +4,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import { adminConfig } from "../layout/dashboardConfigs";
 import StaffManagement from "./StaffManagement";
 import AreaManagement from "./AreaManagement";
-import ReceptionPayments from "../reception/ReceptionPayments";
+import RevenueOverview from "../revenue/RevenueOverview";
 import Reports from "./Reports";
 import Profile from "./Profile";
 import LuxuryDashboardView from "./LuxuryDashboardView";
@@ -103,7 +103,11 @@ function Dashboard() {
       activeTab={activePage}
       setActiveTab={setActivePage}
     >
-      <div className="dashboard-content">
+      <div
+        className={`dashboard-content ${
+          activePage === "revenue" ? "dashboard-content-revenue" : ""
+        }`}
+      >
         {dashboardError && (
           <div className="dashboard-error">
             <div className="dashboard-error-message">
@@ -131,7 +135,7 @@ function Dashboard() {
 
         {activePage === "staff" && <StaffManagement />}
         {activePage === "areas" && <AreaManagement />}
-        {activePage === "revenue" && <ReceptionPayments />}
+        {activePage === "revenue" && <RevenueOverview />}
         {activePage === "reports" && <Reports />}
         {activePage === "profile" && <Profile />}
       </div>

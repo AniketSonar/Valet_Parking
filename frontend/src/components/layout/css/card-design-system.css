@@ -249,3 +249,18 @@
     transform: none;
   }
 }
+
+/* ============================================================
+   GLOBAL SELECT / DROPDOWN TEXT-CLIPPING & ALIGNMENT FIX
+   ============================================================ */
+
+select {
+  box-sizing: border-box !important;
+  line-height: normal !important;
+  vertical-align: middle !important;
+}
+
+select:not([size]):not([multiple]) {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}

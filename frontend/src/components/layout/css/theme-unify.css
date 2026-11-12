@@ -77,6 +77,20 @@
   color: #38261f;
 }
 
+.dash-page-content select,
+.dash-layout select,
+select {
+  box-sizing: border-box !important;
+  line-height: normal !important;
+  vertical-align: middle !important;
+}
+
+.dash-page-content select:not([size]):not([multiple]),
+.dash-layout select:not([size]):not([multiple]) {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
 .dash-page-content :is(input, select, textarea)::placeholder {
   color: #96877a;
 }

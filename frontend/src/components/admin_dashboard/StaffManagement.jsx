@@ -65,6 +65,34 @@ function StaffManagement() {
   const [editingStaff, setEditingStaff] = useState(null);
   const [statusStaff, setStatusStaff] = useState(null);
 
+  // Close the action menu (three dots dropdown) when clicking anywhere outside or pressing Escape
+  useEffect(() => {
+    if (!openAction) return;
+
+    const handleClickOutside = (e) => {
+      if (e.target.closest(".more-action") || e.target.closest(".action-menu")) {
+        return;
+      }
+      setOpenAction(null);
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setOpenAction(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [openAction]);
+
   const [staff, setStaff] = useState([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -733,14 +761,14 @@ function StaffManagement() {
 
                           <button
                             className="more-action"
-                            onClick={() =>
+                            onClick={(e) => {
+                              e.stopPropagation();
                               setOpenAction(
-                                openAction ===
-                                  staffMember.id
+                                openAction === staffMember.id
                                   ? null
                                   : staffMember.id
-                              )
-                            }
+                              );
+                            }}
                           >
                             ⋮
                           </button>

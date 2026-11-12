@@ -504,13 +504,13 @@
    PROFILE FIELDS
    ============================================================ */
 
-.profile-fields {
+.manager-profile-page .profile-fields {
   display: grid;
 
   grid-template-columns: 1fr 1fr;
 }
 
-.profile-field {
+.manager-profile-page .profile-field {
   display: flex;
   align-items: flex-start;
 
@@ -521,17 +521,17 @@
   padding: 17px 8px 16px 0;
 }
 
-.profile-field:nth-child(even) {
+.manager-profile-page .profile-field:nth-child(even) {
   padding-left: 17px;
 
   border-left: 1px solid #f3e9ec;
 }
 
-.profile-field:nth-child(n + 3) {
+.manager-profile-page .profile-field:nth-child(n + 3) {
   border-top: 1px solid #f3e9ec;
 }
 
-.field-icon {
+.manager-profile-page .field-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -548,23 +548,23 @@
   color: #b44460;
 }
 
-.field-icon.success {
+.manager-profile-page .field-icon.success {
   border-color: #d6eee3;
   background: #effaf5;
   color: #059669;
 }
 
-.field-icon.inactive {
+.manager-profile-page .field-icon.inactive {
   border-color: #fecaca;
   background: #fff7f7;
   color: #dc2626;
 }
 
-.profile-field > div:last-child {
+.manager-profile-page .profile-field > div:last-child {
   min-width: 0;
 }
 
-.profile-field span {
+.manager-profile-page .profile-field span {
   display: block;
 
   margin-bottom: 4px;
@@ -576,7 +576,7 @@
   letter-spacing: 1px;
 }
 
-.profile-field strong {
+.manager-profile-page .profile-field strong {
   display: block;
 
   max-width: 100%;
@@ -590,11 +590,11 @@
   font-weight: 700;
 }
 
-.profile-field .text-green {
+.manager-profile-page .profile-field .text-green {
   color: #059669;
 }
 
-.profile-field .text-red {
+.manager-profile-page .profile-field .text-red {
   color: #dc2626;
 }
 
@@ -941,18 +941,18 @@
     width: 100%;
   }
 
-  .profile-fields {
+  .manager-profile-page .profile-fields {
     grid-template-columns: 1fr;
   }
 
-  .profile-field,
-  .profile-field:nth-child(even) {
+  .manager-profile-page .profile-field,
+  .manager-profile-page .profile-field:nth-child(even) {
     padding: 14px 0;
 
     border-left: none;
   }
 
-  .profile-field:nth-child(n + 2) {
+  .manager-profile-page .profile-field:nth-child(n + 2) {
     border-top: 1px solid #f3e9ec;
   }
 

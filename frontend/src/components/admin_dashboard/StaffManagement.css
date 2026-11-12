@@ -1257,16 +1257,16 @@
 .form-group input,
 .form-group select {
   width: 100%;
-  height: 42px;
-  padding: 0 12px;
+  height: 44px;
+  padding: 0 14px;
   box-sizing: border-box;
-  border: 1px solid #e4dadd;
-  border-radius: 9px;
+  border: 1.5px solid #e4dadd;
+  border-radius: 10px;
   outline: none;
   background: #ffffff;
   color: #2e1118;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   transition:
     border-color 0.2s ease,
@@ -1280,14 +1280,17 @@
 
 .form-group input:hover:not(:disabled),
 .form-group select:hover:not(:disabled) {
-  border-color: #d9c9cd;
+  border-color: #c9b8bd;
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group input:focus-visible,
+.form-group select:focus-visible {
+  outline: none !important;
   background: #ffffff;
-  border-color: #a13d56;
-  box-shadow: 0 0 0 3px rgba(122, 46, 65, 0.09);
+  border-color: #8b1230 !important;
+  box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.12) !important;
 }
 
 .form-group input:disabled,
@@ -1298,19 +1301,26 @@
 }
 
 .form-group select {
-  padding-right: 36px;
+  padding-right: 40px;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   cursor: pointer;
-  background-image:
-    linear-gradient(45deg, transparent 50%, #847176 50%),
-    linear-gradient(135deg, #847176 50%, transparent 50%);
-  background-position:
-    calc(100% - 15px) 17px,
-    calc(100% - 11px) 17px;
-  background-size:
-    4px 4px,
-    4px 4px;
-  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2378676b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-position: right 14px center !important;
+  background-size: 16px 16px !important;
+  background-repeat: no-repeat !important;
+}
+
+.form-group select option {
+  background: #ffffff;
+  color: #2e1118;
+  font-size: 13px;
+  padding: 8px 12px;
+}
+
+.form-group select option:disabled {
+  color: #a8999d;
 }
 
 .form-group select:disabled {

@@ -415,19 +415,18 @@
 
 .profile-field {
     position: relative;
-    min-height: 66px;
-    padding: 12px 13px;
+    min-height: 74px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 6px;
 
-    border: 1px solid #f0eaec;
-    border-radius: 10px;
+    border: 1px solid #eadfd7;
+    border-radius: 12px;
 
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #fcf9fa
-        );
-
+    background: #fffaf2;
     box-sizing: border-box;
 
     transition:
@@ -437,44 +436,46 @@
 }
 
 .profile-field:hover {
-    border-color: #e6cdd3;
+    border-color: #dfb76c;
     transform: translateY(-1px);
-    box-shadow: 0 6px 15px rgba(84, 32, 45, 0.05);
+    box-shadow: 0 6px 15px rgba(84, 32, 45, 0.06);
 }
 
 .profile-field::before {
     content: "";
     position: absolute;
     left: 0;
-    top: 13px;
-    bottom: 13px;
-    width: 2px;
-    border-radius: 4px;
-    background: #e2c5cc;
+    top: 14px;
+    bottom: 14px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: #caa060;
 }
 
-.profile-field span {
+.profile-field > span {
     display: block;
-    color: #a08f93;
-    font-size: 8px;
-    font-weight: 850;
-    letter-spacing: 0.12em;
+    color: #8c7657;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
+    line-height: 1.2;
+    margin: 0;
 }
 
 .profile-field > strong {
-    display: block;
-    margin-top: 7px;
-
+    display: flex;
+    align-items: center;
+    margin: 0;
+    width: 100%;
     overflow: hidden;
-    color: #3b161f;
-    font-size: 11.5px;
-    font-weight: 750;
+    color: #38261f;
+    font-size: 13.5px;
+    font-weight: 700;
     line-height: 1.35;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
 
 /* ============================================================
    ACTIVE FIELD
@@ -484,8 +485,21 @@
     display: inline-flex !important;
     align-items: center;
     gap: 7px;
-    margin-top: 7px !important;
-    color: #17805d !important;
+    margin: 0 !important;
+    color: #10b981 !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+}
+
+.active-field span {
+    width: 7px !important;
+    height: 7px !important;
+    min-width: 7px !important;
+    border-radius: 50% !important;
+    background: #10b981 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+    display: inline-block !important;
+    margin: 0 !important;
 }
 
 

@@ -298,7 +298,7 @@ const ParkingAdminDashboard = ({ onLogout }) => {
       // INCIDENT MANAGEMENT
       // ========================================================
       case "incidents":
-        return <IncidentManagement canReport={false} canUpdateStatus={false} />;
+        return <IncidentManagement canReport={false} canUpdateStatus={true} />;
 
      
       // INCIDENT MANAGEMENT

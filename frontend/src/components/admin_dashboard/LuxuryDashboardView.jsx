@@ -247,13 +247,17 @@ function LuxuryDashboardView({
       ======================================================== */}
       <section className="lux-welcome-banner">
         <div className="lux-welcome-text">
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "14px" }}>
-            <div>
-              <span className="lux-welcome-greeting">{greeting}</span>
-              <h1 className="lux-welcome-title">Welcome Back!</h1>
-            </div>
+          <span className="lux-welcome-greeting">{greeting}</span>
+          <h1 className="lux-welcome-title">Welcome Back!</h1>
+          <p className="lux-welcome-sub">
+            {selectedHotel === "all"
+              ? "Here's what's happening across all hotel branches today."
+              : `Viewing live activity and parking metrics for ${activeHotelLabel}.`}
+          </p>
+          <div className="lux-gold-line" />
 
-            {/* Hotel / Branch Filter Dropdown */}
+          {/* Hotel / Branch Filter Row */}
+          <div style={{ marginTop: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
             <div className="lux-hotel-filter-container" ref={hotelMenuRef} style={{ position: "relative", zIndex: 100 }}>
               <button
                 type="button"
@@ -265,14 +269,14 @@ function LuxuryDashboardView({
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "10px",
-                  padding: "10px 18px",
-                  borderRadius: "28px",
+                  padding: "9px 18px",
+                  borderRadius: "24px",
                   border: "1.5px solid #dca270",
                   background: "linear-gradient(135deg, #2a0812 0%, #4a0d1e 100%)",
                   color: "#f6deb5",
                   fontWeight: "600",
                   fontSize: "13px",
-                  boxShadow: "0 6px 18px rgba(40, 5, 15, 0.45)",
+                  boxShadow: "0 4px 14px rgba(40, 5, 15, 0.35)",
                   transition: "all 0.2s ease"
                 }}
               >
@@ -286,15 +290,15 @@ function LuxuryDashboardView({
                   className="lux-filter-menu"
                   style={{
                     position: "absolute",
-                    top: "calc(100% + 10px)",
-                    right: 0,
+                    top: "calc(100% + 8px)",
+                    left: 0,
                     background: "#ffffff",
                     border: "1.5px solid #dfb76c",
                     borderRadius: "14px",
                     boxShadow: "0 22px 50px rgba(40, 5, 15, 0.35), 0 4px 14px rgba(0,0,0,0.08)",
                     padding: "8px",
                     zIndex: 99999,
-                    minWidth: "260px",
+                    minWidth: "270px",
                     maxHeight: "340px",
                     overflowY: "auto",
                     display: "flex",
@@ -393,13 +397,6 @@ function LuxuryDashboardView({
               )}
             </div>
           </div>
-
-          <p className="lux-welcome-sub">
-            {selectedHotel === "all"
-              ? "Here's what's happening across all hotel branches today."
-              : `Viewing live activity and parking metrics for ${activeHotelLabel}.`}
-          </p>
-          <div className="lux-gold-line" />
         </div>
 
         <div className="lux-welcome-visual">

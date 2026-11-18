@@ -21,14 +21,14 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  min-height: 220px;
+  min-height: 190px;
   background: linear-gradient(90deg, #fdfbf8 0%, #f7f2ed 45%, rgba(247, 242, 237, 0.35) 100%);
   border-radius: 20px;
   border: 1px solid rgba(139, 18, 48, 0.08);
   box-shadow: 0 4px 20px rgba(139, 18, 48, 0.04);
   overflow: visible;
   z-index: 30;
-  padding: 30px 34px 85px; /* bottom padding accommodates the merged cards */
+  padding: 28px 34px 28px;
 }
 
 .lux-welcome-text {
@@ -103,10 +103,10 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-top: -68px; /* Perfectly merges cards into above welcome banner */
+  margin-top: 20px;
   position: relative;
-  z-index: 4;
-  padding: 0 16px;
+  z-index: 5;
+  padding: 0;
 }
 
 .lux-kpi-card {

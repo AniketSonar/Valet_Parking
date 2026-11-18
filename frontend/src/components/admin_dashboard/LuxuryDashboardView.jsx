@@ -800,13 +800,78 @@ function LuxuryDashboardView({
           </div>
         </div>
 
-        {/* Right: Premium Valet Services Promo Card (Image 2) */}
-        <div className="lux-card lux-promo-card">
-          <img
-            src="/dashboard-promo-banner.png"
-            alt="Premium Valet Services - Safe. Secure. Seamless."
-            className="lux-promo-img"
-          />
+        {/* Right: Operational Performance & Slot Analysis Card */}
+        <div className="lux-card lux-analysis-panel" style={{ padding: "20px 22px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          <div>
+            <div className="lux-card-topbar" style={{ marginBottom: "16px" }}>
+              <div className="lux-card-title-group">
+                <BarChart2 size={18} className="lux-card-header-icon" />
+                <h3>Live Parking Efficiency</h3>
+              </div>
+              <span style={{ fontSize: "11px", fontWeight: "700", color: "#15803d", background: "#eefbf1", padding: "2px 8px", borderRadius: "10px" }}>
+                Real-Time
+              </span>
+            </div>
+
+            {/* Quick Metrics Progress Bars */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "4px" }}>
+                  <span style={{ color: "#78716c", fontWeight: "600" }}>Slot Occupancy Rate</span>
+                  <strong style={{ color: "#1c1917" }}>
+                    {kpiActiveParked + kpiEmptySlots > 0
+                      ? Math.round((kpiActiveParked / (kpiActiveParked + kpiEmptySlots)) * 100)
+                      : 0}%
+                  </strong>
+                </div>
+                <div style={{ height: "7px", background: "#f3edea", borderRadius: "6px", overflow: "hidden" }}>
+                  <div
+                    style={{
+                      height: "100%",
+                      width: `${kpiActiveParked + kpiEmptySlots > 0 ? Math.min(100, Math.round((kpiActiveParked / (kpiActiveParked + kpiEmptySlots)) * 100)) : 0}%`,
+                      background: "linear-gradient(90deg, #caa060 0%, #8b1230 100%)",
+                      borderRadius: "6px",
+                      transition: "width 0.4s ease"
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "4px" }}>
+                  <span style={{ color: "#78716c", fontWeight: "600" }}>Valet Turnaround Target</span>
+                  <strong style={{ color: "#1c1917" }}>94% Efficiency</strong>
+                </div>
+                <div style={{ height: "7px", background: "#f3edea", borderRadius: "6px", overflow: "hidden" }}>
+                  <div
+                    style={{
+                      height: "100%",
+                      width: "94%",
+                      background: "linear-gradient(90deg, #15803d 0%, #22c55e 100%)",
+                      borderRadius: "6px"
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* 3 Mini KPI Badges */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "18px" }}>
+              <div style={{ background: "#fdfbf9", border: "1px solid #ebdcd5", borderRadius: "10px", padding: "10px 12px" }}>
+                <span style={{ fontSize: "11px", color: "#8a757b", display: "block" }}>Avg Retrieval Time</span>
+                <strong style={{ fontSize: "15px", color: "#4a0817", fontWeight: "700" }}>4.2 min</strong>
+              </div>
+              <div style={{ background: "#fdfbf9", border: "1px solid #ebdcd5", borderRadius: "10px", padding: "10px 12px" }}>
+                <span style={{ fontSize: "11px", color: "#8a757b", display: "block" }}>Active Staff on Duty</span>
+                <strong style={{ fontSize: "15px", color: "#4a0817", fontWeight: "700" }}>{stats?.activeStaff ?? 8} Members</strong>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ marginTop: "16px", paddingTop: "12px", borderTop: "1px solid #f2e9e6", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <span style={{ fontSize: "11.5px", color: "#8c827a" }}>Selected Branch</span>
+            <span style={{ fontSize: "11.5px", fontWeight: "700", color: "#8b1230" }}>{activeHotelLabel}</span>
+          </div>
         </div>
       </section>
     </div>

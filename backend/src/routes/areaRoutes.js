@@ -10,9 +10,12 @@ const superAdmin = [authenticate, authorizeRoles("super_admin")];
 const manager = [authenticate, authorizeRoles("manager", "super_admin")];
 const valet = [authenticate, authorizeRoles("valet")];
 
-/* Super admin: buildings, floors, who manages what */
+/* Super admin: buildings/hotels, floors, who manages what */
 router.get("/buildings", ...manager, area.getBuildings);
 router.post("/buildings", ...superAdmin, area.createBuilding);
+router.put("/buildings/:id", ...superAdmin, area.updateBuilding);
+router.delete("/buildings/:id", ...superAdmin, area.deleteBuilding);
+router.post("/configure-hotel", ...superAdmin, area.configureHotel);
 router.get("/floors", ...manager, area.getFloors);
 router.post("/floors", ...superAdmin, area.createFloor);
 router.get("/managers", ...superAdmin, area.getManagers);

@@ -13,6 +13,8 @@ import {
   FileChartColumn,
   Building2,
   MapPinned,
+  Bell,
+  Settings,
 } from "lucide-react";
 
 /**
@@ -27,13 +29,18 @@ export const adminConfig = {
   brandSubtitle: "VALET PARKING",
   roleLabel: "Administrator",
   defaultName: "Super Admin",
+  profileId: "settings",
   searchPlaceholder: "Search...",
   menu: [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "staff", label: "Staff Management", icon: UserRoundPen },
-    { id: "areas", label: "Areas & Managers", icon: Building2 },
+    { id: "infra", label: "Infra Management", icon: Building2 },
+    { id: "parking-operations", label: "Parking Operations", icon: CarFront },
+    { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },
     { id: "revenue", label: "Revenue", icon: CreditCard },
-    { id: "reports", label: "Reports & Overview", icon: FileChartColumn },
+    { id: "incidents", label: "Incident Management", icon: ShieldAlert },
+    { id: "reports", label: "Reports", icon: BarChart3 },
+    { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "settings", label: "Settings", icon: Settings },
   ],
 };
 

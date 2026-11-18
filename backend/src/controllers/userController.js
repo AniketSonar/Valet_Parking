@@ -157,7 +157,8 @@ const createStaff = async (req, res) => {
       email,
       password,
       role,
-      phone
+      phone,
+      hotel_id
     } = req.body;
 
     if (
@@ -296,6 +297,57 @@ const createStaff = async (req, res) => {
       }
     }
 
+    if (hotel_id) {
+      try {
+        const { data: floors } = await supabase
+          .from("parking_floors")
+          .select("id")
+          .eq("building_id", hotel_id)
+          .order("floor_number", { ascending: true })
+          .limit(1);
+
+        if (floors && floors.length > 0) {
+          const floorId = floors[0].id;
+          if (role === "manager" || role === "parking_admin") {
+            await supabase.from("manager_assignments").insert([{
+              manager_id: user.id,
+              floor_id: floorId,
+              assigned_by: req.user?.id || null,
+              is_active: true
+            }]);
+          } else if (role === "valet" && employee?.id) {
+            let { data: post } = await supabase
+              .from("valet_posts")
+              .select("id")
+              .eq("floor_id", floorId)
+              .limit(1)
+              .maybeSingle();
+
+            if (!post) {
+              const { data: newPost } = await supabase
+                .from("valet_posts")
+                .insert([{ floor_id: floorId, post_name: "Main Post" }])
+                .select()
+                .single();
+              post = newPost;
+            }
+
+            if (post) {
+              await supabase.from("valet_assignments").insert([{
+                valet_id: employee.id,
+                floor_id: floorId,
+                post_id: post.id,
+                assigned_by: req.user?.id || null,
+                is_active: true
+              }]);
+            }
+          }
+        }
+      } catch (assignErr) {
+        console.warn("Auto hotel assign warning:", assignErr.message);
+      }
+    }
+
     return res.status(201).json({
       success: true,
       message:
@@ -333,6 +385,8 @@ const createStaff = async (req, res) => {
 
 const getAllStaff = async (req, res) => {
   try {
+    const hotelId = req.query.hotelId || req.query.building_id;
+
     const {
       data: users,
       error
@@ -361,24 +415,84 @@ const getAllStaff = async (req, res) => {
       });
     }
 
-    const staff = await Promise.all(
+    // Fetch all active manager assignments and valet assignments with building info
+    const [managerAssignRes, valetAssignRes] = await Promise.all([
+      supabase
+        .from("manager_assignments")
+        .select(`
+          manager_id,
+          floor:parking_floors (
+            id,
+            floor_name,
+            building:parking_buildings ( id, building_name )
+          )
+        `)
+        .eq("is_active", true),
+      supabase
+        .from("valet_assignments")
+        .select(`
+          valet_id,
+          floor:parking_floors (
+            id,
+            floor_name,
+            building:parking_buildings ( id, building_name )
+          )
+        `)
+        .eq("is_active", true)
+    ]);
+
+    const managerAssignments = managerAssignRes.data || [];
+    const valetAssignments = valetAssignRes.data || [];
+
+    let staff = await Promise.all(
       (users || []).map(async (user) => {
-        if (user.role !== "valet") {
-          return user;
+        let phone = null;
+        let employee_id = null;
+        let employee_is_active = null;
+
+        if (user.role === "valet") {
+          const employee = await getEmployeeByEmail(user.email);
+          phone = employee?.phone || null;
+          employee_id = employee?.id || null;
+          employee_is_active = employee?.is_active ?? null;
         }
 
-        const employee =
-          await getEmployeeByEmail(user.email);
+        // Determine hotel association
+        let hotel_id = null;
+        let hotel_name = "Unassigned";
+        let floor_name = null;
+
+        if (user.role === "manager" || user.role === "parking_admin") {
+          const ma = managerAssignments.find((a) => a.manager_id === user.id);
+          if (ma?.floor?.building) {
+            hotel_id = ma.floor.building.id;
+            hotel_name = ma.floor.building.building_name;
+            floor_name = ma.floor.floor_name;
+          }
+        } else if (user.role === "valet" && employee_id) {
+          const va = valetAssignments.find((a) => a.valet_id === employee_id);
+          if (va?.floor?.building) {
+            hotel_id = va.floor.building.id;
+            hotel_name = va.floor.building.building_name;
+            floor_name = va.floor.floor_name;
+          }
+        }
 
         return {
           ...user,
-          phone: employee?.phone || null,
-          employee_id: employee?.id || null,
-          employee_is_active:
-            employee?.is_active ?? null
+          phone,
+          employee_id,
+          employee_is_active,
+          hotel_id,
+          hotel_name,
+          floor_name
         };
       })
     );
+
+    if (hotelId && hotelId !== "all") {
+      staff = staff.filter((s) => s.hotel_id === hotelId);
+    }
 
     return res.status(200).json({
       success: true,
@@ -642,6 +756,71 @@ const updateStaff = async (req, res) => {
               employeeError.message
           });
         }
+      }
+    }
+
+    const hotel_id = req.body.hotel_id;
+    if (hotel_id) {
+      try {
+        const { data: floors } = await supabase
+          .from("parking_floors")
+          .select("id")
+          .eq("building_id", hotel_id)
+          .order("floor_number", { ascending: true })
+          .limit(1);
+
+        if (floors && floors.length > 0) {
+          const floorId = floors[0].id;
+          if (role === "manager" || role === "parking_admin") {
+            await supabase
+              .from("manager_assignments")
+              .update({ is_active: false })
+              .eq("manager_id", id);
+
+            await supabase.from("manager_assignments").insert([{
+              manager_id: id,
+              floor_id: floorId,
+              assigned_by: req.user?.id || null,
+              is_active: true
+            }]);
+          } else if (role === "valet") {
+            const employee = await getEmployeeByEmail(user.email);
+            if (employee?.id) {
+              await supabase
+                .from("valet_assignments")
+                .update({ is_active: false })
+                .eq("valet_id", employee.id);
+
+              let { data: post } = await supabase
+                .from("valet_posts")
+                .select("id")
+                .eq("floor_id", floorId)
+                .limit(1)
+                .maybeSingle();
+
+              if (!post) {
+                const { data: newPost } = await supabase
+                  .from("valet_posts")
+                  .insert([{ floor_id: floorId, post_name: "Main Post" }])
+                  .select()
+                  .single();
+                post = newPost;
+              }
+
+              if (post) {
+                await supabase.from("valet_assignments").insert([{
+                  valet_id: employee.id,
+                  floor_id: floorId,
+                  post_id: post.id,
+                  assigned_by: req.user?.id || null,
+                  is_active: true
+                }]);
+              }
+            }
+          }
+        }
+      } catch (uAssignErr) {
+        console.warn("Update hotel assign warning:", uAssignErr.message);
       }
     }
 

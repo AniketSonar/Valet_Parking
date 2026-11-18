@@ -13,14 +13,30 @@ import {
   Shield,
   KeyRound,
   Eye,
+  Building2,
+  Check,
 } from "lucide-react";
 import "./LuxuryDashboardView.css";
 
-function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, loading = false }) {
+function LuxuryDashboardView({
+  stats = {},
+  analytics: directAnalytics = null,
+  loading = false,
+  hotels = [],
+  selectedHotel = "all",
+  onHotelChange = () => {},
+}) {
   const [timeFilter, setTimeFilter] = useState("Today");
   const [showFilterMenu, setShowFilterMenu] = useState(false);
+  const [showHotelMenu, setShowHotelMenu] = useState(false);
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const [activeSegment, setActiveSegment] = useState(null);
+
+  const activeHotelLabel = useMemo(() => {
+    if (!selectedHotel || selectedHotel === "all") return "All Hotels";
+    const found = hotels.find((h) => h.id === selectedHotel);
+    return found?.building_name || "Hotel Branch";
+  }, [selectedHotel, hotels]);
 
   // Extract analytics from either direct prop or stats wrapper
   const analytics = directAnalytics || stats?.analytics || null;
@@ -198,10 +214,135 @@ function LuxuryDashboardView({ stats = {}, analytics: directAnalytics = null, lo
       ======================================================== */}
       <section className="lux-welcome-banner">
         <div className="lux-welcome-text">
-          <span className="lux-welcome-greeting">{greeting}</span>
-          <h1 className="lux-welcome-title">Welcome Back!</h1>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "14px" }}>
+            <div>
+              <span className="lux-welcome-greeting">{greeting}</span>
+              <h1 className="lux-welcome-title">Welcome Back!</h1>
+            </div>
+
+            {/* Hotel / Branch Filter Dropdown */}
+            <div className="lux-hotel-filter-container" style={{ position: "relative" }}>
+              <button
+                type="button"
+                className="lux-dropdown-pill lux-hotel-pill"
+                onClick={() => setShowHotelMenu((prev) => !prev)}
+                title="Select Hotel Branch"
+                style={{
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "9px",
+                  padding: "9px 16px",
+                  borderRadius: "24px",
+                  border: "1.5px solid #dca270",
+                  background: "linear-gradient(135deg, #2a0812 0%, #4a0d1e 100%)",
+                  color: "#f6deb5",
+                  fontWeight: "600",
+                  fontSize: "13px",
+                  boxShadow: "0 4px 14px rgba(40, 5, 15, 0.4)",
+                  transition: "all 0.2s ease"
+                }}
+              >
+                <Building2 size={16} style={{ color: "#dfb76c" }} />
+                <span>Branch: <strong style={{ color: "#ffffff", marginLeft: "3px" }}>{activeHotelLabel}</strong></span>
+                <ChevronDown size={14} style={{ color: "#dfb76c", transform: showHotelMenu ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
+              </button>
+
+              {showHotelMenu && (
+                <div
+                  className="lux-filter-menu"
+                  style={{
+                    position: "absolute",
+                    top: "100%",
+                    right: 0,
+                    marginTop: "8px",
+                    background: "#ffffff",
+                    border: "1.5px solid #ebdcd5",
+                    borderRadius: "12px",
+                    boxShadow: "0 10px 30px rgba(60, 10, 20, 0.2)",
+                    padding: "8px",
+                    zIndex: 100,
+                    minWidth: "220px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "4px"
+                  }}
+                >
+                  <p style={{ margin: "4px 8px 6px", fontSize: "10px", fontWeight: "800", color: "#8a5862", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                    Select Hotel Branch
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onHotelChange("all");
+                      setShowHotelMenu(false);
+                    }}
+                    style={{
+                      padding: "9px 12px",
+                      textAlign: "left",
+                      fontSize: "12.5px",
+                      fontWeight: selectedHotel === "all" ? "700" : "500",
+                      color: selectedHotel === "all" ? "#8b1230" : "#2d3748",
+                      backgroundColor: selectedHotel === "all" ? "#fbeff2" : "transparent",
+                      border: "none",
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      transition: "background 0.15s"
+                    }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <Building2 size={14} style={{ color: "#8b1230" }} />
+                      All Hotels (Combined)
+                    </span>
+                    {selectedHotel === "all" && <Check size={14} style={{ color: "#8b1230" }} />}
+                  </button>
+
+                  <div style={{ height: "1px", background: "#f0e4e6", margin: "4px 0" }} />
+
+                  {hotels.map((h) => (
+                    <button
+                      key={h.id}
+                      type="button"
+                      onClick={() => {
+                        onHotelChange(h.id);
+                        setShowHotelMenu(false);
+                      }}
+                      style={{
+                        padding: "9px 12px",
+                        textAlign: "left",
+                        fontSize: "12.5px",
+                        fontWeight: selectedHotel === h.id ? "700" : "500",
+                        color: selectedHotel === h.id ? "#8b1230" : "#2d3748",
+                        backgroundColor: selectedHotel === h.id ? "#fbeff2" : "transparent",
+                        border: "none",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        transition: "background 0.15s"
+                      }}
+                    >
+                      <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: selectedHotel === h.id ? "#8b1230" : "#cbd5e0" }} />
+                        {h.building_name} {h.location && h.location !== h.building_name ? `(${h.location})` : ""}
+                      </span>
+                      {selectedHotel === h.id && <Check size={14} style={{ color: "#8b1230" }} />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
           <p className="lux-welcome-sub">
-            Here's what's happening with your valet parking today.
+            {selectedHotel === "all"
+              ? "Here's what's happening across all hotel branches today."
+              : `Viewing live activity and parking metrics for ${activeHotelLabel}.`}
           </p>
           <div className="lux-gold-line" />
         </div>

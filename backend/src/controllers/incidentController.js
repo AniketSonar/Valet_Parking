@@ -114,7 +114,8 @@ const createIncident = async (req, res) => {
 };
 const getIncidents = async (req, res) => {
   try {
-    const { status, incident_type } = req.query;
+    const { status, incident_type, hotelId: rawHotelId } = req.query;
+    const hotelId = rawHotelId || req.query.building_id;
 
     let query = supabase
       .from("incidents")
@@ -127,11 +128,31 @@ const getIncidents = async (req, res) => {
         status,
         resolved_at,
         created_at,
-        employee:employees(
+        employee:employees (
           id,
           name,
           role,
-          email
+          email,
+          phone
+        ),
+        session:parking_sessions (
+          id,
+          ticket_code,
+          parking_slot,
+          checked_in_at,
+          vehicle:vehicles (
+            id,
+            license_plate,
+            make,
+            model,
+            color
+          ),
+          valet:employees (
+            id,
+            name,
+            phone,
+            role
+          )
         )
       `)
       .order("created_at", { ascending: false });
@@ -144,13 +165,79 @@ const getIncidents = async (req, res) => {
       query = query.eq("incident_type", incident_type);
     }
 
-    const { data: incidents, error } = await query;
+    const { data: rawIncidents, error } = await query;
 
     if (error) {
       return res.status(400).json({
         success: false,
         message: error.message
       });
+    }
+
+    // Map slot numbers to floors and hotels
+    const { data: slotData } = await supabase
+      .from("parking_slots")
+      .select(`
+        slot_number,
+        floor:parking_floors (
+          id,
+          floor_name,
+          building:parking_buildings ( id, building_name, address )
+        )
+      `);
+
+    const slotMap = new Map();
+    (slotData || []).forEach((s) => {
+      if (s.slot_number) {
+        slotMap.set(s.slot_number, {
+          hotel_id: s.floor?.building?.id || null,
+          hotel_name: s.floor?.building?.building_name || "Unassigned",
+          floor_name: s.floor?.floor_name || "Unassigned"
+        });
+      }
+    });
+
+    // Check inspection photos if available
+    const sessionIds = (rawIncidents || [])
+      .map((inc) => inc.parking_session_id)
+      .filter(Boolean);
+
+    let photoMap = new Map();
+    if (sessionIds.length > 0) {
+      const { data: inspections } = await supabase
+        .from("vehicle_inspections")
+        .select(`
+          session_id,
+          photos:vehicle_inspection_photos ( photo_path )
+        `)
+        .in("session_id", sessionIds);
+
+      (inspections || []).forEach((ins) => {
+        const paths = (ins.photos || []).map((p) => p.photo_path).filter(Boolean);
+        if (paths.length > 0) {
+          photoMap.set(ins.session_id, paths);
+        }
+      });
+    }
+
+    let incidents = (rawIncidents || []).map((inc) => {
+      const slot = inc.session?.parking_slot;
+      const slotInfo = slot ? slotMap.get(slot) : null;
+      const photos = inc.parking_session_id ? (photoMap.get(inc.parking_session_id) || []) : [];
+
+      return {
+        ...inc,
+        hotel_id: slotInfo?.hotel_id || null,
+        hotel_name: slotInfo?.hotel_name || "Unassigned",
+        floor_name: slotInfo?.floor_name || "Unassigned",
+        vehicle_plate: inc.session?.vehicle?.license_plate || null,
+        vehicle_model: inc.session?.vehicle ? `${inc.session.vehicle.make || ""} ${inc.session.vehicle.model || ""}`.trim() : null,
+        photos
+      };
+    });
+
+    if (hotelId && hotelId !== "all") {
+      incidents = incidents.filter((inc) => inc.hotel_id === hotelId);
     }
 
     return res.status(200).json({

@@ -200,15 +200,71 @@ const updateNotificationStatus = async (req, res) => {
 
 const getMyNotifications = async (req, res) => {
   try {
-    const { data: notifications, error } = await supabase
+    const hotelId = req.query.hotelId || req.query.building_id;
+    const isSuperAdmin = req.user.role === "super_admin";
+
+    let query = supabase
       .from("notifications")
-      .select("id, parking_session_id, recipient_type, recipient_id, message, channel, status, sent_at, created_at")
-      .eq("recipient_id", req.user.id)
-      .eq("recipient_type", req.user.role)
+      .select(`
+        id, parking_session_id, recipient_type, recipient_id, message, channel, status, sent_at, created_at,
+        session:parking_sessions (
+          id, ticket_code, parking_slot,
+          vehicle:vehicles ( license_plate )
+        )
+      `)
       .order("created_at", { ascending: false });
 
+    if (!isSuperAdmin) {
+      query = query
+        .eq("recipient_id", req.user.id)
+        .eq("recipient_type", req.user.role);
+    }
+
+    const { data: notifications, error } = await query;
     if (error) return res.status(400).json({ success: false, message: error.message });
-    return res.status(200).json({ success: true, count: notifications?.length || 0, notifications: notifications || [] });
+
+    // Map slots to hotels
+    const { data: slotData } = await supabase
+      .from("parking_slots")
+      .select(`
+        slot_number,
+        floor:parking_floors (
+          id,
+          building:parking_buildings ( id, building_name )
+        )
+      `);
+
+    const slotMap = new Map();
+    (slotData || []).forEach((s) => {
+      if (s.slot_number) {
+        slotMap.set(s.slot_number, {
+          hotel_id: s.floor?.building?.id || null,
+          hotel_name: s.floor?.building?.building_name || "All Branches"
+        });
+      }
+    });
+
+    let result = (notifications || []).map((n) => {
+      const slot = n.session?.parking_slot;
+      const hInfo = slot ? slotMap.get(slot) : null;
+      return {
+        ...n,
+        hotel_id: hInfo?.hotel_id || null,
+        hotel_name: hInfo?.hotel_name || "All Branches",
+        ticket_code: n.session?.ticket_code || null,
+        vehicle_plate: n.session?.vehicle?.license_plate || null
+      };
+    });
+
+    if (hotelId && hotelId !== "all") {
+      result = result.filter((n) => n.hotel_id === hotelId);
+    }
+
+    return res.status(200).json({
+      success: true,
+      count: result.length,
+      notifications: result
+    });
   } catch (error) {
     console.error("Get my notifications error:", error);
     return res.status(500).json({ success: false, message: "Failed to fetch notifications." });

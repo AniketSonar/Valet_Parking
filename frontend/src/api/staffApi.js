@@ -1,7 +1,14 @@
 import apiClient from "./apiClient";
 
-export const getAllStaff = async () => {
-  return apiClient("/api/users");
+export const getAllStaff = async (params = {}) => {
+  let query = "";
+  if (typeof params === "string") {
+    query = params && params !== "all" ? `?hotelId=${encodeURIComponent(params)}` : "";
+  } else if (params && typeof params === "object") {
+    const q = new URLSearchParams(params).toString();
+    query = q ? `?${q}` : "";
+  }
+  return apiClient(`/api/users${query}`);
 };
 
 export const getStaffById = async (id) => {

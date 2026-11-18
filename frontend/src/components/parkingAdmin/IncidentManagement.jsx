@@ -12,6 +12,7 @@ import {
     RefreshCw,
     Search,
     ShieldAlert,
+    Building2,
     X,
 } from "lucide-react";
 import {
@@ -24,6 +25,7 @@ import {
     getValetDashboard,
     updateIncidentStatus,
 } from "../../api/parkingApi";
+import { getBuildings } from "../../api/areaApi";
 import "./css/IncidentManagement.css";
 
 const INCIDENT_TYPES = [
@@ -45,6 +47,8 @@ const STATUS_ORDER = ["open", "in_review", "resolved", "closed"];
 
 const IncidentManagement = ({ canReport, canUpdateStatus }) => {
     const [incidents, setIncidents] = useState([]);
+    const [hotels, setHotels] = useState([]);
+    const [selectedHotel, setSelectedHotel] = useState("all");
     const [sessions, setSessions] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -65,12 +69,24 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
         description: "",
     });
 
+    useEffect(() => {
+        getBuildings()
+            .then((res) => {
+                if (res?.buildings) setHotels(res.buildings);
+            })
+            .catch((err) => console.error("Error loading buildings for incidents:", err));
+    }, []);
+
     const fetchIncidents = useCallback(async () => {
         try {
             setLoading(true);
             setError("");
 
             const params = {};
+
+            if (selectedHotel && selectedHotel !== "all") {
+                params.hotelId = selectedHotel;
+            }
 
             if (statusFilter !== "all") {
                 params.status = statusFilter;
@@ -104,7 +120,7 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
         } finally {
             setLoading(false);
         }
-    }, [statusFilter, typeFilter]);
+    }, [statusFilter, typeFilter, selectedHotel]);
 
     const fetchSessions = useCallback(async () => {
         try {
@@ -356,6 +372,25 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
 
             <div className="incident-toolbar">
                 <div className="incident-search"><Search size={17} /><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search incidents, tickets, vehicles or reporters..." /></div>
+                {hotels.length > 0 && (
+                    <select
+                        value={selectedHotel}
+                        onChange={(e) => setSelectedHotel(e.target.value)}
+                        style={{
+                            fontWeight: "600",
+                            color: "#8b1230",
+                            background: "#fdf2f4",
+                            borderColor: "#fad2d9",
+                        }}
+                    >
+                        <option value="all">All Hotel Branches</option>
+                        {hotels.map((h) => (
+                            <option key={h.id} value={h.id}>
+                                {h.building_name} {h.location ? `(${h.location})` : ""}
+                            </option>
+                        ))}
+                    </select>
+                )}
                 <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}><option value="all">All statuses</option>{STATUSES.map((status) => <option key={status.value} value={status.value}>{status.label}</option>)}</select>
                 <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}><option value="all">All types</option>{INCIDENT_TYPES.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select>
             </div>
@@ -369,7 +404,7 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
                 ) : (
                     <div className="incident-table-wrap">
                         <table className="incident-table">
-                            <thead><tr><th>Incident</th><th>Parking Session</th><th>Reported By</th><th>Status</th><th>Created</th><th>Resolved</th><th>Actions</th></tr></thead>
+                            <thead><tr><th>Incident</th><th>Hotel Branch</th><th>Parking Session</th><th>Reported By</th><th>Status</th><th>Created</th><th>Resolved</th><th>Actions</th></tr></thead>
                             <tbody>
                                 {filteredIncidents.map((incident) => {
                                     const session = getSession(incident.parking_session_id);
@@ -378,6 +413,7 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
                                     return (
                                         <tr key={incident.id}>
                                             <td><div className="incident-type-cell"><span className={`type-mark type-${incident.incident_type}`}><FileWarning size={15} /></span><div><strong>{formatType(incident.incident_type)}</strong><p>{incident.description}</p></div></div></td>
+                                            <td><strong style={{ color: "#8b1230", fontSize: "13px" }}>{incident.hotel_name || "General"}</strong></td>
                                             <td><span className="session-primary">{session?.ticket_code || incident.parking_session_id || "Not linked"}</span><small>{session?.vehicle?.license_plate || "—"}</small></td>
                                             <td><strong className="reporter-name">{incident.employee?.name || "Unknown"}</strong><small>{incident.employee?.role || "Employee"}</small></td>
                                             <td><span className={`incident-status status-${incident.status}`}>{formatStatus(incident.status)}</span></td>
@@ -416,6 +452,7 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
                         ) : (
                             <div className="details-grid">
                                 <div><span>Incident Type</span><strong>{formatType(selectedIncident.incident_type)}</strong></div>
+                                <div><span>Hotel Branch</span><strong style={{ color: "#8b1230" }}>{selectedIncident.hotel_name || "General Branch"}</strong></div>
                                 <div><span>Status</span><strong><span className={`incident-status status-${selectedIncident.status}`}>{formatStatus(selectedIncident.status)}</span></strong></div>
                                 <div><span>Parking Session</span><strong>{getSession(selectedIncident.parking_session_id)?.ticket_code || selectedIncident.parking_session_id || "Not linked"}</strong></div>
                                 <div><span>Vehicle</span><strong>{getSession(selectedIncident.parking_session_id)?.vehicle?.license_plate || "—"}</strong></div>

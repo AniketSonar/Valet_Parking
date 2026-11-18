@@ -106,6 +106,36 @@ const getRevenue = async (req, res) => {
       });
     }
 
+    // Map slots to hotels
+    const { data: allSlotRows } = await supabase
+      .from("parking_slots")
+      .select(`
+        slot_number,
+        floor:parking_floors (
+          id,
+          building:parking_buildings ( id, building_name )
+        )
+      `);
+
+    const slotHotelMap = new Map();
+    (allSlotRows || []).forEach((row) => {
+      if (row.slot_number) {
+        slotHotelMap.set(row.slot_number, {
+          hotel_id: row.floor?.building?.id || null,
+          hotel_name: row.floor?.building?.building_name || "Unassigned"
+        });
+      }
+    });
+
+    const hotelId = req.query.hotelId || req.query.building_id;
+    if (hotelId && hotelId !== "all") {
+      payments = payments.filter((payment) => {
+        const slot = payment.session?.parking_slot;
+        const hInfo = slot ? slotHotelMap.get(slot) : null;
+        return hInfo && hInfo.hotel_id === hotelId;
+      });
+    }
+
     const todayKey = dateKey(new Date().toISOString(), tzOffset);
 
     const dailyMap = new Map();
@@ -146,17 +176,23 @@ const getRevenue = async (req, res) => {
         by_method: [...methodMap.values()].sort((a, b) => b.amount - a.amount)
       },
       daily: [...dailyMap.entries()].map(([date, value]) => ({ date, value })),
-      transactions: payments.slice(0, TRANSACTION_LIMIT).map((payment) => ({
-        id: payment.id,
-        invoice_number: payment.invoice_number || "",
-        ticket_code: payment.session?.ticket_code || "",
-        vehicle_number: payment.session?.vehicle?.license_plate || "",
-        valet_name: payment.session?.valet?.name || "",
-        parking_slot: payment.session?.parking_slot || "",
-        payment_method: payment.payment_method || "",
-        amount: Number(payment.total_amount || 0),
-        paid_at: payment.paid_at
-      }))
+      transactions: payments.slice(0, TRANSACTION_LIMIT).map((payment) => {
+        const slot = payment.session?.parking_slot;
+        const hInfo = slot ? slotHotelMap.get(slot) : null;
+        return {
+          id: payment.id,
+          invoice_number: payment.invoice_number || "",
+          ticket_code: payment.session?.ticket_code || "",
+          vehicle_number: payment.session?.vehicle?.license_plate || "",
+          valet_name: payment.session?.valet?.name || "",
+          parking_slot: payment.session?.parking_slot || "",
+          payment_method: payment.payment_method || "",
+          amount: Number(payment.total_amount || 0),
+          paid_at: payment.paid_at,
+          hotel_id: hInfo?.hotel_id || null,
+          hotel_name: hInfo?.hotel_name || "Unassigned"
+        };
+      })
     });
   } catch (error) {
     console.error("Revenue summary error:", error);

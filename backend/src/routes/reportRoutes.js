@@ -3,7 +3,8 @@ const express = require("express");
 const {
   getReportValets,
   getValetReport,
-  exportValetReport
+  exportValetReport,
+  getSystemReports
 } = require("../controllers/reportController");
 
 const authenticate = require("../middleware/authMiddleware");
@@ -16,5 +17,6 @@ const allowed = authorizeRoles("super_admin", "manager");
 router.get("/valets", authenticate, allowed, getReportValets);
 router.get("/valet-sessions", authenticate, allowed, getValetReport);
 router.get("/valet-sessions/export", authenticate, allowed, exportValetReport);
+router.get("/system-reports", authenticate, allowed, getSystemReports);
 
 module.exports = router;

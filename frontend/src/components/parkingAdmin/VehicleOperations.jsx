@@ -2,13 +2,18 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./css/VehicleOperations.css";
 import apiClient from "../../api/apiClient";
+import { getBuildings } from "../../api/areaApi";
 
-import { Car,
+import {
+  Car,
   Check,
   Wrench,
-  MoveUpRight
-
- } from 'lucide-react';
+  MoveUpRight,
+  Building2,
+  Clock,
+  User,
+  Shield,
+} from 'lucide-react';
 
 // ============================================================
 // STATUS HELPERS
@@ -111,12 +116,14 @@ const formatTime = (dateString) => {
 // COMPONENT
 // ============================================================
 
-function VehiclesOperations() {
+function VehiclesOperations({ scope = "manager" }) {
   // ==========================================================
   // STATE
   // ==========================================================
 
   const [vehicles, setVehicles] = useState([]);
+  const [hotels, setHotels] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState("all");
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -140,6 +147,14 @@ function VehiclesOperations() {
 
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    getBuildings()
+      .then((res) => {
+        if (res?.buildings) setHotels(res.buildings);
+      })
+      .catch((err) => console.error("Error loading buildings for vehicles:", err));
+  }, []);
+
   // ==========================================================
   // FETCH PARKING SESSIONS
   // ==========================================================
@@ -149,8 +164,12 @@ function VehiclesOperations() {
       setLoading(true);
       setError("");
 
+      const hotelQuery = selectedHotel && selectedHotel !== "all"
+        ? `?hotelId=${encodeURIComponent(selectedHotel)}`
+        : "";
+
       const data = await apiClient(
-        "/api/parking-admin/sessions"
+        `/api/parking-admin/sessions${hotelQuery}`
       );
 
       setVehicles(data.sessions || []);
@@ -164,7 +183,7 @@ function VehiclesOperations() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [selectedHotel]);
 
   // ==========================================================
   // FETCH VALETS
@@ -724,6 +743,26 @@ function VehiclesOperations() {
           </div>
 
           <div className="parking-filters">
+            {hotels.length > 0 && (
+              <select
+                className="parking-filter"
+                value={selectedHotel}
+                onChange={(e) => setSelectedHotel(e.target.value)}
+                style={{
+                  fontWeight: "600",
+                  color: "#8b1230",
+                  background: "#fdf2f4",
+                  borderColor: "#fad2d9"
+                }}
+              >
+                <option value="all">All Hotel Branches</option>
+                {hotels.map((h) => (
+                  <option key={h.id} value={h.id}>
+                    {h.building_name} {h.location ? `(${h.location})` : ""}
+                  </option>
+                ))}
+              </select>
+            )}
 
             <select
               className="parking-filter"
@@ -802,6 +841,10 @@ function VehiclesOperations() {
                   </th>
 
                   <th>
+                    HOTEL BRANCH
+                  </th>
+
+                  <th>
                     CUSTOMER
                   </th>
 
@@ -810,7 +853,7 @@ function VehiclesOperations() {
                   </th>
 
                   <th>
-                    CHECK-IN
+                    CHECK-IN / OUT
                   </th>
 
                   <th>
@@ -836,7 +879,7 @@ function VehiclesOperations() {
                   <tr>
 
                     <td
-                      colSpan="7"
+                      colSpan="8"
                       className="parking-empty"
                     >
 
@@ -896,6 +939,24 @@ function VehiclesOperations() {
 
                       </td>
 
+                      {/* HOTEL BRANCH */}
+
+                      <td>
+
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+
+                          <strong style={{ color: "#8b1230", fontSize: "13px" }}>
+                            {vehicle.hotel_name || "General"}
+                          </strong>
+
+                          <span style={{ fontSize: "11px", color: "#6b7280" }}>
+                            {vehicle.floor_name ? `Floor: ${vehicle.floor_name}` : ""}
+                          </span>
+
+                        </div>
+
+                      </td>
+
                       {/* CUSTOMER */}
 
                       <td>
@@ -938,15 +999,23 @@ function VehiclesOperations() {
 
                       </td>
 
-                      {/* CHECK-IN */}
+                      {/* CHECK-IN / CHECKOUT */}
 
                       <td>
 
-                        <span className="checkin-time">
-                          {formatTime(
-                            vehicle.checked_in_at
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+
+                          <span className="checkin-time">
+                            In: {formatTime(vehicle.checked_in_at)}
+                          </span>
+
+                          {vehicle.completed_at && (
+                            <span style={{ fontSize: "11px", color: "#15803d", fontWeight: "600" }}>
+                              Out: {formatTime(vehicle.completed_at)}
+                            </span>
                           )}
-                        </span>
+
+                        </div>
 
                       </td>
 

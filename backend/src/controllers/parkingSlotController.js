@@ -35,16 +35,31 @@ const assertSlotAccess = async (req, res, slotId) => {
 const getParkingSlots = async (req, res) => {
   try {
     const { search, status, parking_type } = req.query;
+    const hotelId = req.query.hotelId || req.query.building_id;
+    const floorId = req.query.floorId || req.query.floor_id;
 
     const scope = await getAreaScope(req.user);
 
     let slotQuery = applyFloorScope(
       supabase
         .from("parking_slots")
-        .select("*")
+        .select(`
+          *,
+          floor:parking_floors (
+            id,
+            floor_name,
+            floor_number,
+            building_id,
+            building:parking_buildings ( id, building_name, address )
+          )
+        `)
         .order("slot_number", { ascending: true }),
       scope
     );
+
+    if (floorId && floorId !== "all") {
+      slotQuery = slotQuery.eq("floor_id", floorId);
+    }
 
     if (status) {
       slotQuery = slotQuery.eq("status", status);
@@ -112,13 +127,17 @@ const getParkingSlots = async (req, res) => {
       });
     }
 
-    let result = slots.map((slot) => {
-      const session = sessions.find(
+    let result = (slots || []).map((slot) => {
+      const session = (sessions || []).find(
         (item) => item.parking_slot === slot.slot_number
       );
 
       return {
         ...slot,
+        floor_name: slot.floor?.floor_name || "Unassigned",
+        floor_number: slot.floor?.floor_number ?? null,
+        hotel_id: slot.floor?.building_id || null,
+        hotel_name: slot.floor?.building?.building_name || "Unassigned",
         status: session ? "occupied" : slot.status,
         assigned_vehicle: session?.vehicle?.license_plate || null,
         vehicle_make: session?.vehicle?.make || null,
@@ -139,6 +158,10 @@ const getParkingSlots = async (req, res) => {
         valet: session?.valet?.name || null
       };
     });
+
+    if (hotelId && hotelId !== "all") {
+      result = result.filter((slot) => slot.hotel_id === hotelId);
+    }
 
     if (search) {
       const searchTerm = search.toLowerCase();

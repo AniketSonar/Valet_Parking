@@ -1,21 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import DashboardLayout from "../layout/DashboardLayout";
 import { adminConfig } from "../layout/dashboardConfigs";
-import StaffManagement from "./StaffManagement";
-import AreaManagement from "./AreaManagement";
+import InfraManagement from "./InfraManagement";
+import VehiclesOperations from "../parkingAdmin/VehicleOperations";
+import ParkingSlots from "../parkingAdmin/ParkingSlots";
+import IncidentManagement from "../parkingAdmin/IncidentManagement";
 import RevenueOverview from "../revenue/RevenueOverview";
 import Reports from "./Reports";
+import AdminNotifications from "./AdminNotifications";
 import Profile from "./Profile";
 import LuxuryDashboardView from "./LuxuryDashboardView";
 
 import { getDashboardStats, getDashboardAnalytics } from "../../api/adminApi";
+import { getBuildings } from "../../api/areaApi";
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 
 import "./Dashboard.css";
 
 function Dashboard() {
   const [activePage, setActivePage] = useState("dashboard");
+
+  // Multi-hotel state
+  const [hotels, setHotels] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState("all");
 
   const [dashboardStats, setDashboardStats] = useState({
     totalStaff: 0,
@@ -32,14 +40,25 @@ function Dashboard() {
   const [dashboardLoading, setDashboardLoading] = useState(false);
   const [dashboardError, setDashboardError] = useState("");
 
-  const loadDashboardStats = async (silent = false) => {
+  // Load hotels on mount
+  useEffect(() => {
+    getBuildings()
+      .then((res) => {
+        if (res?.buildings) {
+          setHotels(res.buildings);
+        }
+      })
+      .catch((err) => console.error("Error loading hotel branches:", err));
+  }, []);
+
+  const loadDashboardStats = useCallback(async (silent = false) => {
     try {
       if (!silent) setDashboardLoading(true);
       setDashboardError("");
 
       const [statsRes, analyticsRes] = await Promise.allSettled([
-        getDashboardStats(),
-        getDashboardAnalytics(),
+        getDashboardStats(selectedHotel),
+        getDashboardAnalytics(selectedHotel),
       ]);
 
       if (statsRes.status === "fulfilled" && statsRes.value?.success) {
@@ -70,13 +89,13 @@ function Dashboard() {
     } finally {
       if (!silent) setDashboardLoading(false);
     }
-  };
+  }, [selectedHotel]);
 
   useEffect(() => {
     if (activePage === "dashboard") {
       loadDashboardStats();
     }
-  }, [activePage]);
+  }, [activePage, loadDashboardStats]);
 
   // Real-time synchronization on any database change
   useRealtimeSync({
@@ -87,6 +106,7 @@ function Dashboard() {
       "payments",
       "feedback",
       "users",
+      "incidents",
     ],
     onUpdate: () => {
       if (activePage === "dashboard") {
@@ -124,20 +144,47 @@ function Dashboard() {
           </div>
         )}
 
-        {/* EXACT LUXURY GRAPHICAL ANALYSIS DASHBOARD (MATCHING IMAGE 2) */}
+        {/* 1. DASHBOARD */}
         {activePage === "dashboard" && (
           <LuxuryDashboardView
             stats={dashboardStats}
             analytics={analyticsData}
             loading={dashboardLoading}
+            hotels={hotels}
+            selectedHotel={selectedHotel}
+            onHotelChange={setSelectedHotel}
           />
         )}
 
-        {activePage === "staff" && <StaffManagement />}
-        {activePage === "areas" && <AreaManagement />}
+        {/* 2. INFRA MANAGEMENT (A. Add Hotels & Config, B. Staff Members) */}
+        {activePage === "infra" && <InfraManagement />}
+
+        {/* 3. PARKING OPERATIONS */}
+        {activePage === "parking-operations" && (
+          <VehiclesOperations scope="admin" />
+        )}
+
+        {/* 4. PARKING SLOTS */}
+        {activePage === "parking-slots" && (
+          <ParkingSlots scope="admin" />
+        )}
+
+        {/* 5. REVENUE */}
         {activePage === "revenue" && <RevenueOverview />}
+
+        {/* 6. INCIDENT MANAGEMENT (Read-only for Admin) */}
+        {activePage === "incidents" && (
+          <IncidentManagement canReport={false} canUpdateStatus={false} />
+        )}
+
+        {/* 7. REPORTS */}
         {activePage === "reports" && <Reports />}
-        {activePage === "profile" && <Profile />}
+
+        {/* 8. NOTIFICATIONS */}
+        {activePage === "notifications" && <AdminNotifications />}
+
+        {/* 9. SETTINGS */}
+        {(activePage === "settings" || activePage === "profile") && <Profile />}
       </div>
     </DashboardLayout>
   );

@@ -142,6 +142,50 @@ const getParkingSessions = async (req, res) => {
       });
     }
 
+    // Enrich all sessions with Hotel branch and Floor information
+    const { data: slotData } = await supabase
+      .from("parking_slots")
+      .select(`
+        slot_number,
+        floor:parking_floors (
+          id,
+          floor_name,
+          floor_number,
+          building:parking_buildings ( id, building_name, address )
+        )
+      `);
+
+    const slotMap = new Map();
+    (slotData || []).forEach((s) => {
+      if (s.slot_number) {
+        slotMap.set(s.slot_number, {
+          floor_id: s.floor?.id || null,
+          floor_name: s.floor?.floor_name || "Unassigned",
+          floor_number: s.floor?.floor_number ?? null,
+          hotel_id: s.floor?.building?.id || null,
+          hotel_name: s.floor?.building?.building_name || "Unassigned",
+          hotel_address: s.floor?.building?.address || ""
+        });
+      }
+    });
+
+    result = result.map((session) => {
+      const slotInfo = session.parking_slot ? slotMap.get(session.parking_slot) : null;
+      return {
+        ...session,
+        hotel_id: slotInfo?.hotel_id || null,
+        hotel_name: slotInfo?.hotel_name || "Unassigned",
+        hotel_address: slotInfo?.hotel_address || "",
+        floor_name: slotInfo?.floor_name || "Unassigned",
+        floor_number: slotInfo?.floor_number ?? null
+      };
+    });
+
+    const hotelId = req.query.hotelId || req.query.building_id;
+    if (hotelId && hotelId !== "all") {
+      result = result.filter((session) => session.hotel_id === hotelId);
+    }
+
     // Revenue figures are for the super admin and managers only. Everyone
     // else (valets, reception) gets the payment status without the amount.
     if (!["super_admin", "manager"].includes(req.user?.role)) {

@@ -124,26 +124,28 @@ const DashboardSidebar = ({
           </nav>
         </div>
 
-        {/* ACCOUNT TAB */}
-        <div className="dash-sidebar-section dash-account-section">
-          <button
-            type="button"
-            className={`dash-menu-item ${
-              activeTab === profileId ? "active" : ""
-            }`}
-            onClick={() => setActiveTab(profileId)}
-            title={collapsed ? "Settings / Profile" : undefined}
-          >
-            <span className="dash-item-icon">
-              <UserRoundPen
-                size={18}
-                strokeWidth={activeTab === profileId ? 2.2 : 1.9}
-              />
-            </span>
+        {/* ACCOUNT TAB (Only shown if Settings/Profile is not already an explicit menu item) */}
+        {!config.menu?.some((m) => m.id === profileId || m.id === "settings") && (
+          <div className="dash-sidebar-section dash-account-section">
+            <button
+              type="button"
+              className={`dash-menu-item ${
+                activeTab === profileId ? "active" : ""
+              }`}
+              onClick={() => setActiveTab(profileId)}
+              title={collapsed ? "Settings / Profile" : undefined}
+            >
+              <span className="dash-item-icon">
+                <UserRoundPen
+                  size={18}
+                  strokeWidth={activeTab === profileId ? 2.2 : 1.9}
+                />
+              </span>
 
-            <span className="dash-item-text">Settings</span>
-          </button>
-        </div>
+              <span className="dash-item-text">Settings</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ========================================================

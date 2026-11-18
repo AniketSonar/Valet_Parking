@@ -2,11 +2,17 @@ import apiClient from "./apiClient";
 
 const json = (method, body) => ({ method, body: JSON.stringify(body) });
 
-// ---- Super admin: buildings, floors, manager assignment ----------------
+// ---- Super admin: buildings/hotels, floors, manager assignment ----------------
 export const getBuildings = () => apiClient("/api/areas/buildings");
 export const createBuilding = (data) => apiClient("/api/areas/buildings", json("POST", data));
+export const updateBuilding = (id, data) => apiClient(`/api/areas/buildings/${id}`, json("PUT", data));
+export const deleteBuilding = (id) => apiClient(`/api/areas/buildings/${id}`, { method: "DELETE" });
+export const configureHotel = (data) => apiClient("/api/areas/configure-hotel", json("POST", data));
 
-export const getFloors = () => apiClient("/api/areas/floors");
+export const getFloors = (buildingId) => {
+  const query = buildingId && buildingId !== "all" ? `?building_id=${encodeURIComponent(buildingId)}` : "";
+  return apiClient(`/api/areas/floors${query}`);
+};
 export const createFloor = (data) => apiClient("/api/areas/floors", json("POST", data));
 
 export const getManagersWithAreas = () => apiClient("/api/areas/managers");

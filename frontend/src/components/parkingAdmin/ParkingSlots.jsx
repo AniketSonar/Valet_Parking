@@ -19,13 +19,15 @@ import {
   Check,
   ArrowDown,
   ArrowUp,
-  Maximize2
+  Maximize2,
+  Building2
 } from "lucide-react";
 
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ParkingSlots.css";
 import apiClient from "../../api/apiClient";
 import { getValetParkingSlots } from "../../api/parkingApi";
+import { getBuildings } from "../../api/areaApi";
 
 /* ==========================================================================
    LIVE ELAPSED DURATION HOOK
@@ -352,6 +354,8 @@ const createBlockLayout = (slots) => {
 const ParkingSlots = ({ scope = "manager" }) => {
   const isValetScope = scope === "valet";
   const [slots, setSlots] = useState([]);
+  const [hotels, setHotels] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState("all");
   const [areaMap, setAreaMap] = useState(null);
   const [assignment, setAssignment] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -367,6 +371,15 @@ const ParkingSlots = ({ scope = "manager" }) => {
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [statusUpdateError, setStatusUpdateError] = useState("");
 
+  useEffect(() => {
+    if (!isValetScope) {
+      getBuildings()
+        .then((res) => {
+          if (res?.buildings) setHotels(res.buildings);
+        })
+        .catch((err) => console.error("Error loading buildings for slots:", err));
+    }
+  }, [isValetScope]);
 
   // Fetch slots data
   const fetchSlots = useCallback(async (silent = false) => {
@@ -374,9 +387,13 @@ const ParkingSlots = ({ scope = "manager" }) => {
       if (!silent) setLoading(true);
       setError("");
 
+      const hotelQuery = !isValetScope && selectedHotel && selectedHotel !== "all"
+        ? `?hotelId=${encodeURIComponent(selectedHotel)}`
+        : "";
+
       const response = isValetScope
         ? await getValetParkingSlots()
-        : await apiClient("/api/parking-slots");
+        : await apiClient(`/api/parking-slots${hotelQuery}`);
 
       if (!response || response.success !== true) {
         throw new Error(response?.message || "Failed to fetch parking slots.");
@@ -414,7 +431,7 @@ const ParkingSlots = ({ scope = "manager" }) => {
     } finally {
       if (!silent) setLoading(false);
     }
-  }, [isValetScope]);
+  }, [isValetScope, selectedHotel]);
 
   useEffect(() => {
     fetchSlots();
@@ -608,7 +625,33 @@ const ParkingSlots = ({ scope = "manager" }) => {
           </p>
         </div>
 
-        <div className="facility-header-actions">
+        <div className="facility-header-actions" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          {!isValetScope && hotels.length > 0 && (
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fdf2f4", padding: "6px 12px", borderRadius: "10px", border: "1px solid #fad2d9" }}>
+              <Building2 size={16} color="#8b1230" />
+              <select
+                value={selectedHotel}
+                onChange={(e) => setSelectedHotel(e.target.value)}
+                style={{
+                  border: "none",
+                  background: "transparent",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  color: "#8b1230",
+                  outline: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <option value="all">All Hotel Branches</option>
+                {hotels.map((h) => (
+                  <option key={h.id} value={h.id}>
+                    {h.building_name} {h.location ? `(${h.location})` : ""}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <button
             type="button"
             className="action-btn-secondary"

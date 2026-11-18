@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { IndianRupee, Loader2, RefreshCw } from "lucide-react";
+import { IndianRupee, Loader2, RefreshCw, Building2 } from "lucide-react";
 
 import { getRevenue } from "../../api/adminApi";
+import { getBuildings } from "../../api/areaApi";
 
 import "./css/RevenueOverview.css";
 
@@ -46,16 +47,26 @@ const formatAxisMoney = (value) =>
  */
 const RevenueOverview = () => {
   const [days, setDays] = useState(30);
+  const [hotels, setHotels] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState("all");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const load = async (period) => {
+  useEffect(() => {
+    getBuildings()
+      .then((res) => {
+        if (res?.buildings) setHotels(res.buildings);
+      })
+      .catch((err) => console.error("Error loading buildings for revenue:", err));
+  }, []);
+
+  const load = async (period, hotelId) => {
     try {
       setLoading(true);
       setError("");
 
-      const response = await getRevenue(period);
+      const response = await getRevenue(period, hotelId);
 
       if (!response?.success) {
         throw new Error(response?.message || "Unable to load revenue.");
@@ -70,8 +81,8 @@ const RevenueOverview = () => {
   };
 
   useEffect(() => {
-    load(days);
-  }, [days]);
+    load(days, selectedHotel);
+  }, [days, selectedHotel]);
 
   const summary = data?.summary;
   const daily = data?.daily || [];
@@ -89,6 +100,32 @@ const RevenueOverview = () => {
         </div>
 
         <div className="revenue-header-actions">
+          {hotels.length > 0 && (
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fdf2f4", padding: "6px 12px", borderRadius: "10px", border: "1px solid #fad2d9" }}>
+              <Building2 size={16} color="#8b1230" />
+              <select
+                value={selectedHotel}
+                onChange={(e) => setSelectedHotel(e.target.value)}
+                style={{
+                  border: "none",
+                  background: "transparent",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  color: "#8b1230",
+                  outline: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <option value="all">All Hotel Branches</option>
+                {hotels.map((h) => (
+                  <option key={h.id} value={h.id}>
+                    {h.building_name} {h.location ? `(${h.location})` : ""}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div className="revenue-periods" role="tablist">
             {PERIODS.map((period) => (
               <button
@@ -107,7 +144,7 @@ const RevenueOverview = () => {
           <button
             type="button"
             className="revenue-refresh"
-            onClick={() => load(days)}
+            onClick={() => load(days, selectedHotel)}
             disabled={loading}
             aria-label="Refresh revenue"
           >
@@ -239,6 +276,7 @@ const RevenueOverview = () => {
                     <thead>
                       <tr>
                         <th scope="col">Paid</th>
+                        <th scope="col">Hotel Branch</th>
                         <th scope="col">Invoice</th>
                         <th scope="col">Ticket</th>
                         <th scope="col">Vehicle</th>
@@ -252,6 +290,7 @@ const RevenueOverview = () => {
                       {transactions.map((row) => (
                         <tr key={row.id}>
                           <td>{formatDateTime(row.paid_at)}</td>
+                          <td style={{ fontWeight: "600", color: "#8b1230" }}>{row.hotel_name || "General"}</td>
                           <td>{row.invoice_number || "-"}</td>
                           <td>{row.ticket_code || "-"}</td>
                           <td>{row.vehicle_number || "-"}</td>

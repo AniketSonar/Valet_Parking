@@ -26,14 +26,15 @@
   border-radius: 20px;
   border: 1px solid rgba(139, 18, 48, 0.08);
   box-shadow: 0 4px 20px rgba(139, 18, 48, 0.04);
-  overflow: hidden;
+  overflow: visible;
+  z-index: 30;
   padding: 30px 34px 85px; /* bottom padding accommodates the merged cards */
 }
 
 .lux-welcome-text {
   position: relative;
-  z-index: 2;
-  max-width: 480px;
+  z-index: 31;
+  max-width: 620px;
 }
 
 .lux-welcome-greeting {
@@ -77,6 +78,7 @@
   bottom: 0;
   width: 52%;
   overflow: hidden;
+  border-radius: 0 20px 20px 0;
   pointer-events: none;
 }
 

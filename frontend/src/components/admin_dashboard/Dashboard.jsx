@@ -26,14 +26,10 @@ function Dashboard() {
   const [selectedHotel, setSelectedHotel] = useState("all");
 
   const [dashboardStats, setDashboardStats] = useState({
-    totalStaff: 0,
-    activeStaff: 0,
-    totalCustomers: 0,
-    activeParkingSessions: 0,
-    openIncidents: 0,
-    todayRevenue: 0,
-    totalVehicles: 0,
-    todayCheckouts: 0,
+    totalStaff: 0, activeStaff: 0, totalCustomers: 0,
+    activeParkingSessions: 0, openIncidents: 0,
+    todayRevenue: 0, totalVehicles: 0, todayCheckouts: 0,
+    availableSlots: 0, revenueToday: 0,
   });
 
   const [analyticsData, setAnalyticsData] = useState(null);
@@ -76,6 +72,8 @@ function Dashboard() {
           todayRevenue: stats.todayRevenue ?? 0,
           totalVehicles: stats.totalVehicles ?? prev.totalVehicles,
           todayCheckouts: stats.todayCheckouts ?? prev.todayCheckouts,
+          availableSlots: stats.availableSlots ?? 0,
+          revenueToday: stats.revenueToday ?? stats.todayRevenue ?? 0,
         }));
       }
 

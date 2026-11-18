@@ -77,8 +77,8 @@ function LuxuryDashboardView({
   // Real-time KPI values with safe fallbacks
   const kpiTotalVehicles = analytics?.totalVehiclesToday ?? stats?.totalVehicles ?? 0;
   const kpiActiveParked = analytics?.activeParkingSessions ?? stats?.activeParkingSessions ?? 0;
-  const kpiCheckouts = analytics?.todayCheckouts ?? stats?.todayCheckouts ?? 0;
-  const kpiSatisfaction = analytics?.satisfaction ?? stats?.satisfaction ?? 4.8;
+  const kpiEmptySlots = analytics?.availableSlots ?? stats?.availableSlots ?? 0;
+  const kpiRevenueToday = analytics?.revenueToday ?? stats?.revenueToday ?? 0;
 
   // Default fallback trend matching Image 2 curve
   const defaultTrendData = useMemo(() => [
@@ -457,46 +457,46 @@ function LuxuryDashboardView({
           </div>
         </div>
 
-        {/* Card 3: Vehicle Check Outs */}
+        {/* Card 3: Empty Slots */}
         <div className="lux-kpi-card">
           <div className="lux-kpi-icon-wrap rose">
-            <LogOut size={18} className="lux-kpi-icon" />
+            <Shield size={18} className="lux-kpi-icon" />
           </div>
           <div className="lux-kpi-content-row">
             <div className="lux-kpi-left-col">
               <div className="lux-kpi-value">
-                {loading ? "--" : kpiCheckouts}
+                {loading ? "--" : kpiEmptySlots}
               </div>
-              <div className="lux-kpi-title">Vehicle Check Outs</div>
+              <div className="lux-kpi-title">Empty Slots Available</div>
             </div>
             <div className="lux-kpi-right-col">
               <div className="lux-kpi-badge green">
                 <span className="lux-trend-arrow">↑</span>
-                <span className="lux-trend-num">15%</span>
+                <span className="lux-trend-num">Live</span>
               </div>
-              <div className="lux-kpi-compare">vs. yesterday</div>
+              <div className="lux-kpi-compare">current status</div>
             </div>
           </div>
         </div>
 
-        {/* Card 4: Customer Satisfaction */}
+        {/* Card 4: Revenue Today */}
         <div className="lux-kpi-card">
           <div className="lux-kpi-icon-wrap rose">
-            <Star size={18} className="lux-kpi-icon" />
+            <TrendingUp size={18} className="lux-kpi-icon" />
           </div>
           <div className="lux-kpi-content-row">
             <div className="lux-kpi-left-col">
               <div className="lux-kpi-value">
-                {loading ? "--" : kpiSatisfaction} <span className="lux-kpi-denom">/ 5</span>
+                ₹{loading ? "--" : (kpiRevenueToday?.toLocaleString?.() ?? kpiRevenueToday)}
               </div>
-              <div className="lux-kpi-title">Customer Satisfaction</div>
+              <div className="lux-kpi-title">Revenue Today</div>
             </div>
             <div className="lux-kpi-right-col">
               <div className="lux-kpi-badge green">
                 <span className="lux-trend-arrow">↑</span>
-                <span className="lux-trend-num">2%</span>
+                <span className="lux-trend-num">today</span>
               </div>
-              <div className="lux-kpi-compare">vs. last week</div>
+              <div className="lux-kpi-compare">vs. yesterday</div>
             </div>
           </div>
         </div>

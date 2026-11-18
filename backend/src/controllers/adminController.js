@@ -220,6 +220,25 @@ const getDashboardStats = async (req, res) => {
       totalCustomers = custCount || 0;
     }
 
+    // 8. Available Slots
+    let availableSlots = 0;
+    if (scope.isFiltered) {
+      if (scope.slotNumbers.length > 0) {
+        const { count: avail } = await supabase
+          .from("parking_slots")
+          .select("*", { count: "exact", head: true })
+          .in("slot_number", scope.slotNumbers)
+          .eq("status", "available");
+        availableSlots = avail || 0;
+      }
+    } else {
+      const { count: avail } = await supabase
+        .from("parking_slots")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "available");
+      availableSlots = avail || 0;
+    }
+
     return res.status(200).json({
       success: true,
       stats: {
@@ -231,6 +250,8 @@ const getDashboardStats = async (req, res) => {
         todayRevenue: todayRevenue || 0,
         totalVehicles: totalVehicles || 0,
         todayCheckouts: todayCheckouts || 0,
+        availableSlots: availableSlots || 0,
+        revenueToday: todayRevenue || 0,
         hotelId: hotelId || "all"
       }
     });

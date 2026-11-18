@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Car,
   Clock,
@@ -16,6 +16,7 @@ import {
   Building2,
   Check,
 } from "lucide-react";
+import { getBuildings } from "../../api/areaApi";
 import "./LuxuryDashboardView.css";
 
 function LuxuryDashboardView({
@@ -26,6 +27,24 @@ function LuxuryDashboardView({
   selectedHotel = "all",
   onHotelChange = () => {},
 }) {
+  const [internalHotels, setInternalHotels] = useState(hotels || []);
+
+  useEffect(() => {
+    if (hotels && hotels.length > 0) {
+      setInternalHotels(hotels);
+    } else {
+      getBuildings()
+        .then((res) => {
+          if (res?.buildings && Array.isArray(res.buildings) && res.buildings.length > 0) {
+            setInternalHotels(res.buildings);
+          }
+        })
+        .catch((err) => console.error("Error loading hotels in LuxuryDashboardView:", err));
+    }
+  }, [hotels]);
+
+  const displayHotels = internalHotels.length > 0 ? internalHotels : hotels;
+
   const [timeFilter, setTimeFilter] = useState("Today");
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [showHotelMenu, setShowHotelMenu] = useState(false);
@@ -34,9 +53,9 @@ function LuxuryDashboardView({
 
   const activeHotelLabel = useMemo(() => {
     if (!selectedHotel || selectedHotel === "all") return "All Hotels";
-    const found = hotels.find((h) => h.id === selectedHotel);
-    return found?.building_name || "Hotel Branch";
-  }, [selectedHotel, hotels]);
+    const found = displayHotels.find((h) => h.id === selectedHotel);
+    return found?.building_name || found?.name || "Hotel Branch";
+  }, [selectedHotel, displayHotels]);
 
   // Extract analytics from either direct prop or stats wrapper
   const analytics = directAnalytics || stats?.analytics || null;
@@ -303,37 +322,47 @@ function LuxuryDashboardView({
 
                   <div style={{ height: "1px", background: "#f0e4e6", margin: "4px 0" }} />
 
-                  {hotels.map((h) => (
-                    <button
-                      key={h.id}
-                      type="button"
-                      onClick={() => {
-                        onHotelChange(h.id);
-                        setShowHotelMenu(false);
-                      }}
-                      style={{
-                        padding: "9px 12px",
-                        textAlign: "left",
-                        fontSize: "12.5px",
-                        fontWeight: selectedHotel === h.id ? "700" : "500",
-                        color: selectedHotel === h.id ? "#8b1230" : "#2d3748",
-                        backgroundColor: selectedHotel === h.id ? "#fbeff2" : "transparent",
-                        border: "none",
-                        borderRadius: "8px",
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        transition: "background 0.15s"
-                      }}
-                    >
-                      <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: selectedHotel === h.id ? "#8b1230" : "#cbd5e0" }} />
-                        {h.building_name} {h.location && h.location !== h.building_name ? `(${h.location})` : ""}
-                      </span>
-                      {selectedHotel === h.id && <Check size={14} style={{ color: "#8b1230" }} />}
-                    </button>
-                  ))}
+                  {displayHotels.length === 0 ? (
+                    <div style={{ padding: "8px 12px", fontSize: "12px", color: "#8a5862", fontStyle: "italic" }}>
+                      Loading hotel branches...
+                    </div>
+                  ) : (
+                    displayHotels.map((h) => {
+                      const name = h.building_name || h.name || "Hotel Branch";
+                      const loc = h.location && h.location !== name ? `(${h.location})` : "";
+                      return (
+                        <button
+                          key={h.id}
+                          type="button"
+                          onClick={() => {
+                            onHotelChange(h.id);
+                            setShowHotelMenu(false);
+                          }}
+                          style={{
+                            padding: "9px 12px",
+                            textAlign: "left",
+                            fontSize: "12.5px",
+                            fontWeight: selectedHotel === h.id ? "700" : "500",
+                            color: selectedHotel === h.id ? "#8b1230" : "#2d3748",
+                            backgroundColor: selectedHotel === h.id ? "#fbeff2" : "transparent",
+                            border: "none",
+                            borderRadius: "8px",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            transition: "background 0.15s"
+                          }}
+                        >
+                          <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: selectedHotel === h.id ? "#8b1230" : "#cbd5e0" }} />
+                            {name} {loc}
+                          </span>
+                          {selectedHotel === h.id && <Check size={14} style={{ color: "#8b1230" }} />}
+                        </button>
+                      );
+                    })
+                  )}
                 </div>
               )}
             </div>

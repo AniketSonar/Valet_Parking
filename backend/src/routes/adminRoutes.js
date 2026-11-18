@@ -5,6 +5,7 @@ const {
   getRevenuePerformance,
 } = require("../controllers/adminController");
 const { getParkingReports } = require("../controllers/parkingAdminController");
+const area = require("../controllers/areaController");
 
 const authenticate = require("../middleware/authMiddleware");
 const authorizeRoles = require("../middleware/roleMiddleware");
@@ -37,6 +38,13 @@ router.get(
   authenticate,
   authorizeRoles("super_admin", "manager"),
   getParkingReports
+);
+
+router.get(
+  "/hotels",
+  authenticate,
+  authorizeRoles("super_admin", "manager"),
+  area.getBuildings
 );
 
 module.exports = router;

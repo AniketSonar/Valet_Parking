@@ -3,7 +3,15 @@ import apiClient from "./apiClient";
 const json = (method, body) => ({ method, body: JSON.stringify(body) });
 
 // ---- Super admin: buildings/hotels, floors, manager assignment ----------------
-export const getBuildings = () => apiClient("/api/areas/buildings");
+export const getBuildings = async () => {
+  try {
+    const res = await apiClient("/api/areas/buildings");
+    if (res?.buildings?.length) return res;
+  } catch (err) {
+    console.warn("Primary getBuildings failed, attempting fallback:", err?.message);
+  }
+  return apiClient("/api/admin/hotels").catch(() => ({ success: false, buildings: [] }));
+};
 export const createBuilding = (data) => apiClient("/api/areas/buildings", json("POST", data));
 export const updateBuilding = (id, data) => apiClient(`/api/areas/buildings/${id}`, json("PUT", data));
 export const deleteBuilding = (id) => apiClient(`/api/areas/buildings/${id}`, { method: "DELETE" });

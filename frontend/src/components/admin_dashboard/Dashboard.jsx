@@ -44,11 +44,14 @@ function Dashboard() {
   useEffect(() => {
     getBuildings()
       .then((res) => {
-        if (res?.buildings) {
+        console.log("[Dashboard] getBuildings response:", res);
+        if (res?.buildings && Array.isArray(res.buildings)) {
           setHotels(res.buildings);
+        } else {
+          console.warn("[Dashboard] No buildings array in response:", res);
         }
       })
-      .catch((err) => console.error("Error loading hotel branches:", err));
+      .catch((err) => console.error("[Dashboard] Error loading hotel branches:", err));
   }, []);
 
   const loadDashboardStats = useCallback(async (silent = false) => {

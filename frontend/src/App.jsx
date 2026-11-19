@@ -39,6 +39,8 @@ function App() {
 
         {/* Staff Login (Direct Valet Site Access) */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<Navigate to="/login?mode=register" replace />} />
+        <Route path="/staff-register" element={<Navigate to="/login?mode=register" replace />} />
 
         {/* Customer Authentication */}
         <Route

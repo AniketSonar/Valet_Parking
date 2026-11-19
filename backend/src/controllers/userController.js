@@ -955,7 +955,19 @@ const updateStaffStatus = async (req, res) => {
               employeeError.message
           });
         }
+
+        // Also update valet assignments active status
+        await supabase
+          .from("valet_assignments")
+          .update({ is_active })
+          .eq("valet_id", employee.id);
       }
+    } else if (existingUser.role === "manager" || existingUser.role === "parking_admin") {
+      // Also update manager assignments active status
+      await supabase
+        .from("manager_assignments")
+        .update({ is_active })
+        .eq("manager_id", existingUser.id);
     }
 
     return res.status(200).json({

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { RefreshCw, Search, Users, UserCheck, Shield, Car, Check, CircleDot, Clock, TriangleAlert } from "lucide-react";
 import { getParkingStaff, getParkingSessions, assignValet } from "../../api/parkingApi";
+import { updateStaffStatus } from "../../api/staffApi";
 import "./css/ValetManagement.css";
 
 
@@ -329,12 +330,39 @@ function ValetManagement() {
 
                       <td>
                         <span className={`staff-status-badge ${member.status === "Active" ? "staff-status-active" : "staff-status-inactive"}`}>
-                          {member.status}
+                          {member.status === "Active" ? "Active" : "Pending Approval"}
                         </span>
                       </td>
 
                       <td>
-                        <div style={{ display: "flex", gap: "6px" }}>
+                        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                          {member.status !== "Active" && (
+                            <button
+                              type="button"
+                              onClick={async () => {
+                                try {
+                                  await updateStaffStatus(member.id, true);
+                                  setSuccessMessage(`Approved ${member.name} to join branch.`);
+                                  await loadData();
+                                } catch (err) {
+                                  setError(err.message || "Failed to approve staff.");
+                                }
+                              }}
+                              style={{
+                                padding: "4px 10px",
+                                borderRadius: "6px",
+                                background: "#15803d",
+                                color: "#ffffff",
+                                border: "none",
+                                fontSize: "11px",
+                                fontWeight: "700",
+                                cursor: "pointer",
+                                whiteSpace: "nowrap"
+                              }}
+                            >
+                              ✓ Accept Request
+                            </button>
+                          )}
                           <button
                             className="view-staff-btn"
                             onClick={() => setSelectedStaff(member)}

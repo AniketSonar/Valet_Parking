@@ -143,6 +143,20 @@ const LandingPage = () => {
               <span>Staff Login</span>
               <ArrowRight size={16} />
             </Link>
+            <Link
+              to="/login?mode=register"
+              className="landing-btn-primary"
+              style={{
+                background: "transparent",
+                border: "1.5px solid #bc9b6a",
+                color: "#bc9b6a",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                fontWeight: "700"
+              }}
+            >
+              <span>Staff Sign Up</span>
+            </Link>
           </div>
         </div>
       </nav>
@@ -637,6 +651,13 @@ const LandingPage = () => {
               <button onClick={() => navigate("/login")} className="btn-banner-staff">
                 Staff Login
               </button>
+              <button
+                onClick={() => navigate("/login?mode=register")}
+                className="btn-banner-staff"
+                style={{ background: "#42235e", color: "#ffffff", border: "1.5px solid #bc9b6a" }}
+              >
+                Staff Sign Up
+              </button>
               <button onClick={() => navigate("/customer-login")} className="btn-banner-customer">
                 Customer Portal
               </button>
@@ -669,6 +690,7 @@ const LandingPage = () => {
           <div className="footer-links-group">
             <h4>Portals</h4>
             <Link to="/login">Staff Login (Admin & Valet)</Link>
+            <Link to="/login?mode=register">Staff Sign Up (Join Staff)</Link>
             <Link to="/customer-login">Customer Portal</Link>
             <Link to="/customer-register">Customer Sign Up</Link>
           </div>

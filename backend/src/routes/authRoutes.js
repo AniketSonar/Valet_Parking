@@ -4,7 +4,9 @@ const {
   login,
   refreshSession,
   registerCustomer,
-  customerPhoneLogin
+  customerPhoneLogin,
+  getPublicBranches,
+  registerStaff
 } = require("../controllers/authController");
 
 const authenticate = require("../middleware/authMiddleware");
@@ -18,6 +20,14 @@ const router = express.Router();
 */
 router.post("/login", login);
 router.post("/refresh", refreshSession);
+
+/*
+|--------------------------------------------------------------------------
+| Staff Registration & Public Branches
+|--------------------------------------------------------------------------
+*/
+router.get("/branches", getPublicBranches);
+router.post("/staff-register", registerStaff);
 
 /*
 |--------------------------------------------------------------------------

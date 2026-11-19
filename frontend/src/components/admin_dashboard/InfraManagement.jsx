@@ -736,17 +736,37 @@ export default function InfraManagement() {
                             padding: "4px 10px",
                             borderRadius: "20px",
                             fontSize: "11.5px",
-                            fontWeight: "600",
+                            fontWeight: "700",
                             border: "none",
                             cursor: "pointer",
-                            background: staff.is_active ? "#ecfdf5" : "#fef2f2",
-                            color: staff.is_active ? "#065f46" : "#991b1b",
+                            background: staff.is_active ? "#ecfdf5" : "#fef3c7",
+                            color: staff.is_active ? "#065f46" : "#92400e",
                           }}
+                          title="Click to toggle or approve staff status"
                         >
-                          {staff.is_active ? "Active" : "Inactive"}
+                          {staff.is_active ? "● Active" : "⏳ Pending Approval"}
                         </button>
                       </td>
                       <td style={{ padding: "14px 18px", textAlign: "right" }}>
+                        {!staff.is_active && (
+                          <button
+                            type="button"
+                            onClick={() => handleToggleStaffStatus(staff)}
+                            style={{
+                              padding: "5px 12px",
+                              borderRadius: "6px",
+                              background: "#15803d",
+                              color: "#ffffff",
+                              border: "none",
+                              fontSize: "12px",
+                              fontWeight: "700",
+                              cursor: "pointer",
+                              marginRight: "8px"
+                            }}
+                          >
+                            ✓ Accept Request
+                          </button>
+                        )}
                         <button
                           type="button"
                           onClick={() => {

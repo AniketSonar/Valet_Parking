@@ -1,10 +1,15 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Chatbot from "./Chatbot";
 
 function LoginCard() {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const searchParams = new URLSearchParams(location.search);
+  const initialMode = searchParams.get("mode") === "register" ? "register" : "login";
+
+  const [mode, setMode] = useState(initialMode);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [showChatbot, setShowChatbot] = useState(false);
@@ -12,10 +17,40 @@ function LoginCard() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
+  // Staff registration state
+  const [regForm, setRegForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    role: "valet",
+    hotel_id: "",
+    position_name: "",
+  });
+  const [branches, setBranches] = useState([]);
+
+  // Fetch available hotel branches for staff registration
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    fetch(`${apiUrl}/api/auth/branches`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.branches)) {
+          setBranches(data.branches);
+          if (data.branches.length > 0) {
+            setRegForm((prev) => ({ ...prev, hotel_id: prev.hotel_id || data.branches[0].id }));
+          }
+        }
+      })
+      .catch((err) => console.warn("Could not load branches for registration:", err));
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccessMsg("");
 
     if (!email || !password) {
       setError("Email and password are required.");
@@ -67,18 +102,74 @@ function LoginCard() {
     }
   };
 
+  const handleRegisterStaff = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccessMsg("");
+
+    if (!regForm.name || !regForm.email || !regForm.password || !regForm.hotel_id) {
+      setError("Full name, email, password, and hotel branch are required.");
+      return;
+    }
+
+    if (regForm.password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+      const res = await fetch(`${apiUrl}/api/auth/staff-register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(regForm),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setError(data.message || "Failed to submit joining request.");
+        return;
+      }
+
+      setSuccessMsg(data.message || "Joining request submitted successfully! Once approved by the Admin or Branch Manager, you can sign in.");
+      setRegForm({
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        role: "valet",
+        hotel_id: branches[0]?.id || "",
+        position_name: "",
+      });
+    } catch (err) {
+      console.error("Registration error:", err);
+      setError("Unable to submit request. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="vp-login-wrapper">
       <div className="vp-auth-card">
         {/* CARD HEADER */}
         <div className="vp-card-heading">
-          <h2>Welcome Back</h2>
-          <p>Sign in to continue</p>
+          <h2>{mode === "register" ? "Join Staff Team" : "Welcome Back"}</h2>
+          <p>
+            {mode === "register"
+              ? "Submit your registration to join a hotel branch"
+              : "Sign in to operations portal"}
+          </p>
         </div>
 
         {/* ERROR DISPLAY */}
         {error && (
-          <div className="vp-error-banner" role="alert">
+          <div className="vp-error-banner" role="alert" style={{ marginBottom: "14px" }}>
             <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5" />
               <path d="M8 5v3.5M8 11v.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -87,112 +178,320 @@ function LoginCard() {
           </div>
         )}
 
-        {/* LOGIN FORM */}
-        <form onSubmit={handleLogin} autoComplete="off">
-          {/* EMAIL INPUT */}
-          <div className="vp-input-field">
-            <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <rect x="3" y="5" width="18" height="14" rx="3" />
-              <path d="M3 7l9 6 9-6" />
-            </svg>
-            <input
-              id="staff-email"
-              type="text"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="username"
-            />
+        {/* SUCCESS DISPLAY */}
+        {successMsg && (
+          <div
+            style={{
+              padding: "12px 14px",
+              borderRadius: "10px",
+              background: "#ecfdf5",
+              border: "1px solid #10b981",
+              color: "#065f46",
+              fontSize: "12.5px",
+              lineHeight: 1.5,
+              fontWeight: "600",
+              marginBottom: "16px"
+            }}
+          >
+            🎉 {successMsg}
+            <div style={{ marginTop: "10px" }}>
+              <button
+                type="button"
+                onClick={() => { setMode("login"); setSuccessMsg(""); }}
+                style={{
+                  background: "#42235e",
+                  color: "#ffffff",
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "6px 12px",
+                  fontSize: "12px",
+                  fontWeight: "700",
+                  cursor: "pointer"
+                }}
+              >
+                Proceed to Staff Sign In →
+              </button>
+            </div>
           </div>
+        )}
 
-          {/* PASSWORD INPUT */}
-          <div className="vp-input-field">
-            <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <rect x="4" y="10" width="16" height="11" rx="3" />
-              <path d="M7 10V7a5 5 0 0 1 10 0v3" />
-            </svg>
-            <input
-              id="staff-password"
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-            />
-            <button
-              type="button"
-              className="vp-pwd-toggle"
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? "Hide password" : "Show password"}
-            >
-              {showPassword ? (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              ) : (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                  <line x1="1" y1="1" x2="23" y2="23" />
-                </svg>
-              )}
-            </button>
-          </div>
-
-          {/* REMEMBER ME + FORGOT PASSWORD */}
-          <div className="vp-form-options">
-            <label className="vp-checkbox-label">
+        {/* MODE 1: LOGIN FORM */}
+        {mode === "login" ? (
+          <form onSubmit={handleLogin} autoComplete="off">
+            {/* EMAIL INPUT */}
+            <div className="vp-input-field">
+              <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <rect x="3" y="5" width="18" height="14" rx="3" />
+                <path d="M3 7l9 6 9-6" />
+              </svg>
               <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
+                id="staff-email"
+                type="text"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="username"
               />
-              <span className="vp-checkbox-custom">
-                {rememberMe && (
-                  <svg viewBox="0 0 12 10" fill="none">
-                    <path d="M1 5l3.5 3.5L11 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </div>
+
+            {/* PASSWORD INPUT */}
+            <div className="vp-input-field">
+              <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <rect x="4" y="10" width="16" height="11" rx="3" />
+                <path d="M7 10V7a5 5 0 0 1 10 0v3" />
+              </svg>
+              <input
+                id="staff-password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="vp-pwd-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
                   </svg>
                 )}
-              </span>
-              <span className="vp-remember-text">Remember me</span>
-            </label>
+              </button>
+            </div>
 
-            <a href="#forgot" className="vp-forgot-link">
-              Forgot password?
-            </a>
-          </div>
+            {/* REMEMBER ME + FORGOT PASSWORD */}
+            <div className="vp-form-options">
+              <label className="vp-checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <span className="vp-checkbox-custom">
+                  {rememberMe && (
+                    <svg viewBox="0 0 12 10" fill="none">
+                      <path d="M1 5l3.5 3.5L11 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </span>
+                <span className="vp-remember-text">Remember me</span>
+              </label>
 
-          {/* SIGN IN BUTTON */}
-          <button type="submit" className="vp-signin-btn" disabled={loading}>
-            {loading ? (
-              <>
-                <span className="vp-btn-spinner" />
-                <span>Signing in...</span>
-              </>
-            ) : (
-              <>
-                <span>Sign In</span>
-                <span className="vp-btn-arrow">→</span>
-              </>
+              <a href="#forgot" className="vp-forgot-link">
+                Forgot password?
+              </a>
+            </div>
+
+            {/* SIGN IN BUTTON */}
+            <button type="submit" className="vp-signin-btn" disabled={loading}>
+              {loading ? (
+                <>
+                  <span className="vp-btn-spinner" />
+                  <span>Signing in...</span>
+                </>
+              ) : (
+                <>
+                  <span>Sign In</span>
+                  <span className="vp-btn-arrow">→</span>
+                </>
+              )}
+            </button>
+          </form>
+        ) : (
+          /* MODE 2: REGISTER FORM */
+          <form onSubmit={handleRegisterStaff} autoComplete="off">
+            {/* FULL NAME */}
+            <div className="vp-input-field">
+              <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Full Name *"
+                value={regForm.name}
+                onChange={(e) => setRegForm({ ...regForm, name: e.target.value })}
+                required
+              />
+            </div>
+
+            {/* EMAIL */}
+            <div className="vp-input-field">
+              <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <rect x="3" y="5" width="18" height="14" rx="3" />
+                <path d="M3 7l9 6 9-6" />
+              </svg>
+              <input
+                type="email"
+                placeholder="Email Address *"
+                value={regForm.email}
+                onChange={(e) => setRegForm({ ...regForm, email: e.target.value })}
+                required
+              />
+            </div>
+
+            {/* PHONE */}
+            <div className="vp-input-field">
+              <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Phone Number (e.g. +91 9876543210)"
+                value={regForm.phone}
+                onChange={(e) => setRegForm({ ...regForm, phone: e.target.value })}
+              />
+            </div>
+
+            {/* PASSWORD */}
+            <div className="vp-input-field">
+              <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <rect x="4" y="10" width="16" height="11" rx="3" />
+                <path d="M7 10V7a5 5 0 0 1 10 0v3" />
+              </svg>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password (minimum 6 characters) *"
+                value={regForm.password}
+                onChange={(e) => setRegForm({ ...regForm, password: e.target.value })}
+                required
+              />
+            </div>
+
+            {/* ROLE SELECT */}
+            <div style={{ marginBottom: "12px" }}>
+              <label style={{ display: "block", fontSize: "11px", fontWeight: "700", color: "#6b7280", textTransform: "uppercase", marginBottom: "4px" }}>
+                Role Applying For *
+              </label>
+              <select
+                value={regForm.role}
+                onChange={(e) => setRegForm({ ...regForm, role: e.target.value })}
+                style={{
+                  width: "100%",
+                  padding: "10px 12px",
+                  borderRadius: "8px",
+                  border: "1.5px solid #e5e7eb",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  color: "#374151",
+                  background: "#ffffff",
+                  outline: "none"
+                }}
+              >
+                <option value="valet">Valet Staff / Driver</option>
+                <option value="manager">Branch Manager</option>
+              </select>
+            </div>
+
+            {/* HOTEL BRANCH SELECT */}
+            <div style={{ marginBottom: "12px" }}>
+              <label style={{ display: "block", fontSize: "11px", fontWeight: "700", color: "#6b7280", textTransform: "uppercase", marginBottom: "4px" }}>
+                Select Hotel Branch to Join *
+              </label>
+              <select
+                value={regForm.hotel_id}
+                onChange={(e) => setRegForm({ ...regForm, hotel_id: e.target.value })}
+                required
+                style={{
+                  width: "100%",
+                  padding: "10px 12px",
+                  borderRadius: "8px",
+                  border: "1.5px solid #bc9b6a",
+                  fontSize: "13px",
+                  fontWeight: "700",
+                  color: "#42235e",
+                  background: "#fffdfa",
+                  outline: "none"
+                }}
+              >
+                {branches.length === 0 && (
+                  <option value="">Loading hotel branches...</option>
+                )}
+                {branches.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.building_name} ({b.location})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* STANDING POSITION (if Valet) */}
+            {regForm.role === "valet" && (
+              <div className="vp-input-field" style={{ marginBottom: "14px" }}>
+                <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Standing Position (e.g. Front Entrance, Main Gate)"
+                  value={regForm.position_name}
+                  onChange={(e) => setRegForm({ ...regForm, position_name: e.target.value })}
+                />
+              </div>
             )}
-          </button>
-        </form>
 
-        {/* FOOTER: SIGN UP PROMPT & CUSTOMER PORTAL LINK */}
+            <div style={{ fontSize: "11.5px", color: "#6b7280", marginBottom: "16px", lineHeight: 1.4 }}>
+              🛡️ <em>Your request will be sent to the Admin & Branch Manager. You can log in once accepted.</em>
+            </div>
+
+            {/* SUBMIT BUTTON */}
+            <button type="submit" className="vp-signin-btn" disabled={loading}>
+              {loading ? (
+                <>
+                  <span className="vp-btn-spinner" />
+                  <span>Submitting Request...</span>
+                </>
+              ) : (
+                <>
+                  <span>Submit Joining Request</span>
+                  <span className="vp-btn-arrow">✓</span>
+                </>
+              )}
+            </button>
+          </form>
+        )}
+
+        {/* TOGGLE BETWEEN LOGIN & REGISTER */}
         <div className="vp-card-footer">
-          <span>Don't have an account? </span>
-          <button
-            type="button"
-            className="vp-signup-link"
-            onClick={() => navigate("/customer-register")}
-          >
-            Sign Up
-          </button>
+          {mode === "login" ? (
+            <>
+              <span>New joining staff? </span>
+              <button
+                type="button"
+                className="vp-signup-link"
+                onClick={() => { setMode("register"); setError(""); setSuccessMsg(""); }}
+                style={{ fontWeight: "800", color: "#bc9b6a" }}
+              >
+                Staff Sign Up / Join Team
+              </button>
+            </>
+          ) : (
+            <>
+              <span>Already registered? </span>
+              <button
+                type="button"
+                className="vp-signup-link"
+                onClick={() => { setMode("login"); setError(""); setSuccessMsg(""); }}
+                style={{ fontWeight: "800", color: "#42235e" }}
+              >
+                Sign In to Account
+              </button>
+            </>
+          )}
         </div>
 
         {/* CUSTOMER PORTAL SWITCHER */}
         <div className="vp-portal-switch">
-          <span>Are you a customer? </span>
+          <span>Are you a guest/customer? </span>
           <button
             type="button"
             className="vp-switch-btn"

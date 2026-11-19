@@ -241,27 +241,27 @@ function LuxuryDashboardView({
           </p>
           <div className="lux-gold-line" />
 
-          {/* Hotel / Branch Visible Selector (Replaces dropdown - all branches visible) */}
-          <div style={{ marginTop: "16px" }}>
+          {/* Hotel / Branch Visible Selector (High contrast Dark Purple & Gold pills) */}
+          <div style={{ marginTop: "18px" }}>
             <div style={{
               display: "flex",
               alignItems: "center",
               gap: "8px",
-              marginBottom: "8px",
-              fontSize: "11.5px",
-              fontWeight: "700",
-              color: "#f2e5cc",
+              marginBottom: "10px",
+              fontSize: "12px",
+              fontWeight: "800",
+              color: "#42235e",
               letterSpacing: "0.08em",
               textTransform: "uppercase"
             }}>
-              <Building2 size={14} style={{ color: "#bc9b6a" }} />
+              <Building2 size={15} style={{ color: "#bc9b6a" }} />
               <span>Select Branch Dashboard:</span>
             </div>
 
             <div style={{
               display: "flex",
               alignItems: "center",
-              gap: "8px",
+              gap: "10px",
               flexWrap: "wrap"
             }}>
               {/* All Branches Button */}
@@ -272,31 +272,32 @@ function LuxuryDashboardView({
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "8px",
-                  padding: "8px 16px",
-                  borderRadius: "20px",
-                  border: selectedHotel === "all" ? "1.5px solid #bc9b6a" : "1.5px solid rgba(220, 162, 112, 0.35)",
+                  padding: "9px 18px",
+                  borderRadius: "24px",
+                  border: selectedHotel === "all" ? "2px solid #bc9b6a" : "1.5px solid #d4c2e6",
                   background: selectedHotel === "all"
-                    ? "linear-gradient(135deg, #bc9b6a 0%, #ab8b5d 100%)"
-                    : "rgba(255, 255, 255, 0.08)",
-                  color: selectedHotel === "all" ? "#3b0714" : "#f2e5cc",
-                  fontWeight: selectedHotel === "all" ? "700" : "600",
-                  fontSize: "12.5px",
+                    ? "linear-gradient(135deg, #42235e 0%, #28103c 100%)"
+                    : "#ffffff",
+                  color: selectedHotel === "all" ? "#ffffff" : "#42235e",
+                  fontWeight: "700",
+                  fontSize: "13px",
                   cursor: "pointer",
-                  boxShadow: selectedHotel === "all" ? "0 4px 14px rgba(223, 183, 108, 0.4)" : "none",
-                  transition: "all 0.2s ease",
-                  backdropFilter: "blur(4px)"
+                  boxShadow: selectedHotel === "all"
+                    ? "0 4px 14px rgba(66, 35, 94, 0.35)"
+                    : "0 2px 6px rgba(66, 35, 94, 0.06)",
+                  transition: "all 0.2s ease"
                 }}
               >
-                <Building2 size={14} style={{ color: selectedHotel === "all" ? "#3b0714" : "#bc9b6a" }} />
+                <Building2 size={15} style={{ color: selectedHotel === "all" ? "#bc9b6a" : "#42235e" }} />
                 <span>All Branches</span>
                 {displayHotels.length > 0 && (
                   <span style={{
-                    fontSize: "10.5px",
+                    fontSize: "11px",
                     fontWeight: "800",
-                    padding: "1px 6px",
-                    borderRadius: "10px",
-                    background: selectedHotel === "all" ? "#3b0714" : "rgba(223, 183, 108, 0.2)",
-                    color: selectedHotel === "all" ? "#f2e5cc" : "#bc9b6a"
+                    padding: "2px 7px",
+                    borderRadius: "12px",
+                    background: selectedHotel === "all" ? "#bc9b6a" : "#ebdcf3",
+                    color: selectedHotel === "all" ? "#28103c" : "#42235e"
                   }}>
                     {displayHotels.length}
                   </span>
@@ -318,38 +319,39 @@ function LuxuryDashboardView({
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: "7px",
-                      padding: "8px 16px",
-                      borderRadius: "20px",
-                      border: isSelected ? "1.5px solid #bc9b6a" : "1.5px solid rgba(220, 162, 112, 0.35)",
+                      gap: "8px",
+                      padding: "9px 18px",
+                      borderRadius: "24px",
+                      border: isSelected ? "2px solid #bc9b6a" : "1.5px solid #d4c2e6",
                       background: isSelected
-                        ? "linear-gradient(135deg, #bc9b6a 0%, #ab8b5d 100%)"
-                        : "rgba(255, 255, 255, 0.08)",
-                      color: isSelected ? "#3b0714" : "#f2e5cc",
-                      fontWeight: isSelected ? "700" : "600",
-                      fontSize: "12.5px",
+                        ? "linear-gradient(135deg, #42235e 0%, #28103c 100%)"
+                        : "#ffffff",
+                      color: isSelected ? "#ffffff" : "#28103c",
+                      fontWeight: "700",
+                      fontSize: "13px",
                       cursor: "pointer",
-                      boxShadow: isSelected ? "0 4px 14px rgba(223, 183, 108, 0.4)" : "none",
-                      transition: "all 0.2s ease",
-                      backdropFilter: "blur(4px)"
+                      boxShadow: isSelected
+                        ? "0 4px 14px rgba(66, 35, 94, 0.35)"
+                        : "0 2px 6px rgba(66, 35, 94, 0.06)",
+                      transition: "all 0.2s ease"
                     }}
                   >
                     <span style={{
-                      width: "7px",
-                      height: "7px",
+                      width: "8px",
+                      height: "8px",
                       borderRadius: "50%",
-                      background: isSelected ? "#3b0714" : "#bc9b6a",
-                      boxShadow: isSelected ? "none" : "0 0 5px rgba(223, 183, 108, 0.8)"
+                      background: isSelected ? "#bc9b6a" : "#42235e",
+                      boxShadow: isSelected ? "0 0 6px rgba(188, 155, 106, 0.9)" : "none"
                     }} />
                     <span>{name}</span>
                     {loc && (
                       <span style={{
-                        fontSize: "10.5px",
+                        fontSize: "11px",
                         fontWeight: "600",
-                        padding: "1px 6px",
-                        borderRadius: "4px",
-                        background: isSelected ? "rgba(59, 7, 20, 0.15)" : "rgba(255, 255, 255, 0.12)",
-                        color: isSelected ? "#3b0714" : "#f2e5cc"
+                        padding: "2px 7px",
+                        borderRadius: "6px",
+                        background: isSelected ? "rgba(188, 155, 106, 0.25)" : "#f5edf9",
+                        color: isSelected ? "#f2e5cc" : "#42235e"
                       }}>
                         {loc}
                       </span>
@@ -359,7 +361,7 @@ function LuxuryDashboardView({
               })}
 
               {displayHotels.length === 0 && (
-                <span style={{ fontSize: "12px", color: "rgba(246, 222, 181, 0.7)", fontStyle: "italic" }}>
+                <span style={{ fontSize: "12px", color: "#6b567b", fontStyle: "italic" }}>
                   Loading hotel branches...
                 </span>
               )}

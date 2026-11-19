@@ -26,6 +26,16 @@ export default function BranchSelector({
   size = "md",
   variant = "pills",
 }) {
+  const userRole = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}")?.role;
+    } catch {
+      return null;
+    }
+  })();
+
+  const isManager = userRole === "manager" || userRole === "parking_admin";
+  const effectiveShowAll = isManager ? false : showAllOption;
   return (
     <div className={`branch-selector-wrapper branch-selector-${size} branch-selector-${variant}`}>
       {label && (
@@ -36,7 +46,7 @@ export default function BranchSelector({
       )}
 
       <div className="branch-selector-list" role="tablist" aria-label="Branch selector">
-        {showAllOption && (
+        {effectiveShowAll && (
           <button
             type="button"
             role="tab"

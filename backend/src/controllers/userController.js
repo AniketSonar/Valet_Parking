@@ -1,5 +1,6 @@
 
 const supabase = require("../config/supabase");
+const { getAreaScope } = require("../utils/areaScope");
 
 const allowedRoles = [
   "super_admin",
@@ -300,28 +301,44 @@ const createStaff = async (req, res) => {
 
     if (hotel_id) {
       try {
-        const { data: floors } = await supabase
+        let { data: floors } = await supabase
           .from("parking_floors")
           .select("id")
           .eq("building_id", hotel_id)
-          .order("floor_number", { ascending: true })
-          .limit(1);
+          .order("floor_number", { ascending: true });
+
+        if (!floors || floors.length === 0) {
+          const { data: defaultFloor } = await supabase
+            .from("parking_floors")
+            .insert([{ building_id: hotel_id, floor_name: "Ground Floor", floor_number: 0 }])
+            .select()
+            .single();
+          if (defaultFloor) floors = [defaultFloor];
+        }
 
         if (floors && floors.length > 0) {
-          const floorId = floors[0].id;
+          const firstFloorId = floors[0].id;
           if (role === "manager" || role === "parking_admin") {
-            await supabase.from("manager_assignments").insert([{
+            // Deactivate any existing manager assignments for this hotel branch
+            await supabase
+              .from("manager_assignments")
+              .update({ is_active: false })
+              .in("floor_id", floors.map((f) => f.id));
+
+            // Assign this manager to ALL floors of this hotel branch
+            const managerRecords = floors.map((f) => ({
               manager_id: user.id,
-              floor_id: floorId,
+              floor_id: f.id,
               assigned_by: req.user?.id || null,
               is_active: true
-            }]);
+            }));
+            await supabase.from("manager_assignments").insert(managerRecords);
           } else if (role === "valet" && employee?.id) {
             const targetPostName = position_name ? String(position_name).trim() : "Main Post";
             let { data: post } = await supabase
               .from("valet_posts")
               .select("id")
-              .eq("floor_id", floorId)
+              .eq("floor_id", firstFloorId)
               .ilike("post_name", targetPostName)
               .limit(1)
               .maybeSingle();
@@ -329,7 +346,7 @@ const createStaff = async (req, res) => {
             if (!post) {
               const { data: newPost } = await supabase
                 .from("valet_posts")
-                .insert([{ floor_id: floorId, post_name: targetPostName }])
+                .insert([{ floor_id: firstFloorId, post_name: targetPostName }])
                 .select()
                 .single();
               post = newPost;
@@ -338,7 +355,7 @@ const createStaff = async (req, res) => {
             if (post) {
               await supabase.from("valet_assignments").insert([{
                 valet_id: employee.id,
-                floor_id: floorId,
+                floor_id: firstFloorId,
                 post_id: post.id,
                 assigned_by: req.user?.id || null,
                 is_active: true
@@ -497,7 +514,15 @@ const getAllStaff = async (req, res) => {
       })
     );
 
-    if (hotelId && hotelId !== "all") {
+    // If caller is a manager or parking_admin, they should ONLY see staff from their own hotel branch!
+    if (req.user?.role === "manager" || req.user?.role === "parking_admin") {
+      const scope = await getAreaScope(req.user);
+      if (scope.buildingId) {
+        staff = staff.filter((s) => s.hotel_id === scope.buildingId);
+      } else {
+        staff = [];
+      }
+    } else if (hotelId && hotelId !== "all") {
       staff = staff.filter((s) => s.hotel_id === hotelId);
     }
 

@@ -89,8 +89,8 @@ const getParkingSessions = async (req, res) => {
 
     let result = sessions || [];
 
-    // Managers only see sessions parked inside the area assigned to them.
-    if (req.user?.role === "manager") {
+    // Managers only see sessions parked inside the hotel branch assigned to them.
+    if (req.user?.role === "manager" || req.user?.role === "parking_admin") {
       const scope = await getAreaScope(req.user);
 
       const { data: slotRows } = await supabase
@@ -101,12 +101,23 @@ const getParkingSessions = async (req, res) => {
         (slotRows || []).map((row) => [row.slot_number, row.floor_id])
       );
 
-      result = result.filter(
-        (session) =>
-          !session.parking_slot ||
-          !slotFloor.has(session.parking_slot) ||
-          floorInScope(scope, slotFloor.get(session.parking_slot))
-      );
+      // Also get valet IDs assigned to this manager's floors
+      const { data: valetAssigns } = await supabase
+        .from("valet_assignments")
+        .select("valet_id")
+        .in("floor_id", scope.floorIds)
+        .eq("is_active", true);
+      const branchValetIds = new Set((valetAssigns || []).map((va) => va.valet_id));
+
+      result = result.filter((session) => {
+        if (session.parking_slot && slotFloor.has(session.parking_slot)) {
+          return floorInScope(scope, slotFloor.get(session.parking_slot));
+        }
+        if (session.valet?.id && branchValetIds.has(session.valet.id)) {
+          return true;
+        }
+        return false;
+      });
     }
 
     if (search) {

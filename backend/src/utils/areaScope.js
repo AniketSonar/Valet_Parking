@@ -2,32 +2,76 @@ const supabase = require("../config/supabase");
 
 /**
  * Area scope of the logged-in user.
- *  - super_admin: unrestricted  -> { unrestricted: true, floorIds: null }
- *  - manager:     only the floors the super admin assigned to them
+ *  - super_admin: unrestricted  -> { unrestricted: true, floorIds: null, buildingIds: null, buildingId: null, slotNumbers: null }
+ *  - manager / parking_admin:   only the hotel branch(es) and floors assigned to them
  *  - anyone else: empty scope
  */
 const getAreaScope = async (user) => {
-  if (!user) return { unrestricted: false, floorIds: [] };
-
-  if (user.role === "super_admin") {
-    return { unrestricted: true, floorIds: null };
+  if (!user) {
+    return { unrestricted: false, floorIds: [], buildingIds: [], buildingId: null, slotNumbers: [] };
   }
 
-  if (user.role !== "manager") {
-    return { unrestricted: false, floorIds: [] };
+  if (user.role === "super_admin") {
+    return { unrestricted: true, floorIds: null, buildingIds: null, buildingId: null, slotNumbers: null };
+  }
+
+  if (user.role !== "manager" && user.role !== "parking_admin") {
+    return { unrestricted: false, floorIds: [], buildingIds: [], buildingId: null, slotNumbers: [] };
   }
 
   const { data, error } = await supabase
     .from("manager_assignments")
-    .select("floor_id")
+    .select(`
+      floor_id,
+      floor:parking_floors (
+        id,
+        building_id
+      )
+    `)
     .eq("manager_id", user.id)
     .eq("is_active", true);
 
   if (error) throw error;
 
+  const directFloorIds = (data || []).map((row) => row.floor_id).filter(Boolean);
+  const buildingIds = [
+    ...new Set(
+      (data || [])
+        .map((row) => row.floor?.building_id)
+        .filter(Boolean)
+    )
+  ];
+
+  // Include all floors belonging to the manager's assigned hotel branch(es)
+  let allFloorIds = [...directFloorIds];
+  if (buildingIds.length > 0) {
+    const { data: bFloors } = await supabase
+      .from("parking_floors")
+      .select("id")
+      .in("building_id", buildingIds);
+
+    if (bFloors && bFloors.length > 0) {
+      allFloorIds = [...new Set([...allFloorIds, ...bFloors.map((f) => f.id)])];
+    }
+  }
+
+  // Pre-load slot numbers for fast session / bay queries
+  let slotNumbers = [];
+  if (allFloorIds.length > 0) {
+    const { data: slots } = await supabase
+      .from("parking_slots")
+      .select("slot_number")
+      .in("floor_id", allFloorIds);
+
+    slotNumbers = (slots || []).map((s) => s.slot_number).filter(Boolean);
+  }
+
   return {
     unrestricted: false,
-    floorIds: (data || []).map((row) => row.floor_id)
+    floorIds: allFloorIds,
+    buildingIds,
+    buildingId: buildingIds[0] || null,
+    slotNumbers
   };
 };
 

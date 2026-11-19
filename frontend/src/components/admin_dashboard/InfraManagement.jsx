@@ -17,6 +17,7 @@ import {
   Briefcase,
   Sliders,
   ChevronDown,
+  UserCheck,
 } from "lucide-react";
 import {
   getBuildings,
@@ -61,6 +62,7 @@ export default function InfraManagement() {
     hotel_name: "",
     location: "",
     address: "",
+    manager_id: "",
   });
 
   // Configure Infra Modal
@@ -143,7 +145,7 @@ export default function InfraManagement() {
       if (res?.success) {
         showNotification("Hotel branch added successfully.");
         setShowAddHotelModal(false);
-        setHotelForm({ hotel_name: "", location: "", address: "" });
+        setHotelForm({ hotel_name: "", location: "", address: "", manager_id: "" });
         await loadData();
       } else {
         throw new Error(res?.message || "Failed to create hotel.");
@@ -165,6 +167,7 @@ export default function InfraManagement() {
         address: hotelForm.address,
         location: hotelForm.location,
         status: editingHotel.status || "active",
+        manager_id: hotelForm.manager_id,
       });
       if (res?.success) {
         showNotification("Hotel branch updated successfully.");
@@ -447,7 +450,7 @@ export default function InfraManagement() {
                 type="button"
                 className="infra-btn-primary"
                 onClick={() => {
-                  setHotelForm({ hotel_name: "", location: "", address: "" });
+                  setHotelForm({ hotel_name: "", location: "", address: "", manager_id: "" });
                   setShowAddHotelModal(true);
                 }}
               >
@@ -508,6 +511,19 @@ export default function InfraManagement() {
                         {hotel.display_address || hotel.address || "Address not provided"}
                       </span>
                     </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "6px", fontSize: "12px" }}>
+                      <UserCheck size={13} color={hotel.manager ? "#42235e" : "#d97706"} />
+                      {hotel.manager ? (
+                        <span style={{ color: "#42235e", fontWeight: "600" }}>
+                          Branch Manager: <strong style={{ color: "#28103c" }}>{hotel.manager.name}</strong> <span style={{ color: "#6b7280", fontWeight: "400" }}>({hotel.manager.email})</span>
+                        </span>
+                      ) : (
+                        <span style={{ color: "#d97706", fontWeight: "600", background: "#fef3c7", padding: "1px 8px", borderRadius: "10px", fontSize: "11px" }}>
+                          ⚠️ No Manager Assigned
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Metrics Badges */}
@@ -547,6 +563,7 @@ export default function InfraManagement() {
                           hotel_name: hotel.building_name,
                           location: hotel.location || "",
                           address: hotel.display_address || hotel.address || "",
+                          manager_id: hotel.manager?.id || "",
                         });
                         setShowEditHotelModal(true);
                       }}
@@ -817,6 +834,26 @@ export default function InfraManagement() {
                 />
               </div>
 
+              <div className="infra-form-group">
+                <label>Assign Branch Manager (Optional)</label>
+                <select
+                  value={hotelForm.manager_id || ""}
+                  onChange={(e) => setHotelForm({ ...hotelForm, manager_id: e.target.value })}
+                >
+                  <option value="">-- No Manager Assigned --</option>
+                  {staffList
+                    .filter((s) => s.role === "manager" || s.role === "parking_admin")
+                    .map((m) => (
+                      <option key={m.id} value={m.id}>
+                        {m.name} ({m.email}) {m.hotel_name ? `- Current: ${m.hotel_name}` : ""}
+                      </option>
+                    ))}
+                </select>
+                <small style={{ color: "#6b7280", fontSize: "11.5px" }}>
+                  Every hotel branch has its dedicated manager who only oversees their own branch.
+                </small>
+              </div>
+
               <div className="infra-modal-foot">
                 <button
                   type="button"
@@ -883,6 +920,26 @@ export default function InfraManagement() {
                   value={hotelForm.address}
                   onChange={(e) => setHotelForm({ ...hotelForm, address: e.target.value })}
                 />
+              </div>
+
+              <div className="infra-form-group">
+                <label>Assign Branch Manager</label>
+                <select
+                  value={hotelForm.manager_id || ""}
+                  onChange={(e) => setHotelForm({ ...hotelForm, manager_id: e.target.value })}
+                >
+                  <option value="">-- No Manager Assigned --</option>
+                  {staffList
+                    .filter((s) => s.role === "manager" || s.role === "parking_admin")
+                    .map((m) => (
+                      <option key={m.id} value={m.id}>
+                        {m.name} ({m.email}) {m.hotel_name ? `- Current: ${m.hotel_name}` : ""}
+                      </option>
+                    ))}
+                </select>
+                <small style={{ color: "#6b7280", fontSize: "11.5px" }}>
+                  Every hotel branch has its dedicated manager who only oversees their own branch.
+                </small>
               </div>
 
               <div className="infra-modal-foot">
@@ -1125,6 +1182,12 @@ export default function InfraManagement() {
                   <option value="valet">Valet</option>
                 </select>
               </div>
+
+              {staffForm.role === "manager" && (
+                <div style={{ padding: "8px 12px", background: "#faf5ff", borderRadius: "8px", border: "1px solid #e9d5ff", fontSize: "12px", color: "#6b21a8" }}>
+                  ℹ️ This staff member will be assigned as the <strong>Dedicated Branch Manager</strong> for the selected hotel branch. They will only see and manage parking operations for that specific branch.
+                </div>
+              )}
 
               {staffForm.role === "valet" && (
                 <div className="infra-form-group">

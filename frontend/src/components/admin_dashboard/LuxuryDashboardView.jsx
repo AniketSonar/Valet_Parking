@@ -46,6 +46,23 @@ function LuxuryDashboardView({
 
   const displayHotels = internalHotels.length > 0 ? internalHotels : hotels;
 
+  const user = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}");
+    } catch {
+      return {};
+    }
+  }, []);
+
+  const isManager = user?.role === "manager" || user?.role === "parking_admin";
+
+  // If user is a branch manager, auto-select their branch if 'all' is selected
+  useEffect(() => {
+    if (isManager && selectedHotel === "all" && displayHotels.length > 0) {
+      onHotelChange(displayHotels[0].id);
+    }
+  }, [isManager, selectedHotel, displayHotels, onHotelChange]);
+
   const [timeFilter, setTimeFilter] = useState("Today");
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [hoveredPoint, setHoveredPoint] = useState(null);
@@ -238,7 +255,9 @@ function LuxuryDashboardView({
           <span className="lux-welcome-greeting">{greeting}</span>
           <h1 className="lux-welcome-title">Welcome Back!</h1>
           <p className="lux-welcome-sub">
-            {selectedHotel === "all"
+            {isManager
+              ? `Viewing live activity and parking metrics for ${activeHotelLabel} (Branch Manager View).`
+              : selectedHotel === "all"
               ? "Here's what's happening across all hotel branches today."
               : `Viewing live activity and parking metrics for ${activeHotelLabel}.`}
           </p>
@@ -258,7 +277,7 @@ function LuxuryDashboardView({
               textTransform: "uppercase"
             }}>
               <Building2 size={15} style={{ color: "#bc9b6a" }} />
-              <span>Select Branch Dashboard:</span>
+              <span>{isManager ? "My Assigned Hotel Branch:" : "Select Branch Dashboard:"}</span>
             </div>
 
             <div style={{
@@ -267,45 +286,47 @@ function LuxuryDashboardView({
               gap: "10px",
               flexWrap: "wrap"
             }}>
-              {/* All Branches Button */}
-              <button
-                type="button"
-                onClick={() => onHotelChange("all")}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "9px 18px",
-                  borderRadius: "24px",
-                  border: selectedHotel === "all" ? "2px solid #bc9b6a" : "1.5px solid #d4c2e6",
-                  background: selectedHotel === "all"
-                    ? "linear-gradient(135deg, #42235e 0%, #28103c 100%)"
-                    : "#ffffff",
-                  color: selectedHotel === "all" ? "#ffffff" : "#42235e",
-                  fontWeight: "700",
-                  fontSize: "13px",
-                  cursor: "pointer",
-                  boxShadow: selectedHotel === "all"
-                    ? "0 4px 14px rgba(66, 35, 94, 0.35)"
-                    : "0 2px 6px rgba(66, 35, 94, 0.06)",
-                  transition: "all 0.2s ease"
-                }}
-              >
-                <Building2 size={15} style={{ color: selectedHotel === "all" ? "#bc9b6a" : "#42235e" }} />
-                <span>All Branches</span>
-                {displayHotels.length > 0 && (
-                  <span style={{
-                    fontSize: "11px",
-                    fontWeight: "800",
-                    padding: "2px 7px",
-                    borderRadius: "12px",
-                    background: selectedHotel === "all" ? "#bc9b6a" : "#ebdcf3",
-                    color: selectedHotel === "all" ? "#28103c" : "#42235e"
-                  }}>
-                    {displayHotels.length}
-                  </span>
-                )}
-              </button>
+              {/* All Branches Button (Hidden for Managers - only Super Admin sees All) */}
+              {!isManager && (
+                <button
+                  type="button"
+                  onClick={() => onHotelChange("all")}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "9px 18px",
+                    borderRadius: "24px",
+                    border: selectedHotel === "all" ? "2px solid #bc9b6a" : "1.5px solid #d4c2e6",
+                    background: selectedHotel === "all"
+                      ? "linear-gradient(135deg, #42235e 0%, #28103c 100%)"
+                      : "#ffffff",
+                    color: selectedHotel === "all" ? "#ffffff" : "#42235e",
+                    fontWeight: "700",
+                    fontSize: "13px",
+                    cursor: "pointer",
+                    boxShadow: selectedHotel === "all"
+                      ? "0 4px 14px rgba(66, 35, 94, 0.35)"
+                      : "0 2px 6px rgba(66, 35, 94, 0.06)",
+                    transition: "all 0.2s ease"
+                  }}
+                >
+                  <Building2 size={15} style={{ color: selectedHotel === "all" ? "#bc9b6a" : "#42235e" }} />
+                  <span>All Branches</span>
+                  {displayHotels.length > 0 && (
+                    <span style={{
+                      fontSize: "11px",
+                      fontWeight: "800",
+                      padding: "2px 7px",
+                      borderRadius: "12px",
+                      background: selectedHotel === "all" ? "#bc9b6a" : "#ebdcf3",
+                      color: selectedHotel === "all" ? "#28103c" : "#42235e"
+                    }}>
+                      {displayHotels.length}
+                    </span>
+                  )}
+                </button>
+              )}
 
               {/* Individual Branch Buttons */}
               {displayHotels.map((h) => {
@@ -482,16 +503,16 @@ function LuxuryDashboardView({
           <div className="lux-kpi-content-row">
             <div className="lux-kpi-left-col">
               <div className="lux-kpi-value">
-                {loading ? "--" : kpiTotalHotels}
+                {loading ? "--" : isManager ? "1" : kpiTotalHotels}
               </div>
-              <div className="lux-kpi-title">Total Hotel Branches</div>
+              <div className="lux-kpi-title">{isManager ? "Assigned Branch" : "Total Hotel Branches"}</div>
             </div>
             <div className="lux-kpi-right-col">
               <div className="lux-kpi-badge green">
                 <span className="lux-trend-arrow">↑</span>
                 <span className="lux-trend-num">Active</span>
               </div>
-              <div className="lux-kpi-compare">all locations</div>
+              <div className="lux-kpi-compare">{isManager ? "your location" : "all locations"}</div>
             </div>
           </div>
         </div>
@@ -506,7 +527,7 @@ function LuxuryDashboardView({
               <div className="lux-kpi-value">
                 {loading ? "--" : kpiTotalStaff}
               </div>
-              <div className="lux-kpi-title">Total Staff Members</div>
+              <div className="lux-kpi-title">{isManager ? "Branch Staff" : "Total Staff Members"}</div>
             </div>
             <div className="lux-kpi-right-col">
               <div className="lux-kpi-badge green">

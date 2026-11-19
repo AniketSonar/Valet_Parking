@@ -96,6 +96,23 @@ const getBuildings = handle("fetch buildings", async (req, res) => {
     .select("floor_id, valet_id")
     .eq("is_active", true);
 
+  // Fetch manager user details to show which manager is assigned to every branch
+  const managerIds = [
+    ...new Set(
+      (allManagerAssignments || [])
+        .map((ma) => ma.manager_id)
+        .filter(Boolean)
+    )
+  ];
+  let managerUsers = [];
+  if (managerIds.length > 0) {
+    const { data: mUsers } = await supabase
+      .from("users")
+      .select("id, name, email, role")
+      .in("id", managerIds);
+    managerUsers = mUsers || [];
+  }
+
   const enriched = (buildings || []).map((b) => {
     const bFloors = (allFloors || []).filter((f) => f.building_id === b.id);
     const bFloorIds = new Set(bFloors.map((f) => f.id));
@@ -116,6 +133,9 @@ const getBuildings = handle("fetch buildings", async (req, res) => {
         .map((va) => va.valet_id)
     );
 
+    const bManagerObjs = managerUsers.filter((u) => bManagers.has(u.id));
+    const primaryManager = bManagerObjs[0] || null;
+
     const { address: cleanAddress, location: parsedLocation } = parseAddressAndLocation(b.address);
 
     return {
@@ -130,8 +150,32 @@ const getBuildings = handle("fetch buildings", async (req, res) => {
       valets_count: bValets.size,
       total_staff: bManagers.size + bValets.size,
       staff_count: bManagers.size + bValets.size,
+      manager: primaryManager
+        ? {
+            id: primaryManager.id,
+            name: primaryManager.name,
+            email: primaryManager.email
+          }
+        : null,
+      managers: bManagerObjs.map((m) => ({
+        id: m.id,
+        name: m.name,
+        email: m.email
+      }))
     };
   });
+
+  // If caller is a manager or parking_admin, they should ONLY see their own branch!
+  if (req.user?.role === "manager" || req.user?.role === "parking_admin") {
+    const scope = await getAreaScope(req.user);
+    if (scope.buildingIds && scope.buildingIds.length > 0) {
+      const managerBuildings = enriched.filter((b) =>
+        scope.buildingIds.includes(b.id)
+      );
+      return res.json({ success: true, buildings: managerBuildings });
+    }
+    return res.json({ success: true, buildings: [] });
+  }
 
   return res.json({ success: true, buildings: enriched });
 });
@@ -159,6 +203,29 @@ const createBuilding = handle("create building", async (req, res) => {
   if (error) return fail(res, 400, error.message);
 
   const { address: cleanAddress, location: parsedLocation } = parseAddressAndLocation(data.address);
+
+  // If a manager was selected for this new branch, assign them to this branch
+  const manager_id = req.body.manager_id;
+  if (manager_id) {
+    try {
+      const { data: defaultFloor } = await supabase
+        .from("parking_floors")
+        .insert([{ building_id: data.id, floor_name: "Ground Floor", floor_number: 0 }])
+        .select()
+        .single();
+
+      if (defaultFloor) {
+        await supabase.from("manager_assignments").insert([{
+          manager_id,
+          floor_id: defaultFloor.id,
+          assigned_by: req.user?.id || null,
+          is_active: true
+        }]);
+      }
+    } catch (assignErr) {
+      console.warn("Auto manager assignment on createBuilding warning:", assignErr.message);
+    }
+  }
 
   return res.status(201).json({
     success: true,
@@ -202,6 +269,48 @@ const updateBuilding = handle("update building", async (req, res) => {
   if (error) return fail(res, 400, error.message);
 
   const { address: cleanAddress, location: parsedLocation } = parseAddressAndLocation(data.address);
+
+  // If manager_id is specified in update, update the branch manager assignment
+  const manager_id = req.body.manager_id;
+  if (manager_id !== undefined) {
+    try {
+      let { data: bFloors } = await supabase
+        .from("parking_floors")
+        .select("id")
+        .eq("building_id", id);
+
+      if (!bFloors || bFloors.length === 0) {
+        const { data: defaultFloor } = await supabase
+          .from("parking_floors")
+          .insert([{ building_id: id, floor_name: "Ground Floor", floor_number: 0 }])
+          .select()
+          .single();
+        if (defaultFloor) bFloors = [defaultFloor];
+      }
+
+      if (bFloors && bFloors.length > 0) {
+        const floorIds = bFloors.map((f) => f.id);
+        // Deactivate existing manager assignments for these floors
+        await supabase
+          .from("manager_assignments")
+          .update({ is_active: false })
+          .in("floor_id", floorIds);
+
+        // Assign new manager if one was selected
+        if (manager_id) {
+          const records = floorIds.map((fId) => ({
+            manager_id,
+            floor_id: fId,
+            assigned_by: req.user?.id || null,
+            is_active: true
+          }));
+          await supabase.from("manager_assignments").insert(records);
+        }
+      }
+    } catch (assignErr) {
+      console.warn("Manager re-assignment on updateBuilding warning:", assignErr.message);
+    }
+  }
 
   return res.json({
     success: true,

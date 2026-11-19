@@ -81,8 +81,8 @@ const getRevenue = async (req, res) => {
       session: Array.isArray(row.session) ? row.session[0] : row.session
     }));
 
-    // Managers only see revenue from the area assigned to them.
-    if (req.user?.role === "manager") {
+    // Managers only see revenue from the hotel branch assigned to them.
+    if (req.user?.role === "manager" || req.user?.role === "parking_admin") {
       const scope = await getAreaScope(req.user);
 
       const { data: slotRows, error: slotError } = await supabase
@@ -97,12 +97,10 @@ const getRevenue = async (req, res) => {
 
       payments = payments.filter((payment) => {
         const slot = payment.session?.parking_slot;
-
-        return (
-          !slot ||
-          !slotFloor.has(slot) ||
-          floorInScope(scope, slotFloor.get(slot))
-        );
+        if (slot && slotFloor.has(slot)) {
+          return floorInScope(scope, slotFloor.get(slot));
+        }
+        return false;
       });
     }
 

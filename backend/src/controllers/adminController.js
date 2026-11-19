@@ -1,4 +1,5 @@
 const supabase = require("../config/supabase");
+const { getAreaScope } = require("../utils/areaScope");
 
 /**
  * Helper to fetch hotel scope (floors, slots, sessions, staff)
@@ -73,7 +74,13 @@ const getHotelScope = async (hotelId) => {
 
 const getDashboardStats = async (req, res) => {
   try {
-    const hotelId = req.query.hotelId || req.query.hotel_id;
+    let hotelId = req.query.hotelId || req.query.hotel_id;
+    if (req.user?.role === "manager" || req.user?.role === "parking_admin") {
+      const userScope = await getAreaScope(req.user);
+      if (userScope.buildingId) {
+        hotelId = userScope.buildingId;
+      }
+    }
     const scope = await getHotelScope(hotelId);
 
     // 1. Staff count
@@ -269,7 +276,13 @@ const getDashboardStats = async (req, res) => {
 const getRevenuePerformance = async (req, res) => {
   try {
     const days = Number(req.query.days || 7);
-    const hotelId = req.query.hotelId || req.query.hotel_id;
+    let hotelId = req.query.hotelId || req.query.hotel_id;
+    if (req.user?.role === "manager" || req.user?.role === "parking_admin") {
+      const userScope = await getAreaScope(req.user);
+      if (userScope.buildingId) {
+        hotelId = userScope.buildingId;
+      }
+    }
     if (![7, 30, 90].includes(days)) {
       return res.status(400).json({
         success: false,
@@ -359,7 +372,13 @@ const getRevenuePerformance = async (req, res) => {
  */
 const getDashboardAnalytics = async (req, res) => {
   try {
-    const hotelId = req.query.hotelId || req.query.hotel_id;
+    let hotelId = req.query.hotelId || req.query.hotel_id;
+    if (req.user?.role === "manager" || req.user?.role === "parking_admin") {
+      const userScope = await getAreaScope(req.user);
+      if (userScope.buildingId) {
+        hotelId = userScope.buildingId;
+      }
+    }
     const scope = await getHotelScope(hotelId);
 
     const now = new Date();

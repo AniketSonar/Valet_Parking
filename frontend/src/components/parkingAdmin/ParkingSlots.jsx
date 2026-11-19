@@ -370,7 +370,7 @@ const ParkingSlots = ({ scope = "manager" }) => {
   const [activeZone, setActiveZone] = useState("all");
 
   const [selectedSlot, setSelectedSlot] = useState(null);
-  const [slotViewMode, setSlotViewMode] = useState("map"); // "map" or "cinema"
+  const [slotViewMode, setSlotViewMode] = useState("cinema"); // "map" or "cinema"
   const [selectedStatus, setSelectedStatus] = useState("");
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [statusUpdateError, setStatusUpdateError] = useState("");
@@ -814,26 +814,6 @@ const ParkingSlots = ({ scope = "manager" }) => {
                 <div style={{ display: "inline-flex", background: "#f1ebe9", borderRadius: "8px", padding: "3px", marginLeft: "12px", border: "1px solid #e2d7d5" }}>
                   <button
                     type="button"
-                    onClick={() => setSlotViewMode("map")}
-                    style={{
-                      padding: "4px 10px",
-                      borderRadius: "6px",
-                      border: "none",
-                      fontSize: "12px",
-                      fontWeight: "700",
-                      cursor: "pointer",
-                      background: slotViewMode === "map" ? "#42235e" : "transparent",
-                      color: slotViewMode === "map" ? "#ffffff" : "#635256",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px"
-                    }}
-                  >
-                    <LayoutGrid size={13} />
-                    <span>Bay View</span>
-                  </button>
-                  <button
-                    type="button"
                     onClick={() => setSlotViewMode("cinema")}
                     style={{
                       padding: "4px 10px",
@@ -851,6 +831,26 @@ const ParkingSlots = ({ scope = "manager" }) => {
                   >
                     <Grid3X3 size={13} />
                     <span>Seat Matrix</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSlotViewMode("map")}
+                    style={{
+                      padding: "4px 10px",
+                      borderRadius: "6px",
+                      border: "none",
+                      fontSize: "12px",
+                      fontWeight: "700",
+                      cursor: "pointer",
+                      background: slotViewMode === "map" ? "#42235e" : "transparent",
+                      color: slotViewMode === "map" ? "#ffffff" : "#635256",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px"
+                    }}
+                  >
+                    <LayoutGrid size={13} />
+                    <span>Bay View</span>
                   </button>
                 </div>
               </div>

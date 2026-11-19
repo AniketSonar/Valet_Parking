@@ -17,7 +17,6 @@ import {
   Check,
 } from "lucide-react";
 import { getBuildings } from "../../api/areaApi";
-import BranchDashboardCards from "../common/BranchDashboardCards";
 import "./LuxuryDashboardView.css";
 
 function LuxuryDashboardView({
@@ -377,18 +376,6 @@ function LuxuryDashboardView({
           <div className="lux-welcome-overlay" />
         </div>
       </section>
-
-      {/* ========================================================
-          SIDE BY SIDE HOTEL BRANCH CARDS (ALL VISIBLE - CLICK TO VIEW DASHBOARD)
-      ======================================================== */}
-      {displayHotels.length > 0 && (
-        <BranchDashboardCards
-          hotels={displayHotels}
-          selectedHotel={selectedHotel}
-          onSelectHotel={onHotelChange}
-          totalStats={stats}
-        />
-      )}
 
       {/* ========================================================
           2. TOP 4 KPI STAT CARDS (MERGED INTO BANNER WITH LEFT ACCENT)

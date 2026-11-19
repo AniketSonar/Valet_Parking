@@ -894,7 +894,7 @@ const ParkingSlots = ({ scope = "manager" }) => {
             <div className="parking-asphalt-floor">
               {slotViewMode === "cinema" ? (
                 /* CINEMA SEAT STYLE SMALL ICON MATRIX — 20 per row */
-                <div style={{ padding: "20px 16px", background: "#18181b", borderRadius: "14px", minHeight: "420px" }}>
+                <div style={{ padding: "20px 16px", background: "#18181b", borderRadius: "14px" }}>
                   <div style={{ textAlign: "center", marginBottom: "18px" }}>
                     <div style={{ height: "4px", width: "65%", margin: "0 auto 8px", background: "linear-gradient(90deg, transparent, #eab308, transparent)", borderRadius: "2px" }} />
                     <span style={{ fontSize: "11px", fontWeight: "800", color: "#eab308", letterSpacing: "0.2em", textTransform: "uppercase" }}>

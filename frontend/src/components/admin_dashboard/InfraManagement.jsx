@@ -455,7 +455,7 @@ export default function InfraManagement() {
             </div>
           </div>
 
-          {/* Hotels Grid */}
+          {/* Hotels Pipeline / One-by-One List Order */}
           {loading ? (
             <div style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>
               <RefreshCw size={24} className="spin" style={{ margin: "0 auto 10px auto" }} />
@@ -478,61 +478,63 @@ export default function InfraManagement() {
               </button>
             </div>
           ) : (
-            <div className="infra-hotels-grid">
-              {filteredHotels.map((hotel) => (
-                <div key={hotel.id} className="infra-hotel-card">
-                  <div>
-                    <div className="infra-hotel-top">
-                      <div className="infra-hotel-name-wrap">
-                        <div className="infra-hotel-icon">
-                          <Building2 size={22} />
-                        </div>
-                        <div>
-                          <h3 className="infra-hotel-title">{hotel.building_name}</h3>
-                          <div className="infra-hotel-location">
-                            <MapPin size={12} />
-                            <span>{hotel.location || "City Location"}</span>
-                          </div>
-                        </div>
-                      </div>
+            <div className="infra-hotels-pipeline">
+              {filteredHotels.map((hotel, index) => (
+                <div key={hotel.id} className="infra-hotel-pipeline-row">
+                  {/* Left: Step / Sequence & Icon */}
+                  <div className="infra-hotel-pipe-left">
+                    <span className="infra-pipe-step-num">#{index + 1}</span>
+                    <div className="infra-hotel-icon">
+                      <Building2 size={20} />
+                    </div>
+                  </div>
 
+                  {/* Main Branch Info */}
+                  <div className="infra-hotel-pipe-info">
+                    <div className="infra-hotel-pipe-header">
+                      <h3 className="infra-hotel-title">{hotel.building_name}</h3>
                       <span className={`infra-badge-status ${hotel.status === "inactive" ? "inactive" : "active"}`}>
                         {hotel.status || "active"}
                       </span>
                     </div>
 
-                    <p className="infra-hotel-address">
-                      {hotel.display_address || hotel.address || "Address not provided"}
-                    </p>
-
-                    {/* Stats metrics */}
-                    <div className="infra-hotel-stats">
-                      <div className="infra-stat-item">
-                        <span className="infra-stat-value">{hotel.floors_count ?? 0}</span>
-                        <span className="infra-stat-label">Levels/Floors</span>
-                      </div>
-                      <div className="infra-stat-item">
-                        <span className="infra-stat-value">{hotel.slots_count ?? 0}</span>
-                        <span className="infra-stat-label">Total Slots</span>
-                      </div>
-                      <div className="infra-stat-item">
-                        <span className="infra-stat-value" style={{ color: "#42235e" }}>
-                          {hotel.staff_count ?? 0}
-                        </span>
-                        <span className="infra-stat-label">Staff Members</span>
-                      </div>
+                    <div className="infra-hotel-location">
+                      <MapPin size={13} />
+                      <span>{hotel.location || "City Location"}</span>
+                      <span className="infra-pipe-dot">•</span>
+                      <span className="infra-hotel-address-inline">
+                        {hotel.display_address || hotel.address || "Address not provided"}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Actions */}
-                  <div className="infra-hotel-actions">
+                  {/* Metrics Badges */}
+                  <div className="infra-hotel-pipe-stats">
+                    <div className="infra-pipe-stat-badge">
+                      <span className="infra-stat-value">{hotel.floors_count ?? 0}</span>
+                      <span className="infra-stat-label">Levels</span>
+                    </div>
+                    <div className="infra-pipe-stat-badge">
+                      <span className="infra-stat-value">{hotel.slots_count ?? 0}</span>
+                      <span className="infra-stat-label">Slots</span>
+                    </div>
+                    <div className="infra-pipe-stat-badge">
+                      <span className="infra-stat-value" style={{ color: "#42235e" }}>
+                        {hotel.staff_count ?? 0}
+                      </span>
+                      <span className="infra-stat-label">Staff</span>
+                    </div>
+                  </div>
+
+                  {/* Right Actions */}
+                  <div className="infra-hotel-pipe-actions">
                     <button
                       type="button"
                       className="infra-btn-config"
                       onClick={() => openConfigModal(hotel)}
                     >
-                      <Layers size={14} />
-                      Configure Levels
+                      <Layers size={13} />
+                      Configure
                     </button>
                     <button
                       type="button"
@@ -556,7 +558,7 @@ export default function InfraManagement() {
                       title="Delete Hotel"
                       onClick={() => handleDeleteHotel(hotel)}
                     >
-                      <Trash2 size={14} />
+                      <Trash2 size={13} />
                     </button>
                   </div>
                 </div>

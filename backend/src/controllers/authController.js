@@ -61,12 +61,37 @@ const login = async (req, res) => {
       });
     }
 
+    const normalizedRole = normalizeRole(user.role);
+    let assignedHotel = null;
+
+    if (normalizedRole === "manager" || normalizedRole === "parking_admin") {
+      const { data: ma } = await supabase
+        .from("manager_assignments")
+        .select(`
+          floor:parking_floors (
+            id,
+            building:parking_buildings ( id, building_name, address )
+          )
+        `)
+        .eq("manager_id", user.id)
+        .eq("is_active", true)
+        .limit(1)
+        .maybeSingle();
+
+      if (ma?.floor?.building) {
+        assignedHotel = ma.floor.building;
+      }
+    }
+
     return res.status(200).json({
       success: true,
       message: "Login successful.",
       user: {
         ...user,
-        role: normalizeRole(user.role)
+        role: normalizedRole,
+        assigned_hotel_id: assignedHotel?.id || null,
+        assigned_hotel_name: assignedHotel?.building_name || null,
+        assigned_hotel: assignedHotel
       },
       session: data.session
     });

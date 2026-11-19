@@ -34,7 +34,7 @@ const getAreaScope = async (user) => {
   if (error) throw error;
 
   const directFloorIds = (data || []).map((row) => row.floor_id).filter(Boolean);
-  const buildingIds = [
+  const rawBuildingIds = [
     ...new Set(
       (data || [])
         .map((row) => row.floor?.building_id)
@@ -42,17 +42,23 @@ const getAreaScope = async (user) => {
     )
   ];
 
-  // Include all floors belonging to the manager's assigned hotel branch(es)
-  let allFloorIds = [...directFloorIds];
-  if (buildingIds.length > 0) {
+  // A manager operates exclusively their single assigned hotel branch
+  const primaryBuildingId = rawBuildingIds[0] || null;
+  const buildingIds = primaryBuildingId ? [primaryBuildingId] : [];
+
+  // Include all floors belonging to the manager's assigned hotel branch
+  let allFloorIds = [];
+  if (primaryBuildingId) {
     const { data: bFloors } = await supabase
       .from("parking_floors")
       .select("id")
-      .in("building_id", buildingIds);
+      .eq("building_id", primaryBuildingId);
 
     if (bFloors && bFloors.length > 0) {
-      allFloorIds = [...new Set([...allFloorIds, ...bFloors.map((f) => f.id)])];
+      allFloorIds = bFloors.map((f) => f.id);
     }
+  } else if (directFloorIds.length > 0) {
+    allFloorIds = directFloorIds;
   }
 
   // Pre-load slot numbers for fast session / bay queries

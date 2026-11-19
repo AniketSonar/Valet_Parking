@@ -663,8 +663,16 @@ const sendPdf = (res, report, fileBase) => {
 
 const getSystemReports = async (req, res) => {
   try {
-    const hotelId = req.query.hotelId || req.query.building_id;
+    let hotelId = req.query.hotelId || req.query.building_id;
     const period = req.query.period || "daily"; // daily, weekly, monthly
+
+    // If caller is a manager, lock strictly to their assigned branch
+    const isManager = req.user?.role === "manager" || req.user?.role === "parking_admin";
+    let managerScope = null;
+    if (isManager) {
+      managerScope = await getAreaScope(req.user);
+      hotelId = managerScope.buildingId || "none";
+    }
 
     // 1. Fetch buildings, floors, slots
     const [bRes, fRes, sRes, sessRes, mgrRes, valRes, empRes] = await Promise.all([
@@ -690,7 +698,10 @@ const getSystemReports = async (req, res) => {
       supabase.from("employees").select("*").eq("role", "valet")
     ]);
 
-    const buildings = bRes.data || [];
+    const rawBuildings = bRes.data || [];
+    const buildings = (isManager && managerScope)
+      ? rawBuildings.filter((b) => managerScope.buildingIds.includes(b.id))
+      : rawBuildings;
     const floors = fRes.data || [];
     const slots = sRes.data || [];
     const allSessions = sessRes.data || [];
@@ -920,12 +931,16 @@ const getSystemReports = async (req, res) => {
         }, 0)
       },
       hotelReports,
-      managerPerformance: (hotelId && hotelId !== "all")
-        ? managerPerformance.filter((m) => m.hotel_id === hotelId)
-        : managerPerformance,
-      valetPerformance: (hotelId && hotelId !== "all")
-        ? valetPerformance.filter((v) => v.hotel_id === hotelId)
-        : valetPerformance,
+      managerPerformance: (isManager && managerScope)
+        ? managerPerformance.filter((m) => managerScope.buildingIds.includes(m.hotel_id) || m.manager_id === req.user.id)
+        : (hotelId && hotelId !== "all")
+          ? managerPerformance.filter((m) => m.hotel_id === hotelId)
+          : managerPerformance,
+      valetPerformance: (isManager && managerScope)
+        ? valetPerformance.filter((v) => managerScope.buildingIds.includes(v.hotel_id))
+        : (hotelId && hotelId !== "all")
+          ? valetPerformance.filter((v) => v.hotel_id === hotelId)
+          : valetPerformance,
       vehicleCategories,
       topFrequentVehicles,
       timeSeries

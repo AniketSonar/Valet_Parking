@@ -1,4 +1,5 @@
 const supabase = require("../config/supabase");
+const { getAreaScope } = require("../utils/areaScope");
 
 const createIncident = async (req, res) => {
   try {
@@ -236,7 +237,10 @@ const getIncidents = async (req, res) => {
       };
     });
 
-    if (hotelId && hotelId !== "all") {
+    if (req.user?.role === "manager" || req.user?.role === "parking_admin") {
+      const scope = await getAreaScope(req.user);
+      incidents = incidents.filter((inc) => scope.buildingIds && scope.buildingIds.includes(inc.hotel_id));
+    } else if (hotelId && hotelId !== "all") {
       incidents = incidents.filter((inc) => inc.hotel_id === hotelId);
     }
 

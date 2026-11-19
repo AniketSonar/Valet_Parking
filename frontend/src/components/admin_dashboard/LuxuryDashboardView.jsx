@@ -44,7 +44,7 @@ function LuxuryDashboardView({
     }
   }, [hotels]);
 
-  const displayHotels = internalHotels.length > 0 ? internalHotels : hotels;
+  const rawHotels = internalHotels.length > 0 ? internalHotels : hotels;
 
   const user = useMemo(() => {
     try {
@@ -56,10 +56,21 @@ function LuxuryDashboardView({
 
   const isManager = user?.role === "manager" || user?.role === "parking_admin";
 
+  const displayHotels = useMemo(() => {
+    if (!isManager) return rawHotels;
+    if (user?.assigned_hotel_id) {
+      const match = rawHotels.filter((h) => h.id === user.assigned_hotel_id);
+      if (match.length > 0) return match;
+    }
+    return rawHotels.slice(0, 1);
+  }, [rawHotels, isManager, user?.assigned_hotel_id]);
+
   // If user is a branch manager, auto-select their branch if 'all' is selected
   useEffect(() => {
-    if (isManager && selectedHotel === "all" && displayHotels.length > 0) {
-      onHotelChange(displayHotels[0].id);
+    if (isManager && displayHotels.length > 0) {
+      if (selectedHotel === "all" || !selectedHotel || selectedHotel !== displayHotels[0].id) {
+        onHotelChange(displayHotels[0].id);
+      }
     }
   }, [isManager, selectedHotel, displayHotels, onHotelChange]);
 
@@ -368,7 +379,18 @@ function LuxuryDashboardView({
                       boxShadow: isSelected ? "0 0 6px rgba(188, 155, 106, 0.9)" : "none"
                     }} />
                     <span>{name}</span>
-                    {loc && (
+                    {isManager ? (
+                      <span style={{
+                        fontSize: "11px",
+                        fontWeight: "700",
+                        padding: "2px 8px",
+                        borderRadius: "6px",
+                        background: "#bc9b6a",
+                        color: "#28103c"
+                      }}>
+                        Assigned Branch
+                      </span>
+                    ) : loc ? (
                       <span style={{
                         fontSize: "11px",
                         fontWeight: "600",
@@ -379,7 +401,7 @@ function LuxuryDashboardView({
                       }}>
                         {loc}
                       </span>
-                    )}
+                    ) : null}
                   </button>
                 );
               })}

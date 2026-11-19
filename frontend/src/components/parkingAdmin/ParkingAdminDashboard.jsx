@@ -37,6 +37,7 @@ import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import FeedbackManagement from "./FeedbackManagement";
 
 import apiClient from "../../api/apiClient";
+import { getBuildings } from "../../api/areaApi";
 
 import "./css/ParkingAdminDashboard.css";
 
@@ -68,8 +69,22 @@ const ParkingAdminDashboard = ({ onLogout }) => {
   });
 
   const [analyticsData, setAnalyticsData] = useState(null);
+  const [hotels, setHotels] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // Load manager's assigned branch on mount
+  useEffect(() => {
+    getBuildings()
+      .then((res) => {
+        if (res?.buildings && Array.isArray(res.buildings) && res.buildings.length > 0) {
+          setHotels(res.buildings);
+          setSelectedHotel(res.buildings[0].id);
+        }
+      })
+      .catch((err) => console.error("Error loading hotel for manager dashboard:", err));
+  }, []);
 
   // ============================================================
   // FETCH DASHBOARD DATA
@@ -243,6 +258,9 @@ const ParkingAdminDashboard = ({ onLogout }) => {
             }}
             analytics={analyticsData}
             loading={loading}
+            hotels={hotels}
+            selectedHotel={selectedHotel}
+            onHotelChange={setSelectedHotel}
           />
         );
 

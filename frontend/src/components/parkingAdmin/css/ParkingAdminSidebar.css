@@ -19,19 +19,16 @@
 
   box-sizing: border-box;
 
-  background: linear-gradient(
-    180deg,
-    #4e1d29 0%,
-    #3f1822 48%,
-    #33121a 100%
-  );
+  background:
+    url('/sidebar-purple-waves.jpg') center center / cover no-repeat,
+    linear-gradient(180deg, #2a0d45 0%, #130826 100%);
 
   color: #ffffff;
 
-  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  border-right: 1px solid rgba(188, 155, 106, 0.18);
 
   box-shadow:
-    8px 0 28px rgba(48, 18, 25, 0.18);
+    8px 0 28px rgba(42, 13, 69, 0.35);
 
   overflow: hidden;
 

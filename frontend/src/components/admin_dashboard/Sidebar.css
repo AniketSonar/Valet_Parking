@@ -9,11 +9,11 @@
   padding: 22px 14px 18px;
   margin: 0 0 14px 14px;
   background:
-    url('/sidebar-velvet-full.png') center top / cover no-repeat,
-    linear-gradient(180deg, #42235e 0%, #200d31 100%);
-  border: 1px solid rgba(139, 18, 48, 0.12);
+    url('/sidebar-purple-waves.jpg') center center / cover no-repeat,
+    linear-gradient(180deg, #2a0d45 0%, #130826 100%);
+  border: 1px solid rgba(188, 155, 106, 0.18);
   border-radius: 20px;
-  box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08);
+  box-shadow: 0 10px 30px -5px rgba(66, 35, 94, 0.25);
   z-index: 10;
   transition: width 0.3s ease;
 }

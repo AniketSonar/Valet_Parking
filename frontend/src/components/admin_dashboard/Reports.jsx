@@ -14,6 +14,15 @@ import BranchSelector from "../common/BranchSelector";
 import "./Reports.css";
 
 function Reports() {
+  const currentUser = React.useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}");
+    } catch {
+      return {};
+    }
+  }, []);
+  const isManager = currentUser?.role === "manager" || currentUser?.role === "parking_admin";
+
   const [range, setRange] = useState("7");
   const [selectedHotel, setSelectedHotel] = useState("all");
   const [hotels, setHotels] = useState([]);
@@ -45,10 +54,15 @@ function Reports() {
   useEffect(() => {
     getBuildings()
       .then((res) => {
-        if (res?.buildings) setHotels(res.buildings);
+        if (res?.buildings && Array.isArray(res.buildings)) {
+          setHotels(res.buildings);
+          if (isManager && res.buildings.length > 0) {
+            setSelectedHotel(res.buildings[0].id);
+          }
+        }
       })
       .catch((err) => console.error("Error loading hotels in reports:", err));
-  }, []);
+  }, [isManager]);
 
   const loadData = useCallback(async () => {
     try {
@@ -141,9 +155,15 @@ function Reports() {
       <section className="reports-header" style={{ flexDirection: "column", alignItems: "flex-start", gap: "14px" }}>
         <div>
           <p className="reports-eyebrow">ANALYTICS & REPORTING</p>
-          <h2 style={{ whiteSpace: "nowrap" }}>Multi-Hotel Performance & Reports</h2>
+          <h2 style={{ whiteSpace: "nowrap" }}>
+            {isManager
+              ? `${hotels[0]?.building_name || "Hotel Branch"} Performance & Reports`
+              : "Multi-Hotel Performance & Reports"}
+          </h2>
           <p className="reports-description">
-            Generate hotel-wise parking reports, manager & valet performance, vehicle statistics, and revenue.
+            {isManager
+              ? "Comprehensive analytics, valet staff performance, vehicle statistics, and revenue for your assigned hotel branch."
+              : "Generate hotel-wise parking reports, manager & valet performance, vehicle statistics, and revenue."}
           </p>
         </div>
 
@@ -202,8 +222,8 @@ function Reports() {
       <div style={{ display: "flex", gap: "8px", margin: "16px 0", borderBottom: "1px solid #e5e7eb", paddingBottom: "10px", flexWrap: "wrap" }}>
         {[
           { id: "overview", label: "Executive Overview" },
-          { id: "hotels", label: "Hotel-Wise Comparison" },
-          { id: "valets", label: "Staff & Valet Performance" },
+          { id: "hotels", label: isManager ? "Branch Occupancy & Details" : "Hotel-Wise Comparison" },
+          { id: "valets", label: isManager ? "Valet Staff Performance" : "Staff & Valet Performance" },
           { id: "vehicles", label: "Vehicle Categories & Top Visitors" },
         ].map((tab) => (
           <button

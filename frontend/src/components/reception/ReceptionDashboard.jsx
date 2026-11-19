@@ -14,6 +14,9 @@ import {
   TicketCheck,
   Bell,
   X,
+  User,
+  Phone,
+  Mail,
 } from "lucide-react";
 
 import DashboardLayout from "../layout/DashboardLayout";
@@ -37,6 +40,8 @@ import {
 
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ReceptionDashboard.css";
+import "./css/ReceptionCustomerModal.css";
+import "./css/ReceptionVehicleModal.css";
 
 // ============================================================
 // COMBINED REGISTER MODAL (Customer + Vehicle in one flow)
@@ -53,65 +58,329 @@ const CombinedRegisterModal = ({ onClose, onSuccess }) => {
   const handleCustomerSubmit = async (e) => {
     e.preventDefault();
     if (!customerData.name.trim() || !customerData.phone.trim()) {
-      setError("Name and phone are required."); return;
+      setError("Customer name and phone number are required.");
+      return;
     }
     try {
-      setLoading(true); setError("");
-      const res = await createCustomer(customerData);
-      setCreatedCustomer(res?.customer || res);
-      setStep(2);
+      setLoading(true);
+      setError("");
+      const res = await createCustomer({
+        name: customerData.name.trim(),
+        phone: customerData.phone.trim(),
+        email: customerData.email.trim() || undefined,
+      });
+
+      if (res?.customer) {
+        setCreatedCustomer(res.customer);
+        setStep(2);
+      } else if (res?.success && res?.data) {
+        setCreatedCustomer(res.data);
+        setStep(2);
+      } else {
+        // Check if customer already exists by phone
+        const searchRes = await getCustomers(customerData.phone.trim());
+        const existing = (searchRes?.customers || []).find(
+          (c) => c.phone?.trim() === customerData.phone.trim()
+        );
+        if (existing) {
+          setCreatedCustomer(existing);
+          setStep(2);
+        } else {
+          setError(res?.message || "Failed to create customer.");
+        }
+      }
     } catch (err) {
+      // If customer exists, seamlessly continue with them
+      try {
+        const searchRes = await getCustomers(customerData.phone.trim());
+        const existing = (searchRes?.customers || []).find(
+          (c) => c.phone?.trim() === customerData.phone.trim()
+        );
+        if (existing) {
+          setCreatedCustomer(existing);
+          setStep(2);
+          return;
+        }
+      } catch {}
       setError(err?.message || "Failed to create customer.");
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleVehicleSubmit = async (e) => {
     e.preventDefault();
     if (!vehicleData.license_plate.trim()) {
-      setError("License plate is required."); return;
+      setError("License plate is required.");
+      return;
+    }
+    if (!vehicleData.make.trim()) {
+      setError("Vehicle make & brand is required.");
+      return;
+    }
+    if (!vehicleData.model.trim()) {
+      setError("Vehicle model is required.");
+      return;
     }
     try {
-      setLoading(true); setError("");
-      await createVehicle({ ...vehicleData, customer_id: createdCustomer?.id });
-      onSuccess?.("Customer and vehicle registered successfully.");
+      setLoading(true);
+      setError("");
+      await createVehicle({
+        license_plate: vehicleData.license_plate.trim().toUpperCase(),
+        make: vehicleData.make.trim(),
+        model: vehicleData.model.trim(),
+        color: vehicleData.color.trim() || undefined,
+        customer_id: createdCustomer?.id,
+      });
+      onSuccess?.(`Customer ${createdCustomer?.name || ""} & Vehicle ${vehicleData.license_plate} registered successfully.`);
       onClose();
     } catch (err) {
       setError(err?.message || "Failed to register vehicle.");
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" style={{ maxWidth: 480 }} onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
+    <div className="reception-modal-overlay" onClick={onClose}>
+      <div className="reception-modal" onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
+        <div className="reception-modal-header">
           <div>
-            <h2>{step === 1 ? "Register Customer" : "Register Vehicle"}</h2>
-            <p style={{ fontSize: "0.78rem", color: "#888", marginTop: 2 }}>
-              Step {step} of 2 — {step === 1 ? "Customer details" : `Linking vehicle for ${createdCustomer?.name}`}
+            <p className="modal-eyebrow">
+              {step === 1 ? "STEP 1 OF 2 • CUSTOMER" : "STEP 2 OF 2 • VEHICLE"}
             </p>
+            <h3>{step === 1 ? "Register Customer" : "Register Vehicle"}</h3>
+            <span>
+              {step === 1
+                ? "Add customer contact information"
+                : `Link a vehicle to ${createdCustomer?.name || "customer"}`}
+            </span>
           </div>
-          <button className="modal-close-btn" onClick={onClose}><X size={18} /></button>
+          <button className="modal-close-btn" type="button" onClick={onClose}>
+            <X size={18} />
+          </button>
         </div>
-        {error && <div className="modal-error">{error}</div>}
+
+        {/* Step Indicator Bar */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "10px 24px",
+            background: "#fbf9fa",
+            borderBottom: "1px solid #f2e9eb",
+          }}
+        >
+          <div
+            style={{
+              flex: 1,
+              height: "4px",
+              borderRadius: "2px",
+              background: "#42235e",
+              transition: "background 0.2s",
+            }}
+          />
+          <div
+            style={{
+              flex: 1,
+              height: "4px",
+              borderRadius: "2px",
+              background: step === 2 ? "#42235e" : "#e5e7eb",
+              transition: "background 0.2s",
+            }}
+          />
+        </div>
+
+        {error && (
+          <div style={{ margin: "16px 24px 0" }} className="modal-error">
+            {error}
+          </div>
+        )}
+
         {step === 1 ? (
-          <form onSubmit={handleCustomerSubmit} className="modal-form">
-            <label>Full Name *<input value={customerData.name} onChange={e => setCustomerData(d => ({...d, name: e.target.value}))} placeholder="e.g. Rahul Sharma" /></label>
-            <label>Phone *<input value={customerData.phone} onChange={e => setCustomerData(d => ({...d, phone: e.target.value}))} placeholder="+91 98765 43210" /></label>
-            <label>Email<input type="email" value={customerData.email} onChange={e => setCustomerData(d => ({...d, email: e.target.value}))} placeholder="rahul@example.com" /></label>
-            <div className="modal-actions">
-              <button type="button" className="secondary-action" onClick={onClose}>Cancel</button>
-              <button type="submit" className="primary-action" disabled={loading}>{loading ? "Saving..." : "Next: Vehicle →"}</button>
+          <form onSubmit={handleCustomerSubmit} className="modal-form-body">
+            <div className="modal-field">
+              <label>
+                Full Name <span className="required">*</span>
+              </label>
+              <div className="modal-input-wrap">
+                <User size={15} />
+                <input
+                  required
+                  placeholder="e.g. Rahul Sharma"
+                  value={customerData.name}
+                  onChange={(e) => {
+                    setCustomerData({ ...customerData, name: e.target.value });
+                    setError("");
+                  }}
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            <div className="modal-field">
+              <label>
+                Phone Number <span className="required">*</span>
+              </label>
+              <div className="modal-input-wrap">
+                <Phone size={15} />
+                <input
+                  required
+                  type="tel"
+                  placeholder="e.g. +91 98765 43210"
+                  value={customerData.phone}
+                  onChange={(e) => {
+                    setCustomerData({ ...customerData, phone: e.target.value });
+                    setError("");
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="modal-field">
+              <label>
+                Email Address <span className="optional">(optional)</span>
+              </label>
+              <div className="modal-input-wrap">
+                <Mail size={15} />
+                <input
+                  type="email"
+                  placeholder="e.g. rahul@example.com"
+                  value={customerData.email}
+                  onChange={(e) => {
+                    setCustomerData({ ...customerData, email: e.target.value });
+                    setError("");
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="modal-btn-secondary"
+                onClick={onClose}
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="modal-btn-primary"
+                disabled={loading}
+                style={{
+                  background: "#42235e",
+                  color: "#ffffff",
+                  borderColor: "#42235e",
+                }}
+              >
+                {loading ? "Saving..." : "Next: Vehicle Details →"}
+              </button>
             </div>
           </form>
         ) : (
-          <form onSubmit={handleVehicleSubmit} className="modal-form">
-            <label>License Plate *<input value={vehicleData.license_plate} onChange={e => setVehicleData(d => ({...d, license_plate: e.target.value.toUpperCase()}))} placeholder="MH12AB1234" /></label>
-            <label>Make<input value={vehicleData.make} onChange={e => setVehicleData(d => ({...d, make: e.target.value}))} placeholder="Toyota" /></label>
-            <label>Model<input value={vehicleData.model} onChange={e => setVehicleData(d => ({...d, model: e.target.value}))} placeholder="Innova" /></label>
-            <label>Color<input value={vehicleData.color} onChange={e => setVehicleData(d => ({...d, color: e.target.value}))} placeholder="White" /></label>
-            <div className="modal-actions">
-              <button type="button" className="secondary-action" onClick={() => setStep(1)}>← Back</button>
-              <button type="submit" className="primary-action" disabled={loading}>{loading ? "Registering..." : "Register Vehicle"}</button>
+          <form onSubmit={handleVehicleSubmit} className="modal-form-body">
+            <div className="modal-field">
+              <label>
+                License Plate <span className="required">*</span>
+              </label>
+              <div className="modal-input-wrap">
+                <Car size={15} />
+                <input
+                  required
+                  placeholder="e.g. MH12AB1234"
+                  value={vehicleData.license_plate}
+                  onChange={(e) => {
+                    setVehicleData({
+                      ...vehicleData,
+                      license_plate: e.target.value.toUpperCase(),
+                    });
+                    setError("");
+                  }}
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            <div className="modal-field">
+              <label>
+                Make & Brand <span className="required">*</span>
+              </label>
+              <div className="modal-input-wrap">
+                <CarFront size={15} />
+                <input
+                  required
+                  placeholder="e.g. Toyota / Mercedes / Hyundai"
+                  value={vehicleData.make}
+                  onChange={(e) => {
+                    setVehicleData({ ...vehicleData, make: e.target.value });
+                    setError("");
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+              <div className="modal-field">
+                <label>
+                  Model <span className="required">*</span>
+                </label>
+                <div className="modal-input-wrap">
+                  <input
+                    required
+                    placeholder="e.g. Innova / Fortuner"
+                    value={vehicleData.model}
+                    onChange={(e) => {
+                      setVehicleData({ ...vehicleData, model: e.target.value });
+                      setError("");
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="modal-field">
+                <label>
+                  Color <span className="optional">(optional)</span>
+                </label>
+                <div className="modal-input-wrap">
+                  <input
+                    placeholder="e.g. White / Black"
+                    value={vehicleData.color}
+                    onChange={(e) => {
+                      setVehicleData({ ...vehicleData, color: e.target.value });
+                      setError("");
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="modal-btn-secondary"
+                onClick={() => {
+                  setStep(1);
+                  setError("");
+                }}
+                disabled={loading}
+              >
+                ← Back
+              </button>
+              <button
+                type="submit"
+                className="modal-btn-primary"
+                disabled={loading}
+                style={{
+                  background: "#42235e",
+                  color: "#ffffff",
+                  borderColor: "#42235e",
+                }}
+              >
+                {loading ? "Registering..." : "Complete Registration ✓"}
+              </button>
             </div>
           </form>
         )}

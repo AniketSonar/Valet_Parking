@@ -1,6 +1,7 @@
 ﻿import React, { useState, useEffect, useCallback } from "react";
 import { RefreshCw, Building2, Car, Users, TrendingUp, Calendar, ShieldCheck, Award } from "lucide-react";
 import ValetReport from "../reports/ValetReport";
+import ManagerReport from "../reports/ManagerReport";
 import {
   getDashboardStats,
   getRevenuePerformance,
@@ -137,16 +138,16 @@ function Reports() {
   return (
     <div className="reports-page">
       {/* HEADER WITH HOTEL & PERIOD FILTERS */}
-      <section className="reports-header">
+      <section className="reports-header" style={{ flexDirection: "column", alignItems: "flex-start", gap: "14px" }}>
         <div>
           <p className="reports-eyebrow">ANALYTICS & REPORTING</p>
-          <h2>Multi-Hotel Performance & Reports</h2>
+          <h2 style={{ whiteSpace: "nowrap" }}>Multi-Hotel Performance & Reports</h2>
           <p className="reports-description">
             Generate hotel-wise parking reports, manager & valet performance, vehicle statistics, and revenue.
           </p>
         </div>
 
-        <div className="reports-controls" style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+        <div className="reports-controls" style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", width: "100%" }}>
           {/* Hotel Filter (Replaced dropdown with visible pills) */}
           {hotels.length > 0 && (
             <BranchSelector
@@ -369,8 +370,9 @@ function Reports() {
           </section>
 
           {/* VALET REPORT DOWNLOAD */}
-          <div style={{ marginTop: "24px" }}>
+          <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "24px" }}>
             <ValetReport />
+            <ManagerReport />
           </div>
         </>
       )}

@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    SIDEBAR
 ============================================================ */
 
@@ -747,4 +747,4 @@
 }
 
 .parking-admin-layout .app-sidebar { position: sticky; top: 14px; width: 260px; height: calc(100vh - 28px); min-height: 0; margin: 0 0 14px 14px; border: 1px solid rgba(139, 18, 48, 0.08); border-radius: 20px; background: var(--bg-sidebar, #fdfbfb); color: var(--text-main, #280f15); box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08); }
-.parking-admin-layout .app-brand { border-bottom-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .brand-badge { background: #fce7eb; color: #8b1230; box-shadow: none; }.parking-admin-layout .brand-title h2 { color: var(--text-main, #280f15); }.parking-admin-layout .brand-title span, .parking-admin-layout .section-label { color: #a1828a; }.parking-admin-layout .menu-item { border-radius: 12px; background: transparent; color: var(--text-muted, #78676b); }.parking-admin-layout .menu-item:hover { background: #fefcf8; color: var(--text-main, #280f15); }.parking-admin-layout .menu-item.active { background: #8b1230; color: #ffffff; box-shadow: 0 8px 18px rgba(139, 18, 48, 0.18); }.parking-admin-layout .sidebar-footer { border-top-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .logout-btn { color: var(--text-muted, #78676b); } 
+.parking-admin-layout .app-brand { border-bottom-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .brand-badge { background: #f3e8f9; color: #42235e; box-shadow: none; }.parking-admin-layout .brand-title h2 { color: var(--text-main, #280f15); }.parking-admin-layout .brand-title span, .parking-admin-layout .section-label { color: #a1828a; }.parking-admin-layout .menu-item { border-radius: 12px; background: transparent; color: var(--text-muted, #78676b); }.parking-admin-layout .menu-item:hover { background: #fefcf8; color: var(--text-main, #280f15); }.parking-admin-layout .menu-item.active { background: #42235e; color: #ffffff; box-shadow: 0 8px 18px rgba(139, 18, 48, 0.18); }.parking-admin-layout .sidebar-footer { border-top-color: rgba(139, 18, 48, 0.1); }.parking-admin-layout .logout-btn { color: var(--text-muted, #78676b); } 

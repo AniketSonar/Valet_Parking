@@ -1,5 +1,5 @@
-.dash-page-content :is([class$="card"], [class*="card "]):hover {
-  border-left-color: #caa060 !important;
+﻿.dash-page-content :is([class$="card"], [class*="card "]):hover {
+  border-left-color: #bc9b6a !important;
 }
 
 .dash-page-content :is(
@@ -57,7 +57,7 @@
   .session-key-card
 ) {
   border: 1px solid #eadfd7;
-  border-left: 4px solid #caa060;
+  border-left: 4px solid #bc9b6a;
   border-radius: 16px;
   background: #fffdfb;
   box-shadow: 0 8px 24px rgba(45, 10, 18, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02);
@@ -121,8 +121,8 @@
   .session-key-card
 ):hover {
   transform: translateY(-2px);
-  border-color: #dfb76c;
-  border-left-color: #caa060;
+  border-color: #bc9b6a;
+  border-left-color: #bc9b6a;
   box-shadow: 0 12px 28px rgba(139, 18, 48, 0.1);
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+﻿import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Building2,
   Users,
@@ -516,7 +516,7 @@ export default function InfraManagement() {
                         <span className="infra-stat-label">Total Slots</span>
                       </div>
                       <div className="infra-stat-item">
-                        <span className="infra-stat-value" style={{ color: "#8b1230" }}>
+                        <span className="infra-stat-value" style={{ color: "#42235e" }}>
                           {hotel.staff_count ?? 0}
                         </span>
                         <span className="infra-stat-label">Staff Members</span>
@@ -692,15 +692,15 @@ export default function InfraManagement() {
                           borderRadius: "20px",
                           fontSize: "12px",
                           fontWeight: "600",
-                          background: staff.role === "manager" ? "#fdf2f4" : "#f0fdf4",
-                          color: staff.role === "manager" ? "#8b1230" : "#15803d",
+                          background: staff.role === "manager" ? "#f7f2fb" : "#f0fdf4",
+                          color: staff.role === "manager" ? "#42235e" : "#15803d",
                         }}>
                           {staff.role === "manager" ? "Manager" : "Valet"}
                         </span>
                       </td>
                       <td style={{ padding: "14px 18px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "6px", fontWeight: "600", color: "#374151", fontSize: "13px" }}>
-                          <Building2 size={15} color="#8b1230" />
+                          <Building2 size={15} color="#42235e" />
                           <span>{staff.hotel_name || "Unassigned"}</span>
                         </div>
                       </td>

@@ -1,4 +1,4 @@
-
+﻿
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./css/VehicleOperations.css";
 import apiClient from "../../api/apiClient";
@@ -935,7 +935,7 @@ function VehiclesOperations({ scope = "manager" }) {
 
                         <div style={{ display: "flex", flexDirection: "column" }}>
 
-                          <strong style={{ color: "#8b1230", fontSize: "13px" }}>
+                          <strong style={{ color: "#42235e", fontSize: "13px" }}>
                             {vehicle.hotel_name || "General"}
                           </strong>
 

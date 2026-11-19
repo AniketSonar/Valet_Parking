@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    VALET VALET DASHBOARD
    ========================================================= */
 
@@ -322,7 +322,7 @@
   justify-content: center;
   padding: 0 9px;
   border-radius: 8px;
-  background: #fce7eb;
+  background: #f3e8f9;
   color: #d19939;
   font-size: 12px;
   font-weight: 700;
@@ -409,7 +409,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: #fce7eb;
+  background: #f3e8f9;
   color: #d29b3b;
 }
 
@@ -605,14 +605,14 @@
 }
 
 .primary-action {
-  border: 1px solid #8b1230;
-  background: #8b1230;
+  border: 1px solid #42235e;
+  background: #42235e;
   color: #ffffff;
 }
 
 .primary-action:hover {
-  background: #730c26;
-  border-color: #730c26;
+  background: #341a4a;
+  border-color: #341a4a;
 }
 
 .secondary-action {
@@ -668,7 +668,7 @@
   justify-content: center;
   margin-bottom: 13px;
   border-radius: 12px;
-  background: #fce7eb;
+  background: #f3e8f9;
   color: #d19c41;
 }
 
@@ -939,7 +939,7 @@
 
 .slot-option.selected {
   border-color: #d63b62;
-  background: #fce7eb;
+  background: #f3e8f9;
   color: #ca3258;
 }
 
@@ -1023,7 +1023,7 @@
 }
 
 .inspection-condition-toggle button.active {
-  border-color: #8b1230;
+  border-color: #42235e;
   background: #fcf2f5;
   color: #c23054;
   box-shadow: 0 0 0 3px rgba(215, 59, 98, 0.1);
@@ -1103,7 +1103,7 @@
   border: 1px solid #e2d2bd;
   border-radius: 8px;
   background: #fffaf2;
-  color: #5b0a1e;
+  color: #2d1442;
   font-family: inherit;
   font-size: 10px;
   font-weight: 700;
@@ -1111,7 +1111,7 @@
 }
 
 .details-edit-button:hover:not(:disabled) {
-  border-color: #caa060;
+  border-color: #bc9b6a;
   background: #f7efe3;
 }
 
@@ -1135,7 +1135,7 @@
 
 .details-edit-input:focus {
   outline: 2px solid rgba(202, 160, 96, 0.35);
-  border-color: #caa060;
+  border-color: #bc9b6a;
 }
 
 .details-edit-actions {
@@ -1254,7 +1254,7 @@
 }
 
 .details-pending-photo button:hover {
-  background: #5b0a1e;
+  background: #2d1442;
 }
 
 .details-photo-grid img {
@@ -1521,7 +1521,7 @@
 
 /* =========================================================
    VALET HOME  -  redesign (matches manager / super admin)
-   Palette: maroon #8b1230 · deep #4a0817 · gold #caa060
+   Palette: maroon #42235e · deep #28103c · gold #bc9b6a
             cream #fdfbf8 · ink #1c1917 · muted #78716c
    ========================================================= */
 
@@ -1568,7 +1568,7 @@
   margin: 2px 0 8px;
   font-size: clamp(2rem, 3vw, 2.9rem);
   line-height: 1.08;
-  color: #4a0817;
+  color: #28103c;
   text-transform: capitalize;
 }
 
@@ -1585,7 +1585,7 @@
   height: 3px;
   margin-bottom: 18px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #caa060, #dfb76c);
+  background: linear-gradient(90deg, #bc9b6a, #bc9b6a);
 }
 
 .vd-refresh {
@@ -1596,15 +1596,15 @@
   border: 1px solid rgba(139, 18, 48, 0.18);
   border-radius: 999px;
   background: #fff;
-  color: #8b1230;
+  color: #42235e;
   font: 600 13px "Plus Jakarta Sans", sans-serif;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
 }
 
 .vd-refresh:hover:not(:disabled) {
-  background: #fdf2f4;
-  border-color: #8b1230;
+  background: #f7f2fb;
+  border-color: #42235e;
 }
 
 .vd-hero-visual {
@@ -1647,14 +1647,14 @@
   padding: 16px 16px 14px;
   border-radius: 16px;
   border: 1px solid #eadfd7;
-  border-left: 4px solid #caa060;
+  border-left: 4px solid #bc9b6a;
   background: #fffdfb;
   box-shadow: 0 8px 24px rgba(45, 10, 18, 0.07);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .vd-kpi:hover {
-  border-left-color: #8b1230;
+  border-left-color: #42235e;
   box-shadow: 0 12px 28px rgba(139, 18, 48, 0.12);
 }
 
@@ -1665,9 +1665,9 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: #5b0a1e;
+  background: #2d1442;
   color: #fff;
-  border: 1.5px solid #cba358;
+  border: 1.5px solid #bc9b6a;
 }
 
 .vd-kpi strong {
@@ -1686,9 +1686,9 @@
 }
 
 .vd-kpi-alert {
-  background: linear-gradient(135deg, #8b1230, #5c081c);
-  border-color: #5c081c;
-  border-left-color: #dfb76c;
+  background: linear-gradient(135deg, #42235e, #28103c);
+  border-color: #28103c;
+  border-left-color: #bc9b6a;
 }
 
 .vd-kpi-alert strong,
@@ -1738,14 +1738,14 @@
   padding: 5px 11px;
   text-align: center;
   border-radius: 999px;
-  background: #fdf2f4;
-  color: #8b1230;
+  background: #f7f2fb;
+  color: #42235e;
   font-weight: 800;
   font-size: 13px;
 }
 
 .vd-count-alert {
-  background: #8b1230;
+  background: #42235e;
   color: #fff;
 }
 
@@ -1772,7 +1772,7 @@
 }
 
 .vd-search:focus-within {
-  border-color: #8b1230;
+  border-color: #42235e;
   box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.12);
 }
 
@@ -1867,13 +1867,13 @@
 }
 
 .vd-filter:hover {
-  border-color: #8b1230;
-  color: #8b1230;
+  border-color: #42235e;
+  color: #42235e;
 }
 
 .vd-filter.active {
-  background: #8b1230;
-  border-color: #8b1230;
+  background: #42235e;
+  border-color: #42235e;
   color: #fff;
 }
 
@@ -1890,7 +1890,7 @@
 }
 
 .vd-vehicle {
-  --tone: #caa060;
+  --tone: #bc9b6a;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -1904,7 +1904,7 @@
 
 .vd-vehicle-checked_in { --tone: #d9a13b; }
 .vd-vehicle-parked { --tone: #1f8a5b; }
-.vd-vehicle-retrieval_requested { --tone: #8b1230; }
+.vd-vehicle-retrieval_requested { --tone: #42235e; }
 .vd-vehicle-retrieving { --tone: #b4570a; }
 .vd-vehicle-ready_for_pickup { --tone: #166534; }
 
@@ -1942,7 +1942,7 @@
   flex-shrink: 0;
   padding: 5px 11px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--tone, #caa060) 12%, #fff);
+  background: color-mix(in srgb, var(--tone, #bc9b6a) 12%, #fff);
   color: var(--tone, #7a5a1e);
   font-size: 12px;
   font-weight: 700;
@@ -1959,7 +1959,7 @@
 .vd-vehicle .vd-status { --tone: inherit; }
 .vd-vehicle-checked_in .vd-status { color: #8a5d0a; background: #fdf3dc; }
 .vd-vehicle-parked .vd-status { color: #14694a; background: #e3f5ec; }
-.vd-vehicle-retrieval_requested .vd-status { color: #8b1230; background: #fbe9ed; }
+.vd-vehicle-retrieval_requested .vd-status { color: #42235e; background: #fbe9ed; }
 .vd-vehicle-retrieving .vd-status { color: #9a4a08; background: #fdeedd; }
 .vd-vehicle-ready_for_pickup .vd-status { color: #166534; background: #dcf5e4; }
 
@@ -2035,12 +2035,12 @@
 
 .vd-btn-primary {
   flex: 1 1 auto;
-  background: linear-gradient(135deg, #8b1230, #6e0e27);
+  background: linear-gradient(135deg, #42235e, #6e0e27);
   color: #fff;
   box-shadow: 0 6px 14px -6px rgba(139, 18, 48, 0.6);
 }
 
-.vd-btn-primary:hover:not(:disabled) { background: #730c26; }
+.vd-btn-primary:hover:not(:disabled) { background: #341a4a; }
 
 .vd-btn-ghost {
   background: #fff;
@@ -2048,7 +2048,7 @@
   color: #57534e;
 }
 
-.vd-btn-ghost:hover { border-color: #8b1230; color: #8b1230; }
+.vd-btn-ghost:hover { border-color: #42235e; color: #42235e; }
 
 .vd-btn-whatsapp {
   background: #effaf3;
@@ -2084,8 +2084,8 @@
   place-items: center;
   margin-bottom: 14px;
   border-radius: 50%;
-  background: #fdf2f4;
-  color: #8b1230;
+  background: #f7f2fb;
+  color: #42235e;
 }
 
 .vd-empty h3 { margin: 0 0 6px; font-size: 16px; color: #1c1917; }

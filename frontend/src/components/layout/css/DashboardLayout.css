@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    SHARED DASHBOARD LAYOUT  (single source of truth)
    Used by: super admin, parking admin, reception, valet, customer.
    Edit this file to restyle the sidebar / topbar / shell everywhere.
@@ -126,7 +126,7 @@
 
   border-radius: 12px;
 
-  background: #fce7eb;
+  background: #f3e8f9;
 
   overflow: hidden;
 }
@@ -339,7 +339,7 @@
 
 .dash-menu-item:hover .dash-item-icon,
 .dash-collapse-btn:hover .dash-item-icon {
-  color: #8b1230;
+  color: #42235e;
 }
 
 
@@ -348,7 +348,7 @@
 ============================================================ */
 
 .dash-menu-item.active {
-  background: #8b1230;
+  background: #42235e;
 
   color: #ffffff;
 
@@ -704,7 +704,7 @@
 .dash-notification-btn:hover {
   background: #fefcf8;
 
-  color: #8b1230;
+  color: #42235e;
 }
 
 
@@ -719,7 +719,7 @@
 
   border-radius: 50%;
 
-  background: #8b1230;
+  background: #42235e;
 }
 
 
@@ -754,9 +754,9 @@
 
   border-radius: 9px;
 
-  background: #fce7eb;
+  background: #f3e8f9;
 
-  color: #8b1230;
+  color: #42235e;
 
   font-size: 11px;
 
@@ -901,7 +901,7 @@
   font-size: 14px !important;
   font-weight: 800 !important;
   letter-spacing: 0.18em !important;
-  color: #dfb76c !important;
+  color: #bc9b6a !important;
   margin: 0 !important;
   line-height: 1.1 !important;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
@@ -912,14 +912,14 @@
   font-size: 8px !important;
   font-weight: 700 !important;
   letter-spacing: 0.26em !important;
-  color: #cba358 !important;
+  color: #bc9b6a !important;
   text-transform: uppercase !important;
 }
 
 .dash-brand-gold-line {
   width: 52px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #dfb76c, transparent);
+  background: linear-gradient(90deg, transparent, #bc9b6a, transparent);
   margin-top: 14px;
 }
 
@@ -947,7 +947,7 @@
 }
 
 .dash-menu-item .dash-item-icon {
-  color: #dfb76c !important;
+  color: #bc9b6a !important;
 }
 
 .dash-menu-item:hover:not(.active) {
@@ -992,7 +992,7 @@
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.16em;
-  color: #dfb76c;
+  color: #bc9b6a;
 }
 
 .dash-badge-text-line2 {
@@ -1000,7 +1000,7 @@
   font-size: 7.5px;
   font-weight: 600;
   letter-spacing: 0.18em;
-  color: #cba358;
+  color: #bc9b6a;
 }
 
 .dash-sidebar-footer {
@@ -1015,7 +1015,7 @@
 
 .dash-collapse-btn .dash-item-icon,
 .dash-logout-btn .dash-item-icon {
-  color: #dfb76c !important;
+  color: #bc9b6a !important;
 }
 
 .dash-collapse-btn:hover,
@@ -1082,7 +1082,7 @@
 }
 
 .lux-hotel-pin {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .lux-hotel-text {
@@ -1094,7 +1094,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 15.5px;
   font-weight: 700;
-  color: #6b0e24;
+  color: #42235e;
   margin: 0;
   line-height: 1.15;
 }

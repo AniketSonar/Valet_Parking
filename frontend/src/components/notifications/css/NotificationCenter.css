@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    VALET PARKING
    NOTIFICATION CENTER
    ============================================================ */
@@ -40,14 +40,14 @@
 }
 
 .notification-trigger:hover {
-  color: #8b1230;
+  color: #42235e;
   border-color: #f0c9d3;
   background: #fdf7f8;
   box-shadow: 0 4px 14px rgba(139, 18, 48, 0.1);
 }
 
 .notification-trigger.is-active {
-  color: #8b1230;
+  color: #42235e;
   border-color: #f0c9d3;
   background: #fdf9f3;
 }
@@ -68,7 +68,7 @@
   border: 2px solid #ffffff;
   border-radius: 999px;
 
-  background: #8b1230;
+  background: #42235e;
   color: #ffffff;
 
   font-size: 10px;
@@ -184,7 +184,7 @@
 .notification-icon-button:hover:not(:disabled) {
   background: #fdf9f3;
   border-color: #f4d9e0;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .notification-icon-button:disabled {
@@ -272,7 +272,7 @@
   border-radius: 11px;
 
   background: #fcf7ee;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .notification-item-content {
@@ -310,7 +310,7 @@
 
   border-radius: 50%;
 
-  background: #8b1230;
+  background: #42235e;
 }
 
 /* ============================================================
@@ -427,7 +427,7 @@
 }
 
 .notification-empty-icon {
-  background: #fbeff2;
+  background: #f5edf9;
   color: #c5677e;
 }
 
@@ -443,7 +443,7 @@
   border: 0;
   border-radius: 9px;
 
-  background: #8b1230;
+  background: #42235e;
   color: #ffffff;
 
   font-size: 12px;
@@ -457,7 +457,7 @@
 }
 
 .notification-retry-button:hover {
-  background: #730c26;
+  background: #341a4a;
   transform: translateY(-1px);
 }
 

@@ -1,4 +1,4 @@
-/* ---------------------------------------------------------
+﻿/* ---------------------------------------------------------
    MODAL CONTAINER
    --------------------------------------------------------- */
 
@@ -81,7 +81,7 @@
 .reception-session-modal .modal-close-btn:hover {
   background: #faedf0;
   border-color: #e8c9d1;
-  color: #8b1230;
+  color: #42235e;
   transform: translateY(-1px);
 }
 
@@ -194,7 +194,7 @@
 
 .reception-session-modal .session-details-body > h4 svg {
   flex: 0 0 auto;
-  color: #8b1230;
+  color: #42235e;
 }
 
 /* ---------------------------------------------------------
@@ -242,9 +242,9 @@
 }
 
 .timeline-item.occurred .timeline-dot {
-  background: #8b1230;
+  background: #42235e;
   box-shadow:
-    0 0 0 1px #8b1230,
+    0 0 0 1px #42235e,
     0 0 0 4px rgba(139, 18, 48, 0.08);
 }
 
@@ -456,7 +456,7 @@
 
 .inspection-info-title svg {
   flex: 0 0 auto;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .inspection-info-title strong {
@@ -733,7 +733,7 @@
 .reception-session-modal .modal-btn-secondary:hover {
   background: #fbf4f6;
   border-color: #debac3;
-  color: #8b1230;
+  color: #42235e;
   transform: translateY(-1px);
 }
 
@@ -887,7 +887,7 @@
    --------------------------------------------------------- */
 
 .reception-session-modal button:focus-visible {
-  outline: 2px solid #a82042;
+  outline: 2px solid #5b2f82;
   outline-offset: 2px;
 }
 

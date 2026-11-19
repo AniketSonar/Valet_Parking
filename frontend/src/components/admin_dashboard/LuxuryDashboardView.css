@@ -1,4 +1,4 @@
-/* ================================================================
+﻿/* ================================================================
    LUXURY DASHBOARD VIEW (MATCHING IMAGE 2 EXACTLY)
    ================================================================ */
 
@@ -50,7 +50,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(2rem, 2.7vw, 2.85rem);
   font-weight: 700;
-  color: #4a0817;
+  color: #28103c;
   margin: 0 0 6px 0;
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -67,7 +67,7 @@
 .lux-gold-line {
   width: 52px;
   height: 2.5px;
-  background: linear-gradient(90deg, #cba358, #dfb76c);
+  background: linear-gradient(90deg, #bc9b6a, #bc9b6a);
   border-radius: 2px;
 }
 
@@ -113,7 +113,7 @@
   background: #fffdfb;
   border-radius: 16px;
   border: 1px solid #eadfd7;
-  border-left: 4.5px solid #caa060; /* Left side golden-bronze design matching image */
+  border-left: 4.5px solid #bc9b6a; /* Left side golden-bronze design matching image */
   box-shadow: 0 8px 24px rgba(45, 10, 18, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02);
   padding: 18px 20px 16px;
   display: flex;
@@ -127,16 +127,16 @@
 .lux-kpi-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 28px rgba(139, 18, 48, 0.1);
-  border-color: #dfb76c;
-  border-left-color: #caa060;
+  border-color: #bc9b6a;
+  border-left-color: #bc9b6a;
 }
 
 .lux-kpi-icon-wrap.rose {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #5b0a1e;
-  border: 1.5px solid #cba358;
+  background: #2d1442;
+  border: 1.5px solid #bc9b6a;
   box-shadow: 0 2px 8px rgba(91, 10, 30, 0.25);
   display: flex;
   align-items: center;
@@ -240,7 +240,7 @@
 }
 
 .lux-card-header-icon {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .lux-card-title-group h3 {
@@ -270,7 +270,7 @@
 
 .lux-dropdown-pill:hover {
   background: #f5ebe6;
-  border-color: #cba358;
+  border-color: #bc9b6a;
 }
 
 /* ================================================================
@@ -317,7 +317,7 @@
 
 .lux-chart-dot {
   fill: #ffffff;
-  stroke: #8b1230;
+  stroke: #42235e;
   stroke-width: 2.5;
   cursor: pointer;
   transition: r 0.15s ease, fill 0.15s ease;
@@ -325,7 +325,7 @@
 
 .lux-chart-dot:hover {
   r: 6;
-  fill: #8b1230;
+  fill: #42235e;
 }
 
 .lux-chart-tooltip {
@@ -347,7 +347,7 @@
 }
 
 .lux-chart-tooltip strong {
-  color: #dfb76c;
+  color: #bc9b6a;
 }
 
 /* Right: Vehicle Type Donut Chart */
@@ -511,7 +511,7 @@
 }
 
 .lux-car-mini-icon {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .lux-td-plate strong {

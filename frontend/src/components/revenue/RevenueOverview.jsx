@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { IndianRupee, Loader2, RefreshCw, Building2 } from "lucide-react";
 
 import { getRevenue } from "../../api/adminApi";
@@ -275,7 +275,7 @@ const RevenueOverview = () => {
                       {transactions.map((row) => (
                         <tr key={row.id}>
                           <td>{formatDateTime(row.paid_at)}</td>
-                          <td style={{ fontWeight: "600", color: "#8b1230" }}>{row.hotel_name || "General"}</td>
+                          <td style={{ fontWeight: "600", color: "#42235e" }}>{row.hotel_name || "General"}</td>
                           <td>{row.invoice_number || "-"}</td>
                           <td>{row.ticket_code || "-"}</td>
                           <td>{row.vehicle_number || "-"}</td>

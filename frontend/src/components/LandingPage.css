@@ -1,4 +1,4 @@
-/* ========================================================
+﻿/* ========================================================
    LANDING PAGE STYLES - CLEAN LUXURY WHITE / LIGHT THEME
    (ParkSmart / Stripe Inspired High-End Clean Aesthetic)
 ======================================================== */
@@ -88,7 +88,7 @@
 .landing-brand .brand-logo-wrapper {
   width: 40px;
   height: 40px;
-  background: #8b1230;
+  background: #42235e;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -117,7 +117,7 @@
 .landing-brand .brand-text span {
   font-size: 0.65rem;
   letter-spacing: 2px;
-  color: #8b1230;
+  color: #42235e;
   display: block;
   font-weight: 700;
 }
@@ -143,12 +143,12 @@
   height: 2px;
   bottom: -4px;
   left: 0;
-  background: #8b1230;
+  background: #42235e;
   transition: width 0.2s ease;
 }
 
 .landing-nav-links a:hover {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .landing-nav-links a:hover::after {
@@ -176,7 +176,7 @@
 .landing-btn-ghost:hover {
   background: #fcf8f9;
   border-color: #b399a0;
-  color: #8b1230;
+  color: #42235e;
   transform: translateY(-1px);
 }
 
@@ -184,7 +184,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, #8b1230 0%, #b81b44 100%);
+  background: linear-gradient(135deg, #42235e 0%, #b81b44 100%);
   color: #ffffff;
   text-decoration: none;
   font-size: 0.9rem;
@@ -236,7 +236,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #fdf2f4;
+  background: #f7f2fb;
   border: 1px solid #fecdd3;
   color: #9f1239;
   padding: 0.4rem 1.15rem;
@@ -265,7 +265,7 @@
 }
 
 .landing-gradient-text {
-  background: linear-gradient(135deg, #8b1230 0%, #d32651 50%, #e93e68 100%);
+  background: linear-gradient(135deg, #42235e 0%, #d32651 50%, #e93e68 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -289,7 +289,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #8b1230 0%, #b81b44 100%);
+  background: linear-gradient(135deg, #42235e 0%, #b81b44 100%);
   color: #ffffff;
   text-decoration: none;
   font-size: 1.05rem;
@@ -324,7 +324,7 @@
 .landing-btn-hero-secondary:hover {
   background: #fcf8f9;
   border-color: #b399a0;
-  color: #8b1230;
+  color: #42235e;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
@@ -356,7 +356,7 @@
 }
 
 .avatar:first-child { margin-left: 0; }
-.av-1 { background: #8b1230; }
+.av-1 { background: #42235e; }
 .av-2 { background: #e93e68; }
 .av-3 { background: #059669; }
 .av-4 { background: #d97706; }
@@ -472,8 +472,8 @@
 }
 
 .stat-icon-circle.purple {
-  background: #fdf2f4;
-  color: #8b1230;
+  background: #f7f2fb;
+  color: #42235e;
   border: 1px solid #fecdd3;
 }
 
@@ -482,7 +482,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #8b1230;
+  color: #42235e;
   font-weight: 700;
 }
 
@@ -566,7 +566,7 @@
   display: inline-block;
   font-size: 0.8rem;
   letter-spacing: 2.5px;
-  color: #8b1230;
+  color: #42235e;
   font-weight: 800;
   margin-bottom: 0.6rem;
 }
@@ -614,7 +614,7 @@
 }
 
 .step-tab-btn.active {
-  background: #fdf2f4;
+  background: #f7f2fb;
   border-color: #f43f5e;
   box-shadow: 0 4px 18px rgba(244, 63, 94, 0.15);
 }
@@ -622,7 +622,7 @@
 .step-badge {
   font-size: 0.95rem;
   font-weight: 800;
-  color: #8b1230;
+  color: #42235e;
   background: #ffe4e6;
   padding: 4px 10px;
   border-radius: 8px;
@@ -704,7 +704,7 @@
 .step-metric-highlight strong {
   display: block;
   font-size: 1.45rem;
-  color: #8b1230;
+  color: #42235e;
   font-weight: 850;
 }
 
@@ -853,7 +853,7 @@
 
 .sector-card:hover {
   transform: translateY(-8px);
-  border-color: #8b1230;
+  border-color: #42235e;
   box-shadow: 0 20px 45px rgba(139, 18, 48, 0.16);
 }
 
@@ -919,7 +919,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .contact-item div {
@@ -941,7 +941,7 @@
 .login-quick-banner {
   background: #ffffff;
   border: 1px solid #f0e2e5;
-  border-left: 4px solid #8b1230;
+  border-left: 4px solid #42235e;
   border-radius: 16px;
   padding: 1.75rem;
   box-shadow: 0 8px 24px rgba(42, 15, 22, 0.05);
@@ -966,7 +966,7 @@
 }
 
 .btn-banner-staff {
-  background: linear-gradient(135deg, #8b1230 0%, #b81b44 100%);
+  background: linear-gradient(135deg, #42235e 0%, #b81b44 100%);
   color: #ffffff;
   border: none;
   font-size: 0.9rem;
@@ -998,7 +998,7 @@
 .btn-banner-customer:hover {
   background: #fcf8f9;
   border-color: #b399a0;
-  color: #8b1230;
+  color: #42235e;
   transform: translateY(-2px);
 }
 
@@ -1055,7 +1055,7 @@
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: #8b1230;
+  border-color: #42235e;
   box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.12);
 }
 
@@ -1071,7 +1071,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, #8b1230 0%, #b81b44 100%);
+  background: linear-gradient(135deg, #42235e 0%, #b81b44 100%);
   color: #ffffff;
   font-size: 1.05rem;
   font-weight: 700;
@@ -1142,7 +1142,7 @@
 .footer-brand .brand-logo-wrapper {
   width: 36px;
   height: 36px;
-  background: #8b1230;
+  background: #42235e;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -1273,9 +1273,9 @@
 
 /* Public home screen palette aligned with the valet dashboards. */
 .landing-container {
-  --landing-burgundy: #8b1230;
-  --landing-burgundy-dark: #8b1230;
-  --landing-gold: #caa060;
+  --landing-burgundy: #42235e;
+  --landing-burgundy-dark: #42235e;
+  --landing-gold: #bc9b6a;
   --landing-ivory: #fffaf2;
   --landing-cream: #fffaf2;
   --landing-text: #302a28;
@@ -1657,13 +1657,13 @@
 }
 
 .landing-container {
-  --primary: #8b1230;
-  --primary-strong: #8b1230;
-  --gold: #caa060;
+  --primary: #42235e;
+  --primary-strong: #42235e;
+  --gold: #bc9b6a;
   --bg-app: #fffaf2;
   --bg-card: #fffaf2;
-  --text-main: #8b1230;
-  --text-muted: #8b1230;
+  --text-main: #42235e;
+  --text-muted: #42235e;
   --landing-text: #302a28;
   --landing-muted: #625954;
   --border-color: rgba(202, 160, 96, 0.55);

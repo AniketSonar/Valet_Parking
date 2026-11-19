@@ -1,4 +1,4 @@
-
+﻿
 
 .parking-admin-body {
     width: 100%;
@@ -19,7 +19,7 @@
     --admin-text: #1d1517;
     --admin-muted: #746267;
     --admin-border: #eee7e8;
-    --admin-purple: #8b1230;
+    --admin-purple: #42235e;
     --admin-shadow: 0 12px 32px rgba(94, 35, 50, .07);
 }
 
@@ -155,7 +155,7 @@
 
 
 .card-subtext {
-    background: #fce7eb;
+    background: #f3e8f9;
     color: var(--admin-purple);
 }
 
@@ -963,7 +963,7 @@
             #faf1f3,
             #f5e8eb);
 
-    color: #8b1230;
+    color: #42235e;
 }
 
 
@@ -1022,7 +1022,7 @@
 
     background: transparent;
 
-    color: #8b1230;
+    color: #42235e;
 
     font-family: inherit;
 
@@ -1101,7 +1101,7 @@
 .circle-fill {
     fill: none;
 
-    stroke: #8b1230;
+    stroke: #42235e;
 
     stroke-width: 3.6;
 
@@ -1696,7 +1696,7 @@
     border-color: var(--border-color, rgba(139, 18, 48, 0.12));
     border-radius: 9999px;
     background: var(--bg-card, #ffffff);
-    color: var(--accent-purple, #8b1230);
+    color: var(--accent-purple, #42235e);
 }
 
 

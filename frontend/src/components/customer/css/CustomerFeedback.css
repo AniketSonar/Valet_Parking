@@ -1,4 +1,4 @@
-.customer-feedback-page {
+﻿.customer-feedback-page {
   position: relative;
 }
 
@@ -32,8 +32,8 @@
   place-items: center;
   flex: 0 0 auto;
   border-radius: 12px;
-  background: #fce7eb;
-  color: #8b1230;
+  background: #f3e8f9;
+  color: #42235e;
 }
 
 .feedback-session-main h3 {
@@ -49,7 +49,7 @@
 }
 
 .feedback-ticket {
-  color: #8b1230;
+  color: #42235e;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -67,7 +67,7 @@
 .feedback-session-meta > div {
   display: flex;
   gap: 9px;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .feedback-session-meta span {
@@ -117,11 +117,11 @@
 
 .feedback-stars button:not(:disabled):hover {
   transform: translateY(-1px);
-  color: #a82042;
+  color: #5b2f82;
 }
 
 .feedback-stars button.selected {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .feedback-stars.readonly {
@@ -145,7 +145,7 @@
 .feedback-submitted-label {
   display: block;
   margin-bottom: 7px;
-  color: #8b1230;
+  color: #42235e;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -182,8 +182,8 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: #fce7eb;
-  color: #8b1230;
+  background: #f3e8f9;
+  color: #42235e;
 }
 
 .customer-feedback-empty h3 {
@@ -262,7 +262,7 @@
   padding: 13px;
   border-radius: 12px;
   background: #fbf8f9;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .feedback-modal-session div {

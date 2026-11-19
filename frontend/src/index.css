@@ -1,4 +1,4 @@
-*,
+﻿*,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -18,12 +18,12 @@ body,
 }
 
 /* ============================================================
-   UNIVERSAL DASHBOARD BUTTON THEME: #8B1230
+   UNIVERSAL DASHBOARD BUTTON THEME: #42235e
    ============================================================ */
 :root {
-  --primary-button: #8b1230;
-  --primary-button-hover: #730c26;
-  --primary-button-active: #5c081c;
+  --primary-button: #42235e;
+  --primary-button-hover: #341a4a;
+  --primary-button-active: #28103c;
 }
 
 /* All primary, action, and submit buttons across all dashboards */
@@ -48,8 +48,8 @@ button[type="submit"]:not(.secondary):not(.cancel):not(.btn-secondary),
 .start-retrieval-btn,
 .key-primary-btn,
 .save-status-action-btn {
-  background: #8b1230 !important;
-  border-color: #8b1230 !important;
+  background: #42235e !important;
+  border-color: #42235e !important;
   color: #ffffff !important;
 }
 
@@ -74,8 +74,8 @@ button[type="submit"]:not(.secondary):not(.cancel):not(.btn-secondary):hover:not
 .start-retrieval-btn:hover:not(:disabled),
 .key-primary-btn:hover:not(:disabled),
 .save-status-action-btn:hover:not(:disabled) {
-  background: #730c26 !important;
-  border-color: #730c26 !important;
+  background: #341a4a !important;
+  border-color: #341a4a !important;
   color: #ffffff !important;
 }
 
@@ -100,7 +100,7 @@ button[type="submit"]:not(.secondary):not(.cancel):not(.btn-secondary):active:no
 .start-retrieval-btn:active:not(:disabled),
 .key-primary-btn:active:not(:disabled),
 .save-status-action-btn:active:not(:disabled) {
-  background: #5c081c !important;
-  border-color: #5c081c !important;
+  background: #28103c !important;
+  border-color: #28103c !important;
   color: #ffffff !important;
 }

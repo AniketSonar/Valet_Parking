@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    VALET PARKING
    STAFF MANAGEMENT
    Premium Light Purple Admin UI
@@ -22,7 +22,7 @@
 .staff-page .staff-table th { color: #978489; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 0; }
 .staff-page .staff-table td { padding-top: 16px; padding-bottom: 16px; border-bottom-color: rgba(139, 18, 48, 0.08); }
 .staff-page .staff-table tbody tr:hover td { background: #fefcf8; }
-.staff-page .add-staff-btn, .staff-page .create-staff-btn { border-radius: 9999px; background: #8b1230; }
+.staff-page .add-staff-btn, .staff-page .create-staff-btn { border-radius: 9999px; background: #42235e; }
 .staff-page .cancel-btn { border-radius: 9999px; }
 .staff-page .add-staff-modal, .staff-page .edit-staff-modal, .staff-page .staff-details-modal, .staff-page .status-confirm-modal { border-radius: 20px; border-color: rgba(139, 18, 48, 0.12); }
 
@@ -195,7 +195,7 @@
     135deg,
     #7a2e41 0%,
     #963950 52%,
-    #a82042 100%
+    #5b2f82 100%
   );
   color: #ffffff;
   font-family: inherit;
@@ -903,7 +903,7 @@
   box-sizing: border-box;
   border: 3px solid #f2e7ea;
   border-top-color: #7a2e41;
-  border-right-color: #a82042;
+  border-right-color: #5b2f82;
   border-radius: 50%;
   animation: spin 0.75s linear infinite;
 }
@@ -1050,8 +1050,8 @@
 }
 
 .current-page {
-  border: 1px solid #8b1230;
-  background: #8b1230;
+  border: 1px solid #42235e;
+  background: #42235e;
   color: #ffffff;
   box-shadow: 0 4px 10px rgba(122, 46, 65, 0.18);
 }
@@ -1317,7 +1317,7 @@
 .form-group select:focus-visible {
   outline: none !important;
   background: #ffffff !important;
-  border-color: #8b1230 !important;
+  border-color: #42235e !important;
   box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.12) !important;
 }
 
@@ -1510,7 +1510,7 @@
   background: linear-gradient(
     135deg,
     #7a2e41 0%,
-    #a82042 100%
+    #5b2f82 100%
   );
   color: #ffffff;
   box-shadow: 0 6px 16px rgba(122, 46, 65, 0.2);
@@ -1779,7 +1779,7 @@
   background: linear-gradient(
     135deg,
     #7a2e41 0%,
-    #a82042 100%
+    #5b2f82 100%
   );
   color: #ffffff;
   box-shadow: 0 6px 16px rgba(122, 46, 65, 0.2);
@@ -2283,7 +2283,7 @@
 .status-cancel-btn:focus-visible,
 .status-deactivate-btn:focus-visible,
 .status-activate-btn:focus-visible {
-  outline: 2px solid #a82042;
+  outline: 2px solid #5b2f82;
   outline-offset: 2px;
 }
 

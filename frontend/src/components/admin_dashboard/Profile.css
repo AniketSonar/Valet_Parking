@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    VALET PARKING
    SUPER ADMIN — PROFILE / CONTROL CENTER
    ============================================================ */
@@ -436,7 +436,7 @@
 }
 
 .profile-field:hover {
-    border-color: #dfb76c;
+    border-color: #bc9b6a;
     transform: translateY(-1px);
     box-shadow: 0 6px 15px rgba(84, 32, 45, 0.06);
 }
@@ -449,7 +449,7 @@
     bottom: 14px;
     width: 3px;
     border-radius: 0 3px 3px 0;
-    background: #caa060;
+    background: #bc9b6a;
 }
 
 .profile-field > span {
@@ -933,7 +933,7 @@
 .profile-page { max-width: 1500px; padding: 30px 34px 48px; color: #280f15; }
 .profile-page-header h2 { color: #280f15; }
 .profile-page-header p:last-child { color: #78676b; }
-.profile-overview { min-height: 148px; border: 1px solid rgba(139, 18, 48, 0.12); border-radius: 20px; background: linear-gradient(135deg, #8b1230, #730c26); box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.2); }
+.profile-overview { min-height: 148px; border: 1px solid rgba(139, 18, 48, 0.12); border-radius: 20px; background: linear-gradient(135deg, #42235e, #341a4a); box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.2); }
 .profile-panel, .profile-security { border: 1px solid rgba(139, 18, 48, 0.12); border-radius: 20px; background: #ffffff; box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08); }
 .profile-panel-header h3 { color: #280f15; }.profile-panel-header p, .profile-field span { color: #78676b; }.profile-field { border-color: rgba(139, 18, 48, 0.1); background: #fefcf8; border-radius: 12px; }.profile-field strong { color: #280f15; }
 .security-option { border-color: rgba(139, 18, 48, 0.1); }.security-active { border-radius: 9999px; background: #e6f8f3; color: #10b981; }  

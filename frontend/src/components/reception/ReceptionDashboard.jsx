@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+﻿import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Car,
@@ -657,7 +657,7 @@ const ReceptionDashboard = ({
         </button>
 
         <button className="quick-action-card" onClick={() => setTicketModalOpen(true)}>
-          <div className="quick-action-icon" style={{ background: "#fce7eb", color: "#8b1230" }}><TicketCheck size={20} /></div>
+          <div className="quick-action-icon" style={{ background: "#f3e8f9", color: "#42235e" }}><TicketCheck size={20} /></div>
           <div><strong>Verify Ticket / QR</strong><span>Verify a vehicle for handover</span></div>
         </button>
       </div>

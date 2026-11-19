@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+﻿import React, { useState, useEffect, useCallback } from "react";
 import { RefreshCw, Building2, Car, Users, TrendingUp, Calendar, ShieldCheck, Award } from "lucide-react";
 import ValetReport from "../reports/ValetReport";
 import {
@@ -181,7 +181,7 @@ function Reports() {
               height: "36px",
               padding: "0 14px",
               borderRadius: "8px",
-              background: "#8b1230",
+              background: "#42235e",
               color: "#ffffff",
               border: "none",
               cursor: "pointer",
@@ -215,7 +215,7 @@ function Reports() {
               border: "none",
               fontSize: "13px",
               fontWeight: activeReportTab === tab.id ? "700" : "500",
-              background: activeReportTab === tab.id ? "#8b1230" : "#f3f4f6",
+              background: activeReportTab === tab.id ? "#42235e" : "#f3f4f6",
               color: activeReportTab === tab.id ? "#ffffff" : "#4b5563",
               cursor: "pointer",
               transition: "all 0.15s ease",
@@ -303,8 +303,8 @@ function Reports() {
                   <svg viewBox="0 0 700 220" className="revenue-svg" preserveAspectRatio="none">
                     <defs>
                       <linearGradient id="reportsGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#8b1230" stopOpacity="0.25" />
-                        <stop offset="100%" stopColor="#8b1230" stopOpacity="0.01" />
+                        <stop offset="0%" stopColor="#42235e" stopOpacity="0.25" />
+                        <stop offset="100%" stopColor="#42235e" stopOpacity="0.01" />
                       </linearGradient>
                     </defs>
 
@@ -321,7 +321,7 @@ function Reports() {
                         <polyline
                           points={chartLinePoints}
                           fill="none"
-                          stroke="#8b1230"
+                          stroke="#42235e"
                           strokeWidth="2.5"
                           strokeLinecap="round"
                         />
@@ -407,7 +407,7 @@ function Reports() {
               ) : (
                 systemReports.hotelReports.map((h) => (
                   <tr key={h.hotel_id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                    <td style={{ padding: "12px 14px", fontWeight: "600", color: "#8b1230", display: "flex", alignItems: "center", gap: "6px" }}>
+                    <td style={{ padding: "12px 14px", fontWeight: "600", color: "#42235e", display: "flex", alignItems: "center", gap: "6px" }}>
                       <Building2 size={16} />
                       {h.hotel_name}
                     </td>
@@ -444,7 +444,7 @@ function Reports() {
           {/* Valet Performance */}
           <div style={{ background: "#fff", borderRadius: "14px", border: "1px solid #e5e7eb", padding: "20px" }}>
             <h3 style={{ margin: "0 0 4px 0", fontSize: "16px", fontWeight: "700", color: "#1f2937", display: "flex", alignItems: "center", gap: "6px" }}>
-              <Award size={18} color="#8b1230" />
+              <Award size={18} color="#42235e" />
               Valet Staff Performance
             </h3>
             <p style={{ margin: "0 0 14px 0", fontSize: "12.5px", color: "#6b7280" }}>
@@ -486,7 +486,7 @@ function Reports() {
           {/* Manager Performance */}
           <div style={{ background: "#fff", borderRadius: "14px", border: "1px solid #e5e7eb", padding: "20px" }}>
             <h3 style={{ margin: "0 0 4px 0", fontSize: "16px", fontWeight: "700", color: "#1f2937", display: "flex", alignItems: "center", gap: "6px" }}>
-              <ShieldCheck size={18} color="#8b1230" />
+              <ShieldCheck size={18} color="#42235e" />
               Manager Assignments & Coverage
             </h3>
             <p style={{ margin: "0 0 14px 0", fontSize: "12.5px", color: "#6b7280" }}>
@@ -514,7 +514,7 @@ function Reports() {
                     <tr key={m.manager_id} style={{ borderBottom: "1px solid #f1f5f9" }}>
                       <td style={{ padding: "10px", fontWeight: "600", fontSize: "13px" }}>{m.name}</td>
                       <td style={{ padding: "10px", fontSize: "12px", color: "#6b7280" }}>{m.email}</td>
-                      <td style={{ padding: "10px", fontWeight: "600", color: "#8b1230" }}>{m.hotel_name || "General"}</td>
+                      <td style={{ padding: "10px", fontWeight: "600", color: "#42235e" }}>{m.hotel_name || "General"}</td>
                       <td style={{ padding: "10px", fontSize: "12.5px" }}>{m.floor_name || "All Floors"}</td>
                     </tr>
                   ))
@@ -531,7 +531,7 @@ function Reports() {
           {/* Vehicle Categories */}
           <div style={{ background: "#fff", borderRadius: "14px", border: "1px solid #e5e7eb", padding: "20px" }}>
             <h3 style={{ margin: "0 0 4px 0", fontSize: "16px", fontWeight: "700", color: "#1f2937", display: "flex", alignItems: "center", gap: "6px" }}>
-              <Car size={18} color="#8b1230" />
+              <Car size={18} color="#42235e" />
               Visiting Vehicle Categories
             </h3>
             <p style={{ margin: "0 0 16px 0", fontSize: "12.5px", color: "#6b7280" }}>
@@ -548,10 +548,10 @@ function Reports() {
                   <div key={cat.category} style={{ background: "#fafafa", padding: "12px", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
                       <span style={{ fontWeight: "700", fontSize: "13px", color: "#1f2937" }}>{cat.category}</span>
-                      <span style={{ fontSize: "12.5px", fontWeight: "600", color: "#8b1230" }}>{cat.count} vehicles ({cat.percentage}%)</span>
+                      <span style={{ fontSize: "12.5px", fontWeight: "600", color: "#42235e" }}>{cat.count} vehicles ({cat.percentage}%)</span>
                     </div>
                     <div style={{ width: "100%", height: "7px", background: "#f3f4f6", borderRadius: "4px", overflow: "hidden" }}>
-                      <div style={{ width: `${cat.percentage}%`, height: "100%", background: "#8b1230", borderRadius: "4px" }} />
+                      <div style={{ width: `${cat.percentage}%`, height: "100%", background: "#42235e", borderRadius: "4px" }} />
                     </div>
                   </div>
                 ))
@@ -587,7 +587,7 @@ function Reports() {
                 ) : (
                   systemReports.topFrequentVehicles.map((v, i) => (
                     <tr key={i} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                      <td style={{ padding: "10px", fontWeight: "700", color: "#8b1230" }}>{v.license_plate}</td>
+                      <td style={{ padding: "10px", fontWeight: "700", color: "#42235e" }}>{v.license_plate}</td>
                       <td style={{ padding: "10px", fontSize: "12.5px" }}>{v.model}</td>
                       <td style={{ padding: "10px", fontSize: "12.5px", color: "#4b5563" }}>{v.customer_name}</td>
                       <td style={{ padding: "10px", fontWeight: "700", color: "#15803d" }}>{v.visits} visits</td>

@@ -1,4 +1,4 @@
-/* ================================================================
+﻿/* ================================================================
    BRANCH DASHBOARD CARDS (SIDE BY SIDE INDIVIDUAL BRANCHES)
    ================================================================ */
 
@@ -24,14 +24,14 @@
 }
 
 .branch-cards-title-icon {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .branch-cards-heading {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.35rem;
   font-weight: 700;
-  color: #4a0817;
+  color: #28103c;
   margin: 0;
   letter-spacing: -0.01em;
 }
@@ -39,9 +39,9 @@
 .branch-cards-badge {
   font-size: 11px;
   font-weight: 700;
-  color: #8b1230;
-  background: #fdf2f4;
-  border: 1px solid #fad2d9;
+  color: #42235e;
+  background: #f7f2fb;
+  border: 1px solid #ebdcf3;
   padding: 3px 10px;
   border-radius: 9999px;
   letter-spacing: 0.02em;
@@ -83,14 +83,14 @@
 
 .branch-card:hover {
   transform: translateY(-3px);
-  border-color: #dfb76c;
+  border-color: #bc9b6a;
   box-shadow: 0 10px 28px rgba(139, 18, 48, 0.12);
 }
 
 /* Active Selected Card */
 .branch-card.active {
   background: linear-gradient(145deg, #ffffff 0%, #fff9f6 100%);
-  border: 2px solid #8b1230;
+  border: 2px solid #42235e;
   box-shadow: 0 10px 30px rgba(139, 18, 48, 0.16);
   transform: translateY(-2px);
 }
@@ -102,7 +102,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #dfb76c, #8b1230, #dfb76c);
+  background: linear-gradient(90deg, #bc9b6a, #42235e, #bc9b6a);
 }
 
 /* Top bar of Card */
@@ -117,8 +117,8 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #fdf2f4 0%, #fad2d9 100%);
-  color: #8b1230;
+  background: linear-gradient(135deg, #f7f2fb 0%, #ebdcf3 100%);
+  color: #42235e;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -126,8 +126,8 @@
 }
 
 .branch-card.active .branch-card-icon-wrap {
-  background: linear-gradient(135deg, #6b0e24 0%, #8b1230 100%);
-  color: #dfb76c;
+  background: linear-gradient(135deg, #42235e 0%, #42235e 100%);
+  color: #bc9b6a;
   box-shadow: 0 4px 12px rgba(139, 18, 48, 0.25);
 }
 
@@ -138,7 +138,7 @@
 
 .branch-card.active .branch-card-icon-wrap.all {
   background: linear-gradient(135deg, #7c2d12 0%, #9a3412 100%);
-  color: #dfb76c;
+  color: #bc9b6a;
 }
 
 /* Status badge in card top */
@@ -148,9 +148,9 @@
   gap: 5px;
   font-size: 11px;
   font-weight: 700;
-  color: #8b1230;
-  background: #fdf2f4;
-  border: 1px solid #fad2d9;
+  color: #42235e;
+  background: #f7f2fb;
+  border: 1px solid #ebdcf3;
   padding: 4px 10px;
   border-radius: 12px;
 }
@@ -168,8 +168,8 @@
 }
 
 .branch-card:hover .branch-status-view {
-  color: #8b1230;
-  background: #fdf2f4;
+  color: #42235e;
+  background: #f7f2fb;
 }
 
 /* Content */
@@ -190,7 +190,7 @@
 }
 
 .branch-card.active .branch-card-name {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .branch-card-location {
@@ -243,7 +243,7 @@
 }
 
 .branch-card.active .branch-card-metric-col .metric-val {
-  color: #8b1230;
+  color: #42235e;
 }
 
 /* Footer CTA */
@@ -258,12 +258,12 @@
 .branch-card-action-text {
   font-size: 12px;
   font-weight: 700;
-  color: #8b1230;
+  color: #42235e;
   transition: all 0.2s;
 }
 
 .branch-card:hover .branch-card-action-text {
-  color: #a82042;
+  color: #5b2f82;
   padding-left: 2px;
 }
 

@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    CUSTOMER PAYMENTS
    ============================================================ */
 
@@ -105,7 +105,7 @@
   justify-content: center;
   border-radius: 10px;
   background: #fcf8f0;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .customer-payment-main {
@@ -252,7 +252,7 @@
   padding: 0 14px;
   border: 0;
   border-radius: 8px;
-  background: #8b1230;
+  background: #42235e;
   color: #ffffff;
   font-size: 12px;
   font-weight: 600;
@@ -264,7 +264,7 @@
 }
 
 .customer-payment-invoice-btn:hover {
-  background: #730c26;
+  background: #341a4a;
   box-shadow: 0 4px 12px rgba(139, 18, 48, 0.18);
 }
 
@@ -323,7 +323,7 @@
   margin-bottom: 14px;
   border-radius: 12px;
   background: #fcf8f0;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .customer-payments-empty h3 {
@@ -377,7 +377,7 @@
   flex: 0 0 auto;
   border: 0;
   background: transparent;
-  color: #8b1230;
+  color: #42235e;
   font-size: 12px;
   font-weight: 650;
   cursor: pointer;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+﻿import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
     AlertCircle,
     Bell,
@@ -404,7 +404,7 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
                                     return (
                                         <tr key={incident.id}>
                                             <td><div className="incident-type-cell"><span className={`type-mark type-${incident.incident_type}`}><FileWarning size={15} /></span><div><strong>{formatType(incident.incident_type)}</strong><p>{incident.description}</p></div></div></td>
-                                            <td><strong style={{ color: "#8b1230", fontSize: "13px" }}>{incident.hotel_name || "General"}</strong></td>
+                                            <td><strong style={{ color: "#42235e", fontSize: "13px" }}>{incident.hotel_name || "General"}</strong></td>
                                             <td><span className="session-primary">{session?.ticket_code || incident.parking_session_id || "Not linked"}</span><small>{session?.vehicle?.license_plate || "—"}</small></td>
                                             <td><strong className="reporter-name">{incident.employee?.name || "Unknown"}</strong><small>{incident.employee?.role || "Employee"}</small></td>
                                             <td><span className={`incident-status status-${incident.status}`}>{formatStatus(incident.status)}</span></td>
@@ -443,7 +443,7 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
                         ) : (
                             <div className="details-grid">
                                 <div><span>Incident Type</span><strong>{formatType(selectedIncident.incident_type)}</strong></div>
-                                <div><span>Hotel Branch</span><strong style={{ color: "#8b1230" }}>{selectedIncident.hotel_name || "General Branch"}</strong></div>
+                                <div><span>Hotel Branch</span><strong style={{ color: "#42235e" }}>{selectedIncident.hotel_name || "General Branch"}</strong></div>
                                 <div><span>Status</span><strong><span className={`incident-status status-${selectedIncident.status}`}>{formatStatus(selectedIncident.status)}</span></strong></div>
                                 <div><span>Parking Session</span><strong>{getSession(selectedIncident.parking_session_id)?.ticket_code || selectedIncident.parking_session_id || "Not linked"}</strong></div>
                                 <div><span>Vehicle</span><strong>{getSession(selectedIncident.parking_session_id)?.vehicle?.license_plate || "—"}</strong></div>

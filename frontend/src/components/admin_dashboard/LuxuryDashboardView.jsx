@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
+﻿import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
   Car,
   Clock,
@@ -147,10 +147,10 @@ function LuxuryDashboardView({
 
   // Vehicle type distribution with real-time support
   const defaultVehicleTypes = useMemo(() => [
-    { label: "Sedan", percentage: 48, color: "#6b0e24", count: 60 },
-    { label: "SUV", percentage: 28, color: "#a82042", count: 35 },
-    { label: "Luxury", percentage: 12, color: "#c95b77", count: 15 },
-    { label: "Sports", percentage: 7, color: "#dca270", count: 9 },
+    { label: "Sedan", percentage: 48, color: "#42235e", count: 60 },
+    { label: "SUV", percentage: 28, color: "#5b2f82", count: 35 },
+    { label: "Luxury", percentage: 12, color: "#7e47a8", count: 15 },
+    { label: "Sports", percentage: 7, color: "#bc9b6a", count: 9 },
     { label: "Others", percentage: 5, color: "#420815", count: 5 },
   ], []);
 
@@ -187,7 +187,7 @@ function LuxuryDashboardView({
     if (!activeTypes.length) {
       return [{
         label: "Empty",
-        color: "#3a131e",
+        color: "#271239",
         strokeDasharray: `${circumference} ${circumference}`,
         strokeDashoffset: 0,
       }];
@@ -251,11 +251,11 @@ function LuxuryDashboardView({
               marginBottom: "8px",
               fontSize: "11.5px",
               fontWeight: "700",
-              color: "#f6deb5",
+              color: "#f2e5cc",
               letterSpacing: "0.08em",
               textTransform: "uppercase"
             }}>
-              <Building2 size={14} style={{ color: "#dfb76c" }} />
+              <Building2 size={14} style={{ color: "#bc9b6a" }} />
               <span>Select Branch Dashboard:</span>
             </div>
 
@@ -275,11 +275,11 @@ function LuxuryDashboardView({
                   gap: "8px",
                   padding: "8px 16px",
                   borderRadius: "20px",
-                  border: selectedHotel === "all" ? "1.5px solid #dfb76c" : "1.5px solid rgba(220, 162, 112, 0.35)",
+                  border: selectedHotel === "all" ? "1.5px solid #bc9b6a" : "1.5px solid rgba(220, 162, 112, 0.35)",
                   background: selectedHotel === "all"
-                    ? "linear-gradient(135deg, #dfb76c 0%, #c89d53 100%)"
+                    ? "linear-gradient(135deg, #bc9b6a 0%, #ab8b5d 100%)"
                     : "rgba(255, 255, 255, 0.08)",
-                  color: selectedHotel === "all" ? "#3b0714" : "#f6deb5",
+                  color: selectedHotel === "all" ? "#3b0714" : "#f2e5cc",
                   fontWeight: selectedHotel === "all" ? "700" : "600",
                   fontSize: "12.5px",
                   cursor: "pointer",
@@ -288,7 +288,7 @@ function LuxuryDashboardView({
                   backdropFilter: "blur(4px)"
                 }}
               >
-                <Building2 size={14} style={{ color: selectedHotel === "all" ? "#3b0714" : "#dfb76c" }} />
+                <Building2 size={14} style={{ color: selectedHotel === "all" ? "#3b0714" : "#bc9b6a" }} />
                 <span>All Branches</span>
                 {displayHotels.length > 0 && (
                   <span style={{
@@ -297,7 +297,7 @@ function LuxuryDashboardView({
                     padding: "1px 6px",
                     borderRadius: "10px",
                     background: selectedHotel === "all" ? "#3b0714" : "rgba(223, 183, 108, 0.2)",
-                    color: selectedHotel === "all" ? "#f6deb5" : "#dfb76c"
+                    color: selectedHotel === "all" ? "#f2e5cc" : "#bc9b6a"
                   }}>
                     {displayHotels.length}
                   </span>
@@ -322,11 +322,11 @@ function LuxuryDashboardView({
                       gap: "7px",
                       padding: "8px 16px",
                       borderRadius: "20px",
-                      border: isSelected ? "1.5px solid #dfb76c" : "1.5px solid rgba(220, 162, 112, 0.35)",
+                      border: isSelected ? "1.5px solid #bc9b6a" : "1.5px solid rgba(220, 162, 112, 0.35)",
                       background: isSelected
-                        ? "linear-gradient(135deg, #dfb76c 0%, #c89d53 100%)"
+                        ? "linear-gradient(135deg, #bc9b6a 0%, #ab8b5d 100%)"
                         : "rgba(255, 255, 255, 0.08)",
-                      color: isSelected ? "#3b0714" : "#f6deb5",
+                      color: isSelected ? "#3b0714" : "#f2e5cc",
                       fontWeight: isSelected ? "700" : "600",
                       fontSize: "12.5px",
                       cursor: "pointer",
@@ -339,7 +339,7 @@ function LuxuryDashboardView({
                       width: "7px",
                       height: "7px",
                       borderRadius: "50%",
-                      background: isSelected ? "#3b0714" : "#dfb76c",
+                      background: isSelected ? "#3b0714" : "#bc9b6a",
                       boxShadow: isSelected ? "none" : "0 0 5px rgba(223, 183, 108, 0.8)"
                     }} />
                     <span>{name}</span>
@@ -350,7 +350,7 @@ function LuxuryDashboardView({
                         padding: "1px 6px",
                         borderRadius: "4px",
                         background: isSelected ? "rgba(59, 7, 20, 0.15)" : "rgba(255, 255, 255, 0.12)",
-                        color: isSelected ? "#3b0714" : "#f6deb5"
+                        color: isSelected ? "#3b0714" : "#f2e5cc"
                       }}>
                         {loc}
                       </span>
@@ -539,8 +539,8 @@ function LuxuryDashboardView({
                         textAlign: "left",
                         fontSize: "12px",
                         fontWeight: timeFilter === opt ? "700" : "500",
-                        color: timeFilter === opt ? "#8b1230" : "#4a4a4a",
-                        backgroundColor: timeFilter === opt ? "#fbeff2" : "transparent",
+                        color: timeFilter === opt ? "#42235e" : "#4a4a4a",
+                        backgroundColor: timeFilter === opt ? "#f5edf9" : "transparent",
                         border: "none",
                         borderRadius: "6px",
                         cursor: "pointer",
@@ -569,12 +569,12 @@ function LuxuryDashboardView({
                 >
                   <stop
                     offset="0%"
-                    stopColor="#8b1230"
+                    stopColor="#42235e"
                     stopOpacity="0.32"
                   />
                   <stop
                     offset="100%"
-                    stopColor="#8b1230"
+                    stopColor="#42235e"
                     stopOpacity="0.01"
                   />
                 </linearGradient>
@@ -611,7 +611,7 @@ function LuxuryDashboardView({
               <path
                 d={pathD}
                 fill="none"
-                stroke="#8b1230"
+                stroke="#42235e"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -810,7 +810,7 @@ function LuxuryDashboardView({
                     style={{
                       height: "100%",
                       width: `${kpiActiveParked + kpiEmptySlots > 0 ? Math.min(100, Math.round((kpiActiveParked / (kpiActiveParked + kpiEmptySlots)) * 100)) : 0}%`,
-                      background: "linear-gradient(90deg, #caa060 0%, #8b1230 100%)",
+                      background: "linear-gradient(90deg, #bc9b6a 0%, #42235e 100%)",
                       borderRadius: "6px",
                       transition: "width 0.4s ease"
                     }}
@@ -840,18 +840,18 @@ function LuxuryDashboardView({
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "18px" }}>
               <div style={{ background: "#fdfbf9", border: "1px solid #ebdcd5", borderRadius: "10px", padding: "10px 12px" }}>
                 <span style={{ fontSize: "11px", color: "#8a757b", display: "block" }}>Avg Retrieval Time</span>
-                <strong style={{ fontSize: "15px", color: "#4a0817", fontWeight: "700" }}>4.2 min</strong>
+                <strong style={{ fontSize: "15px", color: "#28103c", fontWeight: "700" }}>4.2 min</strong>
               </div>
               <div style={{ background: "#fdfbf9", border: "1px solid #ebdcd5", borderRadius: "10px", padding: "10px 12px" }}>
                 <span style={{ fontSize: "11px", color: "#8a757b", display: "block" }}>Active Staff on Duty</span>
-                <strong style={{ fontSize: "15px", color: "#4a0817", fontWeight: "700" }}>{stats?.activeStaff ?? 8} Members</strong>
+                <strong style={{ fontSize: "15px", color: "#28103c", fontWeight: "700" }}>{stats?.activeStaff ?? 8} Members</strong>
               </div>
             </div>
           </div>
 
           <div style={{ marginTop: "16px", paddingTop: "12px", borderTop: "1px solid #f2e9e6", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <span style={{ fontSize: "11.5px", color: "#8c827a" }}>Selected Branch</span>
-            <span style={{ fontSize: "11.5px", fontWeight: "700", color: "#8b1230" }}>{activeHotelLabel}</span>
+            <span style={{ fontSize: "11.5px", fontWeight: "700", color: "#42235e" }}>{activeHotelLabel}</span>
           </div>
         </div>
       </section>

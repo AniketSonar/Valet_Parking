@@ -1,4 +1,4 @@
-
+﻿
 
 .customer-icon-button {
   width: 40px;
@@ -25,7 +25,7 @@
 .customer-icon-button:hover {
   border-color: #e5c5cc;
   background: #fdf7f8;
-  color: #8b1230;
+  color: #42235e;
 }
 
 
@@ -35,7 +35,7 @@
   flex: 0 0 auto;
 
   border-radius: 50%;
-  background: #8b1230;
+  background: #42235e;
   color: #ffffff;
 
   font-weight: 800;
@@ -81,7 +81,7 @@
 
   margin-bottom: 9px;
 
-  color: #8b1230;
+  color: #42235e;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.18em;
@@ -102,7 +102,7 @@
 
 
 .customer-page-header h1 span {
-  color: #8b1230;
+  color: #42235e;
 }
 
 
@@ -145,8 +145,8 @@
 
 
 .customer-action-button.primary {
-  border: 1px solid #8b1230;
-  background: #8b1230;
+  border: 1px solid #42235e;
+  background: #42235e;
   color: #ffffff;
 
   box-shadow: 0 7px 16px rgba(139, 18, 48, 0.15);
@@ -167,7 +167,7 @@
 
 
 .customer-action-button.primary:hover:not(:disabled) {
-  background: #730c26;
+  background: #341a4a;
 }
 
 
@@ -313,7 +313,7 @@
 
   height: 3px;
 
-  background: #8b1230;
+  background: #42235e;
 }
 
 
@@ -355,8 +355,8 @@
   border: 1px solid #f4ecde;
   border-radius: 13px;
 
-  background: #fce7eb;
-  color: #8b1230;
+  background: #f3e8f9;
+  color: #42235e;
 }
 
 
@@ -370,7 +370,7 @@
 
   margin-bottom: 3px;
 
-  color: #8b1230;
+  color: #42235e;
 
   font-size: 9px;
   font-weight: 800;
@@ -442,7 +442,7 @@
 
 
 .customer-status.status-parked {
-  background: #fce7eb;
+  background: #f3e8f9;
   color: #d92854;
 }
 
@@ -524,7 +524,7 @@
   border-radius: 9px;
 
   background: #fefbf7;
-  color: #8b1230;
+  color: #42235e;
 }
 
 
@@ -586,8 +586,8 @@
 
   border-radius: 9px;
 
-  background: #fce7eb;
-  color: #8b1230;
+  background: #f3e8f9;
+  color: #42235e;
 }
 
 
@@ -696,8 +696,8 @@
 
   border-radius: 10px;
 
-  background: #fce7eb;
-  color: #8b1230;
+  background: #f3e8f9;
+  color: #42235e;
 }
 
 
@@ -793,8 +793,8 @@
   border: 1px solid #f4ecde;
   border-radius: 17px;
 
-  background: #fce7eb;
-  color: #8b1230;
+  background: #f3e8f9;
+  color: #42235e;
 }
 
 
@@ -867,8 +867,8 @@
 
   border-radius: 14px;
 
-  background: #fce7eb;
-  color: #8b1230;
+  background: #f3e8f9;
+  color: #42235e;
 }
 
 
@@ -1112,7 +1112,7 @@
 
 .customer-profile-grid svg {
   flex: 0 0 auto;
-  color: #8b1230;
+  color: #42235e;
 }
 
 

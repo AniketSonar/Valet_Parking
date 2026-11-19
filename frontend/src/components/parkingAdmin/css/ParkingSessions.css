@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    PARKING SESSIONS
    VALET PARKING ADMIN
    Premium Light Purple UI
@@ -45,7 +45,7 @@
 
   background: linear-gradient(
     135deg,
-    #fdf2f4,
+    #f7f2fb,
     #f8e3e8
   );
 
@@ -146,11 +146,11 @@
 }
 
 .check-in-button {
-  border: 1px solid #8b1230;
+  border: 1px solid #42235e;
 
   background: linear-gradient(
     135deg,
-    #8b1230,
+    #42235e,
     #c43b5d
   );
 
@@ -853,7 +853,7 @@
   border-radius: 8px;
 
   background: #fdf7f8;
-  color: #8b1230;
+  color: #42235e;
 
   cursor: pointer;
   transition:
@@ -921,7 +921,7 @@
 
 .no-slots-message svg {
   flex-shrink: 0;
-  color: #a82042;
+  color: #5b2f82;
 }
 
 /* Available slots grid */
@@ -963,7 +963,7 @@
 .available-slot:hover {
   border-color: #c93b5d;
   background: #fdf7f8;
-  color: #8b1230;
+  color: #42235e;
   box-shadow: 0 3px 10px rgba(139, 18, 48, 0.08);
   transform: translateY(-1px);
 }
@@ -975,7 +975,7 @@
 /* Slot icon */
 
 .available-slot svg {
-  color: #a82042;
+  color: #5b2f82;
   transition: color 0.2s ease;
 }
 
@@ -994,16 +994,16 @@
 /* Selected slot */
 
 .available-slot.selected {
-  border-color: #8b1230;
+  border-color: #42235e;
   background: #fdfaf5;
-  color: #8b1230;
+  color: #42235e;
   box-shadow:
     0 0 0 2px rgba(139, 18, 48, 0.10),
     0 4px 12px rgba(139, 18, 48, 0.10);
 }
 
 .available-slot.selected svg {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .available-slot.selected strong {
@@ -1011,14 +1011,14 @@
 }
 
 .available-slot.selected span {
-  color: #a82042;
+  color: #5b2f82;
 }
 
 /* Keyboard accessibility */
 
 .available-slot:focus-visible,
 .slot-refresh-button:focus-visible {
-  outline: 2px solid #a82042;
+  outline: 2px solid #5b2f82;
   outline-offset: 2px;
 }
 
@@ -1177,7 +1177,7 @@
 }
 
 .session-action.primary {
-  background: #8b1230;
+  background: #42235e;
 
   color: #ffffff;
 
@@ -1334,7 +1334,7 @@
 
   padding: 8px 12px;
 
-  background: #8b1230;
+  background: #42235e;
 
   color: #ffffff;
 
@@ -1347,7 +1347,7 @@
 
 .sessions-empty button:hover,
 .sessions-error button:hover {
-  background: #730c26;
+  background: #341a4a;
 }
 
 /* ============================================================

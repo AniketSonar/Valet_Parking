@@ -1,4 +1,4 @@
-/* ================================
+﻿/* ================================
    PARKING ADMIN TOPBAR
 ================================ */
 
@@ -393,6 +393,6 @@
 
 .parking-admin-layout .profile-avatar {
   border-radius: 50%;
-  background: linear-gradient(135deg, #8b1230, #730c26);
+  background: linear-gradient(135deg, #42235e, #341a4a);
 }
 

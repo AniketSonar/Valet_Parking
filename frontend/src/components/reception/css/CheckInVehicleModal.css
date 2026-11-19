@@ -1,4 +1,4 @@
- /* ============================================================
+﻿ /* ============================================================
     CHECK-IN VEHICLE MODAL
     ============================================================ */
 
@@ -619,7 +619,7 @@
 }
 
 .inspection-condition-toggle .type-btn.active {
-  border-color: #8b1230;
+  border-color: #42235e;
   background: #fbf1f3;
   color: #d92854;
   box-shadow:
@@ -748,7 +748,7 @@
   border-radius: 8px;
 
   background: #f9e8ec;
-  color: #8b1230;
+  color: #42235e;
 
   font-size: 18px;
   font-weight: 500;
@@ -1017,7 +1017,7 @@
   place-items: center;
   border-radius: 10px;
   background: #f6e8eb;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .check-in-modal .inspection-upload-icon svg {

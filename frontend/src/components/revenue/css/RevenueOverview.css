@@ -1,4 +1,4 @@
-/* Revenue page (super admin + manager). Uses the unified maroon / gold theme. */
+﻿/* Revenue page (super admin + manager). Uses the unified maroon / gold theme. */
 
 .revenue-page {
   width: 100%;
@@ -33,7 +33,7 @@
 
 .revenue-eyebrow {
   margin: 0 0 6px;
-  color: #caa060;
+  color: #bc9b6a;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -42,7 +42,7 @@
 
 .revenue-header h1 {
   margin: 0 0 6px;
-  color: #5b0a1e;
+  color: #2d1442;
   font-size: 30px;
   line-height: 1.2;
 }
@@ -53,7 +53,7 @@
 }
 
 .revenue-header .revenue-eyebrow {
-  color: #caa060;
+  color: #bc9b6a;
 }
 
 .revenue-header-actions {
@@ -85,11 +85,11 @@
 
 .revenue-periods button:hover:not(.active) {
   background: #f2e7d8;
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .revenue-periods button.active {
-  background: #5b0a1e;
+  background: #2d1442;
   color: #fffaf2;
 }
 
@@ -101,13 +101,13 @@
   border: 1px solid rgba(91, 10, 30, 0.14);
   border-radius: 12px;
   background: #fffaf2;
-  color: #5b0a1e;
+  color: #2d1442;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .revenue-refresh:hover:not(:disabled) {
-  border-color: #caa060;
+  border-color: #bc9b6a;
   background: #f2e7d8;
 }
 
@@ -128,7 +128,7 @@
   border: 1px solid #f3c1c9;
   border-radius: 12px;
   background: #fdf1f3;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .revenue-loading,
@@ -175,7 +175,7 @@
 .revenue-panel:hover,
 .revenue-method:hover {
   transform: translateY(-2px);
-  border-color: #dfb76c;
+  border-color: #bc9b6a;
   box-shadow: 0 12px 28px rgba(139, 18, 48, 0.1);
 }
 
@@ -192,7 +192,7 @@
 .revenue-card strong {
   display: block;
   margin-top: 6px;
-  color: #5b0a1e;
+  color: #2d1442;
   font-size: 24px;
 }
 
@@ -203,7 +203,7 @@
 
 .revenue-panel h3 {
   margin: 0 0 14px;
-  color: #5b0a1e;
+  color: #2d1442;
   font-size: 16px;
 }
 
@@ -276,7 +276,7 @@
   position: relative;
   width: 100%;
   border-radius: 4px 4px 0 0;
-  background: linear-gradient(180deg, #caa060, #8b1230);
+  background: linear-gradient(180deg, #bc9b6a, #42235e);
 }
 
 .revenue-tooltip {
@@ -291,7 +291,7 @@
   padding: 8px 10px;
   border: 1px solid rgba(202, 160, 96, 0.7);
   border-radius: 8px;
-  background: #3d0614;
+  background: #200c30;
   box-shadow: 0 6px 16px rgba(45, 10, 18, 0.2);
   color: #fffaf2;
   opacity: 0;
@@ -316,7 +316,7 @@
 }
 
 .revenue-bar:focus-visible .revenue-bar-fill {
-  outline: 2px solid #caa060;
+  outline: 2px solid #bc9b6a;
   outline-offset: 2px;
 }
 
@@ -349,7 +349,7 @@
 .revenue-method strong {
   display: block;
   margin: 4px 0 2px;
-  color: #5b0a1e;
+  color: #2d1442;
   font-size: 20px;
 }
 
@@ -363,7 +363,7 @@
   border: 1px solid #eadfd7;
   border-radius: 12px;
   overscroll-behavior-x: contain;
-  scrollbar-color: #caa060 #f2e7d8;
+  scrollbar-color: #bc9b6a #f2e7d8;
 }
 
 .revenue-table-wrapper:focus-visible {
@@ -398,7 +398,7 @@
   padding: 10px 12px;
   border-bottom: 1px solid #eadfd7;
   background: #f2e7d8;
-  color: #5b0a1e;
+  color: #2d1442;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -433,7 +433,7 @@
 }
 
 .revenue-page .revenue-table td:last-child {
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .revenue-cap {

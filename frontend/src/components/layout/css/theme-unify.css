@@ -1,41 +1,41 @@
-/* Keep the existing navigation shell; apply the reference palette to page UI. */
+﻿/* Keep the existing navigation shell; apply the reference palette to page UI. */
 .dash-layout {
-  --primary: #8b1230;
-  --primary-strong: #730c26;
-  --gold: #dfb76c;
-  --bg-app: linear-gradient(135deg, #fce7eb 0%, #fbf8f9 50%, #ffffff 100%);
+  --primary: #42235e;
+  --primary-strong: #341a4a;
+  --gold: #bc9b6a;
+  --bg-app: linear-gradient(135deg, #f3e8f9 0%, #fbf8f9 50%, #ffffff 100%);
   --bg-card: #ffffff;
   --text-main: #171324;
   --text-muted: #6b647b;
   --border-color: rgba(139, 18, 48, 0.12);
-  --accent-purple: #8b1230;
+  --accent-purple: #42235e;
   font-family: "Plus Jakarta Sans", "DM Sans", sans-serif;
 }
 
 .dash-main {
-  --primary: #5b0a1e;
-  --primary-strong: #3d0614;
-  --gold: #caa060;
+  --primary: #2d1442;
+  --primary-strong: #200c30;
+  --gold: #bc9b6a;
   --bg-app: #f7f1e8;
   --bg-card: #fffaf2;
   --bg-card-secondary: #fbf4e9;
   --text-main: #38261f;
   --text-muted: #76665c;
   --border-color: rgba(91, 10, 30, 0.14);
-  --accent-purple: #caa060;
+  --accent-purple: #bc9b6a;
   background: linear-gradient(135deg, #f1e5d6 0%, #fbf7f0 52%, #fffaf2 100%);
   color: #38261f;
 }
 
 .landing-container {
-  --primary: #8b1230;
-  --primary-strong: #8b1230;
-  --gold: #caa060;
+  --primary: #42235e;
+  --primary-strong: #42235e;
+  --gold: #bc9b6a;
   --bg-app: #fffaf2;
   --bg-card: #fffaf2;
-  --text-main: #8b1230;
+  --text-main: #42235e;
   --border-color: rgba(202, 160, 96, 0.55);
-  --accent-purple: #caa060;
+  --accent-purple: #bc9b6a;
 }
 
 .dash-main .dash-topbar.lux-topbar {
@@ -47,7 +47,7 @@
 .dash-main .lux-topbar-menu-btn,
 .dash-main .lux-hotel-pin,
 .dash-main .lux-profile-name {
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .dash-main .lux-hotel-pin-wrap {
@@ -55,8 +55,8 @@
 }
 
 .dash-main .lux-avatar-circle {
-  border: 1px solid #caa060;
-  background: #5b0a1e;
+  border: 1px solid #bc9b6a;
+  background: #2d1442;
 }
 
 .dash-main .dash-page-content {
@@ -97,7 +97,7 @@ select {
 
 .dash-page-content :is(input, select, textarea):focus {
   outline: none;
-  border-color: #caa060;
+  border-color: #bc9b6a;
   box-shadow: 0 0 0 3px rgba(202, 160, 96, 0.2);
 }
 
@@ -110,8 +110,8 @@ select {
   .dashboard-refresh-btn,
   .valet-refresh-btn
 ) {
-  border-color: #5b0a1e;
-  background: linear-gradient(135deg, #5b0a1e, #3d0614);
+  border-color: #2d1442;
+  background: linear-gradient(135deg, #2d1442, #200c30);
   color: #fffaf2;
   box-shadow: 0 8px 18px rgba(45, 10, 18, 0.16);
 }
@@ -124,8 +124,8 @@ select {
   .dashboard-refresh-btn,
   .valet-refresh-btn
 ):hover:not(:disabled) {
-  border-color: #caa060;
-  background: #3d0614;
+  border-color: #bc9b6a;
+  background: #200c30;
 }
 
 .dash-page-content :is(
@@ -136,30 +136,30 @@ select {
 ) {
   border-color: #e2d2bd;
   background: #fffaf2;
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .dash-page-content th,
 .dash-page-content [class*="table-head"] {
   background: #f2e7d8;
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .dash-page-content a {
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .dash-page-content a:hover {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .dash-page-content .lux-kpi-icon-wrap.rose {
-  border-color: #caa060;
-  background: #5b0a1e;
+  border-color: #bc9b6a;
+  background: #2d1442;
   color: #fffaf2;
 }
 
 .dash-page-content :is(.lux-kpi-card, .lux-card):hover {
-  border-color: #caa060;
+  border-color: #bc9b6a;
   box-shadow: 0 12px 28px rgba(45, 10, 18, 0.1);
 }

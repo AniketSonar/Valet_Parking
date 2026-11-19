@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+﻿import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Bell,
   Building2,
@@ -278,8 +278,8 @@ export default function AdminNotifications() {
                   width: "40px",
                   height: "40px",
                   borderRadius: "10px",
-                  background: isIncident ? "#fee2e2" : "#fdf2f4",
-                  color: isIncident ? "#dc2626" : "#8b1230",
+                  background: isIncident ? "#fee2e2" : "#f7f2fb",
+                  color: isIncident ? "#dc2626" : "#42235e",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -296,8 +296,8 @@ export default function AdminNotifications() {
                         borderRadius: "6px",
                         fontSize: "11.5px",
                         fontWeight: "700",
-                        background: "#fdf2f4",
-                        color: "#8b1230",
+                        background: "#f7f2fb",
+                        color: "#42235e",
                         display: "flex",
                         alignItems: "center",
                         gap: "4px"

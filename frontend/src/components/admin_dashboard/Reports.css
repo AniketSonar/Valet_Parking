@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    VALET PARKING
    REPORTS & SYSTEM OVERVIEW
    Premium Light Purple Dashboard Theme
@@ -72,9 +72,9 @@
   box-sizing: border-box;
   height: 40px !important;
   padding: 0 15px !important;
-  border: 1px solid #8b1230 !important;
+  border: 1px solid #42235e !important;
   border-radius: 10px !important;
-  background: #8b1230 !important;
+  background: #42235e !important;
   color: #ffffff !important;
   font-family: inherit;
   font-size: 11.5px !important;
@@ -87,8 +87,8 @@
 }
 
 .reports-controls .act-btn:hover:not(:disabled) {
-  background: #730c26 !important;
-  border-color: #730c26 !important;
+  background: #341a4a !important;
+  border-color: #341a4a !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 18px rgba(122, 46, 65, 0.19);
 }
@@ -680,7 +680,7 @@
 
   overflow: visible;
 
-  color: #8b1230;
+  color: #42235e;
 
   filter: drop-shadow(0 4px 5px rgba(122, 46, 65, 0.09));
 }
@@ -775,7 +775,7 @@
 
   background:
     conic-gradient(
-      #8b1230 0 74%,
+      #42235e 0 74%,
       #ce375d 74% 91%,
       #eee7e9 91% 100%
     );
@@ -1117,7 +1117,7 @@
 .date-range:focus-within,
 .date-range select:focus-visible,
 .panel-menu:focus-visible {
-  outline: 2px solid #a82042;
+  outline: 2px solid #5b2f82;
   outline-offset: 2px;
 }
 
@@ -1513,6 +1513,6 @@
 }
 
 .reports-page { max-width: 1500px; padding: 30px 34px 48px; }
-.reports-header h2 { color: #280f15; }.reports-description { color: #78676b; }.reports-controls .act-btn { border-radius: 9999px !important; background: #8b1230 !important; border-color: #8b1230 !important; }
+.reports-header h2 { color: #280f15; }.reports-description { color: #78676b; }.reports-controls .act-btn { border-radius: 9999px !important; background: #42235e !important; border-color: #42235e !important; }
 .date-range, .report-panel, .report-kpi-card { border-color: rgba(139, 18, 48, 0.12); border-radius: 20px; background: #ffffff; box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08); }
 .date-range { border-radius: 12px; box-shadow: none; }.report-table th { color: #978489; text-transform: uppercase; letter-spacing: 0.08em; }.report-table tr:hover { background: #fefcf8; }  

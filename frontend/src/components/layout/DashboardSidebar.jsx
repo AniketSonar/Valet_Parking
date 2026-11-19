@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import {
   UserRoundPen,
   LogOut,
@@ -38,13 +38,13 @@ const DashboardSidebar = ({
           <div className="dash-brand-collapsed-logo" title="VALET PARKING - PREMIUM SERVICE">
             <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
               {/* Crown / Stars */}
-              <circle cx="14" cy="6" r="1.8" fill="#dfb76c" />
-              <circle cx="20" cy="4" r="2.2" fill="#dfb76c" />
-              <circle cx="26" cy="6" r="1.8" fill="#dfb76c" />
+              <circle cx="14" cy="6" r="1.8" fill="#bc9b6a" />
+              <circle cx="20" cy="4" r="2.2" fill="#bc9b6a" />
+              <circle cx="26" cy="6" r="1.8" fill="#bc9b6a" />
               {/* Stylized Serif V */}
               <path
                 d="M8 12 H14 L20 30 L26 12 H32 M18 12 L20 24 L22 12"
-                stroke="#dfb76c"
+                stroke="#bc9b6a"
                 strokeWidth="2.4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -56,9 +56,9 @@ const DashboardSidebar = ({
             <div className="dash-brand-emblem-wrap">
               <svg width="38" height="34" viewBox="0 0 44 40" fill="none" className="dash-gold-v-svg">
                 {/* Crown / Stars */}
-                <circle cx="16" cy="6" r="1.8" fill="#dfb76c" />
-                <circle cx="22" cy="4" r="2.4" fill="#dfb76c" />
-                <circle cx="28" cy="6" r="1.8" fill="#dfb76c" />
+                <circle cx="16" cy="6" r="1.8" fill="#bc9b6a" />
+                <circle cx="22" cy="4" r="2.4" fill="#bc9b6a" />
+                <circle cx="28" cy="6" r="1.8" fill="#bc9b6a" />
                 {/* Stylized Serif V */}
                 <path
                   d="M9 12 H15 L22 32 L29 12 H35"
@@ -77,7 +77,7 @@ const DashboardSidebar = ({
                 <defs>
                   <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stopColor="#f7dc9a" />
-                    <stop offset="50%" stopColor="#dfb76c" />
+                    <stop offset="50%" stopColor="#bc9b6a" />
                     <stop offset="100%" stopColor="#b8862d" />
                   </linearGradient>
                 </defs>

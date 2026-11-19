@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    VALET PARKING
    OPERATIONAL REPORTS
    ============================================================ */
@@ -211,7 +211,7 @@
 
 .report-stat-icon.purple {
   background: #fcf6ec;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .report-stat-icon.green {
@@ -347,7 +347,7 @@
 
   font-weight: 800;
 
-  color: #8b1230;
+  color: #42235e;
 }
 
 .report-panel-summary span {
@@ -430,7 +430,7 @@
   height: 100%;
   min-width: 0;
 
-  background: #8b1230;
+  background: #42235e;
 
   border-radius: 999px;
 

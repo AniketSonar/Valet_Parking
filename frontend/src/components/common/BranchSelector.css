@@ -1,4 +1,4 @@
-/* Branch Selector Styles - Visible pill & card layout */
+﻿/* Branch Selector Styles - Visible pill & card layout */
 .branch-selector-wrapper {
   display: flex;
   align-items: center;
@@ -12,14 +12,14 @@
   gap: 6px;
   font-size: 13px;
   font-weight: 700;
-  color: #8b1230;
+  color: #42235e;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
 
 .branch-selector-icon {
-  color: #8b1230;
+  color: #42235e;
 }
 
 .branch-selector-list {
@@ -36,7 +36,7 @@
   gap: 8px;
   padding: 7px 14px;
   border-radius: 9999px;
-  border: 1.5px solid #fad2d9;
+  border: 1.5px solid #ebdcf3;
   background: #ffffff;
   color: #4b5563;
   font-size: 13px;
@@ -49,28 +49,28 @@
 }
 
 .branch-pill:hover {
-  background: #fdf2f4;
+  background: #f7f2fb;
   border-color: #f29bb0;
-  color: #8b1230;
+  color: #42235e;
   transform: translateY(-1px);
   box-shadow: 0 3px 8px rgba(139, 18, 48, 0.12);
 }
 
 .branch-pill.active {
-  background: linear-gradient(135deg, #6b0e24 0%, #8b1230 50%, #a82042 100%);
-  border-color: #dfb76c;
+  background: linear-gradient(135deg, #42235e 0%, #42235e 50%, #5b2f82 100%);
+  border-color: #bc9b6a;
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(139, 18, 48, 0.35);
   transform: translateY(-1px);
 }
 
 .branch-pill-icon {
-  color: #8b1230;
+  color: #42235e;
   transition: color 0.2s;
 }
 
 .branch-pill.active .branch-pill-icon {
-  color: #dfb76c;
+  color: #bc9b6a;
 }
 
 .branch-status-dot {
@@ -82,7 +82,7 @@
 }
 
 .branch-status-dot.active {
-  background: #dfb76c;
+  background: #bc9b6a;
   box-shadow: 0 0 6px rgba(223, 183, 108, 0.8);
 }
 
@@ -109,12 +109,12 @@
   font-weight: 700;
   padding: 1px 6px;
   border-radius: 10px;
-  background: #fbeff2;
-  color: #8b1230;
+  background: #f5edf9;
+  color: #42235e;
 }
 
 .branch-pill.active .branch-pill-count {
-  background: #dfb76c;
+  background: #bc9b6a;
   color: #3b0714;
 }
 

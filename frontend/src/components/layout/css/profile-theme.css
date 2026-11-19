@@ -1,4 +1,4 @@
-.dash-page-content :is(
+﻿.dash-page-content :is(
   .superadmin-profile-page,
   .manager-profile-page,
   .valet-profile-page
@@ -82,7 +82,7 @@
   width: 20px;
   height: 2px;
   border-radius: 2px;
-  background: #caa060;
+  background: #bc9b6a;
   box-shadow: none;
 }
 
@@ -94,7 +94,7 @@
   margin-bottom: 20px;
   padding: 24px 26px;
   border: 1px solid #eadfd7;
-  border-left: 4px solid #caa060;
+  border-left: 4px solid #bc9b6a;
   border-radius: 16px;
   background: linear-gradient(110deg, #fffdf9, #f8efe2);
   box-shadow: 0 8px 24px rgba(45, 10, 18, 0.06);
@@ -127,9 +127,9 @@
   width: 68px;
   height: 68px;
   flex: 0 0 68px;
-  border: 2px solid #dfb76c;
+  border: 2px solid #bc9b6a;
   border-radius: 50%;
-  background: linear-gradient(145deg, #730c26, #4b0918);
+  background: linear-gradient(145deg, #341a4a, #4b0918);
   color: #fffaf2;
   font-size: 21px;
   box-shadow: 0 6px 18px rgba(91, 10, 30, 0.2);
@@ -205,7 +205,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: #5b0a1e;
+  color: #2d1442;
   font-size: 13px;
   backdrop-filter: none;
 }
@@ -236,7 +236,7 @@
   .superadmin-profile-page,
   .manager-profile-page
 ) :is(.profile-panel, .profile-security, .profile-access-card):hover {
-  border-color: #dfb76c;
+  border-color: #bc9b6a;
   box-shadow: 0 12px 28px rgba(45, 10, 18, 0.09);
 }
 
@@ -244,7 +244,7 @@
   .superadmin-profile-page,
   .manager-profile-page
 ) :is(.profile-panel, .profile-security)::before {
-  background: #caa060;
+  background: #bc9b6a;
 }
 
 .dash-page-content :is(
@@ -278,7 +278,7 @@
 .dash-page-content .manager-profile-page .profile-panel-icon {
   border-color: #ead9bd;
   background: #f7eddd;
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .dash-page-content .superadmin-profile-page .profile-field {
@@ -304,7 +304,7 @@
   bottom: 14px !important;
   width: 3px !important;
   border-radius: 0 3px 3px 0 !important;
-  background: #caa060 !important;
+  background: #bc9b6a !important;
 }
 
 .dash-page-content .superadmin-profile-page .profile-field > span {
@@ -319,7 +319,7 @@
 }
 
 .dash-page-content .superadmin-profile-page .profile-field:hover {
-  border-color: #dfb76c;
+  border-color: #bc9b6a;
   box-shadow: 0 6px 15px rgba(84, 32, 45, 0.06);
 }
 
@@ -378,7 +378,7 @@
 .dash-page-content .manager-profile-page .profile-access-card .access-card-icon {
   border-color: #ead9bd;
   background: #f7eddd;
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .dash-page-content .manager-profile-page .field-icon.success {
@@ -403,7 +403,7 @@
 .dash-page-content .manager-profile-page .security-option-icon {
   border-color: #ead9bd;
   background: #f7eddd;
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .dash-page-content .manager-profile-page .security-option-icon.danger,
@@ -430,7 +430,7 @@
 .dash-page-content .superadmin-profile-page .security-icon {
   border-color: #ead9bd !important;
   background: #f7eddd !important;
-  color: #5b0a1e !important;
+  color: #2d1442 !important;
 }
 
 .dash-page-content .superadmin-profile-page .security-active,
@@ -447,7 +447,7 @@
   border: 1px solid #e7c7c7 !important;
   border-radius: 9px !important;
   background: #fff4f1 !important;
-  color: #8b1230 !important;
+  color: #42235e !important;
   font-family: inherit;
   font-weight: 700;
 }
@@ -455,7 +455,7 @@
 .dash-page-content .superadmin-profile-page .security-option button:hover,
 .dash-page-content .superadmin-profile-page .profile-sign-out:hover,
 .dash-page-content .manager-profile-page .security-btn:hover {
-  border-color: #caa060 !important;
+  border-color: #bc9b6a !important;
   background: #f7eddd !important;
 }
 
@@ -464,7 +464,7 @@
 }
 
 .dash-page-content .manager-profile-page .profile-access-card::before {
-  background: #caa060;
+  background: #bc9b6a;
 }
 
 .dash-page-content .manager-profile-page .access-card-eyebrow,
@@ -484,18 +484,18 @@
 .dash-page-content .manager-profile-page .profile-error {
   border-color: #f0cdd0;
   background: #fff4f1;
-  color: #8b1230;
+  color: #42235e;
 }
 
 .dash-page-content .manager-profile-page .profile-refresh-btn {
   border-color: #ead9bd;
   border-radius: 10px;
   background: #fffaf2;
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .dash-page-content .manager-profile-page .profile-refresh-btn:hover:not(:disabled) {
-  border-color: #caa060;
+  border-color: #bc9b6a;
   background: #f7eddd;
 }
 
@@ -512,7 +512,7 @@
   max-width: 860px;
   padding: 24px;
   border: 1px solid #eadfd7;
-  border-left: 4px solid #caa060;
+  border-left: 4px solid #bc9b6a;
   border-radius: 16px;
   background: #fffdf9;
   box-shadow: 0 8px 24px rgba(45, 10, 18, 0.06);
@@ -531,9 +531,9 @@
   height: 64px;
   flex: 0 0 64px;
   place-items: center;
-  border: 2px solid #dfb76c;
+  border: 2px solid #bc9b6a;
   border-radius: 50%;
-  background: linear-gradient(145deg, #730c26, #4b0918);
+  background: linear-gradient(145deg, #341a4a, #4b0918);
   color: #fffaf2;
   font-size: 19px;
   font-weight: 800;
@@ -565,7 +565,7 @@
 }
 
 .dash-page-content .valet-profile-page .profile-details svg {
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 .dash-page-content .valet-profile-page .profile-details small {
@@ -580,10 +580,10 @@
 .dash-page-content .valet-profile-page .page-empty {
   max-width: 860px;
   border: 1px solid #eadfd7;
-  border-left: 4px solid #caa060;
+  border-left: 4px solid #bc9b6a;
   border-radius: 16px;
   background: #fffdf9;
-  color: #5b0a1e;
+  color: #2d1442;
 }
 
 @media (max-width: 900px) {

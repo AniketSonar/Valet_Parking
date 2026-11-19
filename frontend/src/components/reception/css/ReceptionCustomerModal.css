@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    RECEPTION MODAL
    ============================================================ */
 
@@ -193,11 +193,11 @@
 .modal-input-wrap:focus-within {
   background: #ffffff;
 
-  border-color: #8b1230;
+  border-color: #42235e;
 
   box-shadow: 0 0 0 3px rgba(139, 18, 48, 0.08);
 
-  color: #8b1230;
+  color: #42235e;
 }
 
 .modal-input-wrap svg {
@@ -308,9 +308,9 @@
 }
 
 .modal-btn-primary {
-  border: 1px solid #8b1230;
+  border: 1px solid #42235e;
 
-  background: #8b1230;
+  background: #42235e;
   color: #ffffff;
 
   box-shadow: 0 3px 8px rgba(139, 18, 48, 0.18);

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
+﻿import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import {
   ChevronDown,
   RefreshCw,
@@ -822,7 +822,7 @@ const ParkingSlots = ({ scope = "manager" }) => {
                       fontSize: "12px",
                       fontWeight: "700",
                       cursor: "pointer",
-                      background: slotViewMode === "map" ? "#8b1230" : "transparent",
+                      background: slotViewMode === "map" ? "#42235e" : "transparent",
                       color: slotViewMode === "map" ? "#ffffff" : "#635256",
                       display: "flex",
                       alignItems: "center",
@@ -842,7 +842,7 @@ const ParkingSlots = ({ scope = "manager" }) => {
                       fontSize: "12px",
                       fontWeight: "700",
                       cursor: "pointer",
-                      background: slotViewMode === "cinema" ? "#8b1230" : "transparent",
+                      background: slotViewMode === "cinema" ? "#42235e" : "transparent",
                       color: slotViewMode === "cinema" ? "#ffffff" : "#635256",
                       display: "flex",
                       alignItems: "center",

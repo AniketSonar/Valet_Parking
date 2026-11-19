@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Car,
@@ -186,7 +186,7 @@ const LandingPage = () => {
               <div className="trust-text">
                 <div className="stars-row">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} fill="#caa060" color="#caa060" />
+                    <Star key={i} size={14} fill="#bc9b6a" color="#bc9b6a" />
                   ))}
                 </div>
                 <span>Trusted by luxury hotels, malls & corporate parks</span>

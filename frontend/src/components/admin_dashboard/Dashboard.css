@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    VALET DASHBOARD
    Shared visual language with Reception Dashboard
    ============================================================ */
@@ -12,8 +12,8 @@
   --dashboard-muted: #78676b;
   --dashboard-faint: #978489;
 
-  --dashboard-purple: #8b1230;
-  --dashboard-purple-dark: #730c26;
+  --dashboard-purple: #42235e;
+  --dashboard-purple-dark: #341a4a;
 
   --dashboard-border: rgba(139, 18, 48, 0.12);
   --dashboard-border-soft: rgba(139, 18, 48, 0.08);
@@ -85,7 +85,7 @@
 
 .dashboard-eyebrow {
   margin-bottom: 8px;
-  color: #8b1230;
+  color: #42235e;
 }
 
 
@@ -507,7 +507,7 @@
 
   border: 1px solid var(--dashboard-border);
 
-  background: #fce7eb;
+  background: #f3e8f9;
   color: var(--dashboard-purple);
 }
 
@@ -654,8 +654,8 @@
 
 
 .metric-icon.blue {
-  background: #fce7eb;
-  color: #8b1230;
+  background: #f3e8f9;
+  color: #42235e;
 }
 
 
@@ -737,7 +737,7 @@
 
   border-radius: 50%;
 
-  background: #fce7eb;
+  background: #f3e8f9;
   color: var(--dashboard-purple);
 
   font-weight: 800;
@@ -866,8 +866,8 @@
 
 
 .staff-icon {
-  background: #fce7eb;
-  color: #8b1230;
+  background: #f3e8f9;
+  color: #42235e;
 }
 
 

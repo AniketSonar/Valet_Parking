@@ -1,4 +1,4 @@
-/* Shared styles for Areas & Managers, Area Map and Valet Posts.
+﻿/* Shared styles for Areas & Managers, Area Map and Valet Posts.
    Matches the burgundy / soft-lilac look of the existing dashboards. */
 
 .ar-page {
@@ -25,19 +25,19 @@
   height: 38px; padding: 0 16px;
   border: 1px solid rgba(139, 18, 48, 0.18);
   border-radius: 9999px;
-  background: #fff; color: #8b1230;
+  background: #fff; color: #42235e;
   font: 600 13px/1 inherit; cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
 }
 .ar-btn:hover:not(:disabled) { background: #fbf2f5; border-color: rgba(139, 18, 48, 0.35); }
 .ar-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.ar-btn-primary { background: #8b1230; color: #fff; border-color: #8b1230; }
+.ar-btn-primary { background: #42235e; color: #fff; border-color: #42235e; }
 .ar-btn-primary:hover:not(:disabled) { background: #730f28; border-color: #730f28; }
 .ar-btn-danger { color: #b42318; border-color: rgba(180, 35, 24, 0.25); }
 .ar-btn-danger:hover:not(:disabled) { background: #fdf0ee; border-color: rgba(180, 35, 24, 0.5); }
 .ar-btn-sm { height: 30px; padding: 0 12px; font-size: 12px; }
 .ar-btn:focus-visible, .ar-input:focus-visible, .ar-select:focus-visible, .ar-cell:focus-visible {
-  outline: 2px solid #8b1230; outline-offset: 2px;
+  outline: 2px solid #42235e; outline-offset: 2px;
 }
 
 .ar-card {
@@ -86,7 +86,7 @@
 }
 .ar-chip-green { background: #e7f6ee; color: #14633f; }
 .ar-chip-amber { background: #fdf3df; color: #8a5a0b; }
-.ar-chip-red { background: #fbe9ed; color: #8b1230; }
+.ar-chip-red { background: #fbe9ed; color: #42235e; }
 
 .ar-empty { padding: 28px 12px; text-align: center; color: #978489; font-size: 13.5px; line-height: 1.5; }
 
@@ -101,7 +101,7 @@
   border: 1px solid rgba(139, 18, 48, 0.14); background: #fff;
   font: 600 13px/1 inherit; color: #634e54; cursor: pointer;
 }
-.ar-tab[aria-selected="true"] { background: #8b1230; border-color: #8b1230; color: #fff; }
+.ar-tab[aria-selected="true"] { background: #42235e; border-color: #42235e; color: #fff; }
 
 .ar-map-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; align-items: start; }
 
@@ -143,9 +143,9 @@
 }
 .ar-cell small { font-weight: 500; font-size: 10px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ar-cell-empty { background: transparent; border: 1.5px dashed rgba(139, 18, 48, 0.28); color: #af939a; font-size: 18px; font-weight: 500; }
-.ar-cell-empty:hover, .ar-cell-empty[aria-pressed="true"] { background: #fff; border-color: #8b1230; color: #8b1230; }
+.ar-cell-empty:hover, .ar-cell-empty[aria-pressed="true"] { background: #fff; border-color: #42235e; color: #42235e; }
 .ar-cell-available { background: #e7f6ee; color: #14633f; border-color: rgba(31, 138, 91, 0.3); }
-.ar-cell-occupied { background: #8b1230; color: #fff; }
+.ar-cell-occupied { background: #42235e; color: #fff; }
 .ar-cell-maintenance { background: #fdf3df; color: #8a5a0b; border-color: rgba(183, 121, 31, 0.35); }
 .ar-cell[aria-pressed="true"]:not(.ar-cell-empty) { outline: 2px solid #3b161f; outline-offset: 1px; }
 
@@ -165,7 +165,7 @@
 .ar-post-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
 .ar-post-head h3 { margin: 0; font-size: 15px; font-weight: 750; }
 .ar-meter { height: 6px; border-radius: 6px; background: #f5e9ec; overflow: hidden; margin: 8px 0 12px; }
-.ar-meter > span { display: block; height: 100%; background: #8b1230; border-radius: 6px; }
+.ar-meter > span { display: block; height: 100%; background: #42235e; border-radius: 6px; }
 .ar-meter[data-full="true"] > span { background: #1f8a5b; }
 
 .ar-avatar {

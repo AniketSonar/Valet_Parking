@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    VALET — PARKING ADMIN PROFILE
    Current VALET Purple Design System
    ============================================================ */
@@ -36,7 +36,7 @@
 
   margin-bottom: 7px;
 
-  color: #8b1230;
+  color: #42235e;
 
   font-size: 10px;
   font-weight: 800;
@@ -51,7 +51,7 @@
 
   border-radius: 999px;
 
-  background: #8b1230;
+  background: #42235e;
 }
 
 .profile-page-header h2 {
@@ -263,7 +263,7 @@
 
   background: linear-gradient(
     145deg,
-    #8b1230,
+    #42235e,
     #d96683
   );
 
@@ -496,7 +496,7 @@
 
   background: #fcf2f5;
 
-  color: #8b1230;
+  color: #42235e;
 }
 
 
@@ -776,7 +776,7 @@
 
   width: 4px;
 
-  background: #8b1230;
+  background: #42235e;
 }
 
 .profile-access-card::after {
@@ -819,7 +819,7 @@
 
   background: #fbeef1;
 
-  color: #8b1230;
+  color: #42235e;
 }
 
 .access-card-content {

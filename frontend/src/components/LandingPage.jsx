@@ -118,13 +118,21 @@ const LandingPage = () => {
       ======================================================== */}
       <nav className="landing-navbar">
         <div className="landing-nav-inner">
-          <div className="landing-brand" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-            <div className="brand-logo-wrapper">
-              <img src="/valet-logo.svg" alt="Valet Parking Logo" className="brand-logo" />
-            </div>
-            <div className="brand-text">
-              <h2>VALET</h2>
-              <span>PARKING</span>
+          <div className="landing-brand" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}>
+            <img
+              src="/conrad-emblem.png"
+              alt="Conrad Emblem"
+              style={{ width: "38px", height: "38px", borderRadius: "50%", border: "1.5px solid #bc9b6a", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+            />
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <img
+                src="/conrad-logo-gold.png"
+                alt="CONRAD PUNE"
+                style={{ height: "20px", objectFit: "contain" }}
+              />
+              <span style={{ fontSize: "8.5px", letterSpacing: "2.2px", color: "#bc9b6a", fontWeight: "700", marginTop: "2px" }}>
+                SMART VALET
+              </span>
             </div>
           </div>
 
@@ -672,11 +680,20 @@ const LandingPage = () => {
       <footer className="landing-footer">
         <div className="footer-top">
           <div className="footer-brand">
-            <div className="brand-logo-wrapper">
-              <img src="/valet-logo.svg" alt="Valet Parking Logo" className="brand-logo" />
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+              <img
+                src="/conrad-emblem.png"
+                alt="Conrad Emblem"
+                style={{ width: "42px", height: "42px", borderRadius: "50%", border: "1.5px solid #bc9b6a" }}
+              />
+              <img
+                src="/conrad-logo-gold.png"
+                alt="CONRAD PUNE"
+                style={{ height: "24px", objectFit: "contain" }}
+              />
             </div>
-            <h3>VALET PARKING</h3>
-            <p>Next-Generation Smart Valet Parking Platform.</p>
+            <h3>CONRAD PUNE</h3>
+            <p>Luxury Valet Parking & Fleet Experience Platform.</p>
           </div>
 
           <div className="footer-links-group">

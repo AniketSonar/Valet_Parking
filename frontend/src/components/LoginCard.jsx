@@ -157,6 +157,29 @@ function LoginCard() {
   return (
     <div className="vp-login-wrapper">
       <div className="vp-auth-card">
+        {/* BRAND EMBLEM & WORDMARK */}
+        <div style={{ textAlign: "center", marginBottom: "16px" }}>
+          <img
+            src="/conrad-emblem.png"
+            alt="Conrad Pune"
+            style={{
+              width: "60px",
+              height: "60px",
+              borderRadius: "50%",
+              boxShadow: "0 4px 14px rgba(66, 35, 94, 0.25)",
+              border: "1.5px solid #bc9b6a",
+              display: "inline-block"
+            }}
+          />
+          <div style={{ marginTop: "8px" }}>
+            <img
+              src="/conrad-logo-gold.png"
+              alt="CONRAD PUNE"
+              style={{ height: "22px", objectFit: "contain", filter: "brightness(1.05)" }}
+            />
+          </div>
+        </div>
+
         {/* CARD HEADER */}
         <div className="vp-card-heading">
           <h2>{mode === "register" ? "Join Staff Team" : "Welcome Back"}</h2>

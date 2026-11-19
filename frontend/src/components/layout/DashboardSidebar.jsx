@@ -31,62 +31,55 @@ const DashboardSidebar = ({
       }`}
     >
       {/* ========================================================
-          1. LUXURY GOLD BRAND LOGO (EXACT MATCH TO IMAGE 1)
+          1. LUXURY CONRAD PUNE BRAND LOGO
       ======================================================== */}
       <div className="dash-brand">
         {collapsed ? (
-          <div className="dash-brand-collapsed-logo" title="VALET PARKING - PREMIUM SERVICE">
-            <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-              {/* Crown / Stars */}
-              <circle cx="14" cy="6" r="1.8" fill="#bc9b6a" />
-              <circle cx="20" cy="4" r="2.2" fill="#bc9b6a" />
-              <circle cx="26" cy="6" r="1.8" fill="#bc9b6a" />
-              {/* Stylized Serif V */}
-              <path
-                d="M8 12 H14 L20 30 L26 12 H32 M18 12 L20 24 L22 12"
-                stroke="#bc9b6a"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+          <div className="dash-brand-collapsed-logo" title="CONRAD PUNE">
+            <img
+              src="/conrad-emblem.png"
+              alt="Conrad Pune"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                boxShadow: "0 3px 10px rgba(0,0,0,0.35)",
+                border: "1.5px solid #bc9b6a"
+              }}
+            />
           </div>
         ) : (
           <div className="dash-brand-full">
-            <div className="dash-brand-emblem-wrap">
-              <svg width="38" height="34" viewBox="0 0 44 40" fill="none" className="dash-gold-v-svg">
-                {/* Crown / Stars */}
-                <circle cx="16" cy="6" r="1.8" fill="#bc9b6a" />
-                <circle cx="22" cy="4" r="2.4" fill="#bc9b6a" />
-                <circle cx="28" cy="6" r="1.8" fill="#bc9b6a" />
-                {/* Stylized Serif V */}
-                <path
-                  d="M9 12 H15 L22 32 L29 12 H35"
-                  stroke="url(#goldGrad)"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M20 12 L22 24 L24 12"
-                  stroke="url(#goldGrad)"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <defs>
-                  <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#f7dc9a" />
-                    <stop offset="50%" stopColor="#bc9b6a" />
-                    <stop offset="100%" stopColor="#b8862d" />
-                  </linearGradient>
-                </defs>
-              </svg>
+            <div className="dash-brand-emblem-wrap" style={{ marginBottom: "6px" }}>
+              <img
+                src="/conrad-emblem.png"
+                alt="Conrad Pune Emblem"
+                style={{
+                  width: "54px",
+                  height: "54px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  boxShadow: "0 4px 14px rgba(0,0,0,0.35)",
+                  border: "1.5px solid #bc9b6a"
+                }}
+              />
             </div>
 
-            <div className="dash-brand-text-block">
-              <h2 className="dash-brand-title-gold">VALET PARKING</h2>
-              <span className="dash-brand-subtitle-gold">PREMIUM SERVICE</span>
+            <div className="dash-brand-text-block" style={{ marginTop: "6px" }}>
+              <img
+                src="/conrad-logo-gold.png"
+                alt="CONRAD PUNE"
+                style={{
+                  height: "26px",
+                  maxWidth: "175px",
+                  objectFit: "contain",
+                  filter: "brightness(1.15)"
+                }}
+              />
+              <span className="dash-brand-subtitle-gold" style={{ letterSpacing: "2.8px", fontSize: "8.5px", marginTop: "4px", color: "#bc9b6a" }}>
+                PREMIUM VALET SERVICE
+              </span>
             </div>
 
             <div className="dash-brand-gold-line" />

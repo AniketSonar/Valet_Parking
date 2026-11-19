@@ -158,7 +158,8 @@ const createStaff = async (req, res) => {
       password,
       role,
       phone,
-      hotel_id
+      hotel_id,
+      position_name,
     } = req.body;
 
     if (
@@ -316,17 +317,19 @@ const createStaff = async (req, res) => {
               is_active: true
             }]);
           } else if (role === "valet" && employee?.id) {
+            const targetPostName = position_name ? String(position_name).trim() : "Main Post";
             let { data: post } = await supabase
               .from("valet_posts")
               .select("id")
               .eq("floor_id", floorId)
+              .ilike("post_name", targetPostName)
               .limit(1)
               .maybeSingle();
 
             if (!post) {
               const { data: newPost } = await supabase
                 .from("valet_posts")
-                .insert([{ floor_id: floorId, post_name: "Main Post" }])
+                .insert([{ floor_id: floorId, post_name: targetPostName }])
                 .select()
                 .single();
               post = newPost;
@@ -432,6 +435,7 @@ const getAllStaff = async (req, res) => {
         .from("valet_assignments")
         .select(`
           valet_id,
+          post:valet_posts ( id, post_name ),
           floor:parking_floors (
             id,
             floor_name,
@@ -461,6 +465,7 @@ const getAllStaff = async (req, res) => {
         let hotel_id = null;
         let hotel_name = "Unassigned";
         let floor_name = null;
+        let post_name = null;
 
         if (user.role === "manager" || user.role === "parking_admin") {
           const ma = managerAssignments.find((a) => a.manager_id === user.id);
@@ -476,6 +481,7 @@ const getAllStaff = async (req, res) => {
             hotel_name = va.floor.building.building_name;
             floor_name = va.floor.floor_name;
           }
+          post_name = va?.post?.post_name || null;
         }
 
         return {
@@ -485,7 +491,8 @@ const getAllStaff = async (req, res) => {
           employee_is_active,
           hotel_id,
           hotel_name,
-          floor_name
+          floor_name,
+          post_name
         };
       })
     );

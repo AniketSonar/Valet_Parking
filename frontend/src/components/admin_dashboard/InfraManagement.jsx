@@ -83,6 +83,7 @@ export default function InfraManagement() {
     password: "",
     role: "manager",
     hotel_id: "",
+    position_name: "",
   });
 
   // Action loading flags
@@ -277,6 +278,7 @@ export default function InfraManagement() {
           password: "",
           role: "manager",
           hotel_id: hotels[0]?.id || "",
+          position_name: "",
         });
         await loadData();
       } else {
@@ -1103,7 +1105,7 @@ export default function InfraManagement() {
               </div>
 
               <div className="infra-form-group">
-                <label>Temporary Password *</label>
+                <label>Password *</label>
                 <input
                   type="password"
                   placeholder="Minimum 6 characters"
@@ -1123,6 +1125,21 @@ export default function InfraManagement() {
                   <option value="valet">Valet</option>
                 </select>
               </div>
+
+              {staffForm.role === "valet" && (
+                <div className="infra-form-group">
+                  <label>Position / Standing Post</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Front Entrance, Main Gate, Basement Entry"
+                    value={staffForm.position_name}
+                    onChange={(e) => setStaffForm({ ...staffForm, position_name: e.target.value })}
+                  />
+                  <small style={{ color: "#6b7280", fontSize: "11.5px" }}>
+                    The valet post/position where this staff member will be stationed.
+                  </small>
+                </div>
+              )}
 
               <div className="infra-form-group">
                 <label>Assign to Hotel Branch *</label>

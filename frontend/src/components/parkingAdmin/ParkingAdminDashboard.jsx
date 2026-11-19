@@ -238,6 +238,8 @@ const ParkingAdminDashboard = ({ onLogout }) => {
               totalVehicles: dashboardStats.todayCheckIns || 124,
               activeParkingSessions: dashboardStats.activeSessions || 38,
               todayCheckouts: dashboardStats.todayCompletedReturns || 32,
+              availableSlots: dashboardStats.availableSlots ?? 0,
+              revenueToday: dashboardStats.todayRevenue ?? 0,
             }}
             analytics={analyticsData}
             loading={loading}

@@ -21,8 +21,8 @@
   flex-shrink: 0;
 
   background:
-    url('/sidebar-velvet-full.png') center top / cover no-repeat,
-    linear-gradient(180deg, #42235e 0%, #200d31 100%);
+    url('/sidebar-purple-waves.jpg') center center / cover no-repeat,
+    linear-gradient(180deg, #2a0d45 0%, #130826 100%);
 
   color: var(--text-main, #280f15);
 

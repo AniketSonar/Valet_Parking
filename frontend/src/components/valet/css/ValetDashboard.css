@@ -2112,3 +2112,20 @@
 @media (prefers-reduced-motion: reduce) {
   .vd-btn, .vd-kpi, .vd-filter { transition: none; }
 }
+
+/* Hotel Badge */
+.vd-hotel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(188,155,106,0.12);
+  border: 1px solid rgba(188,155,106,0.35);
+  border-radius: 20px;
+  color: #bc9b6a;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}

@@ -9,6 +9,7 @@ import MyVehicles from "./MyVehicles";
 import RetrievalRequests from "./RetrievalRequests";
 import ParkingSlots from "./ParkingSlots";
 import CompletedReturns from "./CompletedReturns";
+import RegularGuests from "./RegularGuests";
 import ValetProfile from "./ValetProfile";
 import ReceptionDashboard from "../reception/ReceptionDashboard";
 import IncidentManagement from "../parkingAdmin/IncidentManagement";
@@ -56,6 +57,10 @@ const ValetLayout = () => {
       case "completed-returns":
         return <CompletedReturns />;
 
+      case "regular-guests":
+        return <RegularGuests />;
+
+      case "settings":
       case "profile":
         return <ValetProfile />;
 

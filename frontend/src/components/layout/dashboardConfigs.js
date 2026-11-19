@@ -16,6 +16,7 @@ import {
   Bell,
   Settings,
   KeyRound,
+  Star,
 } from "lucide-react";
 
 /**
@@ -86,10 +87,12 @@ export const valetConfig = {
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "security-dashboard", label: "Check-In", icon: ClipboardList },
     { id: "my-vehicles", label: "My Vehicles", icon: CarFront },
-    { id: "retrieval-requests", label: "Retrieval Requests", icon: History },
     { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },
+    { id: "retrieval-requests", label: "Retrieval Requests", icon: History },
     { id: "completed-returns", label: "Completed Returns", icon: History },
+    { id: "regular-guests", label: "Regular / Event Guests", icon: Star },
     { id: "incidents", label: "Incident Management", icon: ShieldAlert },
+    { id: "settings", label: "Settings", icon: Settings },
   ],
 };
 

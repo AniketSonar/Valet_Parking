@@ -109,6 +109,21 @@ const MAX_DETAIL_PHOTOS = 10;
 function ValetDashboard() {
   const [valet, setValet] = useState(null);
   const [dashboard, setDashboard] = useState(null);
+
+  const currentUser = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}");
+    } catch {
+      return {};
+    }
+  }, []);
+  const hotelName =
+    currentUser?.assigned_hotel_name ||
+    currentUser?.hotel_name ||
+    currentUser?.branch_name ||
+    valet?.hotel_name ||
+    valet?.building_name ||
+    "Conrad Pune";
   const [sessions, setSessions] = useState([]);
   const [retrievalRequests, setRetrievalRequests] = useState([]);
 
@@ -794,6 +809,12 @@ function ValetDashboard() {
         <div className="vd-hero-text">
           <span className="vd-hero-greeting">{greeting()},</span>
           <h1>{valet?.name || "Valet"}</h1>
+          {hotelName && (
+            <div className="vd-hotel-badge">
+              <MapPin size={13} />
+              <span>{hotelName}</span>
+            </div>
+          )}
           <p>{heroLine}</p>
           <div className="vd-gold-line" />
 

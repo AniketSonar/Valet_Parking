@@ -13,6 +13,7 @@ import {
   Users,
   TicketCheck,
   Bell,
+  X,
 } from "lucide-react";
 
 import DashboardLayout from "../layout/DashboardLayout";
@@ -27,6 +28,8 @@ import {
   getReceptionSessions,
   requestReceptionRetrieval,
   getCustomers,
+  createCustomer,
+  createVehicle,
   deleteCustomer,
   getVehicles,
   getReceptionNotifications,
@@ -34,6 +37,88 @@ import {
 
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import "./css/ReceptionDashboard.css";
+
+// ============================================================
+// COMBINED REGISTER MODAL (Customer + Vehicle in one flow)
+// ============================================================
+
+const CombinedRegisterModal = ({ onClose, onSuccess }) => {
+  const [step, setStep] = useState(1); // 1=customer, 2=vehicle
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [customerData, setCustomerData] = useState({ name: "", phone: "", email: "" });
+  const [vehicleData, setVehicleData] = useState({ license_plate: "", make: "", model: "", color: "" });
+  const [createdCustomer, setCreatedCustomer] = useState(null);
+
+  const handleCustomerSubmit = async (e) => {
+    e.preventDefault();
+    if (!customerData.name.trim() || !customerData.phone.trim()) {
+      setError("Name and phone are required."); return;
+    }
+    try {
+      setLoading(true); setError("");
+      const res = await createCustomer(customerData);
+      setCreatedCustomer(res?.customer || res);
+      setStep(2);
+    } catch (err) {
+      setError(err?.message || "Failed to create customer.");
+    } finally { setLoading(false); }
+  };
+
+  const handleVehicleSubmit = async (e) => {
+    e.preventDefault();
+    if (!vehicleData.license_plate.trim()) {
+      setError("License plate is required."); return;
+    }
+    try {
+      setLoading(true); setError("");
+      await createVehicle({ ...vehicleData, customer_id: createdCustomer?.id });
+      onSuccess?.("Customer and vehicle registered successfully.");
+      onClose();
+    } catch (err) {
+      setError(err?.message || "Failed to register vehicle.");
+    } finally { setLoading(false); }
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-container" style={{ maxWidth: 480 }} onClick={e => e.stopPropagation()}>
+        <div className="modal-header">
+          <div>
+            <h2>{step === 1 ? "Register Customer" : "Register Vehicle"}</h2>
+            <p style={{ fontSize: "0.78rem", color: "#888", marginTop: 2 }}>
+              Step {step} of 2 — {step === 1 ? "Customer details" : `Linking vehicle for ${createdCustomer?.name}`}
+            </p>
+          </div>
+          <button className="modal-close-btn" onClick={onClose}><X size={18} /></button>
+        </div>
+        {error && <div className="modal-error">{error}</div>}
+        {step === 1 ? (
+          <form onSubmit={handleCustomerSubmit} className="modal-form">
+            <label>Full Name *<input value={customerData.name} onChange={e => setCustomerData(d => ({...d, name: e.target.value}))} placeholder="e.g. Rahul Sharma" /></label>
+            <label>Phone *<input value={customerData.phone} onChange={e => setCustomerData(d => ({...d, phone: e.target.value}))} placeholder="+91 98765 43210" /></label>
+            <label>Email<input type="email" value={customerData.email} onChange={e => setCustomerData(d => ({...d, email: e.target.value}))} placeholder="rahul@example.com" /></label>
+            <div className="modal-actions">
+              <button type="button" className="secondary-action" onClick={onClose}>Cancel</button>
+              <button type="submit" className="primary-action" disabled={loading}>{loading ? "Saving..." : "Next: Vehicle →"}</button>
+            </div>
+          </form>
+        ) : (
+          <form onSubmit={handleVehicleSubmit} className="modal-form">
+            <label>License Plate *<input value={vehicleData.license_plate} onChange={e => setVehicleData(d => ({...d, license_plate: e.target.value.toUpperCase()}))} placeholder="MH12AB1234" /></label>
+            <label>Make<input value={vehicleData.make} onChange={e => setVehicleData(d => ({...d, make: e.target.value}))} placeholder="Toyota" /></label>
+            <label>Model<input value={vehicleData.model} onChange={e => setVehicleData(d => ({...d, model: e.target.value}))} placeholder="Innova" /></label>
+            <label>Color<input value={vehicleData.color} onChange={e => setVehicleData(d => ({...d, color: e.target.value}))} placeholder="White" /></label>
+            <div className="modal-actions">
+              <button type="button" className="secondary-action" onClick={() => setStep(1)}>← Back</button>
+              <button type="submit" className="primary-action" disabled={loading}>{loading ? "Registering..." : "Register Vehicle"}</button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+};
 
 // ============================================================
 // STATUS CONFIG
@@ -616,23 +701,13 @@ const ReceptionDashboard = ({
 
       {/* Quick Actions */}
       <div className="reception-quick-actions">
-        <button className="quick-action-card" onClick={() => openModal("customer")}>
-          <div className="quick-action-icon" style={{ background: "#f8eef0", color: "#7a2e41" }}>
+        <button className="quick-action-card" onClick={() => openModal("register-customer-vehicle")}>
+          <div className="quick-action-icon" style={{ background: "linear-gradient(135deg, #f8eef0, #fdf8f1)", color: "#7a2e41" }}>
             <UserPlus size={20} />
           </div>
           <div>
-            <strong>Register Customer</strong>
-            <span>Add a new customer to the system</span>
-          </div>
-        </button>
-
-        <button className="quick-action-card" onClick={() => openModal("vehicle")}>
-          <div className="quick-action-icon" style={{ background: "#fdf8f1", color: "#d09125" }}>
-            <Car size={20} />
-          </div>
-          <div>
-            <strong>Register Vehicle</strong>
-            <span>Link a vehicle to a customer</span>
+            <strong>Register Customer & Vehicle</strong>
+            <span>Add customer and link vehicle in one step</span>
           </div>
         </button>
 
@@ -800,6 +875,15 @@ const ReceptionDashboard = ({
       )}
 
       {/* MODALS */}
+      {modal === "register-customer-vehicle" && (
+        <CombinedRegisterModal
+          onClose={closeModal}
+          onSuccess={(msg) => {
+            setSuccessMsg(msg || "Customer and vehicle registered successfully.");
+            fetchSessions();
+          }}
+        />
+      )}
       {modal === "customer" && (
         <RegisterCustomerModal
           onClose={closeModal}

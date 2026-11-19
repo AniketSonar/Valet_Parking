@@ -9,6 +9,9 @@ import {
   LogOut,
   PanelLeftClose,
   PanelLeftOpen,
+  ShieldAlert,
+  Settings,
+  Star,
 } from "lucide-react";
 
 import "./css/ValetSidebar.css";
@@ -27,14 +30,14 @@ const ValetSidebar = ({
       icon: LayoutDashboard,
     },
     {
+      id: "security-dashboard",
+      label: "Check-In",
+      icon: ClipboardList,
+    },
+    {
       id: "my-vehicles",
       label: "My Vehicles",
       icon: CarFront,
-    },
-    {
-      id: "retrieval-requests",
-      label: "Retrieval Requests",
-      icon: ClipboardList,
     },
     {
       id: "parking-slots",
@@ -42,9 +45,29 @@ const ValetSidebar = ({
       icon: ParkingSquare,
     },
     {
+      id: "retrieval-requests",
+      label: "Retrieval Requests",
+      icon: History,
+    },
+    {
       id: "completed-returns",
       label: "Completed Returns",
       icon: History,
+    },
+    {
+      id: "regular-guests",
+      label: "Regular / Event Guests",
+      icon: Star,
+    },
+    {
+      id: "incidents",
+      label: "Incident Management",
+      icon: ShieldAlert,
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: Settings,
     },
   ];
 

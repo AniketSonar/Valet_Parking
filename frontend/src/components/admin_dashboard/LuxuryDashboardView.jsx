@@ -188,13 +188,21 @@ function LuxuryDashboardView({
     return `${pathD} L ${lastPoint.x} ${chartHeight - 15} L ${points[0].x} ${chartHeight - 15} Z`;
   }, [pathD, points]);
 
+  const BRAND_VEHICLE_COLORS = useMemo(() => ({
+    Sedan: "#42235e",
+    SUV: "#6c349c",
+    Luxury: "#bc9b6a",
+    Sports: "#8e5ab5",
+    Others: "#240f35",
+  }), []);
+
   // Vehicle type distribution with real-time support
   const defaultVehicleTypes = useMemo(() => [
     { label: "Sedan", percentage: 48, color: "#42235e", count: 60 },
-    { label: "SUV", percentage: 28, color: "#5b2f82", count: 35 },
-    { label: "Luxury", percentage: 12, color: "#7e47a8", count: 15 },
-    { label: "Sports", percentage: 7, color: "#bc9b6a", count: 9 },
-    { label: "Others", percentage: 5, color: "#420815", count: 5 },
+    { label: "SUV", percentage: 28, color: "#6c349c", count: 35 },
+    { label: "Luxury", percentage: 12, color: "#bc9b6a", count: 15 },
+    { label: "Sports", percentage: 7, color: "#8e5ab5", count: 9 },
+    { label: "Others", percentage: 5, color: "#240f35", count: 5 },
   ], []);
 
   const vehicleTypes = useMemo(() => {
@@ -202,11 +210,12 @@ function LuxuryDashboardView({
       const totalCount = analytics.vehicleTypes.reduce((a, b) => a + (b.count || 0), 0);
       return analytics.vehicleTypes.map((t) => ({
         ...t,
+        color: BRAND_VEHICLE_COLORS[t.label] || t.color || "#42235e",
         percentage: totalCount > 0 ? Math.round(((t.count || 0) / totalCount) * 100) : 0,
       }));
     }
     return defaultVehicleTypes;
-  }, [analytics?.vehicleTypes, defaultVehicleTypes]);
+  }, [analytics?.vehicleTypes, defaultVehicleTypes, BRAND_VEHICLE_COLORS]);
 
   const totalDonutCount = useMemo(() => {
     if (analytics?.vehicleTypes && analytics.vehicleTypes.length > 0) {

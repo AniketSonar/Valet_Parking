@@ -613,11 +613,11 @@ const getDashboardAnalytics = async (req, res) => {
     }
 
     const COLORS = {
-      Sedan: "#6b0e24",
-      SUV: "#a82042",
-      Luxury: "#c95b77",
-      Sports: "#dca270",
-      Others: "#420815",
+      Sedan: "#42235e",
+      SUV: "#6c349c",
+      Luxury: "#bc9b6a",
+      Sports: "#8e5ab5",
+      Others: "#240f35",
     };
 
     const vehicleTypes = Object.entries(categoryCounts).map(([label, count]) => ({

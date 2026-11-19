@@ -902,7 +902,7 @@ const ParkingSlots = ({ scope = "manager" }) => {
                     </span>
                   </div>
 
-                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", margin: "0 auto", overflowX: "auto" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", margin: "0 auto", overflowX: "auto", alignItems: "center" }}>
                     {Array.from(
                       { length: Math.ceil(mapFilteredSlots.length / 20) },
                       (_, rowIndex) => mapFilteredSlots.slice(rowIndex * 20, rowIndex * 20 + 20)

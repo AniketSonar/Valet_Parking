@@ -31,6 +31,8 @@ import ParkingReports from "./ParkingReports";
 import ParkingAdminProfile from "./ParkingAdminProfile";
 import ParkingSessions from "./ParkingSessions";
 import IncidentManagement from "./IncidentManagement";
+import Reports from "../admin_dashboard/Reports";
+import AdminNotifications from "../admin_dashboard/AdminNotifications";
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
 import FeedbackManagement from "./FeedbackManagement";
 
@@ -274,9 +276,10 @@ const ParkingAdminDashboard = ({ onLogout }) => {
         return <ParkingHistory />;
 
       // ========================================================
-      // VALET MANAGEMENT
+      // STAFF MANAGEMENT (VIEW-ONLY VALETS IN HOTEL)
       // ========================================================
 
+      case "staff-management":
       case "valet-management":
         return <ValetManagement />;
 
@@ -288,11 +291,29 @@ const ParkingAdminDashboard = ({ onLogout }) => {
         return <ValetPosts />;
 
       // ========================================================
-      // REPORTS
+      // REPORTS (MANAGER, VALET, VEHICLES, REVENUE)
       // ========================================================
 
       case "reports":
-        return <ParkingReports />;
+        return <Reports />;
+
+      // ========================================================
+      // NOTIFICATIONS
+      // ========================================================
+
+      case "notifications":
+        return <AdminNotifications />;
+
+      // ========================================================
+      // SETTINGS / PROFILE
+      // ========================================================
+
+      case "settings":
+        return (
+          <ParkingAdminProfile
+            onLogout={handleLogout}
+          />
+        );
 
       // ========================================================
       // INCIDENT MANAGEMENT

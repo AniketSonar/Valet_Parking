@@ -15,6 +15,7 @@ import {
   MapPinned,
   Bell,
   Settings,
+  KeyRound,
 } from "lucide-react";
 
 /**
@@ -51,15 +52,14 @@ export const parkingAdminConfig = {
   searchPlaceholder: "Search...",
   menu: [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },
+    { id: "staff-management", label: "Staff Management", icon: Users },
     { id: "parking-operations", label: "Parking Operations", icon: CarFront },
-    { id: "valet-management", label: "Valet Management", icon: Users },
-    { id: "valet-positions", label: "Valet Positions", icon: MapPinned },
-    { id: "parking-sessions", label: "Parking Sessions", icon: ClipboardList },
+    { id: "parking-slots", label: "Parking Slots", icon: ParkingSquare },
+    { id: "retrievals", label: "Retrieval Requests", icon: KeyRound },
     { id: "incidents", label: "Incident Management", icon: ShieldAlert },
-    { id: "feedback", label: "Feedback", icon: MessageSquare },
-    { id: "revenue", label: "Revenue", icon: CreditCard },
     { id: "reports", label: "Reports", icon: BarChart3 },
+    { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "settings", label: "Settings", icon: Settings },
   ],
 };
 

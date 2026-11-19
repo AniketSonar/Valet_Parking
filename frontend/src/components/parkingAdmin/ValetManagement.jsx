@@ -341,18 +341,6 @@ function ValetManagement() {
                           >
                             View
                           </button>
-                          {member.role === "valet" && member.is_active && (
-                            <button
-                              className="view-staff-btn"
-                              style={{ background: "#f8eef0", color: "#7a2e41", borderColor: "#f0dce1" }}
-                              onClick={() => {
-                                setAssigningStaff(member);
-                                setSelectedSessionId("");
-                              }}
-                            >
-                              Assign
-                            </button>
-                          )}
                         </div>
                       </td>
                     </tr>
@@ -416,18 +404,6 @@ function ValetManagement() {
 
             <div className="parking-staff-modal-footer">
               <button onClick={() => setSelectedStaff(null)}>Close</button>
-              {selectedStaff.role === "valet" && selectedStaff.availability === "Available" && (
-                <button
-                  className="assign-valet-btn"
-                  onClick={() => {
-                    setAssigningStaff(selectedStaff);
-                    setSelectedStaff(null);
-                    setSelectedSessionId("");
-                  }}
-                >
-                  Assign to Vehicle
-                </button>
-              )}
             </div>
           </div>
         </div>

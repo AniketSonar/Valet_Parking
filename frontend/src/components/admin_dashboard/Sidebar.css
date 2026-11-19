@@ -8,7 +8,9 @@
   box-sizing: border-box;
   padding: 22px 14px 18px;
   margin: 0 0 14px 14px;
-  background: #ffffff;
+  background:
+    url('/sidebar-velvet-full.png') center top / cover no-repeat,
+    linear-gradient(180deg, #42235e 0%, #200d31 100%);
   border: 1px solid rgba(139, 18, 48, 0.12);
   border-radius: 20px;
   box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08);

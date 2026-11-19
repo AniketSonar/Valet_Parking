@@ -20,7 +20,9 @@
 
   flex-shrink: 0;
 
-  background: var(--bg-sidebar, #fdfbfb);
+  background:
+    url('/sidebar-velvet-full.png') center top / cover no-repeat,
+    linear-gradient(180deg, #42235e 0%, #200d31 100%);
 
   color: var(--text-main, #280f15);
 

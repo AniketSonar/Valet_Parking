@@ -893,26 +893,29 @@ const ParkingSlots = ({ scope = "manager" }) => {
             {/* Asphault Road & Parking Floor */}
             <div className="parking-asphalt-floor">
               {slotViewMode === "cinema" ? (
-                /* CINEMA SEAT STYLE SMALL ICON MATRIX */
-                <div style={{ padding: "26px 20px", background: "#18181b", borderRadius: "14px", minHeight: "420px" }}>
-                  <div style={{ textAlign: "center", marginBottom: "24px" }}>
+                /* CINEMA SEAT STYLE SMALL ICON MATRIX — 20 per row */
+                <div style={{ padding: "20px 16px", background: "#18181b", borderRadius: "14px", minHeight: "420px" }}>
+                  <div style={{ textAlign: "center", marginBottom: "18px" }}>
                     <div style={{ height: "4px", width: "65%", margin: "0 auto 8px", background: "linear-gradient(90deg, transparent, #eab308, transparent)", borderRadius: "2px" }} />
                     <span style={{ fontSize: "11px", fontWeight: "800", color: "#eab308", letterSpacing: "0.2em", textTransform: "uppercase" }}>
                       PARKING BAY FRONT / ENTRY SCREEN
                     </span>
                   </div>
 
-                  <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "780px", margin: "0 auto" }}>
-                    {parkingRows.map((rowBays, rowIndex) => {
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", margin: "0 auto", overflowX: "auto" }}>
+                    {Array.from(
+                      { length: Math.ceil(mapFilteredSlots.length / 20) },
+                      (_, rowIndex) => mapFilteredSlots.slice(rowIndex * 20, rowIndex * 20 + 20)
+                    ).map((rowBays, rowIndex) => {
                       const rowLetter = String.fromCharCode(65 + (rowIndex % 26));
                       return (
-                        <div key={`cinema-row-${rowIndex}`} style={{ display: "flex", alignItems: "center", gap: "12px", justifyContent: "center" }}>
-                          <span style={{ width: "24px", fontSize: "12px", fontWeight: "800", color: "#a1a1aa", textAlign: "right" }}>
+                        <div key={`cinema-row-${rowIndex}`} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                          <span style={{ width: "18px", fontSize: "10px", fontWeight: "800", color: "#a1a1aa", textAlign: "right", flexShrink: 0 }}>
                             {rowLetter}
                           </span>
 
-                          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", flex: 1 }}>
-                            {rowBays.filter(Boolean).map((slot, sIdx) => {
+                          <div style={{ display: "flex", gap: "4px", flexWrap: "nowrap" }}>
+                            {rowBays.map((slot, sIdx) => {
                               const isOccupied = slot.status === "occupied" || !!slot.assigned_vehicle;
                               const isSelected = selectedSlot?.id === slot.id;
                               const seatBg = isSelected ? "#eab308" : isOccupied ? "#dc2626" : "#16a34a";
@@ -924,32 +927,30 @@ const ParkingSlots = ({ scope = "manager" }) => {
                                   onClick={() => handleSlotClick(slot)}
                                   title={`${slot.slot_number} - ${isOccupied ? "Occupied" : "Free"}${slot.assigned_vehicle ? ` (${slot.assigned_vehicle})` : ""}`}
                                   style={{
-                                    width: "28px",
-                                    height: "26px",
-                                    borderRadius: "4px 4px 2px 2px",
+                                    width: "20px",
+                                    height: "18px",
+                                    borderRadius: "3px 3px 2px 2px",
                                     border: isSelected ? "2px solid #ffffff" : "1px solid rgba(255,255,255,0.15)",
                                     background: seatBg,
                                     color: "#ffffff",
-                                    fontSize: "9px",
+                                    fontSize: "7px",
                                     fontWeight: "800",
                                     cursor: "pointer",
                                     display: "flex",
-                                    flexDirection: "column",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    boxShadow: isSelected ? "0 0 10px #eab308" : "0 2px 4px rgba(0,0,0,0.5)",
+                                    boxShadow: isSelected ? "0 0 8px #eab308" : "0 1px 3px rgba(0,0,0,0.5)",
                                     transition: "all 0.15s ease",
-                                    position: "relative"
+                                    flexShrink: 0
                                   }}
                                 >
-                                  <span>{sIdx + 1}</span>
-                                  <div style={{ width: "16px", height: "2px", background: "rgba(255,255,255,0.4)", borderRadius: "1px", marginTop: "2px" }} />
+                                  {sIdx + 1}
                                 </button>
                               );
                             })}
                           </div>
 
-                          <span style={{ width: "24px", fontSize: "12px", fontWeight: "800", color: "#a1a1aa", textAlign: "left" }}>
+                          <span style={{ width: "18px", fontSize: "10px", fontWeight: "800", color: "#a1a1aa", textAlign: "left", flexShrink: 0 }}>
                             {rowLetter}
                           </span>
                         </div>

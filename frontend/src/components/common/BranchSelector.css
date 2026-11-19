@@ -1,0 +1,163 @@
+/* Branch Selector Styles - Visible pill & card layout */
+.branch-selector-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.branch-selector-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #8b1230;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.branch-selector-icon {
+  color: #8b1230;
+}
+
+.branch-selector-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Individual Pill Button */
+.branch-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 9999px;
+  border: 1.5px solid #fad2d9;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.branch-pill:hover {
+  background: #fdf2f4;
+  border-color: #f29bb0;
+  color: #8b1230;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(139, 18, 48, 0.12);
+}
+
+.branch-pill.active {
+  background: linear-gradient(135deg, #6b0e24 0%, #8b1230 50%, #a82042 100%);
+  border-color: #dfb76c;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(139, 18, 48, 0.35);
+  transform: translateY(-1px);
+}
+
+.branch-pill-icon {
+  color: #8b1230;
+  transition: color 0.2s;
+}
+
+.branch-pill.active .branch-pill-icon {
+  color: #dfb76c;
+}
+
+.branch-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  transition: all 0.2s;
+}
+
+.branch-status-dot.active {
+  background: #dfb76c;
+  box-shadow: 0 0 6px rgba(223, 183, 108, 0.8);
+}
+
+.branch-pill-name {
+  font-weight: 600;
+}
+
+.branch-pill-location {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.8;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.branch-pill.active .branch-pill-location {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.branch-pill-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: #fbeff2;
+  color: #8b1230;
+}
+
+.branch-pill.active .branch-pill-count {
+  background: #dfb76c;
+  color: #3b0714;
+}
+
+.branch-selector-empty {
+  font-size: 12px;
+  font-style: italic;
+  color: #9ca3af;
+}
+
+/* Size: Small */
+.branch-selector-sm .branch-pill {
+  padding: 5px 10px;
+  font-size: 12px;
+  gap: 6px;
+}
+
+.branch-selector-sm .branch-selector-title {
+  font-size: 12px;
+}
+
+/* Variant: Cards layout (for prominent dashboard hero display) */
+.branch-selector-cards {
+  width: 100%;
+}
+
+.branch-selector-cards .branch-selector-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.branch-selector-cards .branch-pill {
+  border-radius: 12px;
+  padding: 10px 14px;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .branch-selector-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

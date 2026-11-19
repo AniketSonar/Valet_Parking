@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import "./css/VehicleOperations.css";
 import apiClient from "../../api/apiClient";
 import { getBuildings } from "../../api/areaApi";
+import BranchSelector from "../common/BranchSelector";
 
 import {
   Car,
@@ -744,24 +745,13 @@ function VehiclesOperations({ scope = "manager" }) {
 
           <div className="parking-filters">
             {hotels.length > 0 && (
-              <select
-                className="parking-filter"
-                value={selectedHotel}
-                onChange={(e) => setSelectedHotel(e.target.value)}
-                style={{
-                  fontWeight: "600",
-                  color: "#8b1230",
-                  background: "#fdf2f4",
-                  borderColor: "#fad2d9"
-                }}
-              >
-                <option value="all">All Hotel Branches</option>
-                {hotels.map((h) => (
-                  <option key={h.id} value={h.id}>
-                    {h.building_name} {h.location ? `(${h.location})` : ""}
-                  </option>
-                ))}
-              </select>
+              <BranchSelector
+                hotels={hotels}
+                selectedHotel={selectedHotel}
+                onSelectHotel={setSelectedHotel}
+                allLabel="All Branches"
+                size="sm"
+              />
             )}
 
             <select

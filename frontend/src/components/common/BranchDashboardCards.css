@@ -1,0 +1,274 @@
+/* ================================================================
+   BRANCH DASHBOARD CARDS (SIDE BY SIDE INDIVIDUAL BRANCHES)
+   ================================================================ */
+
+.branch-cards-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.branch-cards-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.branch-cards-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.branch-cards-title-icon {
+  color: #8b1230;
+}
+
+.branch-cards-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #4a0817;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.branch-cards-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8b1230;
+  background: #fdf2f4;
+  border: 1px solid #fad2d9;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+.branch-cards-sub {
+  font-size: 13px;
+  color: #78716c;
+  margin: 0;
+}
+
+/* ================================================================
+   SIDE BY SIDE GRID LAYOUT
+   ================================================================ */
+
+.branch-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+/* Individual Branch Card */
+.branch-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1.5px solid #ebdcd5;
+  padding: 18px 20px 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(60, 10, 20, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  user-select: none;
+}
+
+.branch-card:hover {
+  transform: translateY(-3px);
+  border-color: #dfb76c;
+  box-shadow: 0 10px 28px rgba(139, 18, 48, 0.12);
+}
+
+/* Active Selected Card */
+.branch-card.active {
+  background: linear-gradient(145deg, #ffffff 0%, #fff9f6 100%);
+  border: 2px solid #8b1230;
+  box-shadow: 0 10px 30px rgba(139, 18, 48, 0.16);
+  transform: translateY(-2px);
+}
+
+.branch-card.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #dfb76c, #8b1230, #dfb76c);
+}
+
+/* Top bar of Card */
+.branch-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.branch-card-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fdf2f4 0%, #fad2d9 100%);
+  color: #8b1230;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.branch-card.active .branch-card-icon-wrap {
+  background: linear-gradient(135deg, #6b0e24 0%, #8b1230 100%);
+  color: #dfb76c;
+  box-shadow: 0 4px 12px rgba(139, 18, 48, 0.25);
+}
+
+.branch-card-icon-wrap.all {
+  background: linear-gradient(135deg, #fef7ed 0%, #fdead7 100%);
+  color: #9a3412;
+}
+
+.branch-card.active .branch-card-icon-wrap.all {
+  background: linear-gradient(135deg, #7c2d12 0%, #9a3412 100%);
+  color: #dfb76c;
+}
+
+/* Status badge in card top */
+.branch-status-viewing {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8b1230;
+  background: #fdf2f4;
+  border: 1px solid #fad2d9;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.branch-status-view {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #78716c;
+  background: #f5f5f4;
+  padding: 4px 9px;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.branch-card:hover .branch-status-view {
+  color: #8b1230;
+  background: #fdf2f4;
+}
+
+/* Content */
+.branch-card-content {
+  margin-bottom: 12px;
+}
+
+.branch-card-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1c1917;
+  margin: 0 0 4px 0;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.branch-card.active .branch-card-name {
+  color: #8b1230;
+}
+
+.branch-card-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #78716c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.branch-card-divider {
+  height: 1px;
+  background: #f0e6e2;
+  margin: 6px 0 12px 0;
+}
+
+/* Mini metrics grid */
+.branch-card-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: #fdfbf9;
+  border: 1px solid #f0e6e2;
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+}
+
+.branch-card-metric-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.branch-card-metric-col .metric-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #a89f91;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.branch-card-metric-col .metric-val {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #292524;
+}
+
+.branch-card.active .branch-card-metric-col .metric-val {
+  color: #8b1230;
+}
+
+/* Footer CTA */
+.branch-card-footer {
+  padding-top: 8px;
+  border-top: 1px dashed #f0e6e2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.branch-card-action-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8b1230;
+  transition: all 0.2s;
+}
+
+.branch-card:hover .branch-card-action-text {
+  color: #a82042;
+  padding-left: 2px;
+}
+
+@media (max-width: 640px) {
+  .branch-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}

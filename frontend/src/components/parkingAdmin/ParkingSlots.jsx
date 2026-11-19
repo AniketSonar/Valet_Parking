@@ -30,6 +30,7 @@ import "./css/ParkingSlots.css";
 import apiClient from "../../api/apiClient";
 import { getValetParkingSlots } from "../../api/parkingApi";
 import { getBuildings } from "../../api/areaApi";
+import BranchSelector from "../common/BranchSelector";
 
 /* ==========================================================================
    LIVE ELAPSED DURATION HOOK
@@ -630,29 +631,13 @@ const ParkingSlots = ({ scope = "manager" }) => {
 
         <div className="facility-header-actions" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           {!isValetScope && hotels.length > 0 && (
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fdf2f4", padding: "6px 12px", borderRadius: "10px", border: "1px solid #fad2d9" }}>
-              <Building2 size={16} color="#8b1230" />
-              <select
-                value={selectedHotel}
-                onChange={(e) => setSelectedHotel(e.target.value)}
-                style={{
-                  border: "none",
-                  background: "transparent",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  color: "#8b1230",
-                  outline: "none",
-                  cursor: "pointer",
-                }}
-              >
-                <option value="all">All Hotel Branches</option>
-                {hotels.map((h) => (
-                  <option key={h.id} value={h.id}>
-                    {h.building_name} {h.location ? `(${h.location})` : ""}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <BranchSelector
+              hotels={hotels}
+              selectedHotel={selectedHotel}
+              onSelectHotel={setSelectedHotel}
+              allLabel="All Branches"
+              size="sm"
+            />
           )}
 
           <button

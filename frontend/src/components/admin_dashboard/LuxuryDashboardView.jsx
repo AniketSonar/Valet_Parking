@@ -17,6 +17,7 @@ import {
   Check,
 } from "lucide-react";
 import { getBuildings } from "../../api/areaApi";
+import BranchDashboardCards from "../common/BranchDashboardCards";
 import "./LuxuryDashboardView.css";
 
 function LuxuryDashboardView({
@@ -47,23 +48,8 @@ function LuxuryDashboardView({
 
   const [timeFilter, setTimeFilter] = useState("Today");
   const [showFilterMenu, setShowFilterMenu] = useState(false);
-  const [showHotelMenu, setShowHotelMenu] = useState(false);
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const [activeSegment, setActiveSegment] = useState(null);
-  const hotelMenuRef = useRef(null);
-
-  // Close hotel menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (hotelMenuRef.current && !hotelMenuRef.current.contains(e.target)) {
-        setShowHotelMenu(false);
-      }
-    };
-    if (showHotelMenu) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showHotelMenu]);
 
   const activeHotelLabel = useMemo(() => {
     if (!selectedHotel || selectedHotel === "all") return "All Hotels";
@@ -256,144 +242,127 @@ function LuxuryDashboardView({
           </p>
           <div className="lux-gold-line" />
 
-          {/* Hotel / Branch Filter Row */}
-          <div style={{ marginTop: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
-            <div className="lux-hotel-filter-container" ref={hotelMenuRef} style={{ position: "relative", zIndex: 100 }}>
+          {/* Hotel / Branch Visible Selector (Replaces dropdown - all branches visible) */}
+          <div style={{ marginTop: "16px" }}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              marginBottom: "8px",
+              fontSize: "11.5px",
+              fontWeight: "700",
+              color: "#f6deb5",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase"
+            }}>
+              <Building2 size={14} style={{ color: "#dfb76c" }} />
+              <span>Select Branch Dashboard:</span>
+            </div>
+
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              flexWrap: "wrap"
+            }}>
+              {/* All Branches Button */}
               <button
                 type="button"
-                className="lux-dropdown-pill lux-hotel-pill"
-                onClick={() => setShowHotelMenu((prev) => !prev)}
-                title="Select Hotel Branch"
+                onClick={() => onHotelChange("all")}
                 style={{
-                  cursor: "pointer",
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "10px",
-                  padding: "9px 18px",
-                  borderRadius: "24px",
-                  border: "1.5px solid #dca270",
-                  background: "linear-gradient(135deg, #2a0812 0%, #4a0d1e 100%)",
-                  color: "#f6deb5",
-                  fontWeight: "600",
-                  fontSize: "13px",
-                  boxShadow: "0 4px 14px rgba(40, 5, 15, 0.35)",
-                  transition: "all 0.2s ease"
+                  gap: "8px",
+                  padding: "8px 16px",
+                  borderRadius: "20px",
+                  border: selectedHotel === "all" ? "1.5px solid #dfb76c" : "1.5px solid rgba(220, 162, 112, 0.35)",
+                  background: selectedHotel === "all"
+                    ? "linear-gradient(135deg, #dfb76c 0%, #c89d53 100%)"
+                    : "rgba(255, 255, 255, 0.08)",
+                  color: selectedHotel === "all" ? "#3b0714" : "#f6deb5",
+                  fontWeight: selectedHotel === "all" ? "700" : "600",
+                  fontSize: "12.5px",
+                  cursor: "pointer",
+                  boxShadow: selectedHotel === "all" ? "0 4px 14px rgba(223, 183, 108, 0.4)" : "none",
+                  transition: "all 0.2s ease",
+                  backdropFilter: "blur(4px)"
                 }}
               >
-                <Building2 size={16} style={{ color: "#dfb76c" }} />
-                <span>Branch: <strong style={{ color: "#ffffff", marginLeft: "4px" }}>{activeHotelLabel}</strong></span>
-                <ChevronDown size={14} style={{ color: "#dfb76c", transform: showHotelMenu ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
+                <Building2 size={14} style={{ color: selectedHotel === "all" ? "#3b0714" : "#dfb76c" }} />
+                <span>All Branches</span>
+                {displayHotels.length > 0 && (
+                  <span style={{
+                    fontSize: "10.5px",
+                    fontWeight: "800",
+                    padding: "1px 6px",
+                    borderRadius: "10px",
+                    background: selectedHotel === "all" ? "#3b0714" : "rgba(223, 183, 108, 0.2)",
+                    color: selectedHotel === "all" ? "#f6deb5" : "#dfb76c"
+                  }}>
+                    {displayHotels.length}
+                  </span>
+                )}
               </button>
 
-              {showHotelMenu && (
-                <div
-                  className="lux-filter-menu"
-                  style={{
-                    position: "absolute",
-                    top: "calc(100% + 8px)",
-                    left: 0,
-                    background: "#ffffff",
-                    border: "1.5px solid #dfb76c",
-                    borderRadius: "14px",
-                    boxShadow: "0 22px 50px rgba(40, 5, 15, 0.35), 0 4px 14px rgba(0,0,0,0.08)",
-                    padding: "8px",
-                    zIndex: 99999,
-                    minWidth: "270px",
-                    maxHeight: "340px",
-                    overflowY: "auto",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "4px"
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 10px 8px" }}>
-                    <span style={{ fontSize: "10.5px", fontWeight: "800", color: "#8b1230", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                      Select Hotel Branch
-                    </span>
-                    <span style={{ fontSize: "10px", fontWeight: "700", background: "#fbeff2", color: "#8b1230", padding: "2px 7px", borderRadius: "10px" }}>
-                      {displayHotels.length} Branches
-                    </span>
-                  </div>
+              {/* Individual Branch Buttons */}
+              {displayHotels.map((h) => {
+                const name = h.building_name || h.name || "Hotel Branch";
+                const loc = h.location && h.location !== name ? h.location : "";
+                const isSelected = selectedHotel === h.id;
 
+                return (
                   <button
+                    key={h.id}
                     type="button"
-                    onClick={() => {
-                      onHotelChange("all");
-                      setShowHotelMenu(false);
-                    }}
+                    onClick={() => onHotelChange(h.id)}
+                    title={`Click to view ${name} dashboard`}
                     style={{
-                      padding: "10px 12px",
-                      textAlign: "left",
-                      fontSize: "12.5px",
-                      fontWeight: selectedHotel === "all" ? "700" : "500",
-                      color: selectedHotel === "all" ? "#8b1230" : "#2d3748",
-                      backgroundColor: selectedHotel === "all" ? "#fbeff2" : "transparent",
-                      border: "none",
-                      borderRadius: "8px",
-                      cursor: "pointer",
-                      display: "flex",
+                      display: "inline-flex",
                       alignItems: "center",
-                      justifyContent: "space-between",
-                      transition: "background 0.15s"
+                      gap: "7px",
+                      padding: "8px 16px",
+                      borderRadius: "20px",
+                      border: isSelected ? "1.5px solid #dfb76c" : "1.5px solid rgba(220, 162, 112, 0.35)",
+                      background: isSelected
+                        ? "linear-gradient(135deg, #dfb76c 0%, #c89d53 100%)"
+                        : "rgba(255, 255, 255, 0.08)",
+                      color: isSelected ? "#3b0714" : "#f6deb5",
+                      fontWeight: isSelected ? "700" : "600",
+                      fontSize: "12.5px",
+                      cursor: "pointer",
+                      boxShadow: isSelected ? "0 4px 14px rgba(223, 183, 108, 0.4)" : "none",
+                      transition: "all 0.2s ease",
+                      backdropFilter: "blur(4px)"
                     }}
                   >
-                    <span style={{ display: "flex", alignItems: "center", gap: "9px" }}>
-                      <Building2 size={15} style={{ color: selectedHotel === "all" ? "#8b1230" : "#718096" }} />
-                      <span>All Hotels (Combined)</span>
-                    </span>
-                    {selectedHotel === "all" && <Check size={14} style={{ color: "#8b1230" }} />}
+                    <span style={{
+                      width: "7px",
+                      height: "7px",
+                      borderRadius: "50%",
+                      background: isSelected ? "#3b0714" : "#dfb76c",
+                      boxShadow: isSelected ? "none" : "0 0 5px rgba(223, 183, 108, 0.8)"
+                    }} />
+                    <span>{name}</span>
+                    {loc && (
+                      <span style={{
+                        fontSize: "10.5px",
+                        fontWeight: "600",
+                        padding: "1px 6px",
+                        borderRadius: "4px",
+                        background: isSelected ? "rgba(59, 7, 20, 0.15)" : "rgba(255, 255, 255, 0.12)",
+                        color: isSelected ? "#3b0714" : "#f6deb5"
+                      }}>
+                        {loc}
+                      </span>
+                    )}
                   </button>
+                );
+              })}
 
-                  <div style={{ height: "1px", background: "#ebdcd5", margin: "4px 0" }} />
-
-                  {displayHotels.length === 0 ? (
-                    <div style={{ padding: "10px 12px", fontSize: "12px", color: "#8a5862", fontStyle: "italic" }}>
-                      Loading hotel branches...
-                    </div>
-                  ) : (
-                    displayHotels.map((h) => {
-                      const name = h.building_name || h.name || "Hotel Branch";
-                      const loc = h.location && h.location !== name ? h.location : "";
-                      const isSelected = selectedHotel === h.id;
-                      return (
-                        <button
-                          key={h.id}
-                          type="button"
-                          onClick={() => {
-                            onHotelChange(h.id);
-                            setShowHotelMenu(false);
-                          }}
-                          style={{
-                            padding: "9px 12px",
-                            textAlign: "left",
-                            fontSize: "12.5px",
-                            fontWeight: isSelected ? "700" : "500",
-                            color: isSelected ? "#8b1230" : "#2d3748",
-                            backgroundColor: isSelected ? "#fbeff2" : "transparent",
-                            border: "none",
-                            borderRadius: "8px",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            transition: "background 0.15s"
-                          }}
-                        >
-                          <span style={{ display: "flex", alignItems: "center", gap: "9px" }}>
-                            <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: isSelected ? "#8b1230" : "#cbd5e0" }} />
-                            <span>{name}</span>
-                            {loc && (
-                              <span style={{ fontSize: "10.5px", fontWeight: "600", color: "#718096", background: "#edf2f7", padding: "1px 6px", borderRadius: "4px" }}>
-                                {loc}
-                              </span>
-                            )}
-                          </span>
-                          {isSelected && <Check size={14} style={{ color: "#8b1230" }} />}
-                        </button>
-                      );
-                    })
-                  )}
-                </div>
+              {displayHotels.length === 0 && (
+                <span style={{ fontSize: "12px", color: "rgba(246, 222, 181, 0.7)", fontStyle: "italic" }}>
+                  Loading hotel branches...
+                </span>
               )}
             </div>
           </div>
@@ -408,6 +377,18 @@ function LuxuryDashboardView({
           <div className="lux-welcome-overlay" />
         </div>
       </section>
+
+      {/* ========================================================
+          SIDE BY SIDE HOTEL BRANCH CARDS (ALL VISIBLE - CLICK TO VIEW DASHBOARD)
+      ======================================================== */}
+      {displayHotels.length > 0 && (
+        <BranchDashboardCards
+          hotels={displayHotels}
+          selectedHotel={selectedHotel}
+          onSelectHotel={onHotelChange}
+          totalStats={stats}
+        />
+      )}
 
       {/* ========================================================
           2. TOP 4 KPI STAT CARDS (MERGED INTO BANNER WITH LEFT ACCENT)

@@ -28,10 +28,13 @@ import {
 } from "../../api/areaApi";
 import {
   getAllStaff,
+} from "../../api/adminApi";
+import {
   createStaff,
   updateStaff,
   updateStaffStatus,
 } from "../../api/staffApi";
+import BranchSelector from "../common/BranchSelector";
 import "./InfraManagement.css";
 
 export default function InfraManagement() {
@@ -571,30 +574,15 @@ export default function InfraManagement() {
           {/* Controls Bar */}
           <div className="infra-actions-bar">
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}>
-              {/* Hotel Filter */}
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span style={{ fontSize: "13px", fontWeight: "600", color: "#4b5563" }}>Hotel Branch:</span>
-                <select
-                  value={selectedStaffHotel}
-                  onChange={(e) => setSelectedStaffHotel(e.target.value)}
-                  style={{
-                    padding: "9px 14px",
-                    borderRadius: "10px",
-                    border: "1px solid #d1d5db",
-                    fontSize: "13px",
-                    fontWeight: "500",
-                    background: "#fff",
-                    outline: "none",
-                  }}
-                >
-                  <option value="all">All Hotel Branches ({staffList.filter(s => s.role !== 'customer').length})</option>
-                  {hotels.map((h) => (
-                    <option key={h.id} value={h.id}>
-                      {h.building_name} {h.location ? `(${h.location})` : ""}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {/* Hotel Branch Visible Pills (Replaces dropdown) */}
+              <BranchSelector
+                hotels={hotels}
+                selectedHotel={selectedStaffHotel}
+                onSelectHotel={setSelectedStaffHotel}
+                label="Hotel Branch:"
+                allLabel={`All Hotel Branches (${staffList.filter(s => s.role !== 'customer').length})`}
+                size="sm"
+              />
 
               {/* Role Filter */}
               <select

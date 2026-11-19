@@ -16,6 +16,7 @@ import {
 import { getMyNotifications } from "../../api/parkingApi";
 import { getBuildings } from "../../api/areaApi";
 import { useRealtimeSync } from "../../hooks/useRealtimeSync";
+import BranchSelector from "../common/BranchSelector";
 
 export default function AdminNotifications() {
   const [notifications, setNotifications] = useState([]);
@@ -179,30 +180,16 @@ export default function AdminNotifications() {
       {/* Toolbar filters */}
       <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}>
-          {/* Hotel Filter */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fdf2f4", padding: "8px 14px", borderRadius: "10px", border: "1px solid #fad2d9" }}>
-            <Building2 size={16} color="#8b1230" />
-            <select
-              value={selectedHotel}
-              onChange={(e) => setSelectedHotel(e.target.value)}
-              style={{
-                border: "none",
-                background: "transparent",
-                fontSize: "13px",
-                fontWeight: "600",
-                color: "#8b1230",
-                outline: "none",
-                cursor: "pointer",
-              }}
-            >
-              <option value="all">All Hotel Branches</option>
-              {hotels.map((h) => (
-                <option key={h.id} value={h.id}>
-                  {h.building_name} {h.location ? `(${h.location})` : ""}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Hotel Branch Visible Pills (Replaces dropdown) */}
+          {hotels.length > 0 && (
+            <BranchSelector
+              hotels={hotels}
+              selectedHotel={selectedHotel}
+              onSelectHotel={setSelectedHotel}
+              allLabel="All Branches"
+              size="sm"
+            />
+          )}
 
           {/* Type Filter */}
           <select

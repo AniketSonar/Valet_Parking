@@ -26,6 +26,7 @@ import {
     updateIncidentStatus,
 } from "../../api/parkingApi";
 import { getBuildings } from "../../api/areaApi";
+import BranchSelector from "../common/BranchSelector";
 import "./css/IncidentManagement.css";
 
 const INCIDENT_TYPES = [
@@ -373,23 +374,13 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
             <div className="incident-toolbar">
                 <div className="incident-search"><Search size={17} /><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search incidents, tickets, vehicles or reporters..." /></div>
                 {hotels.length > 0 && (
-                    <select
-                        value={selectedHotel}
-                        onChange={(e) => setSelectedHotel(e.target.value)}
-                        style={{
-                            fontWeight: "600",
-                            color: "#8b1230",
-                            background: "#fdf2f4",
-                            borderColor: "#fad2d9",
-                        }}
-                    >
-                        <option value="all">All Hotel Branches</option>
-                        {hotels.map((h) => (
-                            <option key={h.id} value={h.id}>
-                                {h.building_name} {h.location ? `(${h.location})` : ""}
-                            </option>
-                        ))}
-                    </select>
+                    <BranchSelector
+                        hotels={hotels}
+                        selectedHotel={selectedHotel}
+                        onSelectHotel={setSelectedHotel}
+                        allLabel="All Branches"
+                        size="sm"
+                    />
                 )}
                 <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}><option value="all">All statuses</option>{STATUSES.map((status) => <option key={status.value} value={status.value}>{status.label}</option>)}</select>
                 <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}><option value="all">All types</option>{INCIDENT_TYPES.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select>

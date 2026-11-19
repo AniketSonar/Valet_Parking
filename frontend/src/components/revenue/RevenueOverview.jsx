@@ -3,6 +3,7 @@ import { IndianRupee, Loader2, RefreshCw, Building2 } from "lucide-react";
 
 import { getRevenue } from "../../api/adminApi";
 import { getBuildings } from "../../api/areaApi";
+import BranchSelector from "../common/BranchSelector";
 
 import "./css/RevenueOverview.css";
 
@@ -101,29 +102,13 @@ const RevenueOverview = () => {
 
         <div className="revenue-header-actions">
           {hotels.length > 0 && (
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fdf2f4", padding: "6px 12px", borderRadius: "10px", border: "1px solid #fad2d9" }}>
-              <Building2 size={16} color="#8b1230" />
-              <select
-                value={selectedHotel}
-                onChange={(e) => setSelectedHotel(e.target.value)}
-                style={{
-                  border: "none",
-                  background: "transparent",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  color: "#8b1230",
-                  outline: "none",
-                  cursor: "pointer",
-                }}
-              >
-                <option value="all">All Hotel Branches</option>
-                {hotels.map((h) => (
-                  <option key={h.id} value={h.id}>
-                    {h.building_name} {h.location ? `(${h.location})` : ""}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <BranchSelector
+              hotels={hotels}
+              selectedHotel={selectedHotel}
+              onSelectHotel={setSelectedHotel}
+              allLabel="All Branches"
+              size="sm"
+            />
           )}
 
           <div className="revenue-periods" role="tablist">

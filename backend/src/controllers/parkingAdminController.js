@@ -113,13 +113,28 @@ const getParkingAdminDashboard = async (req, res) => {
       (total, payment) => total + Number(payment.total_amount || 0),
       0
     );
-      .eq("status", "returned_completed")
-      .gte("completed_at", startOfDay.toISOString());
 
-    if (todayCompletedReturnsError) throw todayCompletedReturnsError;
+    // Fetch manager's assigned building details
+    let assignedHotel = null;
+    if (scope.buildingId) {
+      const { data: bld } = await supabase
+        .from("parking_buildings")
+        .select("id, building_name, address")
+        .eq("id", scope.buildingId)
+        .maybeSingle();
+      if (bld) {
+        assignedHotel = {
+          ...bld,
+          name: bld.building_name,
+        };
+      }
+    }
 
     return res.status(200).json({
       success: true,
+      hotel: assignedHotel,
+      assigned_hotel_id: scope.buildingId,
+      assigned_hotel_name: assignedHotel?.building_name || null,
       stats: {
         totalSlots: totalSlots || 0,
         availableSlots: availableSlots || 0,
@@ -338,9 +353,32 @@ const getParkingAdminProfile = async (req, res) => {
       });
     }
 
+    let assignedHotel = null;
+    const { data: ma } = await supabase
+      .from("manager_assignments")
+      .select(`
+        floor:parking_floors (
+          id,
+          building:parking_buildings ( id, building_name, address )
+        )
+      `)
+      .eq("manager_id", user.id)
+      .eq("is_active", true)
+      .limit(1)
+      .maybeSingle();
+
+    if (ma?.floor?.building) {
+      assignedHotel = ma.floor.building;
+    }
+
     return res.status(200).json({
       success: true,
-      user
+      user: {
+        ...user,
+        assigned_hotel_id: assignedHotel?.id || null,
+        assigned_hotel_name: assignedHotel?.building_name || null,
+        assigned_hotel: assignedHotel
+      }
     });
   } catch (error) {
     console.error("Get Parking Admin profile error:", error);

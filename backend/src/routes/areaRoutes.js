@@ -7,7 +7,7 @@ const authorizeRoles = require("../middleware/roleMiddleware");
 const router = express.Router();
 
 const superAdmin = [authenticate, authorizeRoles("super_admin")];
-const manager = [authenticate, authorizeRoles("manager", "super_admin")];
+const manager = [authenticate, authorizeRoles("manager", "parking_admin", "super_admin")];
 const valet = [authenticate, authorizeRoles("valet")];
 
 /* Super admin: buildings/hotels, floors, who manages what */

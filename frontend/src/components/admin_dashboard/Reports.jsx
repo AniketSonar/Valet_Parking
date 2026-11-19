@@ -55,14 +55,21 @@ function Reports() {
     getBuildings()
       .then((res) => {
         if (res?.buildings && Array.isArray(res.buildings)) {
-          setHotels(res.buildings);
-          if (isManager && res.buildings.length > 0) {
-            setSelectedHotel(res.buildings[0].id);
+          if (isManager) {
+            const myHotel = currentUser?.assigned_hotel_id
+              ? res.buildings.find((b) => b.id === currentUser.assigned_hotel_id) || res.buildings[0]
+              : res.buildings[0];
+            setHotels(myHotel ? [myHotel] : res.buildings);
+            if (myHotel) {
+              setSelectedHotel(myHotel.id);
+            }
+          } else {
+            setHotels(res.buildings);
           }
         }
       })
       .catch((err) => console.error("Error loading hotels in reports:", err));
-  }, [isManager]);
+  }, [isManager, currentUser?.assigned_hotel_id]);
 
   const loadData = useCallback(async () => {
     try {

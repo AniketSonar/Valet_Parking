@@ -62,8 +62,16 @@ function LuxuryDashboardView({
       const match = rawHotels.filter((h) => h.id === user.assigned_hotel_id);
       if (match.length > 0) return match;
     }
+    if (user?.assigned_hotel_name) {
+      const matchName = rawHotels.filter(
+        (h) => (h.building_name || h.name || "").toLowerCase() === user.assigned_hotel_name.toLowerCase()
+      );
+      if (matchName.length > 0) return matchName;
+    }
+    if (hotels && hotels.length === 1) return hotels;
+    if (rawHotels.length === 1) return rawHotels;
     return rawHotels.slice(0, 1);
-  }, [rawHotels, isManager, user?.assigned_hotel_id]);
+  }, [rawHotels, hotels, isManager, user?.assigned_hotel_id, user?.assigned_hotel_name]);
 
   // If user is a branch manager, auto-select their branch if 'all' is selected
   useEffect(() => {
@@ -80,10 +88,15 @@ function LuxuryDashboardView({
   const [activeSegment, setActiveSegment] = useState(null);
 
   const activeHotelLabel = useMemo(() => {
-    if (!selectedHotel || selectedHotel === "all") return "All Hotels";
-    const found = displayHotels.find((h) => h.id === selectedHotel);
-    return found?.building_name || found?.name || "Hotel Branch";
-  }, [selectedHotel, displayHotels]);
+    if (!selectedHotel || selectedHotel === "all") {
+      if (isManager && displayHotels.length > 0) {
+        return displayHotels[0].building_name || displayHotels[0].name || user?.assigned_hotel_name || "Hotel Branch";
+      }
+      return "All Hotels";
+    }
+    const found = displayHotels.find((h) => h.id === selectedHotel) || rawHotels.find((h) => h.id === selectedHotel);
+    return found?.building_name || found?.name || user?.assigned_hotel_name || "Hotel Branch";
+  }, [selectedHotel, displayHotels, rawHotels, isManager, user?.assigned_hotel_name]);
 
   // Extract analytics from either direct prop or stats wrapper
   const analytics = directAnalytics || stats?.analytics || null;

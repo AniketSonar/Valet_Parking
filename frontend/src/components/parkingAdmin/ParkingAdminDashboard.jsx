@@ -76,11 +76,27 @@ const ParkingAdminDashboard = ({ onLogout }) => {
 
   // Load manager's assigned branch on mount
   useEffect(() => {
+    try {
+      const u = JSON.parse(localStorage.getItem("user") || "{}");
+      if (u.assigned_hotel_id) {
+        setSelectedHotel(u.assigned_hotel_id);
+      }
+    } catch {}
+
     getBuildings()
       .then((res) => {
         if (res?.buildings && Array.isArray(res.buildings) && res.buildings.length > 0) {
-          setHotels(res.buildings);
-          setSelectedHotel(res.buildings[0].id);
+          try {
+            const u = JSON.parse(localStorage.getItem("user") || "{}");
+            const myHotel = u.assigned_hotel_id
+              ? res.buildings.find((b) => b.id === u.assigned_hotel_id) || res.buildings[0]
+              : res.buildings[0];
+            setHotels(myHotel ? [myHotel] : res.buildings);
+            setSelectedHotel(myHotel?.id || res.buildings[0].id);
+          } catch {
+            setHotels(res.buildings);
+            setSelectedHotel(res.buildings[0].id);
+          }
         }
       })
       .catch((err) => console.error("Error loading hotel for manager dashboard:", err));
@@ -114,6 +130,27 @@ const ParkingAdminDashboard = ({ onLogout }) => {
             stats.todayCompletedReturns ?? 0,
           todayRevenue: stats.todayRevenue ?? 0,
         });
+
+        // Always sync assigned hotel from backend into state and localStorage
+        if (dashRes.value.hotel || dashRes.value.assigned_hotel_id) {
+          const hotelObj = dashRes.value.hotel || {
+            id: dashRes.value.assigned_hotel_id,
+            building_name: dashRes.value.assigned_hotel_name,
+            name: dashRes.value.assigned_hotel_name,
+          };
+          setHotels([hotelObj]);
+          setSelectedHotel(hotelObj.id);
+
+          try {
+            const curUser = JSON.parse(localStorage.getItem("user") || "{}");
+            if (curUser.assigned_hotel_id !== hotelObj.id) {
+              curUser.assigned_hotel_id = hotelObj.id;
+              curUser.assigned_hotel_name = hotelObj.building_name || hotelObj.name;
+              curUser.assigned_hotel = hotelObj;
+              localStorage.setItem("user", JSON.stringify(curUser));
+            }
+          } catch {}
+        }
       }
 
       if (analyticsRes.status === "fulfilled" && analyticsRes.value?.success) {

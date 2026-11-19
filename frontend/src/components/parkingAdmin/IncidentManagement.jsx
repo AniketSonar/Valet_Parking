@@ -71,9 +71,25 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
     });
 
     useEffect(() => {
+        try {
+            const u = JSON.parse(localStorage.getItem("user") || "{}");
+            if ((u.role === "manager" || u.role === "parking_admin") && u.assigned_hotel_id) {
+                setSelectedHotel(u.assigned_hotel_id);
+            }
+        } catch {}
+
         getBuildings()
             .then((res) => {
-                if (res?.buildings) setHotels(res.buildings);
+                if (res?.buildings) {
+                    try {
+                        const u = JSON.parse(localStorage.getItem("user") || "{}");
+                        if ((u.role === "manager" || u.role === "parking_admin") && u.assigned_hotel_id) {
+                            const myH = res.buildings.find((b) => b.id === u.assigned_hotel_id);
+                            if (myH) setSelectedHotel(myH.id);
+                        }
+                    } catch {}
+                    setHotels(res.buildings);
+                }
             })
             .catch((err) => console.error("Error loading buildings for incidents:", err));
     }, []);

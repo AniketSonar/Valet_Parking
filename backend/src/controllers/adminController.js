@@ -752,6 +752,47 @@ const getDashboardAnalytics = async (req, res) => {
       // ignore
     }
 
+    // 8. Staff breakdown by role
+    let staffBreakdown = { manager: 0, valet: 0, total: 0 };
+    try {
+      let staffQuery = supabase.from("users").select("role, is_active").eq("is_active", true);
+      if (scope.isFiltered && scope.staffUserIds && scope.staffUserIds.length > 0) {
+        staffQuery = staffQuery.in("id", scope.staffUserIds);
+      }
+      const { data: staffRows } = await staffQuery;
+      if (staffRows) {
+        staffRows.forEach((u) => {
+          const r = u.role === "parking_admin" ? "manager" : u.role === "valet" ? "valet" : "other";
+          staffBreakdown[r] = (staffBreakdown[r] || 0) + 1;
+          staffBreakdown.total++;
+        });
+      }
+    } catch { /* ignore */ }
+
+    // 9. Incident breakdown by type + 7-day trend
+    let incidentBreakdown = [];
+    let incidentTrend = [];
+    try {
+      let incQuery = supabase.from("incidents").select("incident_type, status, created_at");
+      if (scope.isFiltered && scope.sessionIds && scope.sessionIds.length > 0) {
+        incQuery = incQuery.in("parking_session_id", scope.sessionIds);
+      }
+      const { data: incRows } = await incQuery;
+      if (incRows) {
+        const byType = {};
+        incRows.forEach((i) => { const t = i.incident_type || "other"; byType[t] = (byType[t] || 0) + 1; });
+        incidentBreakdown = Object.entries(byType).map(([type, count]) => ({ type, count }));
+        const now = new Date();
+        for (let d = 6; d >= 0; d--) {
+          const day = new Date(now); day.setDate(day.getDate() - d);
+          const label = day.toLocaleDateString("en-IN", { weekday: "short" });
+          const dateStr = day.toISOString().slice(0, 10);
+          const count = incRows.filter((i) => i.created_at && i.created_at.slice(0, 10) === dateStr).length;
+          incidentTrend.push({ day: label, count });
+        }
+      }
+    } catch { /* ignore */ }
+
     return res.status(200).json({
       success: true,
       analytics: {
@@ -764,7 +805,10 @@ const getDashboardAnalytics = async (req, res) => {
         weeklyTrend,
         vehicleTypes,
         recentActivity,
-        hotelId: hotelId || "all"
+        hotelId: hotelId || "all",
+        staffBreakdown,
+        incidentBreakdown,
+        incidentTrend,
       },
     });
   } catch (error) {

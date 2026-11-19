@@ -956,6 +956,155 @@ function LuxuryDashboardView({
           </div>
         </div>
       </section>
+
+      {/* ========================================================
+          5. ANALYTICS ROW: STAFF BAR + INCIDENT PIE + INCIDENT TREND
+      ======================================================== */}
+      <section className="lux-staff-incident-row">
+        {/* Staff Breakdown Bar Chart */}
+        <div className="lux-card lux-analytics-card">
+          <div className="lux-card-topbar">
+            <div className="lux-card-title-group">
+              <Users size={18} className="lux-card-header-icon" />
+              <h3>Staff Breakdown</h3>
+            </div>
+          </div>
+          {(() => {
+            const sb = analytics?.staffBreakdown || {};
+            const roles = [
+              { key: "manager", label: "Managers", color: "#42235e" },
+              { key: "valet", label: "Valets", color: "#6c349c" },
+              { key: "other", label: "Others", color: "#bc9b6a" },
+            ];
+            const maxCount = Math.max(...roles.map(r => sb[r.key] || 0), 1);
+            const total = sb.total || 0;
+            return (
+              <div style={{ padding: "10px 0 4px" }}>
+                <div style={{ textAlign: "center", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "28px", fontWeight: "800", color: "#42235e" }}>{total}</span>
+                  <span style={{ fontSize: "12px", color: "#8a757b", display: "block" }}>Active Staff Members</span>
+                </div>
+                {roles.map(r => {
+                  const count = sb[r.key] || 0;
+                  const pct = Math.round((count / maxCount) * 100);
+                  return (
+                    <div key={r.key} style={{ marginBottom: "12px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "4px" }}>
+                        <span style={{ color: "#57534e", fontWeight: "600" }}>{r.label}</span>
+                        <strong style={{ color: r.color }}>{count}</strong>
+                      </div>
+                      <div style={{ height: "8px", background: "#f3edea", borderRadius: "6px", overflow: "hidden" }}>
+                        <div style={{ height: "100%", width: `${pct}%`, background: r.color, borderRadius: "6px", transition: "width 0.5s ease" }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* Incident Pie/Donut Chart */}
+        <div className="lux-card lux-analytics-card">
+          <div className="lux-card-topbar">
+            <div className="lux-card-title-group">
+              <Shield size={18} className="lux-card-header-icon" />
+              <h3>Incidents by Type</h3>
+            </div>
+          </div>
+          {(() => {
+            const breakdown = analytics?.incidentBreakdown || [];
+            const incColors = ["#42235e","#6c349c","#bc9b6a","#8e5ab5","#c9a87a","#240f35"];
+            const total = breakdown.reduce((s, i) => s + i.count, 0);
+            if (total === 0) {
+              return (
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "32px 0", color: "#8a757b", fontSize: "13px" }}>
+                  <Shield size={32} style={{ opacity: 0.25, marginBottom: "8px" }} />
+                  No incidents recorded
+                </div>
+              );
+            }
+            let cumAngle = 0;
+            const slices = breakdown.map((item, idx) => {
+              const angle = (item.count / total) * 360;
+              const startAngle = cumAngle;
+              cumAngle += angle;
+              return { ...item, angle, startAngle, color: incColors[idx % incColors.length] };
+            });
+            const toXY = (cx, cy, r, angleDeg) => {
+              const rad = ((angleDeg - 90) * Math.PI) / 180;
+              return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+            };
+            const cx = 70, cy = 70, r = 55, ir = 32;
+            return (
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", paddingTop: "6px" }}>
+                <svg width="140" height="140" viewBox="0 0 140 140">
+                  {slices.map((sl, idx) => {
+                    const s = toXY(cx, cy, r, sl.startAngle);
+                    const e = toXY(cx, cy, r, sl.startAngle + sl.angle);
+                    const si = toXY(cx, cy, ir, sl.startAngle);
+                    const ei = toXY(cx, cy, ir, sl.startAngle + sl.angle);
+                    const large = sl.angle > 180 ? 1 : 0;
+                    const d = `M ${si.x} ${si.y} L ${s.x} ${s.y} A ${r} ${r} 0 ${large} 1 ${e.x} ${e.y} L ${ei.x} ${ei.y} A ${ir} ${ir} 0 ${large} 0 ${si.x} ${si.y} Z`;
+                    return <path key={idx} d={d} fill={sl.color} opacity={0.9} />;
+                  })}
+                  <text x={cx} y={cy - 6} textAnchor="middle" fontSize="18" fontWeight="800" fill="#42235e">{total}</text>
+                  <text x={cx} y={cy + 10} textAnchor="middle" fontSize="9" fill="#8a757b">TOTAL</text>
+                </svg>
+                <div style={{ flex: 1 }}>
+                  {slices.map((sl, idx) => (
+                    <div key={idx} style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+                      <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: sl.color, flexShrink: 0 }} />
+                      <span style={{ fontSize: "11px", color: "#57534e", flex: 1, textTransform: "capitalize" }}>{sl.type.replace(/_/g," ")}</span>
+                      <strong style={{ fontSize: "11px", color: "#42235e" }}>{sl.count}</strong>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* Incident 7-Day Trend Bar */}
+        <div className="lux-card lux-analytics-card">
+          <div className="lux-card-topbar">
+            <div className="lux-card-title-group">
+              <TrendingUp size={18} className="lux-card-header-icon" />
+              <h3>Incident Trend (7 Days)</h3>
+            </div>
+          </div>
+          {(() => {
+            const trend = analytics?.incidentTrend || [];
+            if (trend.length === 0) {
+              return <div style={{ color: "#8a757b", fontSize: "13px", textAlign: "center", padding: "32px 0" }}>No data</div>;
+            }
+            const maxCount = Math.max(...trend.map(t => t.count), 1);
+            const barW = 28, gap = 10, svgH = 90, labelH = 20;
+            const totalW = trend.length * (barW + gap) - gap + 20;
+            return (
+              <div style={{ overflowX: "auto", paddingTop: "8px" }}>
+                <svg width={totalW} height={svgH + labelH} viewBox={`0 0 ${totalW} ${svgH + labelH}`}>
+                  {trend.map((t, i) => {
+                    const barH = maxCount > 0 ? Math.max(4, Math.round((t.count / maxCount) * svgH)) : 4;
+                    const x = 10 + i * (barW + gap);
+                    const y = svgH - barH;
+                    return (
+                      <g key={i}>
+                        <rect x={x} y={y} width={barW} height={barH} rx={5}
+                          fill={t.count > 0 ? "#6c349c" : "#e9dff4"} opacity={0.85} />
+                        {t.count > 0 && (
+                          <text x={x + barW / 2} y={y - 3} textAnchor="middle" fontSize="10" fontWeight="700" fill="#42235e">{t.count}</text>
+                        )}
+                        <text x={x + barW / 2} y={svgH + 14} textAnchor="middle" fontSize="9.5" fill="#8a757b">{t.day}</text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              </div>
+            );
+          })()}
+        </div>
+      </section>
     </div>
   );
 }

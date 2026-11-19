@@ -623,3 +623,19 @@
     margin-top: 14px;
   }
 }
+
+/* ===== Staff & Incident Analytics Row ===== */
+.lux-staff-incident-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-top: 4px;
+}
+.lux-analytics-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+@media (max-width: 900px) {
+  .lux-staff-incident-row { grid-template-columns: 1fr; }
+}

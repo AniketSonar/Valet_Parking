@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Building2,
   Mail,
@@ -52,6 +52,24 @@ const ParkingAdminProfile = ({ onLogout }) => {
   const [loading, setLoading] = useState(!profile);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
+  const fileInputRef = useRef(null);
+  const getPhotoKey = () => {
+    try { return `profile_photo_${JSON.parse(localStorage.getItem("user") || "{}").email || "manager"}`; }
+    catch { return "profile_photo_manager"; }
+  };
+  const [photo, setPhoto] = useState(() => localStorage.getItem(getPhotoKey()) || null);
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target.result;
+      setPhoto(dataUrl);
+      localStorage.setItem(getPhotoKey(), dataUrl);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const fetchProfile = async (isRefresh = false) => {
     try {
@@ -208,9 +226,16 @@ const ParkingAdminProfile = ({ onLogout }) => {
 
         <div className="profile-main">
 
-          <div className="profile-large-avatar">
-            {loading ? "…" : initials}
+          <div style={{ position: "relative", display: "inline-block", cursor: "pointer" }} onClick={() => fileInputRef.current?.click()} title="Change photo">
+            {photo
+              ? <img src={photo} alt="Profile" style={{ width: 72, height: 72, borderRadius: "50%", objectFit: "cover", border: "3px solid #8b1230" }} />
+              : <div className="profile-large-avatar">{loading ? "â€¦" : initials}</div>
+            }
+            <div style={{ position: "absolute", bottom: 0, right: 0, background: "#8b1230", borderRadius: "50%", width: 22, height: 22, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #fff" }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
           </div>
+          <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handlePhotoChange} />
 
           <div className="profile-main-info">
 
@@ -399,28 +424,6 @@ const ParkingAdminProfile = ({ onLogout }) => {
 
           <div className="security-options">
 
-            <div className="security-option">
-
-              <div className="security-option-icon">
-                <Monitor size={17} />
-              </div>
-
-              <div className="security-option-content">
-                <strong>
-                  Active Web Session
-                </strong>
-
-                <span>
-                  Your current authenticated
-                  application session.
-                </span>
-              </div>
-
-              <span className="session-active">
-                Active
-              </span>
-
-            </div>
 
             <div className="security-option">
 

@@ -630,16 +630,6 @@ const ParkingSlots = ({ scope = "manager" }) => {
         </div>
 
         <div className="facility-header-actions" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          {!isValetScope && hotels.length > 0 && (
-            <BranchSelector
-              hotels={hotels}
-              selectedHotel={selectedHotel}
-              onSelectHotel={setSelectedHotel}
-              allLabel="All Branches"
-              size="sm"
-            />
-          )}
-
           <button
             type="button"
             className="action-btn-secondary"
@@ -652,6 +642,20 @@ const ParkingSlots = ({ scope = "manager" }) => {
           </button>
         </div>
       </header>
+
+      {/* DEDICATED HOTEL BRANCH FILTER ROW */}
+      {!isValetScope && hotels.length > 0 && (
+        <div style={{ background: "#ffffff", padding: "14px 20px", borderRadius: "14px", border: "1px solid #f1e4e6", margin: "16px 0 20px" }}>
+          <BranchSelector
+            hotels={hotels}
+            selectedHotel={selectedHotel}
+            onSelectHotel={setSelectedHotel}
+            label="Hotel Branch:"
+            allLabel="All Branches"
+            size="sm"
+          />
+        </div>
+      )}
 
       {/* ===================================================================
           2. TOP KPI SUMMARY STATS CARDS

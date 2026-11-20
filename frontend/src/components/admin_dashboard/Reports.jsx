@@ -174,18 +174,21 @@ function Reports() {
           </p>
         </div>
 
-        <div className="reports-controls" style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", width: "100%" }}>
-          {/* Hotel Filter (Replaced dropdown with visible pills) */}
-          {hotels.length > 0 && (
+        {/* Dedicated Hotel Branch Filter Row */}
+        {hotels.length > 0 && (
+          <div style={{ background: "#ffffff", padding: "14px 20px", borderRadius: "14px", border: "1px solid #f1e4e6", margin: "16px 0", width: "100%" }}>
             <BranchSelector
               hotels={hotels}
               selectedHotel={selectedHotel}
               onSelectHotel={setSelectedHotel}
+              label="Hotel Branch:"
               allLabel="All Hotels Combined"
               size="sm"
             />
-          )}
+          </div>
+        )}
 
+        <div className="reports-controls" style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", width: "100%" }}>
           {/* Period selector */}
           <div className="date-range">
             <span className="range-icon">◷</span>

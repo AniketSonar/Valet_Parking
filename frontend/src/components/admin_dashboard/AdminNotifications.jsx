@@ -177,20 +177,23 @@ export default function AdminNotifications() {
         </div>
       </div>
 
+      {/* Dedicated Hotel Branch Filter Row */}
+      {hotels.length > 0 && (
+        <div style={{ background: "#ffffff", padding: "14px 20px", borderRadius: "14px", border: "1px solid #f1e4e6", marginBottom: "16px" }}>
+          <BranchSelector
+            hotels={hotels}
+            selectedHotel={selectedHotel}
+            onSelectHotel={setSelectedHotel}
+            label="Hotel Branch:"
+            allLabel="All Branches"
+            size="sm"
+          />
+        </div>
+      )}
+
       {/* Toolbar filters */}
       <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}>
-          {/* Hotel Branch Visible Pills (Replaces dropdown) */}
-          {hotels.length > 0 && (
-            <BranchSelector
-              hotels={hotels}
-              selectedHotel={selectedHotel}
-              onSelectHotel={setSelectedHotel}
-              allLabel="All Branches"
-              size="sm"
-            />
-          )}
-
           {/* Type Filter */}
           <select
             value={typeFilter}

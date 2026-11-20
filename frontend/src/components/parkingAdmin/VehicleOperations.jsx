@@ -717,6 +717,22 @@ function VehiclesOperations({ scope = "manager" }) {
       </div>
 
       {/* ======================================================
+          DEDICATED HOTEL BRANCH FILTER ROW
+      ====================================================== */}
+      {hotels.length > 0 && (
+        <div style={{ background: "#ffffff", padding: "14px 20px", borderRadius: "14px", border: "1px solid #f1e4e6", margin: "16px 0" }}>
+          <BranchSelector
+            hotels={hotels}
+            selectedHotel={selectedHotel}
+            onSelectHotel={setSelectedHotel}
+            label="Hotel Branch:"
+            allLabel="All Branches"
+            size="sm"
+          />
+        </div>
+      )}
+
+      {/* ======================================================
           TABLE
       ====================================================== */}
 
@@ -744,15 +760,6 @@ function VehiclesOperations({ scope = "manager" }) {
           </div>
 
           <div className="parking-filters">
-            {hotels.length > 0 && (
-              <BranchSelector
-                hotels={hotels}
-                selectedHotel={selectedHotel}
-                onSelectHotel={setSelectedHotel}
-                allLabel="All Branches"
-                size="sm"
-              />
-            )}
 
             <select
               className="parking-filter"

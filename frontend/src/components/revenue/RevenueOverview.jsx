@@ -101,16 +101,6 @@ const RevenueOverview = () => {
         </div>
 
         <div className="revenue-header-actions">
-          {hotels.length > 0 && (
-            <BranchSelector
-              hotels={hotels}
-              selectedHotel={selectedHotel}
-              onSelectHotel={setSelectedHotel}
-              allLabel="All Branches"
-              size="sm"
-            />
-          )}
-
           <div className="revenue-periods" role="tablist">
             {PERIODS.map((period) => (
               <button
@@ -137,6 +127,20 @@ const RevenueOverview = () => {
           </button>
         </div>
       </div>
+
+      {/* Dedicated Hotel Branch Filter Row */}
+      {hotels.length > 0 && (
+        <div style={{ background: "#ffffff", padding: "14px 20px", borderRadius: "14px", border: "1px solid #f1e4e6", margin: "16px 0" }}>
+          <BranchSelector
+            hotels={hotels}
+            selectedHotel={selectedHotel}
+            onSelectHotel={setSelectedHotel}
+            label="Hotel Branch:"
+            allLabel="All Branches"
+            size="sm"
+          />
+        </div>
+      )}
 
       {error && <div className="revenue-error">{error}</div>}
 

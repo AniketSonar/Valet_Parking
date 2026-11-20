@@ -3,15 +3,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  min-width: 0;
-}
-
-.branch-selector-wrapper::-webkit-scrollbar {
-  display: none;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .branch-selector-title {
@@ -34,14 +27,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.branch-selector-list::-webkit-scrollbar {
-  display: none;
+  flex-wrap: wrap;
 }
 
 /* Individual Pill Button */

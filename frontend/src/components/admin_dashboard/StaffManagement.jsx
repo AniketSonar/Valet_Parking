@@ -887,101 +887,73 @@ function StaffManagement() {
               className="staff-form"
               onSubmit={handleCreateStaff}
             >
-              <div className="form-group">
-                <label>Full Name</label>
-
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Enter staff name"
-                  disabled={submitting}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Email Address</label>
-
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="staff@example.com"
-                  disabled={submitting}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Password</label>
-
-                <div className="password-input">
+              {/* Row 1: Full Name + Email */}
+              <div className="form-row-2col">
+                <div className="form-group">
+                  <label>Full Name <span className="req">*</span></label>
                   <input
-                    type={
-                      showPassword
-                        ? "text"
-                        : "password"
-                    }
-                    name="password"
-                    value={formData.password}
+                    type="text"
+                    name="name"
+                    value={formData.name}
                     onChange={handleInputChange}
-                    placeholder="Create a secure password"
+                    placeholder="e.g. Rahul Sharma"
                     disabled={submitting}
                   />
+                </div>
+                <div className="form-group">
+                  <label>Email Address <span className="req">*</span></label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="staff@conradpune.com"
+                    disabled={submitting}
+                  />
+                </div>
+              </div>
 
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setShowPassword(
-                        !showPassword
-                      )
-                    }
+              {/* Row 2: Password + Role */}
+              <div className="form-row-2col">
+                <div className="form-group">
+                  <label>Password <span className="req">*</span></label>
+                  <div className="password-input">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      placeholder="Min. 8 characters"
+                      disabled={submitting}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      disabled={submitting}
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Staff Role <span className="req">*</span></label>
+                  <select
+                    name="role"
+                    value={formData.role}
+                    onChange={handleInputChange}
                     disabled={submitting}
                   >
-                    {showPassword
-                      ? "Hide"
-                      : "Show"}
-                  </button>
+                    <option value="" disabled>Select a role</option>
+                    <option value="manager">Manager</option>
+                    <option value="valet">Valet</option>
+                  </select>
                 </div>
-
-                <span className="field-hint">
-                  Use at least 8 characters.
-                </span>
               </div>
 
-              <div className="form-group">
-                <label>Staff Role</label>
-
-                <select
-                  name="role"
-                  value={formData.role}
-                  onChange={handleInputChange}
-                  disabled={submitting}
-                >
-                  <option
-                    value=""
-                    disabled
-                  >
-                    Select a role
-                  </option>
-
-                  <option value="manager">
-                    Manager
-                  </option>
-
-                  <option value="valet">
-                    Valet
-                  </option>
-                </select>
-              </div>
-
+              {/* Row 3: Phone (valet only) — full width */}
               {formData.role === "valet" && (
                 <div className="form-group">
-                  <label>
-                    Phone Number
-                  </label>
-
+                  <label>Phone Number</label>
                   <input
                     type="tel"
                     name="phone"
@@ -992,21 +964,16 @@ function StaffManagement() {
                     inputMode="numeric"
                     disabled={submitting}
                   />
-
-                  <span className="field-hint">
-                    Required for Valet staff management and assignment.
-                  </span>
+                  <span className="field-hint">Required for valet assignment &amp; management.</span>
                 </div>
               )}
 
               <div className="role-info">
-                <div className="role-info-icon">
-                  i
-                </div>
-
+                <div className="role-info-icon">i</div>
                 <p>
-                  Manager accounts manage floors, buildings,
-                  parking systems, and valet assignments.
+                  {formData.role === "manager"
+                    ? <>This staff member will be assigned as the <strong>Dedicated Branch Manager</strong> for the selected hotel branch. They will only see and manage parking operations for that specific branch.</>
+                    : "Manager accounts manage floors, buildings, parking systems, and valet assignments."}
                 </p>
               </div>
 

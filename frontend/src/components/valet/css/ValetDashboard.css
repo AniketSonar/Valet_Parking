@@ -1561,16 +1561,16 @@
 .vd-hero-greeting {
   font-family: "Playfair Display", Georgia, serif;
   font-size: 16px;
-  font-weight: 600;
-  color: #b3832c;
-  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: #c59b27 !important;
+  letter-spacing: 0.6px;
 }
 
 .dash-page-content .vd-hero h1 {
   margin: 2px 0 8px;
   font-size: clamp(2rem, 3vw, 2.9rem);
   line-height: 1.08;
-  color: #42235e;
+  color: #42235e !important;
   text-transform: capitalize;
 }
 
@@ -2131,4 +2131,5 @@
   margin-top: 4px;
   margin-bottom: 8px;
 }
+
 

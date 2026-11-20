@@ -64,7 +64,7 @@
 }
 
 .dash-page-content :is(h1, h2, h3, h4, h5, h6) {
-  color: #4b0918;
+  color: #42235e;
 }
 
 .dash-page-content :is(p, small, label, th) {
@@ -163,3 +163,4 @@ select {
   border-color: #bc9b6a;
   box-shadow: 0 12px 28px rgba(45, 10, 18, 0.1);
 }
+

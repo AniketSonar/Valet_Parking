@@ -826,22 +826,37 @@
    ================================================================ */
 
 .dash-layout {
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  width: 100% !important;
   background: #fbf9f6 !important;
   color: #1c1917 !important;
   align-items: stretch !important;
-  overflow: hidden;
+  overflow: hidden !important;
+  display: flex !important;
 }
 
 /* FLUSH LUXURY VELVET SIDEBAR (MATCHING IMAGE 1) */
 .dash-sidebar {
-  position: sticky !important;
-  top: 0 !important;
+  position: relative !important;
   height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
   margin: 0 !important;
   border-radius: 0 !important;
   width: 270px !important;
+  min-width: 270px !important;
+  max-width: 270px !important;
   padding: 24px 16px 18px !important;
   box-sizing: border-box !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 
   /* Purple silk velvet waves texture for all modules */
   background:
@@ -1158,11 +1173,26 @@
 }
 
 .dash-main {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
   padding: 0 !important;
+  box-sizing: border-box !important;
 }
 
 .dash-page-content {
+  flex: 1 0 auto;
+  width: 100%;
+  min-width: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 @media (max-width: 600px) {

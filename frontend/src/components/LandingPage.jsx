@@ -119,16 +119,11 @@ const LandingPage = () => {
       <nav className="landing-navbar">
         <div className="landing-nav-inner">
           <div className="landing-brand" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}>
-            <img
-              src="/conrad-emblem.png"
-              alt="Conrad Emblem"
-              style={{ width: "38px", height: "38px", borderRadius: "50%", border: "1.5px solid #bc9b6a", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
-            />
             <div style={{ display: "flex", flexDirection: "column" }}>
               <img
                 src="/conrad-logo-gold.png"
                 alt="CONRAD PUNE"
-                style={{ height: "20px", objectFit: "contain" }}
+                style={{ height: "26px", objectFit: "contain" }}
               />
               <span style={{ fontSize: "8.5px", letterSpacing: "2.2px", color: "#bc9b6a", fontWeight: "700", marginTop: "2px" }}>
                 SMART VALET
@@ -685,14 +680,9 @@ const LandingPage = () => {
           <div className="footer-brand">
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
               <img
-                src="/conrad-emblem.png"
-                alt="Conrad Emblem"
-                style={{ width: "42px", height: "42px", borderRadius: "50%", border: "1.5px solid #bc9b6a" }}
-              />
-              <img
                 src="/conrad-logo-gold.png"
                 alt="CONRAD PUNE"
-                style={{ height: "24px", objectFit: "contain" }}
+                style={{ height: "30px", objectFit: "contain" }}
               />
             </div>
             <h3>CONRAD PUNE</h3>

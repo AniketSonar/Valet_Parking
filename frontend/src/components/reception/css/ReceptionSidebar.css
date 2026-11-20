@@ -1,20 +1,25 @@
 ﻿.app-sidebar {
-  width: 260px;
-  height: calc(100vh - 28px);
+  width: 270px;
+  height: 100vh;
   position: sticky;
-  top: 2px;
+  top: 0;
   z-index: 100;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   padding: 22px 14px 18px;
-  margin: 0 0 14px 5px;
+  margin: 0;
   overflow-y: auto;
-  background: #ffffff;
-  color: #280f15;
-  border: 1px solid rgba(139, 18, 48, 0.08);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px -5px rgba(139, 18, 48, 0.08);
+  overflow-x: hidden;
+  flex-shrink: 0;
+  background:
+    url('/sidebar-velvet-full.png') center top / cover no-repeat,
+    linear-gradient(180deg, #42235e 0%, #200d31 100%);
+  color: #ffffff;
+  border: none;
+  border-right: 1px solid rgba(188, 155, 106, 0.28);
+  border-radius: 0;
+  box-shadow: 4px 0 24px rgba(25, 5, 40, 0.45);
 }
 
 .app-brand {

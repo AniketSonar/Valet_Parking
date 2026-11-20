@@ -24,12 +24,12 @@ const ReceptionSidebar = ({ activeTab, setActiveTab, onLogout, collapsed, setCol
     <aside className={`app-sidebar ${collapsed ? "is-collapsed" : ""}`}>
       {/* BRAND */}
       <div className="app-brand">
-        <div className="brand-logo-wrapper">
-          <img src="/valet-logo.svg" alt="Valet Parking" className="brand-logo" />
-        </div>
-        <div className="brand-title">
-          <h2>VALET</h2>
-          <span>RECEPTION DESK</span>
+        <div className="brand-title" style={{ padding: "8px 0" }}>
+          <img
+            src="/conrad-logo-gold.png"
+            alt="CONRAD PUNE"
+            style={{ height: "30px", maxWidth: "180px", objectFit: "contain", filter: "brightness(1.15)" }}
+          />
         </div>
       </div>
 

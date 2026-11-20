@@ -157,27 +157,19 @@ function LoginCard() {
   return (
     <div className="vp-login-wrapper">
       <div className="vp-auth-card">
-        {/* BRAND EMBLEM & WORDMARK */}
-        <div style={{ textAlign: "center", marginBottom: mode === "register" ? "8px" : "16px" }}>
+        {/* BRAND LOGO */}
+        <div style={{ textAlign: "center", marginBottom: mode === "register" ? "8px" : "18px" }}>
           <img
-            src="/conrad-emblem.png"
-            alt="Conrad Pune"
+            src="/conrad-logo-gold.png"
+            alt="CONRAD PUNE"
             style={{
-              width: mode === "register" ? "44px" : "60px",
-              height: mode === "register" ? "44px" : "60px",
-              borderRadius: "50%",
-              boxShadow: "0 4px 14px rgba(66, 35, 94, 0.25)",
-              border: "1.5px solid #bc9b6a",
-              display: "inline-block"
+              height: mode === "register" ? "32px" : "44px",
+              maxWidth: "220px",
+              objectFit: "contain",
+              display: "inline-block",
+              filter: "brightness(1.05)"
             }}
           />
-          <div style={{ marginTop: "4px" }}>
-            <img
-              src="/conrad-logo-gold.png"
-              alt="CONRAD PUNE"
-              style={{ height: mode === "register" ? "18px" : "22px", objectFit: "contain", filter: "brightness(1.05)" }}
-            />
-          </div>
         </div>
 
         {/* CARD HEADER */}

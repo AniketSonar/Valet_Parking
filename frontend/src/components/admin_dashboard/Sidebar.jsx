@@ -43,14 +43,12 @@ function Sidebar({ activePage, setActivePage }) {
       ===================================================== */}
 
       <div className="sidebar-brand">
-
-        <div className="brand-logo-wrapper">
-          <img src="/valet-logo.svg" alt="Valet Parking" className="brand-logo" />
-        </div>
-
-        <div className="sidebar-brand-text">
-          <h2>VALET</h2>
-          <span>PARKING</span>
+        <div className="sidebar-brand-text" style={{ padding: "8px 0" }}>
+          <img
+            src="/conrad-logo-gold.png"
+            alt="CONRAD PUNE"
+            style={{ height: "30px", maxWidth: "180px", objectFit: "contain", filter: "brightness(1.15)" }}
+          />
         </div>
 
         {/* Collapse Button */}

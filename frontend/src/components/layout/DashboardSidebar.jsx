@@ -31,53 +31,35 @@ const DashboardSidebar = ({
       }`}
     >
       {/* ========================================================
-          1. LUXURY CONRAD PUNE BRAND LOGO
+          1. LUXURY CONRAD PUNE BRAND LOGO (OFFICIAL ATTACHED LOGO)
       ======================================================== */}
       <div className="dash-brand">
         {collapsed ? (
           <div className="dash-brand-collapsed-logo" title="CONRAD PUNE">
             <img
-              src="/conrad-emblem.png"
+              src="/conrad-logo-gold.png"
               alt="Conrad Pune"
               style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                boxShadow: "0 3px 10px rgba(0,0,0,0.35)",
-                border: "1.5px solid #bc9b6a"
+                width: "48px",
+                objectFit: "contain",
+                filter: "brightness(1.15)"
               }}
             />
           </div>
         ) : (
           <div className="dash-brand-full">
-            <div className="dash-brand-emblem-wrap" style={{ marginBottom: "6px" }}>
-              <img
-                src="/conrad-emblem.png"
-                alt="Conrad Pune Emblem"
-                style={{
-                  width: "54px",
-                  height: "54px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  boxShadow: "0 4px 14px rgba(0,0,0,0.35)",
-                  border: "1.5px solid #bc9b6a"
-                }}
-              />
-            </div>
-
-            <div className="dash-brand-text-block" style={{ marginTop: "6px" }}>
+            <div className="dash-brand-text-block" style={{ padding: "8px 0 4px" }}>
               <img
                 src="/conrad-logo-gold.png"
                 alt="CONRAD PUNE"
                 style={{
-                  height: "26px",
-                  maxWidth: "175px",
+                  height: "38px",
+                  maxWidth: "205px",
                   objectFit: "contain",
-                  filter: "brightness(1.15)"
+                  filter: "brightness(1.18)"
                 }}
               />
-              <span className="dash-brand-subtitle-gold" style={{ letterSpacing: "2.8px", fontSize: "8.5px", marginTop: "4px", color: "#bc9b6a" }}>
+              <span className="dash-brand-subtitle-gold" style={{ letterSpacing: "3px", fontSize: "8.5px", marginTop: "6px", color: "#bc9b6a", fontWeight: "600" }}>
                 PREMIUM VALET SERVICE
               </span>
             </div>

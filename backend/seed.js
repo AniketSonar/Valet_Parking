@@ -51,7 +51,13 @@ const ACCOUNTS = [
     email: "customer@valet.com",
     role: "customer",
     phone: "+919876543210",
-  }
+  },
+  {
+    name: "Test User",
+    email: "test1@valet.com",
+    role: "valet",
+    phone: "+919000000007",
+  },
 ];
 
 async function seed() {
@@ -183,7 +189,13 @@ async function seed() {
   const { data: existingSlots } = await supabase.from("parking_slots").select("id").limit(1);
   if (!existingSlots || existingSlots.length === 0) {
     console.log("\nSeeding sample parking slots (A-01 to A-10, B-01 to B-10)...");
-    const slots = [];
+    const slots = [  {
+    name: "Test User",
+    email: "test1@valet.com",
+    role: "valet",
+    phone: "+919000000007",
+  },
+];
     for (let i = 1; i <= 10; i++) {
       slots.push({ slot_number: `A-${String(i).padStart(2, "0")}`, parking_type: "car", status: "available" });
       slots.push({ slot_number: `B-${String(i).padStart(2, "0")}`, parking_type: "car", status: "available" });

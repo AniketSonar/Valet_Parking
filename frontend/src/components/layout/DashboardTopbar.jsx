@@ -65,14 +65,9 @@ const DashboardTopbar = ({
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <img
-            src="/conrad-emblem.png"
-            alt="Conrad Pune"
-            style={{ width: "30px", height: "30px", borderRadius: "50%", boxShadow: "0 2px 6px rgba(0,0,0,0.15)", border: "1px solid #bc9b6a" }}
-          />
-          <img
             src="/conrad-logo-gold.png"
             alt="CONRAD PUNE"
-            style={{ height: "16px", objectFit: "contain" }}
+            style={{ height: "22px", objectFit: "contain", filter: "brightness(0.9)" }}
           />
         </div>
       </div>

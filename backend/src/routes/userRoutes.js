@@ -23,7 +23,7 @@ router.post(
 router.get(
   "/",
   authenticate,
-  authorizeRoles("super_admin"),
+  authorizeRoles("super_admin", "manager", "parking_admin"),
   getAllStaff
 );
 

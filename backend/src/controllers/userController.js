@@ -406,6 +406,7 @@ const createStaff = async (req, res) => {
 const getAllStaff = async (req, res) => {
   try {
     const hotelId = req.query.hotelId || req.query.building_id;
+    const roleFilter = req.query.role;
 
     const {
       data: users,
@@ -485,11 +486,13 @@ const getAllStaff = async (req, res) => {
         let post_name = null;
 
         if (user.role === "manager" || user.role === "parking_admin") {
-          const ma = managerAssignments.find((a) => a.manager_id === user.id);
+          const userAssignments = managerAssignments.filter((a) => a.manager_id === user.id);
+          const ma = userAssignments[0];
           if (ma?.floor?.building) {
             hotel_id = ma.floor.building.id;
             hotel_name = ma.floor.building.building_name;
-            floor_name = ma.floor.floor_name;
+            const floorNames = userAssignments.map((a) => a.floor?.floor_name).filter(Boolean);
+            floor_name = floorNames.length > 0 ? floorNames.join(", ") : ma.floor.floor_name;
           }
         } else if (user.role === "valet" && employee_id) {
           const va = valetAssignments.find((a) => a.valet_id === employee_id);
@@ -524,6 +527,14 @@ const getAllStaff = async (req, res) => {
       }
     } else if (hotelId && hotelId !== "all") {
       staff = staff.filter((s) => s.hotel_id === hotelId);
+    }
+
+    if (roleFilter && roleFilter !== "all") {
+      if (roleFilter === "manager") {
+        staff = staff.filter((s) => s.role === "manager" || s.role === "parking_admin");
+      } else {
+        staff = staff.filter((s) => s.role === roleFilter);
+      }
     }
 
     return res.status(200).json({

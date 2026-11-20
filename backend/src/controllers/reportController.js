@@ -675,7 +675,7 @@ const getSystemReports = async (req, res) => {
     }
 
     // 1. Fetch buildings, floors, slots
-    const [bRes, fRes, sRes, sessRes, mgrRes, valRes, empRes] = await Promise.all([
+    const [bRes, fRes, sRes, sessRes, mgrRes, valRes, empRes, mgrUsersRes] = await Promise.all([
       supabase.from("parking_buildings").select("*").order("building_name"),
       supabase.from("parking_floors").select("*, building:parking_buildings(*)"),
       supabase.from("parking_slots").select("id, slot_number, floor_id, status"),
@@ -687,7 +687,7 @@ const getSystemReports = async (req, res) => {
       `).order("checked_in_at", { ascending: false }),
       supabase.from("manager_assignments").select(`
         manager_id, floor_id,
-        manager:users ( id, name, email ),
+        manager:users!manager_assignments_manager_id_fkey ( id, name, email ),
         floor:parking_floors ( id, floor_name, building:parking_buildings ( id, building_name ) )
       `).eq("is_active", true),
       supabase.from("valet_assignments").select(`
@@ -695,7 +695,8 @@ const getSystemReports = async (req, res) => {
         valet:employees ( id, name, phone, email ),
         floor:parking_floors ( id, floor_name, building:parking_buildings ( id, building_name ) )
       `).eq("is_active", true),
-      supabase.from("employees").select("*").eq("role", "valet")
+      supabase.from("employees").select("*").eq("role", "valet"),
+      supabase.from("users").select("id, name, email, role").in("role", ["manager", "parking_admin"])
     ]);
 
     const rawBuildings = bRes.data || [];
@@ -776,20 +777,29 @@ const getSystemReports = async (req, res) => {
     });
 
     // 3. Manager-wise performance
-    const managerPerformance = managerAssignments.map((ma) => {
-      const fl = floors.find((f) => f.id === ma.floor_id);
-      const flSlots = slots.filter((s) => s.floor_id === ma.floor_id);
+    const allManagerUsers = mgrUsersRes?.data || [];
+
+    const managerPerformance = allManagerUsers.map((mu) => {
+      const muAssignments = managerAssignments.filter((ma) => ma.manager_id === mu.id);
+      const assignedFloorIds = new Set(muAssignments.map((ma) => ma.floor_id));
+      const flSlots = slots.filter((s) => assignedFloorIds.has(s.floor_id));
       const slotNumbers = new Set(flSlots.map((s) => s.slot_number));
       const mSessions = allSessions.filter((s) => s.parking_slot && slotNumbers.has(s.parking_slot));
 
+      const firstFloor = muAssignments[0]?.floor;
+      const muHotelId = firstFloor?.building?.id || null;
+      const hotelName = firstFloor?.building?.building_name || "Unassigned";
+      const floorNames = muAssignments.map((ma) => ma.floor?.floor_name).filter(Boolean);
+      const floorDisplay = floorNames.length > 0 ? floorNames.join(", ") : "All Floors";
+
       return {
-        manager_id: ma.manager_id,
-        manager_name: ma.manager?.name || "Manager",
-        name: ma.manager?.name || "Manager",
-        email: ma.manager?.email || "",
-        hotel_id: fl?.building?.id || null,
-        hotel_name: fl?.building?.building_name || "Unassigned",
-        floor_name: fl?.floor_name || "Unassigned",
+        manager_id: mu.id,
+        manager_name: mu.name || "Manager",
+        name: mu.name || "Manager",
+        email: mu.email || "",
+        hotel_id: muHotelId,
+        hotel_name: hotelName,
+        floor_name: floorDisplay,
         slots_managed: flSlots.length,
         total_sessions: mSessions.length,
         active_sessions: mSessions.filter((s) => ["checked_in", "parked", "retrieval_requested", "retrieving"].includes(s.status)).length

@@ -14,7 +14,7 @@ export default function ManagerReport() {
     setLoading(true);
     try {
       const res = await getAllStaff({ role: "manager" });
-      const list = (res?.data || res || []).filter(
+      const list = (res?.users || res?.data || res || []).filter(
         (s) => s.role === "manager" || s.role === "parking_admin"
       );
       setManagers(list);
@@ -150,8 +150,8 @@ export default function ManagerReport() {
                 </td>
                 <td style={{ padding: "12px 16px", color: "#374151" }}>{m.floor_name || "—"}</td>
                 <td style={{ padding: "12px 16px" }}>
-                  <span style={{ padding: "3px 9px", borderRadius: "12px", fontSize: "11px", fontWeight: "700", background: m.employee_is_active !== false ? "#dcfce7" : "#fee2e2", color: m.employee_is_active !== false ? "#15803d" : "#b91c1c" }}>
-                    {m.employee_is_active !== false ? "Active" : "Inactive"}
+                  <span style={{ padding: "3px 9px", borderRadius: "12px", fontSize: "11px", fontWeight: "700", background: m.is_active !== false ? "#dcfce7" : "#fee2e2", color: m.is_active !== false ? "#15803d" : "#b91c1c" }}>
+                    {m.is_active !== false ? "Active" : "Inactive"}
                   </span>
                 </td>
               </tr>

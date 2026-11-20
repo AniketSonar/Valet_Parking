@@ -364,10 +364,10 @@ function LoginCard() {
               />
             </div>
 
-            {/* PHONE & PASSWORD ROW (Side by side for compact layout) */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "8px" }}>
-              <div className="vp-input-field vp-input-field-compact" style={{ marginBottom: 0 }}>
-                <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+            {/* PHONE & PASSWORD ROW */}
+            <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: "8px", marginBottom: "8px", width: "100%" }}>
+              <div className="vp-input-field vp-input-field-compact" style={{ marginBottom: 0, minWidth: 0, width: "100%", overflow: "hidden" }}>
+                <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ flexShrink: 0 }}>
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
                 <input
@@ -375,11 +375,12 @@ function LoginCard() {
                   placeholder="Phone"
                   value={regForm.phone}
                   onChange={(e) => setRegForm({ ...regForm, phone: e.target.value })}
+                  style={{ minWidth: 0, width: "100%" }}
                 />
               </div>
 
-              <div className="vp-input-field vp-input-field-compact" style={{ marginBottom: 0 }}>
-                <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <div className="vp-input-field vp-input-field-compact" style={{ marginBottom: 0, minWidth: 0, width: "100%", overflow: "hidden" }}>
+                <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ flexShrink: 0 }}>
                   <rect x="4" y="10" width="16" height="11" rx="3" />
                   <path d="M7 10V7a5 5 0 0 1 10 0v3" />
                 </svg>
@@ -389,12 +390,13 @@ function LoginCard() {
                   value={regForm.password}
                   onChange={(e) => setRegForm({ ...regForm, password: e.target.value })}
                   required
+                  style={{ minWidth: 0, width: "100%" }}
                 />
               </div>
             </div>
 
             {/* ROLE SELECT & HOTEL BRANCH SELECT ROW */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "8px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: "8px", marginBottom: "8px", width: "100%" }}>
               <div>
                 <label style={{ display: "block", fontSize: "10px", fontWeight: "700", color: "#6b7280", textTransform: "uppercase", marginBottom: "2px" }}>
                   Role *

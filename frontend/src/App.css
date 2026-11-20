@@ -2086,6 +2086,9 @@ a { text-decoration: none; }
   border: 1.5px solid transparent;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
 }
 
 .vp-input-field-compact {
@@ -2126,13 +2129,16 @@ a { text-decoration: none; }
 
 .vp-input-field input {
   flex: 1;
-  min-width: 0;
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
   border: none;
   outline: none;
   background: transparent;
   font-size: 14px;
   color: #18181b;
   font-family: 'Plus Jakarta Sans', sans-serif;
+  box-sizing: border-box;
 }
 
 .vp-input-field input::placeholder {

@@ -287,37 +287,18 @@ function LuxuryDashboardView({
         <div className="lux-welcome-text">
           <span className="lux-welcome-greeting">{greeting}</span>
           <h1 className="lux-welcome-title">Welcome Back!</h1>
-          <p className="lux-welcome-sub">
-            {isManager
-              ? `Viewing live activity and parking metrics for ${activeHotelLabel} (Branch Manager View).`
-              : selectedHotel === "all"
-              ? "Here's what's happening across all hotel branches today."
-              : `Viewing live activity and parking metrics for ${activeHotelLabel}.`}
-          </p>
-          <div className="lux-gold-line" />
 
-          {/* Hotel / Branch Visible Selector (High contrast Dark Purple & Gold pills) */}
-          <div style={{ marginTop: "18px" }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              marginBottom: "10px",
-              fontSize: "12px",
-              fontWeight: "800",
-              color: "#42235e",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase"
-            }}>
-              <Building2 size={15} style={{ color: "#bc9b6a" }} />
-              <span>{isManager ? "My Assigned Hotel Branch:" : "Select Branch Dashboard:"}</span>
-            </div>
-
+          {/* Hotel / Branch Visible Selector (Single Row) */}
+          <div style={{ marginTop: "16px" }}>
             <div style={{
               display: "flex",
               alignItems: "center",
               gap: "10px",
-              flexWrap: "wrap"
+              flexWrap: "nowrap",
+              overflowX: "auto",
+              whiteSpace: "nowrap",
+              paddingBottom: "4px",
+              scrollbarWidth: "none"
             }}>
               {/* All Branches Button (Hidden for Managers - only Super Admin sees All) */}
               {!isManager && (
@@ -330,6 +311,8 @@ function LuxuryDashboardView({
                     gap: "8px",
                     padding: "9px 18px",
                     borderRadius: "24px",
+                    flexShrink: 0,
+                    whiteSpace: "nowrap",
                     border: selectedHotel === "all" ? "2px solid #bc9b6a" : "1.5px solid #d4c2e6",
                     background: selectedHotel === "all"
                       ? "linear-gradient(135deg, #42235e 0%, #28103c 100%)"
@@ -379,6 +362,8 @@ function LuxuryDashboardView({
                       gap: "8px",
                       padding: "9px 18px",
                       borderRadius: "24px",
+                      flexShrink: 0,
+                      whiteSpace: "nowrap",
                       border: isSelected ? "2px solid #bc9b6a" : "1.5px solid #d4c2e6",
                       background: isSelected
                         ? "linear-gradient(135deg, #42235e 0%, #28103c 100%)"

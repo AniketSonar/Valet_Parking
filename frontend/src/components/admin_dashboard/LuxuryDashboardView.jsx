@@ -997,11 +997,11 @@ function LuxuryDashboardView({
           5. ANALYTICS ROW: STAFF BAR + INCIDENT PIE + INCIDENT TREND
       ======================================================== */}
       <section className="lux-staff-incident-row">
-        {/* Staff Breakdown Pie Chart */}
+        {/* Staff Breakdown Bar Chart */}
         <div className="lux-card lux-analytics-card">
           <div className="lux-card-topbar">
             <div className="lux-card-title-group">
-              <PieChart size={18} className="lux-card-header-icon" />
+              <Users size={18} className="lux-card-header-icon" />
               <h3>Staff Breakdown</h3>
             </div>
           </div>
@@ -1009,50 +1009,32 @@ function LuxuryDashboardView({
             const sb = analytics?.staffBreakdown || {};
             const roles = [
               { key: "manager", label: "Managers", color: "#42235e" },
-              { key: "valet", label: "Valets", color: "#bc9b6a" },
-              { key: "other", label: "Others", color: "#6c3a8c" },
+              { key: "valet", label: "Valets", color: "#6c349c" },
+              { key: "other", label: "Others", color: "#bc9b6a" },
             ];
-            const total = sb.total || roles.reduce((sum, r) => sum + (sb[r.key] || 0), 0) || 1;
-            let cumAngle = 0;
-            const slices = roles.map(r => {
-              const count = sb[r.key] || 0;
-              const angle = total > 0 ? (count / total) * 360 : 0;
-              const startAngle = cumAngle;
-              cumAngle += angle;
-              return { ...r, count, angle, startAngle };
-            });
-            const toXY = (cx, cy, rad, angleDeg) => {
-              const a = ((angleDeg - 90) * Math.PI) / 180;
-              return { x: cx + rad * Math.cos(a), y: cy + rad * Math.sin(a) };
-            };
-            const cx = 58, cy = 58, rOut = 46, rIn = 26;
+            const maxCount = Math.max(...roles.map(r => sb[r.key] || 0), 1);
+            const total = sb.total || 0;
             return (
-              <div style={{ display: "flex", alignItems: "center", gap: "14px", paddingTop: "8px" }}>
-                <svg width="116" height="116" viewBox="0 0 116 116">
-                  {slices.map((sl, idx) => {
-                    if (sl.count === 0) return null;
-                    const s = toXY(cx, cy, rOut, sl.startAngle);
-                    const e = toXY(cx, cy, rOut, sl.startAngle + sl.angle);
-                    const si = toXY(cx, cy, rIn, sl.startAngle);
-                    const ei = toXY(cx, cy, rIn, sl.startAngle + sl.angle);
-                    const large = sl.angle > 180 ? 1 : 0;
-                    const d = `M ${si.x} ${si.y} L ${s.x} ${s.y} A ${rOut} ${rOut} 0 ${large} 1 ${e.x} ${e.y} L ${ei.x} ${ei.y} A ${rIn} ${rIn} 0 ${large} 0 ${si.x} ${si.y} Z`;
-                    return <path key={idx} d={d} fill={sl.color} />;
-                  })}
-                  <text x={cx} y={cy - 3} textAnchor="middle" fontSize="16" fontWeight="800" fill="#42235e">{total}</text>
-                  <text x={cx} y={cy + 10} textAnchor="middle" fontSize="8" fontWeight="700" fill="#8a757b">STAFF</text>
-                </svg>
-                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "8px" }}>
-                  {roles.map(r => (
-                    <div key={r.key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "12px" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-                        <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: r.color, flexShrink: 0 }} />
-                        <span style={{ color: "#57534e", fontWeight: "600" }}>{r.label}</span>
-                      </div>
-                      <strong style={{ color: r.color }}>{sb[r.key] || 0}</strong>
-                    </div>
-                  ))}
+              <div style={{ padding: "10px 0 4px" }}>
+                <div style={{ textAlign: "center", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "28px", fontWeight: "800", color: "#42235e" }}>{total}</span>
+                  <span style={{ fontSize: "12px", color: "#8a757b", display: "block" }}>Active Staff Members</span>
                 </div>
+                {roles.map(r => {
+                  const count = sb[r.key] || 0;
+                  const pct = Math.round((count / maxCount) * 100);
+                  return (
+                    <div key={r.key} style={{ marginBottom: "12px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "4px" }}>
+                        <span style={{ color: "#57534e", fontWeight: "600" }}>{r.label}</span>
+                        <strong style={{ color: r.color }}>{count}</strong>
+                      </div>
+                      <div style={{ height: "8px", background: "#f3edea", borderRadius: "6px", overflow: "hidden" }}>
+                        <div style={{ height: "100%", width: `${pct}%`, background: r.color, borderRadius: "6px", transition: "width 0.5s ease" }} />
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             );
           })()}

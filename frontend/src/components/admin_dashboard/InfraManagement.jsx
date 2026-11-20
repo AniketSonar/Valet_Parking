@@ -1136,79 +1136,101 @@ export default function InfraManagement() {
           ======================================================== */}
       {showAddStaffModal && (
         <div className="infra-modal-overlay">
-          <div className="infra-modal">
-            <div className="infra-modal-head">
-              <h3>Add New Staff Member</h3>
+          <div className="infra-modal infra-staff-modal">
+            {/* Purple brand header */}
+            <div className="infra-modal-head infra-modal-head--brand">
+              <div>
+                <p className="infra-modal-eyebrow">STAFF MANAGEMENT</p>
+                <h3>Add New Staff Member</h3>
+                <p className="infra-modal-sub">Create an account and assign a hotel branch.</p>
+              </div>
               <button
                 type="button"
-                className="infra-close-btn"
+                className="infra-close-btn infra-close-btn--light"
                 onClick={() => setShowAddStaffModal(false)}
               >
                 <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleCreateStaff} className="infra-form-grid">
-              <div className="infra-form-group">
-                <label>Full Name *</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Rahul Sharma"
-                  value={staffForm.name}
-                  onChange={(e) => setStaffForm({ ...staffForm, name: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div className="infra-form-group">
-                <label>Email Address *</label>
-                <input
-                  type="email"
-                  placeholder="e.g. rahul@hotel.com"
-                  value={staffForm.email}
-                  onChange={(e) => setStaffForm({ ...staffForm, email: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div className="infra-form-group">
-                <label>Phone Number</label>
-                <input
-                  type="text"
-                  placeholder="+91 9876543210"
-                  value={staffForm.phone}
-                  onChange={(e) => setStaffForm({ ...staffForm, phone: e.target.value })}
-                />
-              </div>
-
-              <div className="infra-form-group">
-                <label>Password *</label>
-                <input
-                  type="password"
-                  placeholder="Minimum 6 characters"
-                  value={staffForm.password}
-                  onChange={(e) => setStaffForm({ ...staffForm, password: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div className="infra-form-group">
-                <label>Role *</label>
-                <select
-                  value={staffForm.role}
-                  onChange={(e) => setStaffForm({ ...staffForm, role: e.target.value })}
-                >
-                  <option value="manager">Manager</option>
-                  <option value="valet">Valet</option>
-                </select>
-              </div>
-
-              {staffForm.role === "manager" && (
-                <div style={{ padding: "8px 12px", background: "#faf5ff", borderRadius: "8px", border: "1px solid #e9d5ff", fontSize: "12px", color: "#6b21a8" }}>
-                  ℹ️ This staff member will be assigned as the <strong>Dedicated Branch Manager</strong> for the selected hotel branch. They will only see and manage parking operations for that specific branch.
+            <form onSubmit={handleCreateStaff} className="infra-staff-form">
+              {/* Row 1: Full Name + Email */}
+              <div className="infra-form-row2">
+                <div className="infra-form-group">
+                  <label>Full Name <span className="infra-req">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Rahul Sharma"
+                    value={staffForm.name}
+                    onChange={(e) => setStaffForm({ ...staffForm, name: e.target.value })}
+                    required
+                  />
                 </div>
-              )}
+                <div className="infra-form-group">
+                  <label>Email Address <span className="infra-req">*</span></label>
+                  <input
+                    type="email"
+                    placeholder="staff@conradpune.com"
+                    value={staffForm.email}
+                    onChange={(e) => setStaffForm({ ...staffForm, email: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
 
+              {/* Row 2: Phone + Password */}
+              <div className="infra-form-row2">
+                <div className="infra-form-group">
+                  <label>Phone Number</label>
+                  <input
+                    type="text"
+                    placeholder="+91 9876543210"
+                    value={staffForm.phone}
+                    onChange={(e) => setStaffForm({ ...staffForm, phone: e.target.value })}
+                  />
+                </div>
+                <div className="infra-form-group">
+                  <label>Password <span className="infra-req">*</span></label>
+                  <input
+                    type="password"
+                    placeholder="Minimum 6 characters"
+                    value={staffForm.password}
+                    onChange={(e) => setStaffForm({ ...staffForm, password: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Row 3: Role + Hotel Branch */}
+              <div className="infra-form-row2">
+                <div className="infra-form-group">
+                  <label>Role <span className="infra-req">*</span></label>
+                  <select
+                    value={staffForm.role}
+                    onChange={(e) => setStaffForm({ ...staffForm, role: e.target.value })}
+                  >
+                    <option value="manager">Manager</option>
+                    <option value="valet">Valet</option>
+                  </select>
+                </div>
+                <div className="infra-form-group">
+                  <label>Assign to Hotel Branch <span className="infra-req">*</span></label>
+                  <select
+                    value={staffForm.hotel_id}
+                    onChange={(e) => setStaffForm({ ...staffForm, hotel_id: e.target.value })}
+                    required
+                  >
+                    <option value="">-- Select Hotel Branch --</option>
+                    {hotels.map((h) => (
+                      <option key={h.id} value={h.id}>
+                        {h.building_name} ({h.location || "City"})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Valet position (conditional) */}
               {staffForm.role === "valet" && (
                 <div className="infra-form-group">
                   <label>Position / Standing Post</label>
@@ -1218,41 +1240,21 @@ export default function InfraManagement() {
                     value={staffForm.position_name}
                     onChange={(e) => setStaffForm({ ...staffForm, position_name: e.target.value })}
                   />
-                  <small style={{ color: "#6b7280", fontSize: "11.5px" }}>
-                    The valet post/position where this staff member will be stationed.
-                  </small>
+                  <small style={{ color: "#6b7280", fontSize: "11.5px" }}>The valet post/position where this staff member will be stationed.</small>
                 </div>
               )}
 
-              <div className="infra-form-group">
-                <label>Assign to Hotel Branch *</label>
-                <select
-                  value={staffForm.hotel_id}
-                  onChange={(e) => setStaffForm({ ...staffForm, hotel_id: e.target.value })}
-                  required
-                >
-                  <option value="">-- Select Hotel Branch --</option>
-                  {hotels.map((h) => (
-                    <option key={h.id} value={h.id}>
-                      {h.building_name} ({h.location || "City"})
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {/* Info box */}
+              {staffForm.role === "manager" && (
+                <div className="infra-role-info">
+                  <span>ℹ️</span>
+                  <p>This staff member will be assigned as the <strong>Dedicated Branch Manager</strong> for the selected hotel branch. They will only see and manage parking operations for that specific branch.</p>
+                </div>
+              )}
 
               <div className="infra-modal-foot">
-                <button
-                  type="button"
-                  className="infra-btn-secondary"
-                  onClick={() => setShowAddStaffModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="infra-btn-primary"
-                  disabled={actionLoading}
-                >
+                <button type="button" className="infra-btn-secondary" onClick={() => setShowAddStaffModal(false)}>Cancel</button>
+                <button type="submit" className="infra-btn-primary" disabled={actionLoading}>
                   {actionLoading ? "Creating..." : "Create & Assign Staff"}
                 </button>
               </div>

@@ -518,6 +518,13 @@
   padding: 28px;
 }
 
+/* Wider modal for staff form */
+.infra-staff-modal {
+  max-width: 700px;
+  padding: 0;
+  overflow: hidden;
+}
+
 .infra-modal-lg {
   max-width: 780px;
 }
@@ -531,31 +538,88 @@
   border-bottom: 1px solid #f1f5f9;
 }
 
-.infra-modal-head h3 {
-  font-size: 19px;
-  font-weight: 700;
-  color: #111827;
+/* Purple brand header for staff modal */
+.infra-modal-head--brand {
+  background: linear-gradient(135deg, #2d0d42 0%, #42235e 100%);
+  border-bottom: none;
+  margin-bottom: 0;
+  padding: 22px 26px 20px;
+  align-items: flex-start;
+  border-radius: 18px 18px 0 0;
+}
+
+.infra-modal-eyebrow {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #bc9b6a;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+
+.infra-modal-head--brand h3 {
+  color: #ffffff !important;
+  font-size: 20px;
   margin: 0;
 }
 
-.infra-close-btn {
-  background: transparent;
-  border: none;
-  color: #9ca3af;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 6px;
+.infra-modal-sub {
+  color: #c9b8d4;
+  font-size: 11px;
+  margin: 4px 0 0;
 }
 
-.infra-close-btn:hover {
-  color: #111827;
-  background: #f3f4f6;
+.infra-close-btn--light {
+  color: rgba(255,255,255,0.7) !important;
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  background: rgba(255,255,255,0.1) !important;
+  border-radius: 8px;
+  padding: 6px;
+}
+.infra-close-btn--light:hover {
+  color: #fff !important;
+  background: rgba(255,255,255,0.2) !important;
 }
 
-.infra-form-grid {
+/* Staff form container */
+.infra-staff-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 24px 26px 26px;
+}
+
+/* Two-column row */
+.infra-form-row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Required asterisk */
+.infra-req {
+  color: #9b2c4a;
+  font-size: 13px;
+  margin-left: 2px;
+}
+
+/* Role info box */
+.infra-role-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #faf5ff;
+  border-radius: 10px;
+  border: 1px solid #e9d5ff;
+  font-size: 12px;
+  color: #6b21a8;
+}
+.infra-role-info p { margin: 0; line-height: 1.5; }
+
+@media (max-width: 600px) {
+  .infra-form-row2 { grid-template-columns: 1fr; }
+  .infra-staff-modal { max-width: 100%; }
 }
 
 .infra-form-group {

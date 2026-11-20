@@ -1,4 +1,4 @@
-.page-eyebrow {
+﻿.page-eyebrow {
   display: block;
 
   margin-bottom: 6px;
@@ -70,7 +70,7 @@
 
   background: var(--bg-card, #ffffff);
 
-  color: var(--text-main, #280f15);
+  color: #42235e;
 
   font-family: inherit;
 
@@ -149,7 +149,7 @@
 .page-empty h3 {
   margin: 12px 0 5px;
 
-  color: var(--text-main, #280f15);
+  color: #42235e;
 
   font-size: 16px;
 }
@@ -185,7 +185,7 @@
   width: 100%;
   max-width: 100%;
   padding: 0;
-  color: var(--text-main, #280f15);
+  color: #42235e;
   box-sizing: border-box;
 }
 
@@ -194,7 +194,7 @@
 .parking-slots-header h1,
 .completed-header h1,
 .profile-header h1 {
-  color: var(--text-main, #280f15);
+  color: #42235e;
   font-size: clamp(1.8rem, 2.5vw, 2.35rem);
   line-height: 1.15;
   font-weight: 800;
@@ -253,7 +253,7 @@
   border: 0;
   outline: 0;
   background: transparent;
-  color: var(--text-main, #280f15);
+  color: #42235e;
   font-family: inherit;
   font-size: 12px;
 }
@@ -326,7 +326,7 @@
 .vehicle-table-row strong,
 .completed-table-row strong {
   display: block;
-  color: var(--text-main, #280f15);
+  color: #42235e;
   font-size: 12px;
 }
 
@@ -411,7 +411,7 @@
 
 .retrieval-card h3 {
   margin: 0;
-  color: var(--text-main, #280f15);
+  color: #42235e;
   font-size: 16px;
 }
 
@@ -443,7 +443,7 @@
 .retrieval-details strong,
 .profile-details strong {
   overflow: hidden;
-  color: var(--text-main, #280f15);
+  color: #42235e;
   font-size: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -487,7 +487,7 @@
 }
 
 .slot-info strong {
-  color: var(--text-main, #280f15);
+  color: #42235e;
   font-size: 14px;
 }
 
@@ -508,7 +508,7 @@
 
 .profile-hero h2 {
   margin: 0;
-  color: var(--text-main, #280f15);
+  color: #42235e;
   font-size: 20px;
 }
 
@@ -622,3 +622,4 @@
 .whatsapp-retrieval-result div { display: grid; flex: 1; min-width: 140px; }
 .whatsapp-retrieval-result span { font-size: 13px; color: #6f6064; }
 .page-success { padding: 10px 12px; border-radius: 10px; background: #e9f8ef; color: #11863f; font-weight: 600; }
+

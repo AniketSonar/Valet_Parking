@@ -155,7 +155,7 @@
   font-size: 9.5px;
   font-weight: 800;
   letter-spacing: 2.1px;
-  color: #948186;
+  color: #b3832c;
   text-transform: uppercase;
 }
 
@@ -2233,8 +2233,13 @@
   }
 
   .staff-eyebrow {
-    font-size: 8.5px;
-  }
+  margin: 0 0 7px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 2.1px;
+  color: #b3832c;
+  text-transform: uppercase;
+}
 
   .staff-page-header p:last-child {
     font-size: 10.5px;

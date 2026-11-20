@@ -41,17 +41,18 @@
 .lux-welcome-greeting {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 15px;
-  font-weight: 500;
-  color: #856a71;
+  font-weight: 600;
+  color: #b3832c;
   display: block;
   margin-bottom: 2px;
+  letter-spacing: 0.5px;
 }
 
 .lux-welcome-title {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(2rem, 2.7vw, 2.85rem);
   font-weight: 700;
-  color: #28103c;
+  color: #42235e;
   margin: 0 0 2px 0;
   line-height: 1.1;
   letter-spacing: -0.01em;

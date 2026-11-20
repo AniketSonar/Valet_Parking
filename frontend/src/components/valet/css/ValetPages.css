@@ -184,7 +184,7 @@
 .valet-profile-page {
   width: 100%;
   max-width: 100%;
-  padding: 10px 6px 20px;
+  padding: 0;
   color: var(--text-main, #280f15);
   box-sizing: border-box;
 }

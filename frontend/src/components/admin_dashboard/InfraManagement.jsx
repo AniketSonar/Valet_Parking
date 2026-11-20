@@ -63,6 +63,7 @@ export default function InfraManagement() {
     location: "",
     address: "",
     manager_id: "",
+    slot_count: 30,
   });
 
   // Configure Infra Modal
@@ -141,11 +142,14 @@ export default function InfraManagement() {
     }
     try {
       setActionLoading(true);
-      const res = await createBuilding(hotelForm);
+      const res = await createBuilding({
+        ...hotelForm,
+        slot_count: Number(hotelForm.slot_count) || 30
+      });
       if (res?.success) {
         showNotification("Hotel branch added successfully.");
         setShowAddHotelModal(false);
-        setHotelForm({ hotel_name: "", location: "", address: "", manager_id: "" });
+        setHotelForm({ hotel_name: "", location: "", address: "", manager_id: "", slot_count: 30 });
         await loadData();
       } else {
         throw new Error(res?.message || "Failed to create hotel.");
@@ -887,6 +891,22 @@ export default function InfraManagement() {
                   value={hotelForm.address}
                   onChange={(e) => setHotelForm({ ...hotelForm, address: e.target.value })}
                 />
+              </div>
+
+              <div className="infra-form-group">
+                <label>Initial Parking Spaces / Slots *</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="500"
+                  placeholder="e.g. 30"
+                  value={hotelForm.slot_count}
+                  onChange={(e) => setHotelForm({ ...hotelForm, slot_count: e.target.value })}
+                  required
+                />
+                <small style={{ color: "#6b7280", fontSize: "11.5px" }}>
+                  Number of parking spaces to automatically generate for this branch. You can further customize levels anytime.
+                </small>
               </div>
 
               <div className="infra-form-group">

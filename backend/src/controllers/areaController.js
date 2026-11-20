@@ -204,17 +204,52 @@ const createBuilding = handle("create building", async (req, res) => {
 
   const { address: cleanAddress, location: parsedLocation } = parseAddressAndLocation(data.address);
 
-  // If a manager was selected for this new branch, assign them to this branch
+  // Always create default Ground Floor and initial parking slots for new hotel branch
   const manager_id = req.body.manager_id;
-  if (manager_id) {
-    try {
-      const { data: defaultFloor } = await supabase
-        .from("parking_floors")
-        .insert([{ building_id: data.id, floor_name: "Ground Floor", floor_number: 0 }])
-        .select()
-        .single();
+  const initialSlots = Number(req.body.slot_count || req.body.total_slots || 30);
+  const hotelPrefix = building_name.replace(/[^a-zA-Z0-9]/g, "").slice(0, 3).toUpperCase() || "BAY";
 
-      if (defaultFloor) {
+  try {
+    const { data: defaultFloor } = await supabase
+      .from("parking_floors")
+      .insert([{ building_id: data.id, floor_name: "Ground Floor", floor_number: 0 }])
+      .select()
+      .single();
+
+    if (defaultFloor) {
+      // 1. Generate initial parking slots if initialSlots > 0
+      if (initialSlots > 0) {
+        const { data: area } = await supabase
+          .from("parking_areas")
+          .insert([{
+            floor_id: defaultFloor.id,
+            block_code: hotelPrefix,
+            start_number: 1,
+            end_number: initialSlots,
+            parking_type: "car",
+            created_by: req.user?.id || null
+          }])
+          .select()
+          .single();
+
+        const padLen = Math.max(2, String(initialSlots).length);
+        const slotRows = [];
+        for (let i = 1; i <= initialSlots; i++) {
+          const numStr = String(i).padStart(padLen, "0");
+          slotRows.push({
+            slot_number: `${hotelPrefix}-${numStr}`,
+            parking_type: "car",
+            status: "available",
+            floor_id: defaultFloor.id,
+            area_id: area?.id || null,
+            created_by: req.user?.id || null
+          });
+        }
+        await supabase.from("parking_slots").insert(slotRows);
+      }
+
+      // 2. Assign manager if selected
+      if (manager_id) {
         await supabase.from("manager_assignments").insert([{
           manager_id,
           floor_id: defaultFloor.id,
@@ -222,9 +257,9 @@ const createBuilding = handle("create building", async (req, res) => {
           is_active: true
         }]);
       }
-    } catch (assignErr) {
-      console.warn("Auto manager assignment on createBuilding warning:", assignErr.message);
     }
+  } catch (initErr) {
+    console.warn("Auto infra initialization on createBuilding warning:", initErr.message);
   }
 
   return res.status(201).json({
@@ -433,14 +468,16 @@ const configureHotel = handle("configure hotel infrastructure", async (req, res)
 
       if (!aErr && area) {
         const padLen = Math.max(2, String(slot_count).length);
+        const hotelPrefix = building.building_name.replace(/[^a-zA-Z0-9]/g, "").slice(0, 3).toUpperCase() || "BAY";
         const slotRows = [];
         for (let i = 1; i <= slot_count; i++) {
           const numStr = String(i).padStart(padLen, "0");
-          // Generate unique slot code: e.g. "B1-01" or "PUNE-B1-01"
-          const code = `${block_code}-${numStr}`;
+          // Generate unique slot code prefixed with hotel to prevent unique constraint conflicts across branches
+          const code = `${hotelPrefix}-${block_code}-${numStr}`;
           slotRows.push({
             slot_number: code,
             parking_type: level.parking_type || "car",
+            status: "available",
             floor_id: floor.id,
             area_id: area.id,
             created_by: req.user.id
@@ -469,6 +506,48 @@ const configureHotel = handle("configure hotel infrastructure", async (req, res)
       floor,
       slots_added: slotsAdded
     });
+  }
+
+  // Ensure all managers associated with this hotel branch are actively assigned to ALL its floors
+  try {
+    const { data: bFloors } = await supabase
+      .from("parking_floors")
+      .select("id")
+      .eq("building_id", building_id);
+
+    const bFloorIds = (bFloors || []).map((f) => f.id);
+    if (bFloorIds.length > 0) {
+      const { data: existingMas } = await supabase
+        .from("manager_assignments")
+        .select("manager_id")
+        .in("floor_id", bFloorIds);
+
+      const managerIds = [...new Set((existingMas || []).map((m) => m.manager_id).filter(Boolean))];
+
+      for (const mId of managerIds) {
+        for (const fId of bFloorIds) {
+          const { data: existing } = await supabase
+            .from("manager_assignments")
+            .select("id")
+            .eq("manager_id", mId)
+            .eq("floor_id", fId)
+            .maybeSingle();
+
+          if (existing) {
+            await supabase.from("manager_assignments").update({ is_active: true }).eq("id", existing.id);
+          } else {
+            await supabase.from("manager_assignments").insert([{
+              manager_id: mId,
+              floor_id: fId,
+              is_active: true,
+              assigned_by: req.user?.id || null
+            }]);
+          }
+        }
+      }
+    }
+  } catch (mErr) {
+    console.warn("Auto manager floor sync warning:", mErr.message);
   }
 
   return res.status(201).json({

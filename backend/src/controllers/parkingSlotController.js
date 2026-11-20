@@ -57,6 +57,19 @@ const getParkingSlots = async (req, res) => {
       scope
     );
 
+    if (hotelId && hotelId !== "all") {
+      const { data: hFloors } = await supabase
+        .from("parking_floors")
+        .select("id")
+        .eq("building_id", hotelId);
+      const hFloorIds = (hFloors || []).map((f) => f.id);
+      if (hFloorIds.length > 0) {
+        slotQuery = slotQuery.in("floor_id", hFloorIds);
+      } else {
+        slotQuery = slotQuery.eq("floor_id", "00000000-0000-0000-0000-000000000000");
+      }
+    }
+
     if (floorId && floorId !== "all") {
       slotQuery = slotQuery.eq("floor_id", floorId);
     }

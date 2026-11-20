@@ -828,6 +828,8 @@
 .dash-layout {
   background: #fbf9f6 !important;
   color: #1c1917 !important;
+  align-items: stretch !important;
+  overflow: hidden;
 }
 
 /* FLUSH LUXURY VELVET SIDEBAR (MATCHING IMAGE 1) */
@@ -1156,11 +1158,11 @@
 }
 
 .dash-main {
-  padding: 0 10px 10px !important;
+  padding: 0 !important;
 }
 
 .dash-page-content {
-  padding-top: 10px;
+  padding: 0;
 }
 
 @media (max-width: 600px) {

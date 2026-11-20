@@ -1,4 +1,4 @@
-﻿.page-eyebrow {
+.page-eyebrow {
   display: block;
 
   margin-bottom: 6px;
@@ -183,9 +183,8 @@
 .completed-page,
 .valet-profile-page {
   width: 100%;
-  max-width: 1500px;
-  margin: 0 auto;
-  padding: 30px 34px 48px;
+  max-width: 100%;
+  padding: 10px 6px 20px;
   color: var(--text-main, #280f15);
   box-sizing: border-box;
 }

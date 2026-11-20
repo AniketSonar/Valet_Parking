@@ -1,11 +1,11 @@
-﻿/* =========================================================
+/* =========================================================
    VALET VALET DASHBOARD
    ========================================================= */
 
 .valet-page {
   min-height: 100vh;
   width: 100%;
-  padding: 30px 34px 40px;
+  padding: 10px 6px 20px;
   background: var(--bg-app, #fbf7f8);
   color: var(--text-main, #23191c);
   box-sizing: border-box;
@@ -1521,8 +1521,8 @@
 
 /* =========================================================
    VALET HOME  -  redesign (matches manager / super admin)
-   Palette: maroon #42235e · deep #28103c · gold #bc9b6a
-            cream #fdfbf8 · ink #1c1917 · muted #78716c
+   Palette: maroon #42235e � deep #28103c � gold #bc9b6a
+            cream #fdfbf8 � ink #1c1917 � muted #78716c
    ========================================================= */
 
 .valet-page {

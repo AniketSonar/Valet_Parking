@@ -207,19 +207,44 @@ export default function InfraManagement() {
   };
 
   // Configure parking levels
-  const openConfigModal = (hotel) => {
+  const openConfigModal = async (hotel) => {
     setConfigHotel(hotel);
-    // Preset standard 3 levels or use existing
-    setConfigLevels([
-      { floor_name: "Basement 1", floor_number: -1, slot_count: 20, block_code: "B1", parking_type: "car" },
-      { floor_name: "Ground Floor", floor_number: 0, slot_count: 30, block_code: "G", parking_type: "car" },
-      { floor_name: "Level 1", floor_number: 1, slot_count: 25, block_code: "L1", parking_type: "car" },
-    ]);
     setShowConfigModal(true);
+    try {
+      const res = await getFloors(hotel.id);
+      if (res?.floors && Array.isArray(res.floors) && res.floors.length > 0) {
+        setConfigLevels(
+          res.floors.map((f) => {
+            const blockCode = (f.floor_name || "L").replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase() || "L1";
+            return {
+              id: f.id,
+              floor_name: f.floor_name,
+              floor_number: f.floor_number ?? 0,
+              slot_count: f.total_slots || 20,
+              block_code: blockCode,
+              parking_type: "car",
+            };
+          })
+        );
+      } else {
+        setConfigLevels([
+          { floor_name: "Basement 1", floor_number: -1, slot_count: 20, block_code: "B1", parking_type: "car" },
+          { floor_name: "Ground Floor", floor_number: 0, slot_count: 30, block_code: "G", parking_type: "car" },
+          { floor_name: "Level 1", floor_number: 1, slot_count: 25, block_code: "L1", parking_type: "car" },
+        ]);
+      }
+    } catch {
+      setConfigLevels([
+        { floor_name: "Basement 1", floor_number: -1, slot_count: 20, block_code: "B1", parking_type: "car" },
+        { floor_name: "Ground Floor", floor_number: 0, slot_count: 30, block_code: "G", parking_type: "car" },
+        { floor_name: "Level 1", floor_number: 1, slot_count: 25, block_code: "L1", parking_type: "car" },
+      ]);
+    }
   };
 
   const addConfigLevelRow = () => {
-    const nextNum = configLevels.length > 0 ? Math.max(...configLevels.map(l => l.floor_number)) + 1 : 1;
+    const validNums = configLevels.map((l) => Number(l.floor_number)).filter((n) => !isNaN(n));
+    const nextNum = validNums.length > 0 ? Math.max(...validNums) + 1 : 1;
     setConfigLevels([
       ...configLevels,
       {

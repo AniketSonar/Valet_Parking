@@ -447,44 +447,82 @@ const configureHotel = handle("configure hotel infrastructure", async (req, res)
         .single();
       if (fErr) throw fErr;
       floor = newFloor;
+    } else if (floor.floor_name !== floor_name) {
+      // Update floor name if changed by user
+      const { data: updatedFloor } = await supabase
+        .from("parking_floors")
+        .update({ floor_name })
+        .eq("id", floor.id)
+        .select()
+        .single();
+      if (updatedFloor) floor = updatedFloor;
     }
 
     // 2. Generate slots if slot_count > 0
     let slotsAdded = 0;
     if (slot_count > 0 && floor?.id) {
-      // Create parking area
-      const { data: area, error: aErr } = await supabase
-        .from("parking_areas")
-        .insert([{
-          floor_id: floor.id,
-          block_code,
-          start_number: 1,
-          end_number: slot_count,
-          parking_type: level.parking_type || "car",
-          created_by: req.user.id
-        }])
-        .select()
-        .single();
+      // Check existing slots on this floor
+      const { data: existingSlots } = await supabase
+        .from("parking_slots")
+        .select("id, slot_number")
+        .eq("floor_id", floor.id);
 
-      if (!aErr && area) {
+      const currentSlots = existingSlots || [];
+      const currentCount = currentSlots.length;
+
+      // Find or create area
+      let { data: area } = await supabase
+        .from("parking_areas")
+        .select("id")
+        .eq("floor_id", floor.id)
+        .maybeSingle();
+
+      if (!area) {
+        const { data: newArea, error: aErr } = await supabase
+          .from("parking_areas")
+          .insert([{
+            floor_id: floor.id,
+            block_code,
+            start_number: 1,
+            end_number: slot_count,
+            parking_type: level.parking_type || "car",
+            created_by: req.user.id
+          }])
+          .select()
+          .single();
+        if (!aErr && newArea) area = newArea;
+      }
+
+      if (slot_count > currentCount) {
+        const slotsNeeded = slot_count - currentCount;
         const padLen = Math.max(2, String(slot_count).length);
         const hotelPrefix = building.building_name.replace(/[^a-zA-Z0-9]/g, "").slice(0, 3).toUpperCase() || "BAY";
         const slotRows = [];
-        for (let i = 1; i <= slot_count; i++) {
-          const numStr = String(i).padStart(padLen, "0");
-          // Generate unique slot code prefixed with hotel to prevent unique constraint conflicts across branches
+
+        // Check highest existing number
+        let maxNum = 0;
+        currentSlots.forEach((s) => {
+          const match = (s.slot_number || "").match(/(\d+)$/);
+          if (match) {
+            const n = parseInt(match[1], 10);
+            if (n > maxNum) maxNum = n;
+          }
+        });
+
+        for (let i = 1; i <= slotsNeeded; i++) {
+          const numStr = String(maxNum + i).padStart(padLen, "0");
           const code = `${hotelPrefix}-${block_code}-${numStr}`;
           slotRows.push({
             slot_number: code,
             parking_type: level.parking_type || "car",
             status: "available",
             floor_id: floor.id,
-            area_id: area.id,
+            area_id: area?.id || null,
             created_by: req.user.id
           });
         }
 
-        // Check clashes
+        // Avoid unique constraint conflicts
         const { data: clash } = await supabase
           .from("parking_slots")
           .select("slot_number")

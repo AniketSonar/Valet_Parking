@@ -6,6 +6,7 @@ import {
   Star,
   TrendingUp,
   BarChart2,
+  PieChart,
   Calendar,
   ChevronDown,
   CheckCircle2,
@@ -859,12 +860,12 @@ function LuxuryDashboardView({
           </div>
         </div>
 
-        {/* Right: Operational Performance & Slot Analysis Card */}
+        {/* Right: Operational Performance & Slot Analysis Card (Pie Chart) */}
         <div className="lux-card lux-analysis-panel" style={{ padding: "20px 22px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <div>
             <div className="lux-card-topbar" style={{ marginBottom: "16px" }}>
               <div className="lux-card-title-group">
-                <BarChart2 size={18} className="lux-card-header-icon" />
+                <PieChart size={18} className="lux-card-header-icon" />
                 <h3>Live Parking Efficiency</h3>
               </div>
               <span style={{ fontSize: "11px", fontWeight: "700", color: "#15803d", background: "#eefbf1", padding: "2px 8px", borderRadius: "10px" }}>
@@ -872,50 +873,108 @@ function LuxuryDashboardView({
               </span>
             </div>
 
-            {/* Quick Metrics Progress Bars */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-              <div>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "4px" }}>
-                  <span style={{ color: "#78716c", fontWeight: "600" }}>Slot Occupancy Rate</span>
-                  <strong style={{ color: "#1c1917" }}>
-                    {kpiActiveParked + kpiEmptySlots > 0
-                      ? Math.round((kpiActiveParked / (kpiActiveParked + kpiEmptySlots)) * 100)
-                      : 0}%
-                  </strong>
-                </div>
-                <div style={{ height: "7px", background: "#f3edea", borderRadius: "6px", overflow: "hidden" }}>
-                  <div
-                    style={{
-                      height: "100%",
-                      width: `${kpiActiveParked + kpiEmptySlots > 0 ? Math.min(100, Math.round((kpiActiveParked / (kpiActiveParked + kpiEmptySlots)) * 100)) : 0}%`,
-                      background: "linear-gradient(90deg, #bc9b6a 0%, #42235e 100%)",
+            {/* Parking Slot Distribution Pie/Donut Chart */}
+            {(() => {
+              const totalSlots = (kpiActiveParked + kpiEmptySlots) || 1;
+              const parkedPct = Math.round((kpiActiveParked / totalSlots) * 100);
+              const availPct = 100 - parkedPct;
+              const r = 46;
+              const c = 2 * Math.PI * r;
+              const parkedOffset = 0;
+              const availOffset = -((parkedPct / 100) * c);
+
+              return (
+                <div style={{ display: "flex", alignItems: "center", gap: "18px", marginBottom: "16px" }}>
+                  {/* SVG Pie Chart */}
+                  <div style={{ position: "relative", width: "115px", height: "115px", flexShrink: 0 }}>
+                    <svg width="115" height="115" viewBox="0 0 115 115" style={{ transform: "rotate(-90deg)" }}>
+                      {/* Background Track */}
+                      <circle cx="57.5" cy="57.5" r={r} fill="none" stroke="#f3edea" strokeWidth="16" />
+                      {/* Available Slots Segment (Gold) */}
+                      <circle
+                        cx="57.5"
+                        cy="57.5"
+                        r={r}
+                        fill="none"
+                        stroke="#bc9b6a"
+                        strokeWidth="16"
+                        strokeDasharray={`${(availPct / 100) * c} ${c}`}
+                        strokeDashoffset={availOffset}
+                        strokeLinecap="butt"
+                      />
+                      {/* Parked Slots Segment (Purple) */}
+                      {parkedPct > 0 && (
+                        <circle
+                          cx="57.5"
+                          cy="57.5"
+                          r={r}
+                          fill="none"
+                          stroke="#42235e"
+                          strokeWidth="16"
+                          strokeDasharray={`${(parkedPct / 100) * c} ${c}`}
+                          strokeDashoffset={parkedOffset}
+                          strokeLinecap="butt"
+                        />
+                      )}
+                    </svg>
+                    {/* Donut Center */}
+                    <div style={{
+                      position: "absolute",
+                      inset: 0,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textAlign: "center"
+                    }}>
+                      <span style={{ fontSize: "17px", fontWeight: "800", color: "#28103c", lineHeight: 1 }}>
+                        {parkedPct}%
+                      </span>
+                      <span style={{ fontSize: "8px", fontWeight: "700", color: "#8a757b", letterSpacing: "0.08em", marginTop: "2px" }}>
+                        OCCUPIED
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Chart Legend */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "12px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                        <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#42235e", flexShrink: 0 }} />
+                        <span style={{ color: "#57534e", fontWeight: "600" }}>Parked</span>
+                      </div>
+                      <strong style={{ color: "#42235e" }}>{kpiActiveParked} ({parkedPct}%)</strong>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "12px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                        <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#bc9b6a", flexShrink: 0 }} />
+                        <span style={{ color: "#57534e", fontWeight: "600" }}>Available</span>
+                      </div>
+                      <strong style={{ color: "#bc9b6a" }}>{kpiEmptySlots} ({availPct}%)</strong>
+                    </div>
+
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      fontSize: "11px",
+                      background: "#fdfbf9",
+                      border: "1px solid #ebdcd5",
                       borderRadius: "6px",
-                      transition: "width 0.4s ease"
-                    }}
-                  />
+                      padding: "4px 8px",
+                      marginTop: "2px"
+                    }}>
+                      <span style={{ color: "#78716c", fontWeight: "500" }}>Target Rate</span>
+                      <strong style={{ color: "#15803d" }}>94% Efficiency</strong>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              );
+            })()}
 
-              <div>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "4px" }}>
-                  <span style={{ color: "#78716c", fontWeight: "600" }}>Valet Turnaround Target</span>
-                  <strong style={{ color: "#1c1917" }}>94% Efficiency</strong>
-                </div>
-                <div style={{ height: "7px", background: "#f3edea", borderRadius: "6px", overflow: "hidden" }}>
-                  <div
-                    style={{
-                      height: "100%",
-                      width: "94%",
-                      background: "linear-gradient(90deg, #15803d 0%, #22c55e 100%)",
-                      borderRadius: "6px"
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* 3 Mini KPI Badges */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "18px" }}>
+            {/* 2 Mini KPI Badges */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
               <div style={{ background: "#fdfbf9", border: "1px solid #ebdcd5", borderRadius: "10px", padding: "10px 12px" }}>
                 <span style={{ fontSize: "11px", color: "#8a757b", display: "block" }}>Avg Retrieval Time</span>
                 <strong style={{ fontSize: "15px", color: "#28103c", fontWeight: "700" }}>4.2 min</strong>
@@ -938,11 +997,11 @@ function LuxuryDashboardView({
           5. ANALYTICS ROW: STAFF BAR + INCIDENT PIE + INCIDENT TREND
       ======================================================== */}
       <section className="lux-staff-incident-row">
-        {/* Staff Breakdown Bar Chart */}
+        {/* Staff Breakdown Pie Chart */}
         <div className="lux-card lux-analytics-card">
           <div className="lux-card-topbar">
             <div className="lux-card-title-group">
-              <Users size={18} className="lux-card-header-icon" />
+              <PieChart size={18} className="lux-card-header-icon" />
               <h3>Staff Breakdown</h3>
             </div>
           </div>
@@ -950,32 +1009,50 @@ function LuxuryDashboardView({
             const sb = analytics?.staffBreakdown || {};
             const roles = [
               { key: "manager", label: "Managers", color: "#42235e" },
-              { key: "valet", label: "Valets", color: "#6c349c" },
-              { key: "other", label: "Others", color: "#bc9b6a" },
+              { key: "valet", label: "Valets", color: "#bc9b6a" },
+              { key: "other", label: "Others", color: "#6c3a8c" },
             ];
-            const maxCount = Math.max(...roles.map(r => sb[r.key] || 0), 1);
-            const total = sb.total || 0;
+            const total = sb.total || roles.reduce((sum, r) => sum + (sb[r.key] || 0), 0) || 1;
+            let cumAngle = 0;
+            const slices = roles.map(r => {
+              const count = sb[r.key] || 0;
+              const angle = total > 0 ? (count / total) * 360 : 0;
+              const startAngle = cumAngle;
+              cumAngle += angle;
+              return { ...r, count, angle, startAngle };
+            });
+            const toXY = (cx, cy, rad, angleDeg) => {
+              const a = ((angleDeg - 90) * Math.PI) / 180;
+              return { x: cx + rad * Math.cos(a), y: cy + rad * Math.sin(a) };
+            };
+            const cx = 58, cy = 58, rOut = 46, rIn = 26;
             return (
-              <div style={{ padding: "10px 0 4px" }}>
-                <div style={{ textAlign: "center", marginBottom: "12px" }}>
-                  <span style={{ fontSize: "28px", fontWeight: "800", color: "#42235e" }}>{total}</span>
-                  <span style={{ fontSize: "12px", color: "#8a757b", display: "block" }}>Active Staff Members</span>
-                </div>
-                {roles.map(r => {
-                  const count = sb[r.key] || 0;
-                  const pct = Math.round((count / maxCount) * 100);
-                  return (
-                    <div key={r.key} style={{ marginBottom: "12px" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "4px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "14px", paddingTop: "8px" }}>
+                <svg width="116" height="116" viewBox="0 0 116 116">
+                  {slices.map((sl, idx) => {
+                    if (sl.count === 0) return null;
+                    const s = toXY(cx, cy, rOut, sl.startAngle);
+                    const e = toXY(cx, cy, rOut, sl.startAngle + sl.angle);
+                    const si = toXY(cx, cy, rIn, sl.startAngle);
+                    const ei = toXY(cx, cy, rIn, sl.startAngle + sl.angle);
+                    const large = sl.angle > 180 ? 1 : 0;
+                    const d = `M ${si.x} ${si.y} L ${s.x} ${s.y} A ${rOut} ${rOut} 0 ${large} 1 ${e.x} ${e.y} L ${ei.x} ${ei.y} A ${rIn} ${rIn} 0 ${large} 0 ${si.x} ${si.y} Z`;
+                    return <path key={idx} d={d} fill={sl.color} />;
+                  })}
+                  <text x={cx} y={cy - 3} textAnchor="middle" fontSize="16" fontWeight="800" fill="#42235e">{total}</text>
+                  <text x={cx} y={cy + 10} textAnchor="middle" fontSize="8" fontWeight="700" fill="#8a757b">STAFF</text>
+                </svg>
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {roles.map(r => (
+                    <div key={r.key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "12px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                        <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: r.color, flexShrink: 0 }} />
                         <span style={{ color: "#57534e", fontWeight: "600" }}>{r.label}</span>
-                        <strong style={{ color: r.color }}>{count}</strong>
                       </div>
-                      <div style={{ height: "8px", background: "#f3edea", borderRadius: "6px", overflow: "hidden" }}>
-                        <div style={{ height: "100%", width: `${pct}%`, background: r.color, borderRadius: "6px", transition: "width 0.5s ease" }} />
-                      </div>
+                      <strong style={{ color: r.color }}>{sb[r.key] || 0}</strong>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
             );
           })()}

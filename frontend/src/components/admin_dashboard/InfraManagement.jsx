@@ -593,17 +593,48 @@ export default function InfraManagement() {
       {activeTab === "staff" && (
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           {/* Controls Bar */}
-          <div className="infra-actions-bar" style={{ flexDirection: "column", alignItems: "stretch", gap: "12px" }}>
-            {/* Row 1: Branch pills — full width */}
-            <div style={{ width: "100%" }}>
-              <BranchSelector
-                hotels={hotels}
-                selectedHotel={selectedStaffHotel}
-                onSelectHotel={setSelectedStaffHotel}
-                label="Hotel Branch:"
-                allLabel={`All Hotel Branches (${staffList.filter(s => s.role !== 'customer').length})`}
-                size="sm"
-              />
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px", background: "#fff", padding: "16px 20px", borderRadius: "14px", border: "1px solid #f1e4e6" }}>
+            {/* Row 1: Branch pills — all visible, wrap if needed */}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+              <span style={{ fontSize: "12px", fontWeight: "700", color: "#42235e", whiteSpace: "nowrap" }}>Hotel Branch:</span>
+              {/* All Branches pill */}
+              <button
+                type="button"
+                onClick={() => setSelectedStaffHotel("all")}
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "6px",
+                  padding: "6px 14px", borderRadius: "9999px", border: "1.5px solid",
+                  borderColor: selectedStaffHotel === "all" ? "#bc9b6a" : "#ebdcf3",
+                  background: selectedStaffHotel === "all" ? "linear-gradient(135deg,#42235e,#5b2f82)" : "#fff",
+                  color: selectedStaffHotel === "all" ? "#fff" : "#4b5563",
+                  fontSize: "12px", fontWeight: "600", cursor: "pointer", whiteSpace: "nowrap"
+                }}
+              >
+                All Branches
+                <span style={{ background: selectedStaffHotel === "all" ? "#bc9b6a" : "#f5edf9", color: selectedStaffHotel === "all" ? "#3b0714" : "#42235e", fontSize: "10px", fontWeight: "700", padding: "1px 6px", borderRadius: "10px" }}>
+                  {hotels.length}
+                </span>
+              </button>
+              {/* Individual hotel pills */}
+              {hotels.map((h) => (
+                <button
+                  key={h.id}
+                  type="button"
+                  onClick={() => setSelectedStaffHotel(h.id)}
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: "6px",
+                    padding: "6px 14px", borderRadius: "9999px", border: "1.5px solid",
+                    borderColor: selectedStaffHotel === h.id ? "#bc9b6a" : "#ebdcf3",
+                    background: selectedStaffHotel === h.id ? "linear-gradient(135deg,#42235e,#5b2f82)" : "#fff",
+                    color: selectedStaffHotel === h.id ? "#fff" : "#4b5563",
+                    fontSize: "12px", fontWeight: "600", cursor: "pointer", whiteSpace: "nowrap"
+                  }}
+                >
+                  <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: selectedStaffHotel === h.id ? "#bc9b6a" : "#cbd5e1", flexShrink: 0 }} />
+                  {h.building_name}
+                  {h.location && <span style={{ fontSize: "10px", opacity: 0.75 }}>{h.location}</span>}
+                </button>
+              ))}
             </div>
 
             {/* Row 2: Role filter + Search + Add button */}

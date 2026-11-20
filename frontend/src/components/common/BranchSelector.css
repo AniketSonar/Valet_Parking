@@ -4,7 +4,14 @@
   align-items: center;
   gap: 10px;
   flex-wrap: nowrap;
-  overflow: hidden;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  min-width: 0;
+}
+
+.branch-selector-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .branch-selector-title {

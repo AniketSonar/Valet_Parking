@@ -387,19 +387,53 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
                 <div className="incident-stat-card"><div className="stat-icon closed"><CircleDot /></div><span>Closed</span><strong>{counts.closed}</strong></div>
             </div>
 
-            <div className="incident-toolbar">
-                <div className="incident-search"><Search size={17} /><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search incidents, tickets, vehicles or reporters..." /></div>
+            <div className="incident-toolbar" style={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: "12px" }}>
                 {hotels.length > 0 && (
-                    <BranchSelector
-                        hotels={hotels}
-                        selectedHotel={selectedHotel}
-                        onSelectHotel={setSelectedHotel}
-                        allLabel="All Branches"
-                        size="sm"
-                    />
+                    <div style={{ width: "100%", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                        <span style={{ fontSize: "12px", fontWeight: "700", color: "#42235e", whiteSpace: "nowrap" }}>Hotel Branch:</span>
+                        <button
+                            type="button"
+                            onClick={() => setSelectedHotel("all")}
+                            style={{
+                                display: "inline-flex", alignItems: "center", gap: "6px",
+                                padding: "6px 14px", borderRadius: "9999px", border: "1.5px solid",
+                                borderColor: selectedHotel === "all" ? "#bc9b6a" : "#ebdcf3",
+                                background: selectedHotel === "all" ? "linear-gradient(135deg,#42235e,#5b2f82)" : "#fff",
+                                color: selectedHotel === "all" ? "#fff" : "#4b5563",
+                                fontSize: "12px", fontWeight: "600", cursor: "pointer", whiteSpace: "nowrap"
+                            }}
+                        >
+                            All Branches
+                            <span style={{ background: selectedHotel === "all" ? "#bc9b6a" : "#f5edf9", color: selectedHotel === "all" ? "#3b0714" : "#42235e", fontSize: "10px", fontWeight: "700", padding: "1px 6px", borderRadius: "10px" }}>
+                                {hotels.length}
+                            </span>
+                        </button>
+                        {hotels.map((h) => (
+                            <button
+                                key={h.id}
+                                type="button"
+                                onClick={() => setSelectedHotel(h.id)}
+                                style={{
+                                    display: "inline-flex", alignItems: "center", gap: "6px",
+                                    padding: "6px 14px", borderRadius: "9999px", border: "1.5px solid",
+                                    borderColor: selectedHotel === h.id ? "#bc9b6a" : "#ebdcf3",
+                                    background: selectedHotel === h.id ? "linear-gradient(135deg,#42235e,#5b2f82)" : "#fff",
+                                    color: selectedHotel === h.id ? "#fff" : "#4b5563",
+                                    fontSize: "12px", fontWeight: "600", cursor: "pointer", whiteSpace: "nowrap"
+                                }}
+                            >
+                                <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: selectedHotel === h.id ? "#bc9b6a" : "#cbd5e1", flexShrink: 0 }} />
+                                {h.building_name}
+                                {h.location && <span style={{ fontSize: "10px", opacity: 0.75 }}>{h.location}</span>}
+                            </button>
+                        ))}
+                    </div>
                 )}
-                <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}><option value="all">All statuses</option>{STATUSES.map((status) => <option key={status.value} value={status.value}>{status.label}</option>)}</select>
-                <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}><option value="all">All types</option>{INCIDENT_TYPES.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select>
+                <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", width: "100%" }}>
+                    <div className="incident-search" style={{ flex: 1, minWidth: "240px" }}><Search size={17} /><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search incidents, tickets, vehicles or reporters..." /></div>
+                    <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={{ minWidth: "140px" }}><option value="all">All statuses</option>{STATUSES.map((status) => <option key={status.value} value={status.value}>{status.label}</option>)}</select>
+                    <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} style={{ minWidth: "140px" }}><option value="all">All types</option>{INCIDENT_TYPES.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select>
+                </div>
             </div>
 
             <div className="incident-table-card">

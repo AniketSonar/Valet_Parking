@@ -4,7 +4,7 @@
     width: 100%;
     flex: 1;
 
-    padding: 0;
+    padding: 18px 24px 32px 24px;
 
     background: #f8f2f3;
 
@@ -1797,5 +1797,22 @@
 
 .parking-admin-body {
   background: transparent;
-  padding: 0;
+  padding: 18px 24px 32px 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.parking-admin-body > .dashboard-wrapper,
+.parking-admin-body > .parking-page,
+.parking-admin-body > .parking-sessions-page,
+.parking-admin-body > .profile-page,
+.parking-admin-body > .parking-history-page,
+.parking-admin-body > .reports-container,
+.parking-admin-body > .feedback-page,
+.parking-admin-body > .feedback-mgmt-container,
+.parking-admin-body > .incident-page,
+.parking-admin-body > .incidents-wrapper {
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
 }

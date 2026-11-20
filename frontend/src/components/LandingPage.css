@@ -1752,8 +1752,37 @@
   color: rgba(139, 18, 48, 0.62);
 }
 
-.landing-container .step-tab-btn {
-  color: var(--landing-burgundy);
+.landing-container .landing-nav-actions .landing-btn-ghost {
+  border: 1.5px solid var(--landing-gold) !important;
+  background: var(--landing-ivory) !important;
+  color: var(--landing-burgundy) !important;
+  box-shadow: none !important;
+}
+
+.landing-container .landing-nav-actions .landing-btn-ghost:hover {
+  background: #fdf6ec !important;
+  border-color: #bc9b6a !important;
+  color: #42235e !important;
+}
+
+.landing-container .landing-nav-actions a[href*="mode=register"],
+.landing-container .landing-nav-actions a.landing-btn-signup-ghost {
+  background: transparent !important;
+  border: 1.5px solid #bc9b6a !important;
+  color: #bc9b6a !important;
+  box-shadow: none !important;
+}
+
+.landing-container .landing-nav-actions a[href*="mode=register"]:hover,
+.landing-container .landing-nav-actions a.landing-btn-signup-ghost:hover {
+  background: rgba(188, 155, 106, 0.12) !important;
+  border-color: #bc9b6a !important;
+  color: #a37f48 !important;
+}
+
+.landing-container .landing-nav-actions a[href*="mode=register"] span,
+.landing-container .landing-nav-actions a.landing-btn-signup-ghost span {
+  color: #bc9b6a !important;
 }
 
 .landing-container .contact-form .form-submit-btn,

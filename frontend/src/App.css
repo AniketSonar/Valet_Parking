@@ -2015,7 +2015,7 @@ a { text-decoration: none; }
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   border-radius: 28px;
-  padding: 36px 32px 28px;
+  padding: 24px 26px 20px;
   box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.03),
     0 24px 60px rgba(0, 0, 0, 0.12),
@@ -2086,6 +2086,29 @@ a { text-decoration: none; }
   border: 1.5px solid transparent;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
+}
+
+.vp-input-field-compact {
+  height: 38px !important;
+  margin-bottom: 8px !important;
+  padding: 0 10px !important;
+  border-radius: 8px !important;
+}
+
+.vp-input-field-compact input {
+  font-size: 13px !important;
+}
+
+.vp-input-field-compact .vp-field-icon {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.vp-signin-btn-compact {
+  height: 42px !important;
+  font-size: 13px !important;
+  padding: 0 14px !important;
+  margin-top: 4px !important;
 }
 
 .vp-input-field:focus-within {

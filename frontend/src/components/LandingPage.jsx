@@ -153,17 +153,20 @@ const LandingPage = () => {
             </Link>
             <Link
               to="/login?mode=register"
-              className="landing-btn-primary"
+              className="landing-btn-signup-ghost"
               style={{
                 background: "transparent",
                 border: "1.5px solid #bc9b6a",
                 color: "#bc9b6a",
                 padding: "8px 16px",
                 borderRadius: "8px",
-                fontWeight: "700"
+                fontWeight: "700",
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center"
               }}
             >
-              <span>Staff Sign Up</span>
+              <span style={{ color: "#bc9b6a" }}>Staff Sign Up</span>
             </Link>
           </div>
         </div>

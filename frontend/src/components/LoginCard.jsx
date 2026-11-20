@@ -158,32 +158,34 @@ function LoginCard() {
     <div className="vp-login-wrapper">
       <div className="vp-auth-card">
         {/* BRAND EMBLEM & WORDMARK */}
-        <div style={{ textAlign: "center", marginBottom: "16px" }}>
+        <div style={{ textAlign: "center", marginBottom: mode === "register" ? "8px" : "16px" }}>
           <img
             src="/conrad-emblem.png"
             alt="Conrad Pune"
             style={{
-              width: "60px",
-              height: "60px",
+              width: mode === "register" ? "44px" : "60px",
+              height: mode === "register" ? "44px" : "60px",
               borderRadius: "50%",
               boxShadow: "0 4px 14px rgba(66, 35, 94, 0.25)",
               border: "1.5px solid #bc9b6a",
               display: "inline-block"
             }}
           />
-          <div style={{ marginTop: "8px" }}>
+          <div style={{ marginTop: "4px" }}>
             <img
               src="/conrad-logo-gold.png"
               alt="CONRAD PUNE"
-              style={{ height: "22px", objectFit: "contain", filter: "brightness(1.05)" }}
+              style={{ height: mode === "register" ? "18px" : "22px", objectFit: "contain", filter: "brightness(1.05)" }}
             />
           </div>
         </div>
 
         {/* CARD HEADER */}
-        <div className="vp-card-heading">
-          <h2>{mode === "register" ? "Join Staff Team" : "Welcome Back"}</h2>
-          <p>
+        <div className="vp-card-heading" style={{ marginBottom: mode === "register" ? "12px" : "22px" }}>
+          <h2 style={{ fontSize: mode === "register" ? "20px" : "26px", margin: "0 0 2px" }}>
+            {mode === "register" ? "Join Staff Team" : "Welcome Back"}
+          </h2>
+          <p style={{ fontSize: mode === "register" ? "12px" : "13.5px" }}>
             {mode === "register"
               ? "Submit your registration to join a hotel branch"
               : "Sign in to operations portal"}
@@ -333,7 +335,7 @@ function LoginCard() {
           /* MODE 2: REGISTER FORM */
           <form onSubmit={handleRegisterStaff} autoComplete="off">
             {/* FULL NAME */}
-            <div className="vp-input-field">
+            <div className="vp-input-field vp-input-field-compact">
               <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
@@ -348,7 +350,7 @@ function LoginCard() {
             </div>
 
             {/* EMAIL */}
-            <div className="vp-input-field">
+            <div className="vp-input-field vp-input-field-compact">
               <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <rect x="3" y="5" width="18" height="14" rx="3" />
                 <path d="M3 7l9 6 9-6" />
@@ -362,116 +364,103 @@ function LoginCard() {
               />
             </div>
 
-            {/* PHONE */}
-            <div className="vp-input-field">
-              <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Phone Number (e.g. +91 9876543210)"
-                value={regForm.phone}
-                onChange={(e) => setRegForm({ ...regForm, phone: e.target.value })}
-              />
-            </div>
-
-            {/* PASSWORD */}
-            <div className="vp-input-field">
-              <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <rect x="4" y="10" width="16" height="11" rx="3" />
-                <path d="M7 10V7a5 5 0 0 1 10 0v3" />
-              </svg>
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password (minimum 6 characters) *"
-                value={regForm.password}
-                onChange={(e) => setRegForm({ ...regForm, password: e.target.value })}
-                required
-              />
-            </div>
-
-            {/* ROLE SELECT */}
-            <div style={{ marginBottom: "12px" }}>
-              <label style={{ display: "block", fontSize: "11px", fontWeight: "700", color: "#6b7280", textTransform: "uppercase", marginBottom: "4px" }}>
-                Role Applying For *
-              </label>
-              <select
-                value={regForm.role}
-                onChange={(e) => setRegForm({ ...regForm, role: e.target.value })}
-                style={{
-                  width: "100%",
-                  padding: "10px 12px",
-                  borderRadius: "8px",
-                  border: "1.5px solid #e5e7eb",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  color: "#374151",
-                  background: "#ffffff",
-                  outline: "none"
-                }}
-              >
-                <option value="valet">Valet Staff / Driver</option>
-                <option value="manager">Branch Manager</option>
-              </select>
-            </div>
-
-            {/* HOTEL BRANCH SELECT */}
-            <div style={{ marginBottom: "12px" }}>
-              <label style={{ display: "block", fontSize: "11px", fontWeight: "700", color: "#6b7280", textTransform: "uppercase", marginBottom: "4px" }}>
-                Select Hotel Branch to Join *
-              </label>
-              <select
-                value={regForm.hotel_id}
-                onChange={(e) => setRegForm({ ...regForm, hotel_id: e.target.value })}
-                required
-                style={{
-                  width: "100%",
-                  padding: "10px 12px",
-                  borderRadius: "8px",
-                  border: "1.5px solid #bc9b6a",
-                  fontSize: "13px",
-                  fontWeight: "700",
-                  color: "#42235e",
-                  background: "#fffdfa",
-                  outline: "none"
-                }}
-              >
-                {branches.length === 0 && (
-                  <option value="">Loading hotel branches...</option>
-                )}
-                {branches.map((b) => (
-                  <option key={b.id} value={b.id}>
-                    {b.building_name} ({b.location})
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* STANDING POSITION (if Valet) */}
-            {regForm.role === "valet" && (
-              <div className="vp-input-field" style={{ marginBottom: "14px" }}>
+            {/* PHONE & PASSWORD ROW (Side by side for compact layout) */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "8px" }}>
+              <div className="vp-input-field vp-input-field-compact" style={{ marginBottom: 0 }}>
                 <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
                 <input
                   type="text"
-                  placeholder="Standing Position (e.g. Front Entrance, Main Gate)"
-                  value={regForm.position_name}
-                  onChange={(e) => setRegForm({ ...regForm, position_name: e.target.value })}
+                  placeholder="Phone"
+                  value={regForm.phone}
+                  onChange={(e) => setRegForm({ ...regForm, phone: e.target.value })}
                 />
               </div>
-            )}
 
-            <div style={{ fontSize: "11.5px", color: "#6b7280", marginBottom: "16px", lineHeight: 1.4 }}>
-              🛡️ <em>Your request will be sent to the Admin & Branch Manager. You can log in once accepted.</em>
+              <div className="vp-input-field vp-input-field-compact" style={{ marginBottom: 0 }}>
+                <svg className="vp-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <rect x="4" y="10" width="16" height="11" rx="3" />
+                  <path d="M7 10V7a5 5 0 0 1 10 0v3" />
+                </svg>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password *"
+                  value={regForm.password}
+                  onChange={(e) => setRegForm({ ...regForm, password: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* ROLE SELECT & HOTEL BRANCH SELECT ROW */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "8px" }}>
+              <div>
+                <label style={{ display: "block", fontSize: "10px", fontWeight: "700", color: "#6b7280", textTransform: "uppercase", marginBottom: "2px" }}>
+                  Role *
+                </label>
+                <select
+                  value={regForm.role}
+                  onChange={(e) => setRegForm({ ...regForm, role: e.target.value })}
+                  style={{
+                    width: "100%",
+                    padding: "7px 10px",
+                    borderRadius: "8px",
+                    border: "1.5px solid #e5e7eb",
+                    fontSize: "12px",
+                    fontWeight: "600",
+                    color: "#374151",
+                    background: "#ffffff",
+                    outline: "none"
+                  }}
+                >
+                  <option value="valet">Valet Staff</option>
+                  <option value="manager">Branch Manager</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: "block", fontSize: "10px", fontWeight: "700", color: "#6b7280", textTransform: "uppercase", marginBottom: "2px" }}>
+                  Hotel Branch *
+                </label>
+                <select
+                  value={regForm.hotel_id}
+                  onChange={(e) => setRegForm({ ...regForm, hotel_id: e.target.value })}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "7px 10px",
+                    borderRadius: "8px",
+                    border: "1.5px solid #bc9b6a",
+                    fontSize: "12px",
+                    fontWeight: "700",
+                    color: "#42235e",
+                    background: "#fffdfa",
+                    outline: "none"
+                  }}
+                >
+                  {branches.length === 0 && (
+                    <option value="">Loading...</option>
+                  )}
+                  {branches.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.building_name} ({b.location})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div style={{ fontSize: "11px", color: "#6b7280", marginBottom: "12px", lineHeight: 1.3 }}>
+              🛡️ <em>Request will be sent to Admin. You can log in once approved.</em>
             </div>
 
             {/* SUBMIT BUTTON */}
-            <button type="submit" className="vp-signin-btn" disabled={loading}>
+            <button type="submit" className="vp-signin-btn vp-signin-btn-compact" disabled={loading}>
               {loading ? (
                 <>
                   <span className="vp-btn-spinner" />
-                  <span>Submitting Request...</span>
+                  <span>Submitting...</span>
                 </>
               ) : (
                 <>

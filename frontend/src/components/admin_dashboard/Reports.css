@@ -230,35 +230,24 @@
     box-shadow 0.25s ease;
 }
 
-/* Decorative VALET circles */
-.report-kpi-card::before {
-  content: "";
-  position: absolute;
-  width: 135px;
-  height: 135px;
-  top: -70px;
-  right: -52px;
-
-  border-radius: 50%;
-  background: #fbf2f4;
-
-  pointer-events: none;
-  transition: transform 0.35s ease;
+/* Decorative circles removed */
+.report-kpi-card::before,
+.report-kpi-card::after {
+  content: none;
 }
 
-.report-kpi-card::after {
-  content: "";
-  position: absolute;
-  width: 95px;
-  height: 95px;
-  right: -34px;
-  bottom: -48px;
+.report-kpi-card:hover::before,
+.report-kpi-card:hover::after {
+  content: none;
+}
 
-  border-radius: 50%;
-  background: #f8edf0;
-
-  pointer-events: none;
-  transition: transform 0.35s ease;
+.report-kpi-card:has(.report-kpi-icon.revenue)::before,
+.report-kpi-card:has(.report-kpi-icon.parking)::before,
+.report-kpi-card:has(.report-kpi-icon.parking)::after,
+.report-kpi-card:has(.report-kpi-icon.customers)::before,
+.report-kpi-card:has(.report-kpi-icon.incidents)::before,
+.report-kpi-card:has(.report-kpi-icon.incidents)::after {
+  content: none;
 }
 
 .report-kpi-card:hover {
@@ -270,17 +259,12 @@
     0 3px 8px rgba(38, 14, 20, 0.025);
 }
 
-.report-kpi-card:hover::before {
-  transform: scale(1.12);
-}
-
+.report-kpi-card:hover::before,
 .report-kpi-card:hover::after {
-  transform: scale(1.12);
+  content: none;
 }
 
-/* ============================================================
-   KPI TOP
-   ============================================================ */
+/* Revenue */
 
 .report-kpi-top {
   position: relative;
@@ -328,9 +312,7 @@
   box-shadow: inset 0 0 0 1px rgba(122, 46, 65, 0.04);
 }
 
-.report-kpi-card:has(.report-kpi-icon.revenue)::before {
-  background: #fbf2f4;
-}
+.report-kpi-card:has(.report-kpi-icon.revenue)::before { content: none; }
 
 /* Parking */
 
@@ -340,13 +322,8 @@
   box-shadow: inset 0 0 0 1px rgba(189, 115, 5, 0.04);
 }
 
-.report-kpi-card:has(.report-kpi-icon.parking)::before {
-  background: #fffaf0;
-}
-
-.report-kpi-card:has(.report-kpi-icon.parking)::after {
-  background: #fff6e4;
-}
+.report-kpi-card:has(.report-kpi-icon.parking)::before { content: none; }
+.report-kpi-card:has(.report-kpi-icon.parking)::after { content: none; }
 
 /* Customers */
 
@@ -356,9 +333,7 @@
   box-shadow: inset 0 0 0 1px rgba(162, 61, 86, 0.04);
 }
 
-.report-kpi-card:has(.report-kpi-icon.customers)::before {
-  background: #faf2f4;
-}
+.report-kpi-card:has(.report-kpi-icon.customers)::before { content: none; }
 
 /* Incidents */
 
@@ -368,13 +343,8 @@
   box-shadow: inset 0 0 0 1px rgba(209, 59, 59, 0.04);
 }
 
-.report-kpi-card:has(.report-kpi-icon.incidents)::before {
-  background: #fff7f7;
-}
-
-.report-kpi-card:has(.report-kpi-icon.incidents)::after {
-  background: #fff0f0;
-}
+.report-kpi-card:has(.report-kpi-icon.incidents)::before { content: none; }
+.report-kpi-card:has(.report-kpi-icon.incidents)::after { content: none; }
 
 /* ============================================================
    KPI TREND BADGES
@@ -476,6 +446,14 @@
   grid-template-columns: minmax(0, 1.75fr) minmax(250px, 1fr);
   gap: 16px;
   margin-bottom: 20px;
+  align-items: start;
+}
+
+.reports-middle-grid > .report-panel,
+.reports-middle-grid > .revenue-panel,
+.reports-middle-grid > .parking-activity-panel {
+  height: 100%;
+  box-sizing: border-box;
 }
 
 /* ============================================================

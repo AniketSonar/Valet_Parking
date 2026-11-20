@@ -416,7 +416,7 @@ function LuxuryDashboardView({
 
         <div className="lux-welcome-visual">
           <img
-            src="/valet-hero.png"
+            src="/welcome-hero-banner.png"
             alt="Valet Parking Luxury Service"
             className="lux-welcome-img"
           />

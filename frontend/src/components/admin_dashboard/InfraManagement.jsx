@@ -593,9 +593,9 @@ export default function InfraManagement() {
       {activeTab === "staff" && (
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           {/* Controls Bar */}
-          <div className="infra-actions-bar">
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}>
-              {/* Hotel Branch Visible Pills (Replaces dropdown) */}
+          <div className="infra-actions-bar" style={{ flexDirection: "column", alignItems: "stretch", gap: "12px" }}>
+            {/* Row 1: Branch pills — full width */}
+            <div style={{ width: "100%" }}>
               <BranchSelector
                 hotels={hotels}
                 selectedHotel={selectedStaffHotel}
@@ -604,7 +604,10 @@ export default function InfraManagement() {
                 allLabel={`All Hotel Branches (${staffList.filter(s => s.role !== 'customer').length})`}
                 size="sm"
               />
+            </div>
 
+            {/* Row 2: Role filter + Search + Add button */}
+            <div style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
               {/* Role Filter */}
               <select
                 value={staffRoleFilter}
@@ -624,7 +627,7 @@ export default function InfraManagement() {
               </select>
 
               {/* Search */}
-              <div className="infra-search-box" style={{ minWidth: "220px" }}>
+              <div className="infra-search-box" style={{ minWidth: "220px", flex: 1 }}>
                 <Search size={15} color="#9ca3af" />
                 <input
                   type="text"
@@ -633,26 +636,27 @@ export default function InfraManagement() {
                   onChange={(e) => setStaffSearch(e.target.value)}
                 />
               </div>
-            </div>
 
-            <button
-              type="button"
-              className="infra-btn-primary"
-              onClick={() => {
-                setStaffForm({
-                  name: "",
-                  email: "",
-                  phone: "",
-                  password: "",
-                  role: "manager",
-                  hotel_id: hotels[0]?.id || "",
-                });
-                setShowAddStaffModal(true);
-              }}
-            >
-              <Plus size={16} />
-              Add Staff Member
-            </button>
+              <button
+                type="button"
+                className="infra-btn-primary"
+                style={{ marginLeft: "auto", whiteSpace: "nowrap" }}
+                onClick={() => {
+                  setStaffForm({
+                    name: "",
+                    email: "",
+                    phone: "",
+                    password: "",
+                    role: "manager",
+                    hotel_id: hotels[0]?.id || "",
+                  });
+                  setShowAddStaffModal(true);
+                }}
+              >
+                <Plus size={16} />
+                Add Staff Member
+              </button>
+            </div>
           </div>
 
           {/* Staff Table */}

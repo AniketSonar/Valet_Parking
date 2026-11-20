@@ -35,9 +35,9 @@
 .profile-page,
 .parking-history-page,
 .reports-container {
-    max-width: 1480px;
-    margin: 0 auto;
-    padding: 38px 42px 56px;
+    max-width: 100%;
+    margin: 0;
+    padding: 12px 6px 24px;
     color: var(--admin-text);
 }
 

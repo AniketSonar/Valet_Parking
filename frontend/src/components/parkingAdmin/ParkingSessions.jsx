@@ -537,11 +537,6 @@ const ParkingSessions = () => {
             </div>
           </div>
 
-          <p className="parking-sessions-description">
-            Manage vehicle check-ins, parking assignments and retrieval
-            workflows from one place.
-          </p>
-
         </div>
 
         <div className="parking-sessions-header-actions">

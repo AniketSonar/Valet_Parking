@@ -158,11 +158,6 @@ function AreaManagement() {
       <header className="ar-header">
         <div>
           <h1>Areas &amp; Managers</h1>
-          <p>
-            Set up buildings and floors, give each floor to a manager, then create the parking area
-            for that manager, for example block A with slots 1 to 50. A manager only sees the floors
-            and slots assigned to them and manages the valets there.
-          </p>
         </div>
         <button type="button" className="ar-btn" onClick={load} disabled={loading}>
           <RefreshCw size={15} /> Refresh

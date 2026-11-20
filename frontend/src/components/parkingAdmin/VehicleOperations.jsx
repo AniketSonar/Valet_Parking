@@ -589,11 +589,6 @@ function VehiclesOperations({ scope = "manager" }) {
             Vehicles & Operations
           </h1>
 
-          <p>
-            Monitor vehicles currently inside the
-            parking facility.
-          </p>
-
         </div>
 
         <button

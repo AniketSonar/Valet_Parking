@@ -620,13 +620,6 @@ const ParkingSlots = ({ scope = "manager" }) => {
             <span>{isValetScope ? "MY ASSIGNED PARKING AREA" : "REAL-TIME FACILITY MAP"}</span>
           </div>
           <h1>Parking Space Overview</h1>
-          <p>
-            {isValetScope
-              ? assignment
-                ? `Live parking bays for ${assignment.post?.post_name || "your post"} on ${assignment.floor?.floor_name || "your assigned floor"}. Slot settings are managed by your manager.`
-                : "You do not have an active valet post. Ask your manager to assign you to an area."
-              : "Monitor live bay occupancy, assigned attendants in charge, and automated telemetry."}
-          </p>
         </div>
 
         <div className="facility-header-actions" style={{ display: "flex", alignItems: "center", gap: "10px" }}>

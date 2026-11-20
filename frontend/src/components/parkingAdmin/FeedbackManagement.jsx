@@ -193,11 +193,6 @@ function FeedbackManagement() {
             Feedback Management
           </h1>
 
-          <p>
-            Monitor customer feedback and overall
-            parking experience.
-          </p>
-
         </div>
 
         <button

@@ -169,7 +169,6 @@ function ValetManagement() {
         <div>
           <p className="parking-staff-eyebrow">OPERATIONS</p>
           <h1>Staff / Valets</h1>
-          <p>Monitor operational staff availability and active assignments.</p>
         </div>
 
         <button

@@ -152,7 +152,6 @@ function ValetPosts() {
         <header className="ar-header">
           <div>
             <h1>Valet Positions</h1>
-            <p>Decide where each valet stands in your area.</p>
           </div>
         </header>
         {error && <div className="ar-alert ar-alert-error" role="alert">{error}</div>}

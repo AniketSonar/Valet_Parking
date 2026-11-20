@@ -385,7 +385,6 @@ export default function InfraManagement() {
       <div className="infra-header">
         <div className="infra-title-section">
           <h1>Infrastructure & Branch Management</h1>
-          <p>Configure multiple hotel branches, multi-level parking capacities, and staff assignments.</p>
         </div>
 
         {/* Tab Switcher */}

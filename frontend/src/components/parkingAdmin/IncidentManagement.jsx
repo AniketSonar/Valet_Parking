@@ -354,7 +354,6 @@ const IncidentManagement = ({ canReport, canUpdateStatus }) => {
                 <div>
                     <div className="incident-eyebrow"><ShieldAlert size={14} /> PARKING OPERATIONS</div>
                     <h1>Incident Management</h1>
-                    <p>Track, investigate and resolve operational incidents across the parking facility.</p>
                 </div>
                 <div className="incident-header-actions">
                     <button className="incident-secondary-btn" onClick={fetchIncidents} disabled={loading}>

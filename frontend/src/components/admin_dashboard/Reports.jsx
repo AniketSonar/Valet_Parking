@@ -167,11 +167,6 @@ function Reports() {
               ? `${hotels[0]?.building_name || "Hotel Branch"} Performance & Reports`
               : "Multi-Hotel Performance & Reports"}
           </h2>
-          <p className="reports-description">
-            {isManager
-              ? "Comprehensive analytics, valet staff performance, vehicle statistics, and revenue for your assigned hotel branch."
-              : "Generate hotel-wise parking reports, manager & valet performance, vehicle statistics, and revenue."}
-          </p>
         </div>
 
         {/* Dedicated Hotel Branch Filter Row */}

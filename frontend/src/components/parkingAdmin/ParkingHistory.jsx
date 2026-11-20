@@ -99,7 +99,6 @@ function ParkingHistory() {
         <div>
           <p className="parking-history-eyebrow">OPERATIONS</p>
           <h1>Parking History</h1>
-          <p>View completed and historical parking sessions.</p>
         </div>
 
         <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>

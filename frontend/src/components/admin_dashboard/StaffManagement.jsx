@@ -514,10 +514,6 @@ function StaffManagement() {
           </p>
 
           <h1>Staff Management</h1>
-
-          <p>
-            Manage system staff, roles and account access.
-          </p>
         </div>
 
         <button

@@ -154,11 +154,6 @@ const ParkingAdminProfile = ({ onLogout }) => {
           </span>
 
           <h2>My Profile</h2>
-
-          <p>
-            View your account details, role,
-            security status and system access.
-          </p>
         </div>
 
         <button

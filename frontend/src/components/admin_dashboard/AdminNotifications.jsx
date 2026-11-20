@@ -144,12 +144,9 @@ export default function AdminNotifications() {
         boxShadow: "0 4px 18px rgba(139, 18, 48, 0.04)"
       }}>
         <div>
-          <h1 style={{ fontSize: "22px", fontWeight: "700", color: "#1f2937", margin: "0 0 6px 0" }}>
+          <h1 style={{ fontSize: "22px", fontWeight: "700", color: "#1f2937", margin: "0" }}>
             Operational Notifications & Alerts
           </h1>
-          <p style={{ fontSize: "13.5px", color: "#6b7280", margin: 0 }}>
-            Central notification feed across all hotel branches for super admin monitoring.
-          </p>
         </div>
 
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>

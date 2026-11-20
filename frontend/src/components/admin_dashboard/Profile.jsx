@@ -44,7 +44,6 @@ function Profile() {
         <div>
           <p className="profile-eyebrow">ACCOUNT</p>
           <h2>My Profile</h2>
-          <p>Manage your administrative profile, credentials and access settings.</p>
         </div>
       </section>
 

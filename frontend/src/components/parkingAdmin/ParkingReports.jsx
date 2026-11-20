@@ -161,11 +161,6 @@ const ParkingReports = () => {
           </span>
 
           <h2>Operational Reports</h2>
-
-          <p>
-            Real-time summary of daily check-ins,
-            facility occupancy, and vehicle operations.
-          </p>
         </div>
 
         <button

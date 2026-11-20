@@ -108,7 +108,6 @@ const RetrievalRequests = () => {
       <div className="retrievals-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div>
           <h2>Vehicle Retrieval Requests</h2>
-          <p>Manage and transition live retrieval queues for waiting customers.</p>
         </div>
         <button
           className="act-btn primary"

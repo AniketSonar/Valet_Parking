@@ -837,8 +837,8 @@
   height: 100vh !important;
   margin: 0 !important;
   border-radius: 0 !important;
-  width: 250px !important;
-  padding: 24px 14px 18px !important;
+  width: 270px !important;
+  padding: 24px 16px 18px !important;
   box-sizing: border-box !important;
 
   /* Purple silk velvet waves texture for all modules */
@@ -1156,11 +1156,11 @@
 }
 
 .dash-main {
-  padding: 0 28px 28px !important;
+  padding: 0 10px 10px !important;
 }
 
 .dash-page-content {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 @media (max-width: 600px) {

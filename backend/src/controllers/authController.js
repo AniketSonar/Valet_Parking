@@ -718,7 +718,7 @@ const registerStaff = async (req, res) => {
       }
     }
 
-    // 4. In-app notification for Admin & Branch Manager
+    // 4. In-app notification for Super Admin & this specific Branch Manager
     try {
       const { data: building } = await supabase
         .from("parking_buildings")
@@ -727,15 +727,56 @@ const registerStaff = async (req, res) => {
         .maybeSingle();
 
       const branchName = building?.building_name || "Hotel Branch";
+      const notifMsg = `New staff joining request: ${name.trim()} (${staffRole === "manager" ? "Branch Manager" : "Valet Staff"}) has requested to join ${branchName}. Approval required.`;
 
-      await supabase.from("notifications").insert([
-        {
-          title: "New Staff Joining Request",
-          message: `${name.trim()} (${staffRole === "manager" ? "Manager" : "Valet Staff"}) has requested to join ${branchName}. Approval required.`,
-          type: "staff_request",
-          is_read: false
+      // Find Super Admins
+      const { data: superAdmins } = await supabase
+        .from("users")
+        .select("id, role")
+        .eq("role", "super_admin");
+
+      // Find Managers assigned to this specific hotel branch
+      let branchManagers = [];
+      const { data: floors } = await supabase
+        .from("parking_floors")
+        .select("id")
+        .eq("building_id", hotel_id);
+
+      if (floors && floors.length > 0) {
+        const floorIds = floors.map((f) => f.id);
+        const { data: mgrAssignments } = await supabase
+          .from("manager_assignments")
+          .select("manager_id")
+          .in("floor_id", floorIds);
+
+        if (mgrAssignments && mgrAssignments.length > 0) {
+          const mgrIds = [...new Set(mgrAssignments.map((m) => m.manager_id))];
+          const { data: mgrUsers } = await supabase
+            .from("users")
+            .select("id, role")
+            .in("id", mgrIds);
+          if (mgrUsers) branchManagers = mgrUsers;
         }
-      ]);
+      }
+
+      // Combine super admins and branch managers (deduplicating by ID)
+      const recipientMap = new Map();
+      (superAdmins || []).forEach((u) => recipientMap.set(u.id, u));
+      (branchManagers || []).forEach((u) => recipientMap.set(u.id, u));
+
+      const notifsToInsert = Array.from(recipientMap.values()).map((recipient) => ({
+        parking_session_id: null,
+        recipient_type: recipient.role,
+        recipient_id: recipient.id,
+        message: notifMsg,
+        channel: "in_app",
+        status: "sent",
+        sent_at: new Date().toISOString()
+      }));
+
+      if (notifsToInsert.length > 0) {
+        await supabase.from("notifications").insert(notifsToInsert);
+      }
     } catch (notifErr) {
       console.warn("Notification insert warning:", notifErr.message);
     }

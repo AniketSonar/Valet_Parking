@@ -401,18 +401,7 @@ function LuxuryDashboardView({
                       boxShadow: isSelected ? "0 0 6px rgba(188, 155, 106, 0.9)" : "none"
                     }} />
                     <span>{name}</span>
-                    {isManager ? (
-                      <span style={{
-                        fontSize: "11px",
-                        fontWeight: "700",
-                        padding: "2px 8px",
-                        borderRadius: "6px",
-                        background: "#bc9b6a",
-                        color: "#28103c"
-                      }}>
-                        Assigned Branch
-                      </span>
-                    ) : loc ? (
+                    {!isManager && loc ? (
                       <span style={{
                         fontSize: "11px",
                         fontWeight: "600",

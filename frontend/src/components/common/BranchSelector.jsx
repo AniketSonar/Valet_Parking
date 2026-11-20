@@ -103,11 +103,7 @@ export default function BranchSelector({
             >
               <span className={`branch-status-dot ${isSelected ? "active" : ""}`} />
               <span className="branch-pill-name">{name}</span>
-              {isManager ? (
-                <span className="branch-pill-location" style={{ background: "#42235e", color: "#bc9b6a", fontWeight: "700" }}>
-                  Assigned Branch
-                </span>
-              ) : loc ? (
+              {!isManager && loc ? (
                 <span className="branch-pill-location">{loc}</span>
               ) : null}
             </button>

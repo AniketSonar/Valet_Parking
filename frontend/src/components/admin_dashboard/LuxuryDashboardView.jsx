@@ -190,19 +190,19 @@ function LuxuryDashboardView({
 
   const BRAND_VEHICLE_COLORS = useMemo(() => ({
     Sedan: "#42235e",
-    SUV: "#6c349c",
-    Luxury: "#bc9b6a",
-    Sports: "#8e5ab5",
-    Others: "#240f35",
+    SUV: "#bc9b6a",
+    Luxury: "#6c3a8c",
+    Sports: "#d4aa70",
+    Others: "#1a0a2e",
   }), []);
 
   // Vehicle type distribution with real-time support
   const defaultVehicleTypes = useMemo(() => [
     { label: "Sedan", percentage: 48, color: "#42235e", count: 60 },
-    { label: "SUV", percentage: 28, color: "#6c349c", count: 35 },
-    { label: "Luxury", percentage: 12, color: "#bc9b6a", count: 15 },
-    { label: "Sports", percentage: 7, color: "#8e5ab5", count: 9 },
-    { label: "Others", percentage: 5, color: "#240f35", count: 5 },
+    { label: "SUV", percentage: 28, color: "#bc9b6a", count: 35 },
+    { label: "Luxury", percentage: 12, color: "#6c3a8c", count: 15 },
+    { label: "Sports", percentage: 7, color: "#d4aa70", count: 9 },
+    { label: "Others", percentage: 5, color: "#1a0a2e", count: 5 },
   ], []);
 
   const vehicleTypes = useMemo(() => {

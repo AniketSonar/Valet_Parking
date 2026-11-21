@@ -656,6 +656,11 @@
   gap: 14px;
   margin-top: 2px;
 }
+
+.lux-staff-incident-row--manager {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .lux-analytics-card {
   display: flex;
   flex-direction: column;

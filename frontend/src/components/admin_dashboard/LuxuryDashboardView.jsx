@@ -46,10 +46,25 @@ function LuxuryDashboardView({
     }
   }, [hotels]);
 
+  const user = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}");
+    } catch {
+      return {};
+    }
+  }, []);
+
+  const isManager = user?.role === "manager" || user?.role === "parking_admin";
+
   // Hotel-Wise Comparison Data (from reports)
   const [hotelReports, setHotelReports] = useState([]);
 
   useEffect(() => {
+    if (isManager) {
+      setHotelReports([]);
+      return undefined;
+    }
+
     let cancelled = false;
     getSystemReports({ hotelId: selectedHotel, period: "month" })
       .then((res) => {
@@ -61,19 +76,9 @@ function LuxuryDashboardView({
     return () => {
       cancelled = true;
     };
-  }, [selectedHotel]);
+  }, [isManager, selectedHotel]);
 
   const rawHotels = internalHotels.length > 0 ? internalHotels : hotels;
-
-  const user = useMemo(() => {
-    try {
-      return JSON.parse(localStorage.getItem("user") || "{}");
-    } catch {
-      return {};
-    }
-  }, []);
-
-  const isManager = user?.role === "manager" || user?.role === "parking_admin";
 
   const displayHotels = useMemo(() => {
     if (!isManager) return rawHotels;
@@ -1014,8 +1019,9 @@ function LuxuryDashboardView({
       {/* ========================================================
           5. ANALYTICS ROW: STAFF BAR + INCIDENT PIE + INCIDENT TREND
       ======================================================== */}
-      <section className="lux-staff-incident-row">
+      <section className={`lux-staff-incident-row${isManager ? " lux-staff-incident-row--manager" : ""}`}>
         {/* Staff Breakdown Bar Chart */}
+        {!isManager && (
         <div className="lux-card lux-analytics-card">
           <div className="lux-card-topbar">
             <div className="lux-card-title-group">
@@ -1057,6 +1063,7 @@ function LuxuryDashboardView({
             );
           })()}
         </div>
+        )}
 
         {/* Incident Weekly Bar Chart */}
         <div className="lux-card lux-analytics-card">
@@ -1109,6 +1116,7 @@ function LuxuryDashboardView({
         </div>
 
         {/* Hotel-Wise Comparison Bar Chart */}
+        {!isManager && (
         <div className="lux-card lux-analytics-card">
           <div className="lux-card-topbar">
             <div className="lux-card-title-group">
@@ -1168,6 +1176,7 @@ function LuxuryDashboardView({
             );
           })()}
         </div>
+        )}
       </section>
     </div>
   );

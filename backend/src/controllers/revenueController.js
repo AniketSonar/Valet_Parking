@@ -14,6 +14,17 @@ const readDays = (value) => {
 const readTzOffset = (value) =>
   Number.isFinite(Number(value)) ? Number(value) : 330;
 
+const readDateInput = (value) => {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return null;
+  }
+  const timestamp = Date.parse(`${value}T00:00:00.000Z`);
+  if (!Number.isFinite(timestamp) || new Date(timestamp).toISOString().slice(0, 10) !== value) {
+    return null;
+  }
+  return timestamp;
+};
+
 const dateKey = (iso, tzOffset) =>
   new Date(new Date(iso).getTime() + tzOffset * 60000)
     .toISOString()
@@ -21,6 +32,7 @@ const dateKey = (iso, tzOffset) =>
 
 /**
  * GET /api/revenue?days=7|30|90&tz_offset=330
+ * or /api/revenue?from_date=YYYY-MM-DD&to_date=YYYY-MM-DD&tz_offset=330
  *
  * Paid revenue only. Allowed for super_admin and manager (see routes).
  * A manager only sees payments for sessions parked inside the area
@@ -28,22 +40,50 @@ const dateKey = (iso, tzOffset) =>
  */
 const getRevenue = async (req, res) => {
   try {
-    const days = readDays(req.query.days);
+    const hasFromDate = req.query.from_date !== undefined;
+    const hasToDate = req.query.to_date !== undefined;
+    const hasDateRange = hasFromDate || hasToDate;
+    let days;
+    let startLocal;
+    let endLocalExclusive;
+
+    if (hasDateRange) {
+      const fromLocal = readDateInput(req.query.from_date);
+      const toLocal = readDateInput(req.query.to_date);
+      if (!fromLocal || !toLocal || fromLocal > toLocal) {
+        return res.status(400).json({
+          success: false,
+          message: "Revenue date range must include valid From and To dates, with From on or before To."
+        });
+      }
+      startLocal = fromLocal;
+      endLocalExclusive = toLocal + DAY_MS;
+      days = Math.floor((endLocalExclusive - startLocal) / DAY_MS);
+    } else {
+      days = readDays(req.query.days);
+      if (!days) {
+        return res.status(400).json({
+          success: false,
+          message: "Revenue period must be 7, 30, or 90 days."
+        });
+      }
+
+      const nowLocal = Date.now() + readTzOffset(req.query.tz_offset) * 60000;
+      const todayLocalStart = Math.floor(nowLocal / DAY_MS) * DAY_MS;
+      startLocal = todayLocalStart - (days - 1) * DAY_MS;
+      endLocalExclusive = todayLocalStart + DAY_MS;
+    }
 
     if (!days) {
       return res.status(400).json({
         success: false,
-        message: "Revenue period must be 7, 30, or 90 days."
+        message: "Revenue date range is invalid."
       });
     }
 
     const tzOffset = readTzOffset(req.query.tz_offset);
-
-    // Start of the first day of the period, in the viewer's time zone.
-    const nowLocal = Date.now() + tzOffset * 60000;
-    const todayLocalStart = Math.floor(nowLocal / DAY_MS) * DAY_MS;
-    const startLocal = todayLocalStart - (days - 1) * DAY_MS;
     const startUtc = new Date(startLocal - tzOffset * 60000);
+    const endUtcExclusive = new Date(endLocalExclusive - tzOffset * 60000);
 
     const rows = [];
 
@@ -65,6 +105,7 @@ const getRevenue = async (req, res) => {
         `)
         .eq("payment_status", "paid")
         .gte("paid_at", startUtc.toISOString())
+        .lt("paid_at", endUtcExclusive.toISOString())
         .order("paid_at", { ascending: false })
         .order("id", { ascending: true })
         .range(from, from + PAGE_SIZE - 1);

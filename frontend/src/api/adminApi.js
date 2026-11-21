@@ -17,11 +17,16 @@ export const getRevenuePerformance = async (days = 7, hotelId = "all") => {
   return apiClient(`/api/admin/revenue-performance?${query}`);
 };
 
-export const getRevenue = async (days = 30, hotelId = "all") => {
+export const getRevenue = async (days = 30, hotelId = "all", dateRange = {}) => {
   const params = {
-    days: String(days),
     tz_offset: String(-new Date().getTimezoneOffset()),
   };
+  if (dateRange.fromDate && dateRange.toDate) {
+    params.from_date = dateRange.fromDate;
+    params.to_date = dateRange.toDate;
+  } else {
+    params.days = String(days);
+  }
   if (hotelId && hotelId !== "all") params.hotelId = hotelId;
   const query = new URLSearchParams(params).toString();
   return apiClient(`/api/revenue?${query}`);

@@ -446,7 +446,7 @@
   grid-template-columns: minmax(0, 1.75fr) minmax(250px, 1fr);
   gap: 16px;
   margin-bottom: 20px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .reports-middle-grid > .report-panel,
@@ -454,6 +454,11 @@
 .reports-middle-grid > .parking-activity-panel {
   height: 100%;
   box-sizing: border-box;
+}
+
+.reports-middle-grid > .revenue-panel {
+  display: flex;
+  flex-direction: column;
 }
 
 /* ============================================================
@@ -592,9 +597,11 @@
 
 .revenue-chart,
 .chart-wrapper {
-  height: 140px;
+  height: 220px;
+  min-height: 220px;
   display: flex;
   align-items: stretch;
+  flex: 1;
   margin-top: 12px;
   gap: 8px;
 }
@@ -602,6 +609,7 @@
 .chart-container {
   flex: 1;
   min-width: 0;
+  width: 100%;
   height: 100%;
   position: relative;
 }
@@ -1274,6 +1282,7 @@
 
   .revenue-chart {
     height: 215px;
+    min-height: 215px;
   }
 
   .parking-activity-panel {
@@ -1375,6 +1384,7 @@
 
   .revenue-chart {
     height: 195px;
+    min-height: 195px;
   }
 
   .chart-y-axis {

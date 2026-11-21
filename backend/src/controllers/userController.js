@@ -525,23 +525,24 @@ const getAllStaff = async (req, res) => {
       });
     }
 
-    // Fetch all active manager assignments and valet assignments with building info
+    // Include inactive assignments so pending and deactivated staff retain their branch mapping.
     const [managerAssignRes, valetAssignRes] = await Promise.all([
       supabase
         .from("manager_assignments")
         .select(`
           manager_id,
+          is_active,
           floor:parking_floors (
             id,
             floor_name,
             building:parking_buildings ( id, building_name )
           )
-        `)
-        .eq("is_active", true),
+        `),
       supabase
         .from("valet_assignments")
         .select(`
           valet_id,
+          is_active,
           post:valet_posts ( id, post_name ),
           floor:parking_floors (
             id,
@@ -549,7 +550,6 @@ const getAllStaff = async (req, res) => {
             building:parking_buildings ( id, building_name )
           )
         `)
-        .eq("is_active", true)
     ]);
 
     const managerAssignments = managerAssignRes.data || [];
@@ -575,7 +575,9 @@ const getAllStaff = async (req, res) => {
         let post_name = null;
 
         if (user.role === "manager" || user.role === "parking_admin") {
-          const userAssignments = managerAssignments.filter((a) => a.manager_id === user.id);
+          const userAssignments = managerAssignments
+            .filter((a) => a.manager_id === user.id)
+            .sort((a, b) => Number(b.is_active) - Number(a.is_active));
           const ma = userAssignments[0];
           if (ma?.floor?.building) {
             hotel_id = ma.floor.building.id;
@@ -584,7 +586,10 @@ const getAllStaff = async (req, res) => {
             floor_name = floorNames.length > 0 ? floorNames.join(", ") : ma.floor.floor_name;
           }
         } else if (user.role === "valet" && employee_id) {
-          const va = valetAssignments.find((a) => a.valet_id === employee_id);
+          const userValetAssignments = valetAssignments
+            .filter((a) => a.valet_id === employee_id)
+            .sort((a, b) => Number(b.is_active) - Number(a.is_active));
+          const va = userValetAssignments[0];
           if (va?.floor?.building) {
             hotel_id = va.floor.building.id;
             hotel_name = va.floor.building.building_name;
@@ -996,7 +1001,7 @@ const updateStaffStatus = async (req, res) => {
     } = await supabase
       .from("users")
       .select(
-        "id, name, email, role"
+        "id, name, email, role, is_active"
       )
       .eq("id", id)
       .single();
@@ -1009,6 +1014,44 @@ const updateStaffStatus = async (req, res) => {
         success: false,
         message: "Staff member not found."
       });
+    }
+
+    let approvalBranchId = null;
+    if (req.user?.role === "manager") {
+      if (!is_active || existingUser.is_active || existingUser.role !== "valet") {
+        return res.status(403).json({
+          success: false,
+          message: "Managers can only approve pending valet staff assigned to their branch."
+        });
+      }
+
+      const scope = await getAreaScope(req.user);
+      const employee = await getEmployeeByEmail(existingUser.email);
+      if (!employee) {
+        return res.status(404).json({
+          success: false,
+          message: "The pending valet staff record could not be found."
+        });
+      }
+
+      const { data: assignments, error: assignmentError } = await supabase
+        .from("valet_assignments")
+        .select("floor:parking_floors ( building_id )")
+        .eq("valet_id", employee.id);
+
+      if (assignmentError) throw assignmentError;
+
+      const assignedBranchIds = (assignments || [])
+        .map((assignment) => assignment.floor?.building_id)
+        .filter(Boolean);
+
+      if (!scope.buildingId || !assignedBranchIds.includes(scope.buildingId)) {
+        return res.status(403).json({
+          success: false,
+          message: "You can only approve valet staff assigned to your branch."
+        });
+      }
+      approvalBranchId = scope.buildingId;
     }
 
     const {
@@ -1070,10 +1113,55 @@ const updateStaffStatus = async (req, res) => {
         .eq("manager_id", existingUser.id);
     }
 
+    let approvalMessage = `Staff ${is_active ? "activated" : "deactivated"} successfully.`;
+    if (approvalBranchId) {
+      const [{ data: admins, error: adminsError }, { data: building, error: buildingError }] = await Promise.all([
+        supabase
+          .from("users")
+          .select("id")
+          .eq("role", "super_admin")
+          .eq("is_active", true),
+        supabase
+          .from("parking_buildings")
+          .select("building_name")
+          .eq("id", approvalBranchId)
+          .maybeSingle()
+      ]);
+
+      if (adminsError || buildingError) {
+        const notificationError = adminsError || buildingError;
+        console.error("Admin staff approval notification lookup error:", notificationError);
+        approvalMessage = "Staff approved, but the Admin notification could not be prepared.";
+      } else if (!admins?.length) {
+        approvalMessage = "Staff approved, but no active Admin account was found to notify.";
+      } else {
+        const managerName = req.user.name || "The Branch Manager";
+        const branchName = building?.building_name || "the assigned branch";
+        const notifications = admins.map((admin) => ({
+          parking_session_id: null,
+          recipient_type: "super_admin",
+          recipient_id: admin.id,
+          message: `${managerName} approved ${existingUser.name} to join ${branchName} as valet staff.`,
+          channel: "in_app",
+          status: "sent",
+          sent_at: new Date().toISOString()
+        }));
+        const { error: notificationError } = await supabase
+          .from("notifications")
+          .insert(notifications);
+
+        if (notificationError) {
+          console.error("Admin staff approval notification insert error:", notificationError);
+          approvalMessage = "Staff approved, but the Admin notification could not be sent.";
+        } else {
+          approvalMessage = `Approved ${existingUser.name}. The Admin has been notified.`;
+        }
+      }
+    }
+
     return res.status(200).json({
       success: true,
-      message:
-        `Staff ${is_active ? "activated" : "deactivated"} successfully.`,
+      message: approvalMessage,
       user
     });
   } catch (error) {

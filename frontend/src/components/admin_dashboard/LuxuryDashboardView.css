@@ -288,26 +288,30 @@
 
 .lux-analytics-row {
   display: grid;
-  grid-template-columns: 1.8fr 1.15fr;
-  gap: 14px;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 18px;
 }
 
 /* Left: Vehicle Trend Line/Area Chart */
 .lux-chart-card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .lux-svg-chart-container {
   position: relative;
   width: 100%;
   flex: 1;
-  min-height: 180px;
+  min-height: 220px;
 }
 
 .lux-area-chart-svg {
+  display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  min-height: 220px;
   overflow: visible;
 }
 
@@ -363,25 +367,31 @@
 .lux-donut-card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .lux-donut-content-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   align-items: center;
-  justify-content: center;
+  width: 100%;
   flex: 1;
-  gap: 28px;
+  gap: 24px;
   padding: 12px 0;
 }
 
 .lux-donut-svg-wrap {
   position: relative;
-  width: 172px;
-  height: 172px;
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 1;
+  height: auto;
   flex-shrink: 0;
+  justify-self: center;
 }
 
 .lux-donut-svg {
+  display: block;
   width: 100%;
   height: 100%;
   transform: rotate(-90deg);
@@ -394,7 +404,7 @@
 
 .lux-donut-segment:hover,
 .lux-donut-segment.active {
-  stroke-width: 28;
+  stroke-width: 30;
   opacity: 0.92;
 }
 
@@ -428,15 +438,16 @@
 .lux-donut-legend {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  flex: 0 1 160px;
-  max-width: 176px;
+  width: 100%;
+  min-width: 0;
+  gap: 14px;
 }
 
 .lux-legend-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  min-width: 0;
+  gap: 10px;
   cursor: pointer;
   transition: opacity 0.15s ease;
   font-family: 'Plus Jakarta Sans', sans-serif;
@@ -450,8 +461,8 @@
 }
 
 .lux-legend-dot {
-  width: 9px;
-  height: 9px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -459,6 +470,7 @@
 .lux-legend-name {
   color: #57534e;
   flex: 1;
+  min-width: 0;
 }
 
 .lux-legend-percent {
@@ -656,6 +668,11 @@
   gap: 14px;
   margin-top: 2px;
 }
+
+.lux-staff-incident-row--manager {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .lux-analytics-card {
   display: flex;
   flex-direction: column;
@@ -681,14 +698,15 @@
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
   flex: 1;
-  min-height: 190px;
+  width: 100%;
+  min-height: 240px;
   padding: 8px 14px 12px 10px;
   box-sizing: border-box;
 }
 
 .lux-chart-y-axis {
   display: flex;
-  height: 165px;
+  height: 185px;
   margin-top: 18px;
   flex-direction: column;
   align-items: flex-end;
@@ -703,8 +721,9 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
-  gap: 10px;
-  min-height: 190px;
+  width: 100%;
+  gap: 14px;
+  height: 220px;
   padding: 8px 4px 4px;
   box-sizing: border-box;
   background:
@@ -721,9 +740,9 @@
 .lux-weekly-incident-column {
   display: flex;
   flex: 1;
-  max-width: 72px;
+  max-width: 170px;
   min-width: 0;
-  height: 190px;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
@@ -745,9 +764,11 @@
 
 .lux-weekly-incident-track {
   display: flex;
+  flex: 1;
   align-items: flex-end;
-  width: min(100%, 38px);
-  height: 135px;
+  width: min(100%, 56px);
+  min-height: 150px;
+  height: auto;
   border-radius: 8px 8px 4px 4px;
   overflow: hidden;
   background: linear-gradient(180deg, #f7f2fa 0%, #eee6f4 100%);
@@ -788,8 +809,8 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
-  gap: 12px;
-  min-height: 190px;
+  gap: 14px;
+  height: 220px;
   max-height: none;
   overflow: visible;
   padding: 8px 4px 4px;
@@ -798,9 +819,9 @@
 .lux-hotel-chart-column {
   display: flex;
   flex: 1;
-  max-width: 82px;
+  max-width: 150px;
   min-width: 0;
-  height: 200px;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
@@ -816,9 +837,11 @@
 
 .lux-hotel-chart-track {
   display: flex;
+  flex: 1;
   align-items: flex-end;
-  width: min(100%, 42px);
-  height: 145px;
+  width: min(100%, 56px);
+  min-height: 150px;
+  height: auto;
   overflow: hidden;
   border-radius: 8px 8px 4px 4px;
   background: linear-gradient(180deg, #f7f2fa 0%, #eee6f4 100%);
@@ -849,36 +872,38 @@
 
 @media (max-width: 680px) {
   .lux-donut-content-row {
-    gap: 16px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
   }
 
   .lux-donut-svg-wrap {
-    width: 144px;
-    height: 144px;
+    width: min(220px, 70vw);
   }
 
   .lux-donut-legend {
-    max-width: 160px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 18px;
   }
 
   .lux-weekly-incident-chart {
-    gap: 6px;
+    gap: 8px;
     padding-right: 8px;
     padding-left: 8px;
   }
 
   .lux-weekly-incident-track {
-    width: 32px;
+    width: min(100%, 44px);
   }
 
   .lux-hotel-comparison-chart {
-    gap: 6px;
+    gap: 8px;
     padding-right: 8px;
     padding-left: 8px;
   }
 
   .lux-hotel-chart-track {
-    width: 34px;
+    width: min(100%, 44px);
   }
 }
 @media (max-width: 900px) {

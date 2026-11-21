@@ -625,7 +625,9 @@
 }
 
 .infra-hotel-form {
-  gap: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .infra-hotel-form .infra-form-group {

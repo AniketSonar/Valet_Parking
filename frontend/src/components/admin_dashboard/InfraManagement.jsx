@@ -63,7 +63,6 @@ export default function InfraManagement() {
     location: "",
     address: "",
     manager_id: "",
-    slot_count: 30,
   });
 
   // Configure Infra Modal
@@ -194,14 +193,11 @@ export default function InfraManagement() {
     }
     try {
       setActionLoading(true);
-      const res = await createBuilding({
-        ...hotelForm,
-        slot_count: Number(hotelForm.slot_count) || 30
-      });
+      const res = await createBuilding(hotelForm);
       if (res?.success) {
         showNotification("Hotel branch added successfully.");
         setShowAddHotelModal(false);
-        setHotelForm({ hotel_name: "", location: "", address: "", manager_id: "", slot_count: 30 });
+        setHotelForm({ hotel_name: "", location: "", address: "", manager_id: "" });
         await loadData();
       } else {
         throw new Error(res?.message || "Failed to create hotel.");
@@ -999,22 +995,6 @@ export default function InfraManagement() {
               </div>
 
               <div className="infra-form-group">
-                <label>Initial Parking Spaces / Slots *</label>
-                <input
-                  type="number"
-                  min="5"
-                  max="500"
-                  placeholder="e.g. 30"
-                  value={hotelForm.slot_count}
-                  onChange={(e) => setHotelForm({ ...hotelForm, slot_count: e.target.value })}
-                  required
-                />
-                <small style={{ color: "#6b7280", fontSize: "11.5px" }}>
-                  Number of parking spaces to automatically generate for this branch. You can further customize levels anytime.
-                </small>
-              </div>
-
-              <div className="infra-form-group">
                 <label>Assign Branch Manager (Optional)</label>
                 <select
                   value={hotelForm.manager_id || ""}
@@ -1072,7 +1052,7 @@ export default function InfraManagement() {
               </button>
             </div>
 
-            <form onSubmit={handleUpdateHotel} className="infra-form-grid">
+            <form onSubmit={handleUpdateHotel} className="infra-form-grid infra-hotel-form">
               <div className="infra-form-group">
                 <label>Hotel Branch Name *</label>
                 <input

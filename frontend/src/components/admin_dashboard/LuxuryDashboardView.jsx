@@ -439,7 +439,7 @@ function LuxuryDashboardView({
             alt="Valet Parking Luxury Service"
             className="lux-welcome-img"
           />
-          <div className="lux-welcome-overlay" />
+          <div className="lux-welcome-overlay dashboard-hero-feather" />
         </div>
       </section>
 

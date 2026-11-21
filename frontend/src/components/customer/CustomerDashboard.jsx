@@ -154,7 +154,15 @@ function CustomerDashboard({ onNavigate, onCustomerLoaded }) {
   return (
     <main className="customer-page">
       {/* PAGE HEADER */}
-      <header className="customer-page-header">
+      <header className="customer-page-header customer-dashboard-hero">
+        <div
+          className="customer-dashboard-hero-visual"
+          aria-hidden="true"
+        >
+          <img src="/welcome-hero-banner.jpg" alt="" />
+          <div className="customer-dashboard-hero-fade dashboard-hero-feather" />
+        </div>
+
         <div className="customer-page-heading">
           <span className="customer-eyebrow">CUSTOMER PORTAL</span>
 

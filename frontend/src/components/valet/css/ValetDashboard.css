@@ -1627,7 +1627,6 @@
 .vd-hero-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #fdfbf8 0%, rgba(253, 251, 248, 0.7) 22%, transparent 62%);
 }
 
 /* ---------- KPI strip (overlaps the hero) ---------- */

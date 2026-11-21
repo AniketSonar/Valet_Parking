@@ -39,6 +39,25 @@
   min-width: 0;
 }
 
+.dashboard-hero-feather {
+  background:
+    linear-gradient(
+      90deg,
+      #fdfbf8 0%,
+      rgba(253, 251, 248, 0.96) 14%,
+      rgba(253, 251, 248, 0.72) 30%,
+      rgba(253, 251, 248, 0.25) 58%,
+      transparent 86%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(253, 251, 248, 0.38) 0%,
+      transparent 22%,
+      transparent 78%,
+      rgba(247, 242, 237, 0.42) 100%
+    );
+}
+
 
 @media (max-width: 900px) {
   .dash-main {

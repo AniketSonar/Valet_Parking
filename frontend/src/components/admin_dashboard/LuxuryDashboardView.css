@@ -652,52 +652,58 @@
   flex-direction: column;
   min-height: 200px;
 }
-.lux-incident-chart-row {
+.lux-weekly-incident-chart {
   display: flex;
   flex: 1;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 10px;
   min-height: 240px;
-  padding: 16px 18px 22px;
+  padding: 20px 18px 16px;
   box-sizing: border-box;
 }
 
-.lux-incident-chart {
-  width: 180px;
-  height: 180px;
-  flex: 0 0 180px;
-}
-
-.lux-incident-legend {
-  width: 180px;
-  max-width: 40%;
-}
-
-.lux-incident-legend-item {
+.lux-weekly-incident-column {
   display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 10px;
-  color: #57534e;
-  font-size: 14px;
-  text-transform: capitalize;
-}
-
-.lux-incident-legend-dot {
-  width: 10px;
-  height: 10px;
-  flex: 0 0 10px;
-  border-radius: 50%;
-}
-
-.lux-incident-legend-label {
   flex: 1;
+  max-width: 72px;
+  min-width: 0;
+  height: 190px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
 }
 
-.lux-incident-legend-item strong {
+.lux-weekly-incident-count {
+  min-height: 17px;
   color: #42235e;
-  font-size: 14px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.lux-weekly-incident-track {
+  display: flex;
+  align-items: flex-end;
+  width: min(100%, 38px);
+  height: 135px;
+  border-radius: 7px 7px 3px 3px;
+  overflow: hidden;
+  background: #f2eaf7;
+}
+
+.lux-weekly-incident-bar {
+  width: 100%;
+  border-radius: 7px 7px 3px 3px;
+  background: linear-gradient(180deg, #8e5ab5, #42235e);
+  transition: height 0.3s ease;
+}
+
+.lux-weekly-incident-label {
+  color: #76665c;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .lux-incident-empty {
@@ -718,72 +724,58 @@
 .lux-hotel-comparison-chart {
   display: flex;
   flex: 1;
-  flex-direction: column;
-  gap: 10px;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 12px;
   max-height: 250px;
   overflow-y: auto;
   padding: 14px 18px 18px;
 }
 
-.lux-hotel-chart-scale {
+.lux-hotel-chart-column {
   display: flex;
-  justify-content: space-between;
-  margin: 0 2px 0 0;
-  color: #8a757b;
-  font-size: 10px;
-}
-
-.lux-hotel-chart-row {
-  display: flex;
+  flex: 1;
+  max-width: 82px;
+  min-width: 0;
+  height: 200px;
   flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
 }
 
-.lux-hotel-chart-heading {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  color: #28103c;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.lux-hotel-chart-heading span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.lux-hotel-chart-heading strong {
-  flex: 0 0 auto;
+.lux-hotel-chart-value {
   color: #42235e;
+  font-size: 11px;
+  line-height: 1;
 }
 
 .lux-hotel-chart-track {
-  height: 9px;
+  display: flex;
+  align-items: flex-end;
+  width: min(100%, 42px);
+  height: 145px;
   overflow: hidden;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #f1e7f6 50%, #eadff0 50%);
-  background-size: 50% 100%;
+  border-radius: 7px 7px 3px 3px;
+  background: #f2eaf7;
 }
 
 .lux-hotel-chart-bar {
-  height: 100%;
-  border-radius: 6px;
+  width: 100%;
+  border-radius: 7px 7px 3px 3px;
   background: linear-gradient(90deg, #8e5ab5, #42235e);
-  transition: width 0.4s ease;
+  transition: height 0.4s ease;
 }
 
-.lux-hotel-chart-metrics {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
+.lux-hotel-chart-name {
+  width: 100%;
   color: #76665c;
-  font-size: 10px;
-}
-
-.lux-hotel-chart-metrics strong {
-  color: #42235e;
+  font-size: 10.5px;
+  font-weight: 700;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @media (max-width: 680px) {
@@ -800,24 +792,24 @@
     max-width: 160px;
   }
 
-  .lux-incident-chart-row {
-    gap: 12px;
-    padding: 14px 8px;
+  .lux-weekly-incident-chart {
+    gap: 6px;
+    padding-right: 8px;
+    padding-left: 8px;
   }
 
-  .lux-incident-chart {
-    width: 150px;
-    height: 150px;
-    flex-basis: 150px;
+  .lux-weekly-incident-track {
+    width: 32px;
   }
 
-  .lux-incident-legend {
-    max-width: 46%;
-    font-size: 12px;
+  .lux-hotel-comparison-chart {
+    gap: 6px;
+    padding-right: 8px;
+    padding-left: 8px;
   }
 
-  .lux-hotel-chart-metrics {
-    flex-wrap: wrap;
+  .lux-hotel-chart-track {
+    width: 34px;
   }
 }
 @media (max-width: 900px) {

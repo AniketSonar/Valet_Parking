@@ -1058,66 +1058,41 @@ function LuxuryDashboardView({
           })()}
         </div>
 
-        {/* Incident Pie/Donut Chart */}
+        {/* Incident Weekly Bar Chart */}
         <div className="lux-card lux-analytics-card">
           <div className="lux-card-topbar">
             <div className="lux-card-title-group">
               <Shield size={18} className="lux-card-header-icon" />
-              <h3>Incidents by Type</h3>
+              <h3>Incidents by Week</h3>
             </div>
           </div>
           {(() => {
-            const breakdown = analytics?.incidentBreakdown || [];
-            const incColors = ["#42235e","#6c349c","#bc9b6a","#8e5ab5","#c9a87a","#240f35"];
-            const total = breakdown.reduce((sum, item) => sum + item.count, 0);
-            if (total === 0) {
+            const trend = analytics?.incidentTrend || [];
+            const total = trend.reduce((sum, item) => sum + Number(item.count || 0), 0);
+            if (trend.length === 0) {
               return (
                 <div className="lux-incident-empty">
                   <Shield size={32} />
-                  <span>No incidents recorded</span>
+                  <span>No incident trend data</span>
                 </div>
               );
             }
-            let cumAngle = 0;
-            const slices = breakdown.map((item, index) => {
-              const angle = (item.count / total) * 360;
-              const startAngle = cumAngle;
-              cumAngle += angle;
-              return { ...item, angle, startAngle, color: incColors[index % incColors.length] };
-            });
-            const toXY = (cx, cy, radius, angleDeg) => {
-              const rad = ((angleDeg - 90) * Math.PI) / 180;
-              return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
-            };
-            const cx = 70, cy = 70, radius = 62, innerRadius = 38;
+            const maxCount = Math.max(...trend.map((item) => Number(item.count || 0)), 1);
             return (
-              <div className="lux-incident-chart-row">
-                <svg className="lux-incident-chart" viewBox="0 0 140 140" role="img" aria-label={`${total} incidents by type`}>
-                  {slices.map((slice, index) => {
-                    if (slice.angle >= 360) {
-                      return <circle key={index} cx={cx} cy={cy} r={radius} fill={slice.color} opacity={0.9} />;
-                    }
-                    const start = toXY(cx, cy, radius, slice.startAngle);
-                    const end = toXY(cx, cy, radius, slice.startAngle + slice.angle);
-                    const innerStart = toXY(cx, cy, innerRadius, slice.startAngle);
-                    const innerEnd = toXY(cx, cy, innerRadius, slice.startAngle + slice.angle);
-                    const large = slice.angle > 180 ? 1 : 0;
-                    const path = `M ${innerStart.x} ${innerStart.y} L ${start.x} ${start.y} A ${radius} ${radius} 0 ${large} 1 ${end.x} ${end.y} L ${innerEnd.x} ${innerEnd.y} A ${innerRadius} ${innerRadius} 0 ${large} 0 ${innerStart.x} ${innerStart.y} Z`;
-                    return <path key={index} d={path} fill={slice.color} opacity={0.9} />;
-                  })}
-                  <circle cx={cx} cy={cy} r={innerRadius} fill="#fff" />
-                  <text x={cx} y={cy - 6} textAnchor="middle" fontSize="20" fontWeight="800" fill="#42235e">{total}</text>
-                  <text x={cx} y={cy + 12} textAnchor="middle" fontSize="10" fill="#8a757b">TOTAL</text>
-                </svg>
-                <div className="lux-incident-legend">
-                  {slices.map((slice, index) => (
-                    <div key={index} className="lux-incident-legend-item">
-                      <span className="lux-incident-legend-dot" style={{ background: slice.color }} />
-                      <span className="lux-incident-legend-label">{slice.type.replace(/_/g, " ")}</span>
-                      <strong>{slice.count}</strong>
+              <div className="lux-weekly-incident-chart" role="img" aria-label={`${total} incidents across four weeks`}>
+                {trend.map((item, index) => {
+                  const count = Number(item.count || 0);
+                  const height = count === 0 ? 3 : Math.max(8, (count / maxCount) * 100);
+                  return (
+                    <div key={`${item.week}-${index}`} className="lux-weekly-incident-column" title={`${item.week}: ${count} incidents`}>
+                      <span className="lux-weekly-incident-count">{count}</span>
+                      <div className="lux-weekly-incident-track">
+                        <div className="lux-weekly-incident-bar" style={{ height: `${height}%` }} />
+                      </div>
+                      <span className="lux-weekly-incident-label">{item.week}</span>
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
             );
           })()}
@@ -1159,29 +1134,16 @@ function LuxuryDashboardView({
             }
 
             return (
-              <div className="lux-hotel-comparison-chart">
-                <div className="lux-hotel-chart-scale">
-                  <span>0%</span>
-                  <span>50%</span>
-                  <span>100%</span>
-                </div>
+              <div className="lux-hotel-comparison-chart" role="img" aria-label="Hotel occupancy comparison bar chart">
                 {data.map((h) => {
                   const rate = Math.min(100, Math.max(0, Number(h.occupancyRate || 0)));
-
                   return (
-                    <div key={h.hotel_id} className="lux-hotel-chart-row">
-                      <div className="lux-hotel-chart-heading">
-                        <span title={h.hotel_name}>{h.hotel_name}</span>
-                        <strong>{rate}%</strong>
-                      </div>
+                    <div key={h.hotel_id} className="lux-hotel-chart-column" title={`${h.hotel_name}: ${rate}% occupancy`}>
+                      <strong className="lux-hotel-chart-value">{rate}%</strong>
                       <div className="lux-hotel-chart-track">
-                        <div className="lux-hotel-chart-bar" style={{ width: `${rate}%` }} />
+                        <div className="lux-hotel-chart-bar" style={{ height: `${Math.max(3, rate)}%` }} />
                       </div>
-                      <div className="lux-hotel-chart-metrics">
-                        <span>Slots: <strong>{h.occupiedSlots ?? 0}/{h.totalSlots ?? 0}</strong></span>
-                        <span>Revenue: <strong>₹{Number(h.revenue || 0).toLocaleString("en-IN")}</strong></span>
-                        <span>Sessions: <strong>{h.sessionsCount ?? 0}</strong></span>
-                      </div>
+                      <span className="lux-hotel-chart-name" title={h.hotel_name}>{h.hotel_name}</span>
                     </div>
                   );
                 })}

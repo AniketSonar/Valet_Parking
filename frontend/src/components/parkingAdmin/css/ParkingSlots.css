@@ -1259,11 +1259,12 @@
 /* CUSTOMER & TELEMETRY GRID */
 .detail-key-value-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
 .key-value-card {
+  min-width: 0;
   background: #fcf8f9;
   border: 1px solid var(--parking-border);
   border-radius: 10px;
@@ -1287,11 +1288,25 @@
 }
 
 .card-value.highlight-ticket {
-  display: inline-flex;
+  display: flex;
+  min-width: 0;
   align-items: center;
+  flex-wrap: nowrap;
   gap: 5px;
   color: var(--parking-indigo);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  white-space: nowrap;
+}
+
+.card-value.highlight-ticket svg {
+  flex: 0 0 auto;
+}
+
+.card-value.highlight-ticket span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* FACILITY SERVICES & AMENITIES TAGS (MATCHING IMAGE 1) */

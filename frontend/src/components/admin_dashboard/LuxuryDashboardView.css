@@ -19,7 +19,7 @@
 .lux-welcome-banner {
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   min-height: 130px;
   background: linear-gradient(90deg, #fdfbf8 0%, #f7f2ed 35%, rgba(247, 242, 237, 0.5) 100%);
@@ -27,20 +27,20 @@
   border: 1px solid rgba(139, 18, 48, 0.08);
   box-shadow: 0 4px 20px rgba(139, 18, 48, 0.04);
   overflow: hidden;
-  z-index: 30;
-  padding: 16px 24px 14px;
+  z-index: 1;
+  padding: 14px 24px;
 }
 
 .lux-welcome-text {
   position: relative;
   z-index: 31;
-  width: 100%;
-  max-width: 100%;
+  width: 64%;
+  max-width: 700px;
 }
 
 .lux-welcome-greeting {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   color: #c59b27 !important;
   display: block;
@@ -50,7 +50,7 @@
 
 .lux-welcome-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 2.7vw, 2.85rem);
+  font-size: clamp(1.8rem, 2.4vw, 2.3rem);
   font-weight: 800;
   color: #42235e !important;
   margin: 0 0 2px 0;
@@ -60,9 +60,9 @@
 
 .lux-welcome-sub {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13.5px;
+  font-size: 12px;
   color: #78716c;
-  margin: 0 0 10px 0;
+  margin: 0 0 6px;
   font-weight: 450;
 }
 
@@ -98,14 +98,14 @@
 }
 
 /* ================================================================
-   2. TOP 6 KPI STAT CARDS (SINGLE ROW GRID)
+   2. RESPONSIVE KPI STAT CARDS
    ================================================================ */
 
 .lux-stats-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 10px;
-  margin-top: 10px;
+  margin-top: -16px;
   position: relative;
   z-index: 5;
   padding: 0;
@@ -118,7 +118,8 @@
   border: 1px solid #eadfd7;
   border-left: 4px solid #bc9b6a; /* Left side golden-bronze design */
   box-shadow: 0 4px 16px rgba(45, 10, 18, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02);
-  padding: 12px 14px 12px;
+  min-height: 90px;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -599,7 +600,7 @@
 
 @media (max-width: 1100px) {
   .lux-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
 
   .lux-analytics-row,
@@ -616,6 +617,11 @@
   .lux-welcome-banner {
     flex-direction: column;
     padding: 20px;
+  }
+
+  .lux-welcome-text {
+    width: 100%;
+    max-width: 100%;
   }
 
   .lux-welcome-visual {

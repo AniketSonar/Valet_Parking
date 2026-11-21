@@ -306,6 +306,9 @@ function LuxuryDashboardView({
         <div className="lux-welcome-text">
           <span className="lux-welcome-greeting">{greeting}</span>
           <h1 className="lux-welcome-title">Welcome Back!</h1>
+          <p className="lux-welcome-sub">
+            Here&apos;s what&apos;s happening with your valet parking today.
+          </p>
 
           {/* Hotel / Branch Visible Selector (Single Row spanning across banner) */}
           <div style={{ marginTop: "6px", width: "100%" }}>
@@ -444,7 +447,7 @@ function LuxuryDashboardView({
       </section>
 
       {/* ========================================================
-          2. TOP 6 KPI STAT CARDS (ALL IN ONE ROW: 6 CARDS)
+          2. KPI STAT CARDS
       ======================================================== */}
       <section className="lux-stats-grid">
         {/* Card 1: Total Vehicles Today */}

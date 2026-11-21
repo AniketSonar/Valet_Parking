@@ -217,7 +217,7 @@ const getValetPost = async (user) => {
     .select(`
       id, floor_id, post_id, assigned_at,
       post:valet_posts ( id, post_name, capacity, gate:parking_gates ( id, gate_name, gate_type, side ) ),
-      floor:parking_floors ( id, floor_name, floor_number, building:parking_buildings ( building_name ) )
+      floor:parking_floors ( id, floor_name, floor_number, building_id, building:parking_buildings ( id, building_name ) )
     `)
     .eq("valet_id", employee.id)
     .eq("is_active", true)

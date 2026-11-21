@@ -1072,9 +1072,9 @@ function LuxuryDashboardView({
             const total = breakdown.reduce((s, i) => s + i.count, 0);
             if (total === 0) {
               return (
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "32px 0", color: "#8a757b", fontSize: "13px" }}>
-                  <Shield size={32} style={{ opacity: 0.25, marginBottom: "8px" }} />
-                  No incidents recorded
+                <div className="lux-incident-empty">
+                  <Shield size={32} />
+                  <span>No incidents recorded</span>
                 </div>
               );
             }
@@ -1089,11 +1089,14 @@ function LuxuryDashboardView({
               const rad = ((angleDeg - 90) * Math.PI) / 180;
               return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
             };
-            const cx = 70, cy = 70, r = 55, ir = 32;
+            const cx = 70, cy = 70, r = 62, ir = 38;
             return (
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", paddingTop: "4px" }}>
-                <svg width="124" height="124" viewBox="0 0 140 140">
+              <div className="lux-incident-chart-row">
+                <svg className="lux-incident-chart" viewBox="0 0 140 140" role="img" aria-label={`${total} incidents by type`}>
                   {slices.map((sl, idx) => {
+                    if (sl.angle >= 360) {
+                      return <circle key={idx} cx={cx} cy={cy} r={r} fill={sl.color} opacity={0.9} />;
+                    }
                     const s = toXY(cx, cy, r, sl.startAngle);
                     const e = toXY(cx, cy, r, sl.startAngle + sl.angle);
                     const si = toXY(cx, cy, ir, sl.startAngle);
@@ -1102,15 +1105,16 @@ function LuxuryDashboardView({
                     const d = `M ${si.x} ${si.y} L ${s.x} ${s.y} A ${r} ${r} 0 ${large} 1 ${e.x} ${e.y} L ${ei.x} ${ei.y} A ${ir} ${ir} 0 ${large} 0 ${si.x} ${si.y} Z`;
                     return <path key={idx} d={d} fill={sl.color} opacity={0.9} />;
                   })}
-                  <text x={cx} y={cy - 6} textAnchor="middle" fontSize="18" fontWeight="800" fill="#42235e">{total}</text>
-                  <text x={cx} y={cy + 10} textAnchor="middle" fontSize="9" fill="#8a757b">TOTAL</text>
+                  <circle cx={cx} cy={cy} r={ir} fill="#fff" />
+                  <text x={cx} y={cy - 6} textAnchor="middle" fontSize="20" fontWeight="800" fill="#42235e">{total}</text>
+                  <text x={cx} y={cy + 12} textAnchor="middle" fontSize="10" fill="#8a757b">TOTAL</text>
                 </svg>
-                <div style={{ flex: 1 }}>
+                <div className="lux-incident-legend">
                   {slices.map((sl, idx) => (
-                    <div key={idx} style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
-                      <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: sl.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: "11px", color: "#57534e", flex: 1, textTransform: "capitalize" }}>{sl.type.replace(/_/g," ")}</span>
-                      <strong style={{ fontSize: "11px", color: "#42235e" }}>{sl.count}</strong>
+                    <div key={idx} className="lux-incident-legend-item">
+                      <span className="lux-incident-legend-dot" style={{ background: sl.color }} />
+                      <span className="lux-incident-legend-label">{sl.type.replace(/_/g," ")}</span>
+                      <strong>{sl.count}</strong>
                     </div>
                   ))}
                 </div>

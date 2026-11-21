@@ -665,6 +665,14 @@ const getSystemReports = async (req, res) => {
   try {
     let hotelId = req.query.hotelId || req.query.building_id;
     const period = req.query.period || "daily"; // daily, weekly, monthly
+    const now = new Date();
+    const periodStart = new Date(now);
+    periodStart.setUTCHours(0, 0, 0, 0);
+    if (period === "weekly") {
+      periodStart.setUTCDate(periodStart.getUTCDate() - 6);
+    } else if (period === "monthly") {
+      periodStart.setUTCDate(1);
+    }
 
     // If caller is a manager, lock strictly to their assigned branch
     const isManager = req.user?.role === "manager" || req.user?.role === "parking_admin";
@@ -696,7 +704,7 @@ const getSystemReports = async (req, res) => {
         floor:parking_floors ( id, floor_name, building:parking_buildings ( id, building_name ) )
       `).eq("is_active", true),
       supabase.from("employees").select("*").eq("role", "valet"),
-      supabase.from("users").select("id, name, email, role").in("role", ["manager", "parking_admin"])
+      supabase.from("users").select("id, name, email, role, is_active").in("role", ["manager", "parking_admin"])
     ]);
 
     const rawBuildings = bRes.data || [];
@@ -730,6 +738,41 @@ const getSystemReports = async (req, res) => {
         return info && info.hotel_id === hotelId;
       });
     }
+    const periodSessions = targetSessions.filter((session) => (
+      session.checked_in_at &&
+      new Date(session.checked_in_at) >= periodStart &&
+      new Date(session.checked_in_at) <= now
+    ));
+
+    const periodSessionIds = periodSessions.map((session) => session.id);
+    const feedbackBySession = new Map();
+    if (periodSessionIds.length > 0) {
+      const { data: feedbackRows, error: feedbackError } = await supabase
+        .from("feedback")
+        .select("parking_session_id, rating")
+        .in("parking_session_id", periodSessionIds);
+      if (feedbackError) throw feedbackError;
+      (feedbackRows || []).forEach((row) => {
+        const ratings = feedbackBySession.get(row.parking_session_id) || [];
+        ratings.push(Number(row.rating || 0));
+        feedbackBySession.set(row.parking_session_id, ratings);
+      });
+    }
+
+    const staffByHotel = new Map();
+    const addHotelStaff = (buildingId, staffId) => {
+      if (!buildingId || !staffId) return;
+      const staffIds = staffByHotel.get(buildingId) || new Set();
+      staffIds.add(staffId);
+      staffByHotel.set(buildingId, staffIds);
+    };
+    managerAssignments.forEach((assignment) => {
+      addHotelStaff(assignment.floor?.building?.id, assignment.manager_id);
+    });
+    valetAssignments.forEach((assignment) => {
+      const floor = floors.find((item) => item.id === assignment.floor_id);
+      addHotelStaff(floor?.building_id, assignment.valet_id);
+    });
 
     // 2. Hotel-wise Parking Reports (for table / cards)
     const hotelReports = buildings.map((b) => {
@@ -771,8 +814,7 @@ const getSystemReports = async (req, res) => {
         active_sessions: bActive.length,
         total_revenue: revenue,
         revenue,
-        staffCount: (managerAssignments.filter(ma => floors.some(f => f.building_id === b.id && f.id === ma.floor_id)).length) +
-                    (valetAssignments.filter(va => floors.some(f => f.building_id === b.id && f.id === va.floor_id)).length)
+        staffCount: staffByHotel.get(b.id)?.size || 0
       };
     });
 
@@ -784,7 +826,13 @@ const getSystemReports = async (req, res) => {
       const assignedFloorIds = new Set(muAssignments.map((ma) => ma.floor_id));
       const flSlots = slots.filter((s) => assignedFloorIds.has(s.floor_id));
       const slotNumbers = new Set(flSlots.map((s) => s.slot_number));
-      const mSessions = allSessions.filter((s) => s.parking_slot && slotNumbers.has(s.parking_slot));
+      const mSessions = periodSessions.filter((s) => s.parking_slot && slotNumbers.has(s.parking_slot));
+      const managerRevenue = mSessions.reduce((sum, session) => {
+        const payment = Array.isArray(session.payment) ? session.payment[0] : session.payment;
+        return payment?.payment_status === "paid"
+          ? sum + Number(payment.total_amount || 0)
+          : sum;
+      }, 0);
 
       const firstFloor = muAssignments[0]?.floor;
       const muHotelId = firstFloor?.building?.id || null;
@@ -799,10 +847,13 @@ const getSystemReports = async (req, res) => {
         email: mu.email || "",
         hotel_id: muHotelId,
         hotel_name: hotelName,
+        is_active: mu.is_active !== false,
         floor_name: floorDisplay,
         slots_managed: flSlots.length,
+        staff_count: staffByHotel.get(muHotelId)?.size || 0,
         total_sessions: mSessions.length,
-        active_sessions: mSessions.filter((s) => ["checked_in", "parked", "retrieval_requested", "retrieving"].includes(s.status)).length
+        active_sessions: mSessions.filter((s) => ["checked_in", "parked", "retrieval_requested", "retrieving"].includes(s.status)).length,
+        total_revenue: managerRevenue
       };
     });
 
@@ -811,7 +862,7 @@ const getSystemReports = async (req, res) => {
       const va = valetAssignments.find((a) => a.valet_id === v.id);
       const fl = va ? floors.find((f) => f.id === va.floor_id) : null;
 
-      const vSessions = allSessions.filter((s) => s.valet?.id === v.id);
+      const vSessions = periodSessions.filter((s) => s.valet?.id === v.id);
       const vCheckins = vSessions.filter((s) => s.checked_in_at).length;
       const vRetrievals = vSessions.filter((s) => s.status === "returned_completed").length;
       const vActive = vSessions.filter((s) => ["checked_in", "parked", "retrieval_requested", "retrieving"].includes(s.status)).length;
@@ -819,6 +870,10 @@ const getSystemReports = async (req, res) => {
         const p = Array.isArray(s.payment) ? s.payment[0] : s.payment;
         return p?.payment_status === "paid" ? sum + Number(p.total_amount || 0) : sum;
       }, 0);
+      const valetRatings = vSessions.flatMap((session) => feedbackBySession.get(session.id) || []);
+      const averageRating = valetRatings.length
+        ? Math.round((valetRatings.reduce((sum, rating) => sum + rating, 0) / valetRatings.length) * 10) / 10
+        : null;
 
       return {
         valet_id: v.id,
@@ -835,6 +890,9 @@ const getSystemReports = async (req, res) => {
         retrievals_completed: vRetrievals,
         returnsCompleted: vRetrievals,
         active_tasks: vActive,
+        average_retrieval_minutes: null,
+        average_rating: averageRating,
+        rating_count: valetRatings.length,
         revenueCollected: vRevenue
       };
     });
@@ -893,8 +951,6 @@ const getSystemReports = async (req, res) => {
     // 6. Time-series parking reports (daily, weekly, monthly)
     const timeSeries = [];
     const daysBack = period === "monthly" ? 90 : period === "weekly" ? 28 : 7;
-    const now = new Date();
-
     for (let i = daysBack - 1; i >= 0; i--) {
       const d = new Date(now);
       d.setDate(d.getDate() - i);

@@ -41,26 +41,12 @@
 
 .lux-welcome-greeting {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   color: #c59b27 !important;
-  display: inline-flex;
-  flex: 0 0 auto;
-  margin-bottom: 0;
+  display: block;
+  margin-bottom: 2px;
   letter-spacing: 0.6px;
-}
-
-.lux-welcome-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-  margin-bottom: 6px;
-}
-
-.lux-welcome-branches {
-  flex: 1;
-  min-width: 0;
 }
 
 .lux-welcome-title {
@@ -666,6 +652,54 @@
   flex-direction: column;
   min-height: 200px;
 }
+.lux-incident-chart-row {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  min-height: 240px;
+  padding: 16px 18px 22px;
+  box-sizing: border-box;
+}
+
+.lux-incident-chart {
+  width: 180px;
+  height: 180px;
+  flex: 0 0 180px;
+}
+
+.lux-incident-legend {
+  width: 180px;
+  max-width: 40%;
+}
+
+.lux-incident-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 10px;
+  color: #57534e;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.lux-incident-legend-dot {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 10px;
+  border-radius: 50%;
+}
+
+.lux-incident-legend-label {
+  flex: 1;
+}
+
+.lux-incident-legend-item strong {
+  color: #42235e;
+  font-size: 14px;
+}
+
 .lux-incident-empty {
   display: flex;
   flex: 1;
@@ -679,57 +713,6 @@
 }
 .lux-incident-empty svg {
   opacity: 0.3;
-}
-
-.lux-weekly-incident-chart {
-  display: flex;
-  flex: 1;
-  align-items: stretch;
-  justify-content: space-around;
-  gap: 8px;
-  min-height: 240px;
-  padding: 22px 18px 18px;
-}
-
-.lux-weekly-incident-day {
-  display: flex;
-  flex: 1;
-  min-width: 0;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 7px;
-}
-
-.lux-weekly-incident-count {
-  min-height: 16px;
-  color: #42235e;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.lux-weekly-incident-track {
-  display: flex;
-  align-items: flex-end;
-  width: min(100%, 34px);
-  height: 150px;
-  overflow: hidden;
-  border-radius: 7px 7px 3px 3px;
-  background: #f2eaf7;
-}
-
-.lux-weekly-incident-bar {
-  width: 100%;
-  min-height: 0;
-  border-radius: 7px 7px 3px 3px;
-  background: linear-gradient(180deg, #8e5ab5, #42235e);
-  transition: height 0.3s ease;
-}
-
-.lux-weekly-incident-label {
-  color: #76665c;
-  font-size: 11px;
-  font-weight: 600;
 }
 
 .lux-hotel-comparison-chart {
@@ -817,16 +800,20 @@
     max-width: 160px;
   }
 
-  .lux-welcome-meta {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
+  .lux-incident-chart-row {
+    gap: 12px;
+    padding: 14px 8px;
   }
 
-  .lux-weekly-incident-chart {
-    gap: 5px;
-    padding-right: 10px;
-    padding-left: 10px;
+  .lux-incident-chart {
+    width: 150px;
+    height: 150px;
+    flex-basis: 150px;
+  }
+
+  .lux-incident-legend {
+    max-width: 46%;
+    font-size: 12px;
   }
 
   .lux-hotel-chart-metrics {

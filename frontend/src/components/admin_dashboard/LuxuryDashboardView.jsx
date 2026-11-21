@@ -304,10 +304,12 @@ function LuxuryDashboardView({
       ======================================================== */}
       <section className="lux-welcome-banner">
         <div className="lux-welcome-text">
-          <div className="lux-welcome-meta">
-            <span className="lux-welcome-greeting">{greeting}</span>
-            <div className="lux-welcome-branches">
-              <div style={{
+          <span className="lux-welcome-greeting">{greeting}</span>
+          <h1 className="lux-welcome-title">Welcome Back!</h1>
+
+          {/* Hotel / Branch Visible Selector (Single Row spanning across banner) */}
+          <div style={{ marginTop: "6px", width: "100%" }}>
+            <div style={{
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
@@ -428,9 +430,7 @@ function LuxuryDashboardView({
                   </span>
                 )}
               </div>
-            </div>
           </div>
-          <h1 className="lux-welcome-title">Welcome Back!</h1>
         </div>
 
         <div className="lux-welcome-visual">
@@ -1058,47 +1058,66 @@ function LuxuryDashboardView({
           })()}
         </div>
 
-        {/* Weekly Incidents Bar Chart */}
+        {/* Incident Pie/Donut Chart */}
         <div className="lux-card lux-analytics-card">
           <div className="lux-card-topbar">
             <div className="lux-card-title-group">
               <Shield size={18} className="lux-card-header-icon" />
-              <h3>Incidents This Week</h3>
+              <h3>Incidents by Type</h3>
             </div>
           </div>
           {(() => {
-            const trend = analytics?.incidentTrend || [];
-            const total = trend.reduce((sum, item) => sum + Number(item.count || 0), 0);
-            if (trend.length === 0 || total === 0) {
+            const breakdown = analytics?.incidentBreakdown || [];
+            const incColors = ["#42235e","#6c349c","#bc9b6a","#8e5ab5","#c9a87a","#240f35"];
+            const total = breakdown.reduce((sum, item) => sum + item.count, 0);
+            if (total === 0) {
               return (
                 <div className="lux-incident-empty">
                   <Shield size={32} />
-                  <span>No incidents recorded this week</span>
+                  <span>No incidents recorded</span>
                 </div>
               );
             }
-            const maxCount = Math.max(...trend.map((item) => Number(item.count || 0)), 1);
+            let cumAngle = 0;
+            const slices = breakdown.map((item, index) => {
+              const angle = (item.count / total) * 360;
+              const startAngle = cumAngle;
+              cumAngle += angle;
+              return { ...item, angle, startAngle, color: incColors[index % incColors.length] };
+            });
+            const toXY = (cx, cy, radius, angleDeg) => {
+              const rad = ((angleDeg - 90) * Math.PI) / 180;
+              return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+            };
+            const cx = 70, cy = 70, radius = 62, innerRadius = 38;
             return (
-              <div className="lux-weekly-incident-chart" role="img" aria-label={`${total} incidents recorded over the last seven days`}>
-                {trend.map((item, index) => {
-                  const count = Number(item.count || 0);
-                  return (
-                    <div
-                      key={`${item.day}-${index}`}
-                      className="lux-weekly-incident-day"
-                      title={`${item.day}: ${count} incident${count === 1 ? "" : "s"}`}
-                    >
-                      <span className="lux-weekly-incident-count">{count || ""}</span>
-                      <div className="lux-weekly-incident-track">
-                        <div
-                          className="lux-weekly-incident-bar"
-                          style={{ height: `${(count / maxCount) * 100}%` }}
-                        />
-                      </div>
-                      <span className="lux-weekly-incident-label">{item.day}</span>
+              <div className="lux-incident-chart-row">
+                <svg className="lux-incident-chart" viewBox="0 0 140 140" role="img" aria-label={`${total} incidents by type`}>
+                  {slices.map((slice, index) => {
+                    if (slice.angle >= 360) {
+                      return <circle key={index} cx={cx} cy={cy} r={radius} fill={slice.color} opacity={0.9} />;
+                    }
+                    const start = toXY(cx, cy, radius, slice.startAngle);
+                    const end = toXY(cx, cy, radius, slice.startAngle + slice.angle);
+                    const innerStart = toXY(cx, cy, innerRadius, slice.startAngle);
+                    const innerEnd = toXY(cx, cy, innerRadius, slice.startAngle + slice.angle);
+                    const large = slice.angle > 180 ? 1 : 0;
+                    const path = `M ${innerStart.x} ${innerStart.y} L ${start.x} ${start.y} A ${radius} ${radius} 0 ${large} 1 ${end.x} ${end.y} L ${innerEnd.x} ${innerEnd.y} A ${innerRadius} ${innerRadius} 0 ${large} 0 ${innerStart.x} ${innerStart.y} Z`;
+                    return <path key={index} d={path} fill={slice.color} opacity={0.9} />;
+                  })}
+                  <circle cx={cx} cy={cy} r={innerRadius} fill="#fff" />
+                  <text x={cx} y={cy - 6} textAnchor="middle" fontSize="20" fontWeight="800" fill="#42235e">{total}</text>
+                  <text x={cx} y={cy + 12} textAnchor="middle" fontSize="10" fill="#8a757b">TOTAL</text>
+                </svg>
+                <div className="lux-incident-legend">
+                  {slices.map((slice, index) => (
+                    <div key={index} className="lux-incident-legend-item">
+                      <span className="lux-incident-legend-dot" style={{ background: slice.color }} />
+                      <span className="lux-incident-legend-label">{slice.type.replace(/_/g, " ")}</span>
+                      <strong>{slice.count}</strong>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
             );
           })()}

@@ -152,7 +152,7 @@ function CustomerDashboard({ onNavigate, onCustomerLoaded }) {
     labels[session?.status] || session?.status || "Status unavailable";
 
   return (
-    <main className="customer-page">
+    <main className="customer-page customer-dashboard-page">
       {/* PAGE HEADER */}
       <header className="customer-page-header customer-dashboard-hero">
         <div

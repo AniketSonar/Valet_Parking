@@ -38,10 +38,21 @@
   --accent-purple: #bc9b6a;
 }
 
-.dash-main .dash-topbar.lux-topbar {
+.dash-main:not(.dash-main--dashboard) .dash-topbar.lux-topbar {
   background: rgba(255, 250, 242, 0.94) !important;
   border-bottom-color: rgba(91, 10, 30, 0.12) !important;
   box-shadow: 0 4px 18px rgba(45, 10, 18, 0.06) !important;
+}
+
+.dash-main.dash-main--dashboard {
+  background: #f8f9fa;
+}
+
+.dash-main.dash-main--dashboard > .dash-topbar.lux-topbar {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
 }
 
 .dash-main .lux-topbar-menu-btn,

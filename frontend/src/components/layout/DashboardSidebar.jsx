@@ -11,7 +11,7 @@ import "./css/DashboardLayout.css";
  * Features:
  * - Deep crimson silk velvet wave background texture
  * - Gold stylized 'V' monogram logo with 'VALET PARKING / PREMIUM SERVICE'
- * - Gold outline icons and deep wine velvet active pill button
+ * - Gold outline icons and a gold active menu pill
  * - 'EXCLUSIVE PARKING FOR A BETTER EXPERIENCE' footer branding
  */
 const DashboardSidebar = ({

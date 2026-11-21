@@ -329,7 +329,7 @@
 
 .lux-chart-dot {
   fill: #ffffff;
-  stroke: #42235e;
+  stroke: #bc9b6a;
   stroke-width: 2.5;
   cursor: pointer;
   transition: r 0.15s ease, fill 0.15s ease;
@@ -337,7 +337,7 @@
 
 .lux-chart-dot:hover {
   r: 6;
-  fill: #42235e;
+  fill: #bc9b6a;
 }
 
 .lux-chart-tooltip {
@@ -371,10 +371,10 @@
 .lux-donut-content-row {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   flex: 1;
-  gap: 20px;
-  padding: 10px 0;
+  gap: 12px;
+  padding: 6px 0;
 }
 
 .lux-donut-svg-wrap {
@@ -431,7 +431,7 @@
 .lux-donut-legend {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   flex: 1;
   max-width: 150px;
 }

@@ -661,7 +661,7 @@ function LuxuryDashboardView({
             >
               <defs>
                 <linearGradient
-                  id="burgundyGradient"
+                  id="goldGradient"
                   x1="0"
                   y1="0"
                   x2="0"
@@ -669,12 +669,12 @@ function LuxuryDashboardView({
                 >
                   <stop
                     offset="0%"
-                    stopColor="#42235e"
+                    stopColor="#bc9b6a"
                     stopOpacity="0.32"
                   />
                   <stop
                     offset="100%"
-                    stopColor="#42235e"
+                    stopColor="#bc9b6a"
                     stopOpacity="0.01"
                   />
                 </linearGradient>
@@ -705,13 +705,13 @@ function LuxuryDashboardView({
               })}
 
               {/* Area fill */}
-              <path d={areaPathD} fill="url(#burgundyGradient)" />
+              <path d={areaPathD} fill="url(#goldGradient)" />
 
               {/* Line curve */}
               <path
                 d={pathD}
                 fill="none"
-                stroke="#42235e"
+                stroke="#bc9b6a"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -882,9 +882,9 @@ function LuxuryDashboardView({
         </div>
 
         {/* Right: Operational Performance & Slot Analysis Card (Pie Chart) */}
-        <div className="lux-card lux-analysis-panel" style={{ padding: "20px 22px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div className="lux-card lux-analysis-panel" style={{ padding: "20px 22px", display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
           <div>
-            <div className="lux-card-topbar" style={{ marginBottom: "16px" }}>
+            <div className="lux-card-topbar" style={{ marginBottom: "12px" }}>
               <div className="lux-card-title-group">
                 <PieChart size={18} className="lux-card-header-icon" />
                 <h3>Live Parking Efficiency</h3>
@@ -905,7 +905,7 @@ function LuxuryDashboardView({
               const availOffset = -((parkedPct / 100) * c);
 
               return (
-                <div style={{ display: "flex", alignItems: "center", gap: "18px", marginBottom: "16px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
                   {/* SVG Pie Chart */}
                   <div style={{ position: "relative", width: "115px", height: "115px", flexShrink: 0 }}>
                     <svg width="115" height="115" viewBox="0 0 115 115" style={{ transform: "rotate(-90deg)" }}>
@@ -958,7 +958,7 @@ function LuxuryDashboardView({
                   </div>
 
                   {/* Chart Legend */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 1 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", flex: 1 }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "12px" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
                         <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#42235e", flexShrink: 0 }} />
@@ -1007,7 +1007,7 @@ function LuxuryDashboardView({
             </div>
           </div>
 
-          <div style={{ marginTop: "16px", paddingTop: "12px", borderTop: "1px solid #f2e9e6", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px solid #f2e9e6", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <span style={{ fontSize: "11.5px", color: "#8c827a" }}>Selected Branch</span>
             <span style={{ fontSize: "11.5px", fontWeight: "700", color: "#42235e" }}>{activeHotelLabel}</span>
           </div>
@@ -1094,8 +1094,8 @@ function LuxuryDashboardView({
             };
             const cx = 70, cy = 70, r = 55, ir = 32;
             return (
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", paddingTop: "6px" }}>
-                <svg width="140" height="140" viewBox="0 0 140 140">
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", paddingTop: "4px" }}>
+                <svg width="124" height="124" viewBox="0 0 140 140">
                   {slices.map((sl, idx) => {
                     const s = toXY(cx, cy, r, sl.startAngle);
                     const e = toXY(cx, cy, r, sl.startAngle + sl.angle);

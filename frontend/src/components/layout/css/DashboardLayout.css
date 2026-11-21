@@ -1095,17 +1095,18 @@
 }
 
 .dash-menu-item.active {
-  background: linear-gradient(135deg, #42235e 0%, #2d1442 100%) !important;
-  border: 1px solid rgba(223, 183, 108, 0.45) !important;
+  background: linear-gradient(135deg, #d0ad66 0%, #a77b35 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 999px !important;
   box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.35),
-    inset 0 0 12px rgba(223, 183, 108, 0.15) !important;
+    0 6px 16px rgba(188, 155, 106, 0.28),
+    inset 0 1px 3px rgba(255, 255, 255, 0.18) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
 }
 
 .dash-menu-item.active .dash-item-icon {
-  color: #f5d48d !important;
+  color: #ffffff !important;
 }
 
 /* EXCLUSIVE PARKING FOOTER BADGE (IMAGE 1) */

@@ -1,14 +1,12 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   User,
-  Clock,
 } from "lucide-react";
 
 import NotificationCenter from "../notifications/NotificationCenter";
-import { useLiveClock } from "../../utils/timeFormat";
 import "./css/DashboardLayout.css";
 
 const readStoredUser = () => {
@@ -33,7 +31,8 @@ const DashboardTopbar = ({
 }) => {
   const stored = useMemo(() => readStoredUser(), []);
   const user = userOverride || stored;
-  const liveClock = useLiveClock();
+  const topbarRef = useRef(null);
+  const [isScrolled, setIsScrolled] = useState(false);
   const SidebarToggleIcon = sidebarExpanded ? ChevronLeft : ChevronRight;
   const sidebarToggleLabel = isMobile
     ? sidebarExpanded
@@ -43,6 +42,20 @@ const DashboardTopbar = ({
       ? "Collapse sidebar"
       : "Expand sidebar";
 
+  useEffect(() => {
+    const scrollContainer = topbarRef.current?.closest(".dash-main") || window;
+    const updateScrollState = () => {
+      const scrollTop = scrollContainer === window
+        ? window.scrollY
+        : scrollContainer.scrollTop;
+      setIsScrolled(scrollTop > 8);
+    };
+
+    updateScrollState();
+    scrollContainer.addEventListener("scroll", updateScrollState, { passive: true });
+    return () => scrollContainer.removeEventListener("scroll", updateScrollState);
+  }, []);
+
   const name =
     user?.name ||
     user?.user_metadata?.name ||
@@ -50,8 +63,11 @@ const DashboardTopbar = ({
     "Admin";
 
   return (
-    <header className="dash-topbar lux-topbar">
-      {/* LEFT: TOGGLE BUTTON & LIVE REAL-TIME CLOCK */}
+    <header
+      ref={topbarRef}
+      className={`dash-topbar lux-topbar${isScrolled ? " is-scrolled" : ""}`}
+    >
+      {/* LEFT: SIDEBAR TOGGLE */}
       <div className="lux-topbar-left" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <button
           type="button"
@@ -63,13 +79,6 @@ const DashboardTopbar = ({
           <SidebarToggleIcon size={20} />
         </button>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <img
-            src="/conrad-logo-gold.png"
-            alt="CONRAD PUNE"
-            style={{ height: "22px", objectFit: "contain", filter: "brightness(0.9)" }}
-          />
-        </div>
       </div>
 
       {/* RIGHT: NOTIFICATIONS & ADMIN PROFILE CHIP */}

@@ -161,6 +161,7 @@ const createStaff = async (req, res) => {
       role,
       phone,
       hotel_id,
+      floor_id,
       position_name,
     } = req.body;
 
@@ -245,6 +246,30 @@ const createStaff = async (req, res) => {
           success: false,
           message:
             "An employee with this email already exists."
+        });
+      }
+    }
+
+    if (role === "valet" && floor_id) {
+      if (!targetHotelId) {
+        return res.status(400).json({
+          success: false,
+          message: "A hotel branch is required to assign a valet floor."
+        });
+      }
+
+      const { data: selectedFloor, error: selectedFloorError } = await supabase
+        .from("parking_floors")
+        .select("id")
+        .eq("id", floor_id)
+        .eq("building_id", targetHotelId)
+        .maybeSingle();
+
+      if (selectedFloorError) throw selectedFloorError;
+      if (!selectedFloor) {
+        return res.status(400).json({
+          success: false,
+          message: "The selected floor does not belong to the selected hotel branch."
         });
       }
     }
@@ -338,7 +363,7 @@ const createStaff = async (req, res) => {
       try {
         let { data: floors, error: floorsError } = await supabase
           .from("parking_floors")
-          .select("id")
+          .select("id, floor_number")
           .eq("building_id", targetHotelId)
           .order("floor_number", { ascending: true });
 
@@ -355,7 +380,13 @@ const createStaff = async (req, res) => {
         }
 
         if (floors && floors.length > 0) {
-          const firstFloorId = floors[0].id;
+          const assignedFloor = floor_id
+            ? floors.find((floor) => floor.id === floor_id)
+            : floors.find((floor) => Number(floor.floor_number) >= 0) || floors[0];
+          const assignedFloorId = assignedFloor?.id;
+          if (role === "valet" && !assignedFloorId) {
+            throw new Error("The selected floor is no longer available for this hotel branch.");
+          }
           if (role === "manager" || role === "parking_admin") {
             // Deactivate any existing manager assignments for this hotel branch
             await supabase
@@ -376,7 +407,7 @@ const createStaff = async (req, res) => {
             let { data: post, error: postError } = await supabase
               .from("valet_posts")
               .select("id")
-              .eq("floor_id", firstFloorId)
+              .eq("floor_id", assignedFloorId)
               .ilike("post_name", targetPostName)
               .limit(1)
               .maybeSingle();
@@ -386,7 +417,7 @@ const createStaff = async (req, res) => {
             if (!post) {
               const { data: newPost, error: newPostError } = await supabase
                 .from("valet_posts")
-                .insert([{ floor_id: firstFloorId, post_name: targetPostName }])
+                .insert([{ floor_id: assignedFloorId, post_name: targetPostName }])
                 .select()
                 .single();
               if (newPostError) throw newPostError;
@@ -401,7 +432,7 @@ const createStaff = async (req, res) => {
               .from("valet_assignments")
               .insert([{
                 valet_id: employee.id,
-                floor_id: firstFloorId,
+                floor_id: assignedFloorId,
                 post_id: post.id,
                 assigned_by: req.user?.id || null,
                 is_active: true

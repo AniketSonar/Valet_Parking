@@ -1086,21 +1086,15 @@ function VehiclesOperations({ scope = "manager" }) {
                             View
                           </button>
 
-                          <button
-                            className="parking-action edit"
-                            onClick={() =>
-                              handleOpenAssign(
-                                vehicle
-                              )
-                            }
-                            disabled={
-                              operationLoading
-                            }
-                          >
-                            {vehicle.valet
-                              ? "Change Valet"
-                              : "Assign Valet"}
-                          </button>
+                          {!vehicle.valet && (
+                            <button
+                              className="parking-action edit"
+                              onClick={() => handleOpenAssign(vehicle)}
+                              disabled={operationLoading}
+                            >
+                              Assign Valet
+                            </button>
+                          )}
 
                         </div>
 
@@ -1489,25 +1483,18 @@ function VehiclesOperations({ scope = "manager" }) {
                 Close
               </button>
 
-              <button
-                className="create-staff-btn"
-                onClick={() => {
-
-                  closeViewModal();
-
-                  handleOpenAssign(
-                    selectedVehicle
-                  );
-
-                }}
-                disabled={
-                  operationLoading
-                }
-              >
-                {selectedVehicle.valet
-                  ? "Change Valet"
-                  : "Assign Valet"}
-              </button>
+              {!selectedVehicle.valet && (
+                <button
+                  className="create-staff-btn"
+                  onClick={() => {
+                    closeViewModal();
+                    handleOpenAssign(selectedVehicle);
+                  }}
+                  disabled={operationLoading}
+                >
+                  Assign Valet
+                </button>
+              )}
 
             </div>
 

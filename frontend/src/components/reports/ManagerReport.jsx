@@ -69,9 +69,6 @@ export default function ManagerReport() {
             <Users size={18} color="#42235e" />
             Manager Report
           </h2>
-          <p style={{ margin: "3px 0 0", fontSize: "12.5px", color: "#6b7280" }}>
-            All hotel managers & parking admins with their branch assignments.
-          </p>
         </div>
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           <button

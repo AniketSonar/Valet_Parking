@@ -525,10 +525,6 @@ const ReceptionKeyManagement = () => {
                 OPERATIONS
               </span>
               <h1>Vehicle Key Management</h1>
-              <p>
-                Track physical vehicle keys from check-in through
-                return.
-              </p>
             </div>
           </div>
         </div>

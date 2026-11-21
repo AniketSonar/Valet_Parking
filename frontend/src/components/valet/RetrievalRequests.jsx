@@ -74,9 +74,6 @@ const RetrievalRequests = () => {
 
           <h1>Retrieval Requests</h1>
 
-          <p>
-            Vehicles waiting to be retrieved.
-          </p>
         </div>
 
         <button

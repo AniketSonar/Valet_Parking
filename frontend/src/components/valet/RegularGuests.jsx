@@ -269,10 +269,6 @@ const RegularGuests = () => {
         <div>
           <span className="page-eyebrow">HOTEL FUNCTIONS & RECURRING GUESTS</span>
           <h1>Regular & Event Guests</h1>
-          <p>
-            Zero-payment check-in for guests attending hotel functions, weddings, or corporate events.
-            Each visit is tracked and billed directly to their master package.
-          </p>
         </div>
 
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>

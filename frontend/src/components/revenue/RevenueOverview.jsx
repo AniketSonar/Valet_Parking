@@ -97,7 +97,6 @@ const RevenueOverview = () => {
         <div>
           <p className="revenue-eyebrow">Overview</p>
           <h1>Revenue</h1>
-          <p>Payments collected at check-in, by day and by payment method.</p>
         </div>
 
         <div className="revenue-header-actions">

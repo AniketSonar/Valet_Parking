@@ -1045,15 +1045,6 @@
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
 }
 
-.dash-brand-subtitle-gold {
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 8px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.26em !important;
-  color: #bc9b6a !important;
-  text-transform: uppercase !important;
-}
-
 .dash-brand-gold-line {
   width: 52px;
   height: 1.5px;

@@ -461,7 +461,6 @@ const CustomersView = ({ onOpenRegisterModal }) => {
         <div>
           <span className="reception-eyebrow">DIRECTORY</span>
           <h2>Customers</h2>
-          <p>All registered customers in the system.</p>
         </div>
         <div style={{ display: "flex", gap: "8px" }}>
           <button className="reception-action-btn primary" onClick={onOpenRegisterModal}>
@@ -549,7 +548,6 @@ const VehiclesView = () => {
         <div>
           <span className="reception-eyebrow">DIRECTORY</span>
           <h2>Vehicles</h2>
-          <p>All registered vehicles in the system.</p>
         </div>
         <button className="reception-action-btn primary" onClick={load} disabled={loading}>
           <RefreshCw size={14} className={loading ? "refresh-spinning" : ""} />
@@ -615,7 +613,6 @@ const ProfileView = ({ onLogout }) => {
         <div>
           <span className="reception-eyebrow">ACCOUNT</span>
           <h2>My Profile</h2>
-          <p>Your reception desk account details and session management.</p>
         </div>
       </div>
       <div className="reception-profile-card">
@@ -668,7 +665,6 @@ const SessionsView = ({ sessions, loading, onRefresh, onRequestRetrieval, onView
         <div>
           <span className="reception-eyebrow">OPERATIONS</span>
           <h2>Active Sessions</h2>
-          <p>All vehicles currently in the parking facility.</p>
         </div>
         <button className="reception-action-btn primary" onClick={onRefresh} disabled={loading}>
           <RefreshCw size={14} className={loading ? "refresh-spinning" : ""} />
@@ -956,7 +952,6 @@ const ReceptionDashboard = ({
         <div>
           <span className="reception-eyebrow">RECEPTION DESK</span>
           <h2>Operations Center</h2>
-          <p>Manage customer check-ins, vehicle registrations, and retrieval requests.</p>
         </div>
         <button
           className="reception-action-btn primary"

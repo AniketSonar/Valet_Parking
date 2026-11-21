@@ -88,9 +88,6 @@ const MyVehicles = () => {
 
           <h1>My Vehicles</h1>
 
-          <p>
-            Vehicles currently assigned to you.
-          </p>
         </div>
 
         <button

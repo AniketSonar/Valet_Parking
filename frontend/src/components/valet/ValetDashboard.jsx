@@ -817,17 +817,17 @@ function ValetDashboard() {
           )}
           <p>{heroLine}</p>
           <div className="vd-gold-line" />
-
-          <button
-            className="vd-refresh"
-            onClick={handleRefresh}
-            disabled={refreshing}
-            title="Refresh dashboard"
-          >
-            <RefreshCw size={15} className={refreshing ? "spin" : ""} />
-            {refreshing ? "Refreshing" : "Refresh"}
-          </button>
         </div>
+
+        <button
+          className="vd-refresh"
+          onClick={handleRefresh}
+          disabled={refreshing}
+          title="Refresh dashboard"
+        >
+          <RefreshCw size={15} className={refreshing ? "spin" : ""} />
+          {refreshing ? "Refreshing" : "Refresh"}
+        </button>
 
         <div className="vd-hero-visual" aria-hidden="true">
           <img src="/welcome-hero-banner.jpg" alt="" />

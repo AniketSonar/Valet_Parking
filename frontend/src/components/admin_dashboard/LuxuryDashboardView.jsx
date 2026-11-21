@@ -306,9 +306,6 @@ function LuxuryDashboardView({
         <div className="lux-welcome-text">
           <span className="lux-welcome-greeting">{greeting}</span>
           <h1 className="lux-welcome-title">Welcome Back!</h1>
-          <p className="lux-welcome-sub">
-            Here&apos;s what&apos;s happening with your valet parking today.
-          </p>
 
           {/* Hotel / Branch Visible Selector (Single Row spanning across banner) */}
           <div style={{ marginTop: "6px", width: "100%" }}>
@@ -899,22 +896,22 @@ function LuxuryDashboardView({
               const totalSlots = (kpiActiveParked + kpiEmptySlots) || 1;
               const parkedPct = Math.round((kpiActiveParked / totalSlots) * 100);
               const availPct = 100 - parkedPct;
-              const r = 46;
+              const r = 53;
               const c = 2 * Math.PI * r;
               const parkedOffset = 0;
               const availOffset = -((parkedPct / 100) * c);
 
               return (
-                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", width: "100%", maxWidth: "440px", margin: "0 auto 10px" }}>
                   {/* SVG Pie Chart */}
-                  <div style={{ position: "relative", width: "115px", height: "115px", flexShrink: 0 }}>
-                    <svg width="115" height="115" viewBox="0 0 115 115" style={{ transform: "rotate(-90deg)" }}>
+                  <div style={{ position: "relative", width: "132px", height: "132px", flexShrink: 0 }}>
+                    <svg width="132" height="132" viewBox="0 0 132 132" style={{ transform: "rotate(-90deg)" }}>
                       {/* Background Track */}
-                      <circle cx="57.5" cy="57.5" r={r} fill="none" stroke="#f3edea" strokeWidth="16" />
+                      <circle cx="66" cy="66" r={r} fill="none" stroke="#f3edea" strokeWidth="16" />
                       {/* Available Slots Segment (Gold) */}
                       <circle
-                        cx="57.5"
-                        cy="57.5"
+                        cx="66"
+                        cy="66"
                         r={r}
                         fill="none"
                         stroke="#bc9b6a"
@@ -926,8 +923,8 @@ function LuxuryDashboardView({
                       {/* Parked Slots Segment (Purple) */}
                       {parkedPct > 0 && (
                         <circle
-                          cx="57.5"
-                          cy="57.5"
+                          cx="66"
+                          cy="66"
                           r={r}
                           fill="none"
                           stroke="#42235e"
@@ -958,7 +955,7 @@ function LuxuryDashboardView({
                   </div>
 
                   {/* Chart Legend */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", flex: 1 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "12px" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
                         <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#42235e", flexShrink: 0 }} />

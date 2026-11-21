@@ -304,79 +304,25 @@ function LuxuryDashboardView({
       ======================================================== */}
       <section className="lux-welcome-banner">
         <div className="lux-welcome-text">
-          <span className="lux-welcome-greeting">{greeting}</span>
-          <h1 className="lux-welcome-title">Welcome Back!</h1>
-
-          {/* Hotel / Branch Visible Selector (Single Row spanning across banner) */}
-          <div style={{ marginTop: "6px", width: "100%" }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              flexWrap: "nowrap",
-              overflowX: "auto",
-              whiteSpace: "nowrap",
-              paddingBottom: "4px",
-              width: "100%",
-              scrollbarWidth: "none"
-            }}>
-              {/* All Branches Button (Hidden for Managers - only Super Admin sees All) */}
-              {!isManager && (
-                <button
-                  type="button"
-                  onClick={() => onHotelChange("all")}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "7px",
-                    padding: "7px 15px",
-                    borderRadius: "24px",
-                    flexShrink: 0,
-                    whiteSpace: "nowrap",
-                    border: selectedHotel === "all" ? "2px solid #bc9b6a" : "1.5px solid rgba(212, 194, 230, 0.9)",
-                    background: selectedHotel === "all"
-                      ? "linear-gradient(135deg, #42235e 0%, #28103c 100%)"
-                      : "rgba(255, 255, 255, 0.92)",
-                    backdropFilter: "blur(6px)",
-                    color: selectedHotel === "all" ? "#ffffff" : "#42235e",
-                    fontWeight: "700",
-                    fontSize: "12.5px",
-                    cursor: "pointer",
-                    boxShadow: selectedHotel === "all"
-                      ? "0 4px 14px rgba(66, 35, 94, 0.35)"
-                      : "0 2px 8px rgba(66, 35, 94, 0.08)",
-                    transition: "all 0.2s ease"
-                  }}
-                >
-                  <Building2 size={14} style={{ color: selectedHotel === "all" ? "#bc9b6a" : "#42235e" }} />
-                  <span>All Branches</span>
-                  {displayHotels.length > 0 && (
-                    <span style={{
-                      fontSize: "10.5px",
-                      fontWeight: "800",
-                      padding: "2px 6px",
-                      borderRadius: "10px",
-                      background: selectedHotel === "all" ? "#bc9b6a" : "#ebdcf3",
-                      color: selectedHotel === "all" ? "#28103c" : "#42235e"
-                    }}>
-                      {displayHotels.length}
-                    </span>
-                  )}
-                </button>
-              )}
-
-              {/* Individual Branch Buttons */}
-              {displayHotels.map((h) => {
-                const name = h.building_name || h.name || "Hotel Branch";
-                const loc = h.location && h.location !== name ? h.location : "";
-                const isSelected = selectedHotel === h.id;
-
-                return (
+          <div className="lux-welcome-meta">
+            <span className="lux-welcome-greeting">{greeting}</span>
+            <div className="lux-welcome-branches">
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                flexWrap: "nowrap",
+                overflowX: "auto",
+                whiteSpace: "nowrap",
+                paddingBottom: "4px",
+                width: "100%",
+                scrollbarWidth: "none"
+              }}>
+                {/* All Branches Button (Hidden for Managers - only Super Admin sees All) */}
+                {!isManager && (
                   <button
-                    key={h.id}
                     type="button"
-                    onClick={() => onHotelChange(h.id)}
-                    title={`Click to view ${name} dashboard`}
+                    onClick={() => onHotelChange("all")}
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
@@ -385,52 +331,106 @@ function LuxuryDashboardView({
                       borderRadius: "24px",
                       flexShrink: 0,
                       whiteSpace: "nowrap",
-                      border: isSelected ? "2px solid #bc9b6a" : "1.5px solid rgba(212, 194, 230, 0.9)",
-                      background: isSelected
+                      border: selectedHotel === "all" ? "2px solid #bc9b6a" : "1.5px solid rgba(212, 194, 230, 0.9)",
+                      background: selectedHotel === "all"
                         ? "linear-gradient(135deg, #42235e 0%, #28103c 100%)"
                         : "rgba(255, 255, 255, 0.92)",
                       backdropFilter: "blur(6px)",
-                      color: isSelected ? "#ffffff" : "#28103c",
+                      color: selectedHotel === "all" ? "#ffffff" : "#42235e",
                       fontWeight: "700",
                       fontSize: "12.5px",
                       cursor: "pointer",
-                      boxShadow: isSelected
+                      boxShadow: selectedHotel === "all"
                         ? "0 4px 14px rgba(66, 35, 94, 0.35)"
                         : "0 2px 8px rgba(66, 35, 94, 0.08)",
                       transition: "all 0.2s ease"
                     }}
                   >
-                    <span style={{
-                      width: "7px",
-                      height: "7px",
-                      borderRadius: "50%",
-                      background: isSelected ? "#bc9b6a" : "#42235e",
-                      boxShadow: isSelected ? "0 0 6px rgba(188, 155, 106, 0.9)" : "none"
-                    }} />
-                    <span>{name}</span>
-                    {!isManager && loc ? (
+                    <Building2 size={14} style={{ color: selectedHotel === "all" ? "#bc9b6a" : "#42235e" }} />
+                    <span>All Branches</span>
+                    {displayHotels.length > 0 && (
                       <span style={{
                         fontSize: "10.5px",
-                        fontWeight: "600",
+                        fontWeight: "800",
                         padding: "2px 6px",
-                        borderRadius: "6px",
-                        background: isSelected ? "rgba(188, 155, 106, 0.25)" : "#f5edf9",
-                        color: isSelected ? "#f2e5cc" : "#42235e"
+                        borderRadius: "10px",
+                        background: selectedHotel === "all" ? "#bc9b6a" : "#ebdcf3",
+                        color: selectedHotel === "all" ? "#28103c" : "#42235e"
                       }}>
-                        {loc}
+                        {displayHotels.length}
                       </span>
-                    ) : null}
+                    )}
                   </button>
-                );
-              })}
+                )}
 
-              {displayHotels.length === 0 && (
-                <span style={{ fontSize: "12px", color: "#6b567b", fontStyle: "italic" }}>
-                  Loading hotel branches...
-                </span>
-              )}
+                {/* Individual Branch Buttons */}
+                {displayHotels.map((h) => {
+                  const name = h.building_name || h.name || "Hotel Branch";
+                  const loc = h.location && h.location !== name ? h.location : "";
+                  const isSelected = selectedHotel === h.id;
+
+                  return (
+                    <button
+                      key={h.id}
+                      type="button"
+                      onClick={() => onHotelChange(h.id)}
+                      title={`Click to view ${name} dashboard`}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "7px",
+                        padding: "7px 15px",
+                        borderRadius: "24px",
+                        flexShrink: 0,
+                        whiteSpace: "nowrap",
+                        border: isSelected ? "2px solid #bc9b6a" : "1.5px solid rgba(212, 194, 230, 0.9)",
+                        background: isSelected
+                          ? "linear-gradient(135deg, #42235e 0%, #28103c 100%)"
+                          : "rgba(255, 255, 255, 0.92)",
+                        backdropFilter: "blur(6px)",
+                        color: isSelected ? "#ffffff" : "#28103c",
+                        fontWeight: "700",
+                        fontSize: "12.5px",
+                        cursor: "pointer",
+                        boxShadow: isSelected
+                          ? "0 4px 14px rgba(66, 35, 94, 0.35)"
+                          : "0 2px 8px rgba(66, 35, 94, 0.08)",
+                        transition: "all 0.2s ease"
+                      }}
+                    >
+                      <span style={{
+                        width: "7px",
+                        height: "7px",
+                        borderRadius: "50%",
+                        background: isSelected ? "#bc9b6a" : "#42235e",
+                        boxShadow: isSelected ? "0 0 6px rgba(188, 155, 106, 0.9)" : "none"
+                      }} />
+                      <span>{name}</span>
+                      {!isManager && loc ? (
+                        <span style={{
+                          fontSize: "10.5px",
+                          fontWeight: "600",
+                          padding: "2px 6px",
+                          borderRadius: "6px",
+                          background: isSelected ? "rgba(188, 155, 106, 0.25)" : "#f5edf9",
+                          color: isSelected ? "#f2e5cc" : "#42235e"
+                        }}>
+                          {loc}
+                        </span>
+                      ) : null}
+                    </button>
+                  );
+                })}
+
+                {displayHotels.length === 0 && (
+                  <span style={{ fontSize: "12px", color: "#6b567b", fontStyle: "italic" }}>
+                    Loading hotel branches...
+                  </span>
+                )}
+              </div>
             </div>
           </div>
+          <h1 className="lux-welcome-title">Welcome Back!</h1>
         </div>
 
         <div className="lux-welcome-visual">
@@ -1058,72 +1058,53 @@ function LuxuryDashboardView({
           })()}
         </div>
 
-        {/* Incident Pie/Donut Chart */}
+        {/* Weekly Incidents Bar Chart */}
         <div className="lux-card lux-analytics-card">
           <div className="lux-card-topbar">
             <div className="lux-card-title-group">
               <Shield size={18} className="lux-card-header-icon" />
-              <h3>Incidents by Type</h3>
+              <h3>Incidents This Week</h3>
             </div>
           </div>
           {(() => {
-            const breakdown = analytics?.incidentBreakdown || [];
-            const incColors = ["#42235e","#6c349c","#bc9b6a","#8e5ab5","#c9a87a","#240f35"];
-            const total = breakdown.reduce((s, i) => s + i.count, 0);
-            if (total === 0) {
+            const trend = analytics?.incidentTrend || [];
+            const total = trend.reduce((sum, item) => sum + Number(item.count || 0), 0);
+            if (trend.length === 0 || total === 0) {
               return (
                 <div className="lux-incident-empty">
                   <Shield size={32} />
-                  <span>No incidents recorded</span>
+                  <span>No incidents recorded this week</span>
                 </div>
               );
             }
-            let cumAngle = 0;
-            const slices = breakdown.map((item, idx) => {
-              const angle = (item.count / total) * 360;
-              const startAngle = cumAngle;
-              cumAngle += angle;
-              return { ...item, angle, startAngle, color: incColors[idx % incColors.length] };
-            });
-            const toXY = (cx, cy, r, angleDeg) => {
-              const rad = ((angleDeg - 90) * Math.PI) / 180;
-              return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
-            };
-            const cx = 70, cy = 70, r = 62, ir = 38;
+            const maxCount = Math.max(...trend.map((item) => Number(item.count || 0)), 1);
             return (
-              <div className="lux-incident-chart-row">
-                <svg className="lux-incident-chart" viewBox="0 0 140 140" role="img" aria-label={`${total} incidents by type`}>
-                  {slices.map((sl, idx) => {
-                    if (sl.angle >= 360) {
-                      return <circle key={idx} cx={cx} cy={cy} r={r} fill={sl.color} opacity={0.9} />;
-                    }
-                    const s = toXY(cx, cy, r, sl.startAngle);
-                    const e = toXY(cx, cy, r, sl.startAngle + sl.angle);
-                    const si = toXY(cx, cy, ir, sl.startAngle);
-                    const ei = toXY(cx, cy, ir, sl.startAngle + sl.angle);
-                    const large = sl.angle > 180 ? 1 : 0;
-                    const d = `M ${si.x} ${si.y} L ${s.x} ${s.y} A ${r} ${r} 0 ${large} 1 ${e.x} ${e.y} L ${ei.x} ${ei.y} A ${ir} ${ir} 0 ${large} 0 ${si.x} ${si.y} Z`;
-                    return <path key={idx} d={d} fill={sl.color} opacity={0.9} />;
-                  })}
-                  <circle cx={cx} cy={cy} r={ir} fill="#fff" />
-                  <text x={cx} y={cy - 6} textAnchor="middle" fontSize="20" fontWeight="800" fill="#42235e">{total}</text>
-                  <text x={cx} y={cy + 12} textAnchor="middle" fontSize="10" fill="#8a757b">TOTAL</text>
-                </svg>
-                <div className="lux-incident-legend">
-                  {slices.map((sl, idx) => (
-                    <div key={idx} className="lux-incident-legend-item">
-                      <span className="lux-incident-legend-dot" style={{ background: sl.color }} />
-                      <span className="lux-incident-legend-label">{sl.type.replace(/_/g," ")}</span>
-                      <strong>{sl.count}</strong>
+              <div className="lux-weekly-incident-chart" role="img" aria-label={`${total} incidents recorded over the last seven days`}>
+                {trend.map((item, index) => {
+                  const count = Number(item.count || 0);
+                  return (
+                    <div
+                      key={`${item.day}-${index}`}
+                      className="lux-weekly-incident-day"
+                      title={`${item.day}: ${count} incident${count === 1 ? "" : "s"}`}
+                    >
+                      <span className="lux-weekly-incident-count">{count || ""}</span>
+                      <div className="lux-weekly-incident-track">
+                        <div
+                          className="lux-weekly-incident-bar"
+                          style={{ height: `${(count / maxCount) * 100}%` }}
+                        />
+                      </div>
+                      <span className="lux-weekly-incident-label">{item.day}</span>
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
             );
           })()}
         </div>
 
-        {/* Hotel-Wise Comparison Card (from Reports, replaces Incident Trend) */}
+        {/* Hotel-Wise Comparison Bar Chart */}
         <div className="lux-card lux-analytics-card">
           <div className="lux-card-topbar">
             <div className="lux-card-title-group">
@@ -1159,58 +1140,28 @@ function LuxuryDashboardView({
             }
 
             return (
-              <div style={{ display: "flex", flexDirection: "column", gap: "9px", overflowY: "auto", maxHeight: "230px", paddingRight: "4px" }}>
+              <div className="lux-hotel-comparison-chart">
+                <div className="lux-hotel-chart-scale">
+                  <span>0%</span>
+                  <span>50%</span>
+                  <span>100%</span>
+                </div>
                 {data.map((h) => {
-                  const rate = Number(h.occupancyRate || 0);
-                  const badgeBg = rate > 75 ? "#fef2f2" : rate > 40 ? "#fffbeb" : "#f0fdf4";
-                  const badgeColor = rate > 75 ? "#991b1b" : rate > 40 ? "#92400e" : "#15803d";
-                  const barColor = rate > 75 ? "#dc2626" : rate > 40 ? "#bc9b6a" : "#42235e";
+                  const rate = Math.min(100, Math.max(0, Number(h.occupancyRate || 0)));
 
                   return (
-                    <div
-                      key={h.hotel_id}
-                      style={{
-                        background: "#fdfbf9",
-                        border: "1px solid #ebdcd5",
-                        borderRadius: "10px",
-                        padding: "9px 12px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "6px"
-                      }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "6px", minWidth: 0 }}>
-                          <Building2 size={13} style={{ color: "#bc9b6a", flexShrink: 0 }} />
-                          <span style={{ fontSize: "12px", fontWeight: "700", color: "#28103c", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                            {h.hotel_name}
-                          </span>
-                        </div>
-                        <span style={{
-                          fontSize: "10.5px",
-                          fontWeight: "700",
-                          padding: "1px 6px",
-                          borderRadius: "8px",
-                          background: badgeBg,
-                          color: badgeColor,
-                          flexShrink: 0
-                        }}>
-                          {rate}% occ
-                        </span>
+                    <div key={h.hotel_id} className="lux-hotel-chart-row">
+                      <div className="lux-hotel-chart-heading">
+                        <span title={h.hotel_name}>{h.hotel_name}</span>
+                        <strong>{rate}%</strong>
                       </div>
-
-                      {/* Occupancy bar */}
-                      <div style={{ height: "5px", background: "#f1e7e2", borderRadius: "4px", overflow: "hidden" }}>
-                        <div style={{ height: "100%", width: `${Math.min(100, Math.max(5, rate))}%`, background: barColor, borderRadius: "4px", transition: "width 0.4s ease" }} />
+                      <div className="lux-hotel-chart-track">
+                        <div className="lux-hotel-chart-bar" style={{ width: `${rate}%` }} />
                       </div>
-
-                      {/* Key metrics */}
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "11px", color: "#78716c", paddingTop: "1px" }}>
-                        <span>Slots: <strong style={{ color: "#28103c" }}>{h.occupiedSlots ?? 0}/{h.totalSlots ?? 0}</strong></span>
-                        <span style={{ fontWeight: "700", color: "#15803d" }}>
-                          ₹{Number(h.revenue || 0).toLocaleString("en-IN")}
-                        </span>
-                        <span>Sessions: <strong style={{ color: "#42235e" }}>{h.sessionsCount ?? 0}</strong></span>
+                      <div className="lux-hotel-chart-metrics">
+                        <span>Slots: <strong>{h.occupiedSlots ?? 0}/{h.totalSlots ?? 0}</strong></span>
+                        <span>Revenue: <strong>₹{Number(h.revenue || 0).toLocaleString("en-IN")}</strong></span>
+                        <span>Sessions: <strong>{h.sessionsCount ?? 0}</strong></span>
                       </div>
                     </div>
                   );

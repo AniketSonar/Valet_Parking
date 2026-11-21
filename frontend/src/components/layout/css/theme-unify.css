@@ -55,6 +55,23 @@
   backdrop-filter: none !important;
 }
 
+.dash-main > .dash-topbar.lux-topbar {
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    backdrop-filter 0.22s ease;
+}
+
+.dash-main > .dash-topbar.lux-topbar.is-scrolled,
+.dash-main.dash-main--dashboard > .dash-topbar.lux-topbar.is-scrolled {
+  background: rgba(255, 250, 242, 0.84) !important;
+  border-bottom: 1px solid rgba(66, 35, 94, 0.12) !important;
+  box-shadow: 0 5px 18px rgba(45, 20, 66, 0.1) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
 .dash-main .lux-topbar-menu-btn,
 .dash-main .lux-hotel-pin,
 .dash-main .lux-profile-name {
@@ -124,7 +141,7 @@ select {
   border-color: #2d1442;
   background: linear-gradient(135deg, #2d1442, #200c30);
   color: #fffaf2;
-  box-shadow: 0 8px 18px rgba(45, 10, 18, 0.16);
+  box-shadow: 0 8px 18px rgba(45, 20, 66, 0.16);
 }
 
 .dash-page-content :is(
@@ -132,11 +149,12 @@ select {
   .reception-action-btn.primary,
   .customer-action-button.primary,
   .act-btn.primary,
+  .login-button,
   .dashboard-refresh-btn,
   .valet-refresh-btn
 ):hover:not(:disabled) {
   border-color: #bc9b6a;
-  background: #200c30;
+  background: #5b2a84;
 }
 
 .dash-page-content :is(

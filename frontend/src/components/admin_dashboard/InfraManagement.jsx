@@ -87,8 +87,12 @@ export default function InfraManagement() {
     password: "",
     role: "manager",
     hotel_id: "",
+    floor_id: "",
     position_name: "",
   });
+  const [staffFloors, setStaffFloors] = useState([]);
+  const [staffFloorsLoading, setStaffFloorsLoading] = useState(false);
+  const [staffFloorsError, setStaffFloorsError] = useState("");
 
   // Action loading flags
   const [actionLoading, setActionLoading] = useState(false);
@@ -120,6 +124,53 @@ export default function InfraManagement() {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  useEffect(() => {
+    let active = true;
+    if (!showAddStaffModal || staffForm.role !== "valet" || !staffForm.hotel_id) {
+      setStaffFloors([]);
+      setStaffFloorsLoading(false);
+      setStaffFloorsError("");
+      return () => {
+        active = false;
+      };
+    }
+
+    setStaffFloors([]);
+    setStaffFloorsLoading(true);
+    setStaffFloorsError("");
+    getFloors(staffForm.hotel_id)
+      .then((res) => {
+        if (!active) return;
+        if (res?.success === false || !Array.isArray(res?.floors)) {
+          throw new Error(res?.message || "Failed to load floors for the selected branch.");
+        }
+        const floors = res.floors;
+        setStaffFloors(floors);
+        setStaffForm((current) => {
+          const currentFloorExists = floors.some((floor) => floor.id === current.floor_id);
+          const preferredFloor = floors.find((floor) => Number(floor.floor_number) >= 0) || floors[0];
+          return {
+            ...current,
+            floor_id: currentFloorExists ? current.floor_id : preferredFloor?.id || "",
+          };
+        });
+      })
+      .catch((err) => {
+        if (!active) return;
+        console.error("Error loading floors for staff assignment:", err);
+        const message = err?.message || "Failed to load floors for the selected branch.";
+        setStaffFloorsError(message);
+        setError(message);
+      })
+      .finally(() => {
+        if (active) setStaffFloorsLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [showAddStaffModal, staffForm.role, staffForm.hotel_id]);
 
   const showNotification = (msg, isErr = false) => {
     if (isErr) {
@@ -298,6 +349,18 @@ export default function InfraManagement() {
       showNotification("Name, email, and password are required.", true);
       return;
     }
+    if (staffForm.role === "valet" && staffFloorsError) {
+      showNotification(staffFloorsError, true);
+      return;
+    }
+    if (staffForm.role === "valet" && staffFloorsLoading) {
+      showNotification("Wait for the selected branch floors to finish loading.", true);
+      return;
+    }
+    if (staffForm.role === "valet" && staffFloors.length > 0 && !staffForm.floor_id) {
+      showNotification("Select a floor for this valet.", true);
+      return;
+    }
     try {
       setActionLoading(true);
       const res = await createStaff(staffForm);
@@ -311,6 +374,7 @@ export default function InfraManagement() {
           password: "",
           role: "manager",
           hotel_id: hotels[0]?.id || "",
+          floor_id: "",
           position_name: "",
         });
         await loadData();
@@ -724,6 +788,8 @@ export default function InfraManagement() {
                     password: "",
                     role: "manager",
                     hotel_id: hotels[0]?.id || "",
+                    floor_id: "",
+                    position_name: "",
                   });
                   setShowAddStaffModal(true);
                 }}
@@ -887,7 +953,7 @@ export default function InfraManagement() {
           ======================================================== */}
       {showAddHotelModal && (
         <div className="infra-modal-overlay">
-          <div className="infra-modal">
+          <div className="infra-modal infra-hotel-modal">
             <div className="infra-modal-head">
               <h3>Add New Hotel Branch</h3>
               <button
@@ -899,7 +965,7 @@ export default function InfraManagement() {
               </button>
             </div>
 
-            <form onSubmit={handleCreateHotel} className="infra-form-grid">
+            <form onSubmit={handleCreateHotel} className="infra-form-grid infra-hotel-form">
               <div className="infra-form-group">
                 <label>Hotel Branch Name *</label>
                 <input
@@ -1370,7 +1436,7 @@ export default function InfraManagement() {
                   <label>Role <span className="infra-req">*</span></label>
                   <select
                     value={staffForm.role}
-                    onChange={(e) => setStaffForm({ ...staffForm, role: e.target.value })}
+                    onChange={(e) => setStaffForm({ ...staffForm, role: e.target.value, floor_id: "" })}
                   >
                     <option value="manager">Manager</option>
                     <option value="valet">Valet</option>
@@ -1380,7 +1446,7 @@ export default function InfraManagement() {
                   <label>Assign to Hotel Branch <span className="infra-req">*</span></label>
                   <select
                     value={staffForm.hotel_id}
-                    onChange={(e) => setStaffForm({ ...staffForm, hotel_id: e.target.value })}
+                    onChange={(e) => setStaffForm({ ...staffForm, hotel_id: e.target.value, floor_id: "" })}
                     required
                   >
                     <option value="">-- Select Hotel Branch --</option>
@@ -1395,16 +1461,52 @@ export default function InfraManagement() {
 
               {/* Valet position (conditional) */}
               {staffForm.role === "valet" && (
-                <div className="infra-form-group">
-                  <label>Position / Standing Post</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Front Entrance, Main Gate, Basement Entry"
-                    value={staffForm.position_name}
-                    onChange={(e) => setStaffForm({ ...staffForm, position_name: e.target.value })}
-                  />
-                  <small style={{ color: "#6b7280", fontSize: "11.5px" }}>The valet post/position where this staff member will be stationed.</small>
-                </div>
+                <>
+                  <div className="infra-form-group">
+                    <label>Assign to Floor <span className="infra-req">*</span></label>
+                    <select
+                      value={staffForm.floor_id}
+                      onChange={(e) => setStaffForm({ ...staffForm, floor_id: e.target.value })}
+                      disabled={staffFloorsLoading || Boolean(staffFloorsError) || !staffForm.hotel_id || staffFloors.length === 0}
+                      required={staffFloors.length > 0}
+                    >
+                      {staffFloorsLoading ? (
+                        <option value="">Loading floors...</option>
+                      ) : staffFloorsError ? (
+                        <option value="">Unable to load floors</option>
+                      ) : staffFloors.length > 0 ? (
+                        staffFloors.map((floor) => (
+                          <option key={floor.id} value={floor.id}>
+                            {floor.floor_name || `Floor ${floor.floor_number}`}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="">Ground Floor (default)</option>
+                      )}
+                    </select>
+                    <small style={{ color: "#6b7280", fontSize: "11.5px" }}>
+                      {staffFloorsLoading
+                        ? "Loading available floors..."
+                        : staffFloorsError
+                        ? staffFloorsError
+                        : staffFloors.length > 0
+                          ? "The valet will be assigned to this floor."
+                          : staffForm.hotel_id
+                            ? "No floors are configured yet; a Ground Floor will be created for this branch."
+                            : "Select a hotel branch to load its floors."}
+                    </small>
+                  </div>
+                  <div className="infra-form-group">
+                    <label>Position / Standing Post</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Front Entrance, Main Gate, Basement Entry"
+                      value={staffForm.position_name}
+                      onChange={(e) => setStaffForm({ ...staffForm, position_name: e.target.value })}
+                    />
+                    <small style={{ color: "#6b7280", fontSize: "11.5px" }}>The valet post/position where this staff member will be stationed.</small>
+                  </div>
+                </>
               )}
 
               {/* Info box */}

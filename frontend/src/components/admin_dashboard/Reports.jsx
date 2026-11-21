@@ -28,6 +28,7 @@ function Reports() {
   const [hotels, setHotels] = useState([]);
   const [reportPeriod, setReportPeriod] = useState("daily"); // "daily" | "weekly" | "monthly"
   const [activeReportTab, setActiveReportTab] = useState("overview"); // "overview" | "hotels" | "valets" | "vehicles"
+  const [vehicleSectionTab, setVehicleSectionTab] = useState("vehicles");
 
   const [stats, setStats] = useState({
     totalStaff: 0,
@@ -554,6 +555,46 @@ function Reports() {
 
       {/* TAB 4: VEHICLE STATS & TOP VISITORS */}
       {activeReportTab === "vehicles" && (
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
+            <h3 style={{ margin: 0, fontSize: "16px", fontWeight: "700", color: "#1f2937" }}>
+              Vehicle Categories &amp; Top Visitors
+            </h3>
+            <div
+              role="tablist"
+              aria-label="Report type"
+              style={{ display: "flex", justifyContent: "flex-end", gap: "8px", flexWrap: "wrap" }}
+            >
+              {[
+                { id: "vehicles", label: "Vehicle Overview" },
+                { id: "manager", label: "Manager Report" },
+                { id: "valet", label: "Valet Report" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={vehicleSectionTab === tab.id}
+                  onClick={() => setVehicleSectionTab(tab.id)}
+                  style={{
+                    padding: "7px 13px",
+                    borderRadius: "999px",
+                    border: vehicleSectionTab === tab.id ? "1px solid #42235e" : "1px solid #e5e7eb",
+                    background: vehicleSectionTab === tab.id ? "#42235e" : "#ffffff",
+                    color: vehicleSectionTab === tab.id ? "#ffffff" : "#4b5563",
+                    fontSize: "12px",
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    transition: "all 0.15s ease",
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {vehicleSectionTab === "vehicles" && (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
           {/* Vehicle Categories */}
           <div style={{ background: "#fff", borderRadius: "14px", border: "1px solid #e5e7eb", padding: "20px" }}>
@@ -624,6 +665,10 @@ function Reports() {
               </tbody>
             </table>
           </div>
+        </div>
+          )}
+          {vehicleSectionTab === "manager" && <ManagerReport />}
+          {vehicleSectionTab === "valet" && <ValetReport />}
         </div>
       )}
     </div>

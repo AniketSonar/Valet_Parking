@@ -77,14 +77,9 @@
   padding: 22px 26px;
   box-sizing: border-box;
   overflow: hidden;
-  border: 1px solid rgba(139, 18, 48, 0.08);
-  border-radius: 16px;
-  background: linear-gradient(
-    90deg,
-    #fdfbf8 0%,
-    #f7f2ed 45%,
-    rgba(247, 242, 237, 0.4) 100%
-  );
+  border: 0;
+  border-radius: 0;
+  background: #f8f9fa;
 }
 
 .customer-dashboard-hero .customer-page-heading,

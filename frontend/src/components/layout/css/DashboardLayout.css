@@ -43,19 +43,103 @@
   background:
     linear-gradient(
       90deg,
-      #fdfbf8 0%,
-      rgba(253, 251, 248, 0.96) 14%,
-      rgba(253, 251, 248, 0.72) 30%,
-      rgba(253, 251, 248, 0.25) 58%,
-      transparent 86%
+      #f8f9fa 0%,
+      rgba(248, 249, 250, 0.96) 14%,
+      rgba(248, 249, 250, 0.72) 34%,
+      rgba(248, 249, 250, 0.25) 62%,
+      transparent 90%
     ),
     linear-gradient(
       180deg,
-      rgba(253, 251, 248, 0.38) 0%,
-      transparent 22%,
-      transparent 78%,
-      rgba(247, 242, 237, 0.42) 100%
+      #f8f9fa 0%,
+      rgba(248, 249, 250, 0.72) 14%,
+      transparent 36%,
+      transparent 68%,
+      rgba(248, 249, 250, 0.86) 88%,
+      #f8f9fa 100%
     );
+}
+
+.dash-main--dashboard {
+  position: relative;
+}
+
+.dash-main--dashboard > .dash-topbar.lux-topbar {
+  margin-bottom: -52px !important;
+}
+
+.dash-main--dashboard .dash-notification-btn {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.dash-main--dashboard > .dash-page-content {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: #f8f9fa;
+}
+
+.dash-main--valet.dash-main--dashboard > .dash-page-content {
+  max-width: none;
+  padding: 0;
+}
+
+.dash-main--dashboard .customer-dashboard-page {
+  max-width: none;
+  margin: 0;
+  padding: 0 34px 52px;
+  background: #f8f9fa;
+}
+
+.dash-main--dashboard .customer-dashboard-hero {
+  width: calc(100% + 68px);
+  min-height: 250px;
+  margin: 0 -34px 32px;
+  padding: 76px 34px 74px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: #f8f9fa;
+}
+
+.dash-main--valet.dash-main--dashboard .valet-page {
+  padding: 0 24px 32px !important;
+  background: #f8f9fa;
+}
+
+.dash-main--valet.dash-main--dashboard .vd-hero-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: calc(100% + 48px);
+  margin: 0 -24px;
+  background: #f8f9fa;
+}
+
+@media (max-width: 760px) {
+  .dash-main--dashboard .customer-dashboard-page {
+    padding: 0 16px 38px;
+  }
+
+  .dash-main--dashboard .customer-dashboard-hero {
+    width: calc(100% + 32px);
+    min-height: 235px;
+    margin: 0 -16px 28px;
+    padding: 76px 16px 62px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dash-main--valet.dash-main--dashboard .valet-page {
+    padding: 0 14px 30px !important;
+  }
+
+  .dash-main--valet.dash-main--dashboard .vd-hero-shell {
+    width: calc(100% + 28px);
+    margin: 0 -14px;
+  }
 }
 
 

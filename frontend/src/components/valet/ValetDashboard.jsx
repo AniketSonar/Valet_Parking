@@ -805,51 +805,53 @@ function ValetDashboard() {
         </div>
       )}
 
-      <section className="vd-hero">
-        <div className="vd-hero-text">
-          <span className="vd-hero-greeting">{greeting()},</span>
-          <h1>{valet?.name || "Valet"}</h1>
-          {hotelName && (
-            <div className="vd-hotel-badge">
-              <MapPin size={13} />
-              <span>{hotelName}</span>
-            </div>
-          )}
-          <p>{heroLine}</p>
-          <div className="vd-gold-line" />
-        </div>
+      <div className="vd-hero-shell">
+        <section className="vd-hero">
+          <div className="vd-hero-text">
+            <span className="vd-hero-greeting">{greeting()},</span>
+            <h1>{valet?.name || "Valet"}</h1>
+            {hotelName && (
+              <div className="vd-hotel-badge">
+                <MapPin size={13} />
+                <span>{hotelName}</span>
+              </div>
+            )}
+            <p>{heroLine}</p>
+            <div className="vd-gold-line" />
+          </div>
 
-        <button
-          className="vd-refresh"
-          onClick={handleRefresh}
-          disabled={refreshing}
-          title="Refresh dashboard"
-        >
-          <RefreshCw size={15} className={refreshing ? "spin" : ""} />
-          {refreshing ? "Refreshing" : "Refresh"}
-        </button>
+          <button
+            className="vd-refresh"
+            onClick={handleRefresh}
+            disabled={refreshing}
+            title="Refresh dashboard"
+          >
+            <RefreshCw size={15} className={refreshing ? "spin" : ""} />
+            {refreshing ? "Refreshing" : "Refresh"}
+          </button>
 
-        <div className="vd-hero-visual" aria-hidden="true">
-          <img src="/welcome-hero-banner.jpg" alt="" />
-          <div className="vd-hero-fade dashboard-hero-feather" />
-        </div>
-      </section>
+          <div className="vd-hero-visual" aria-hidden="true">
+            <img src="/welcome-hero-banner.jpg" alt="" />
+            <div className="vd-hero-fade dashboard-hero-feather" />
+          </div>
+        </section>
 
-      <section className="vd-kpis" aria-label="Today at a glance">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
+        <section className="vd-kpis" aria-label="Today at a glance">
+          {stats.map((stat) => {
+            const Icon = stat.icon;
 
-          return (
-            <div className={`vd-kpi vd-kpi-${stat.tone}`} key={stat.label}>
-              <span className="vd-kpi-icon">
-                <Icon size={18} />
-              </span>
-              <strong>{stat.value}</strong>
-              <span className="vd-kpi-label">{stat.label}</span>
-            </div>
-          );
-        })}
-      </section>
+            return (
+              <div className={`vd-kpi vd-kpi-${stat.tone}`} key={stat.label}>
+                <span className="vd-kpi-icon">
+                  <Icon size={18} />
+                </span>
+                <strong>{stat.value}</strong>
+                <span className="vd-kpi-label">{stat.label}</span>
+              </div>
+            );
+          })}
+        </section>
+      </div>
 
       {retrievalRequests.length > 0 && (
         <section className="vd-panel vd-queue">

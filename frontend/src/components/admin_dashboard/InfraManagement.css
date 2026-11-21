@@ -162,6 +162,48 @@
   background: #f3f4f6;
 }
 
+.infra-btn-deactivate-staff,
+.infra-btn-activate-staff {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.infra-btn-deactivate-staff {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #b42318;
+}
+
+.infra-btn-deactivate-staff:hover:not(:disabled) {
+  background: #ffe4e6;
+  border-color: #fda4af;
+}
+
+.infra-btn-activate-staff {
+  border: 1px solid #15803d;
+  background: #15803d;
+  color: #ffffff;
+}
+
+.infra-btn-activate-staff:hover:not(:disabled) {
+  background: #166534;
+  border-color: #166534;
+}
+
+.infra-btn-deactivate-staff:disabled,
+.infra-btn-activate-staff:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 /* Hotel Pipeline / List Order (One by one) */
 .infra-hotels-pipeline {
   display: flex;
@@ -516,6 +558,54 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   border: 1px solid #e5e7eb;
   padding: 28px;
+}
+
+.infra-staff-status-modal {
+  max-width: 440px;
+}
+
+.infra-staff-status-modal .infra-modal-head {
+  align-items: flex-start;
+}
+
+.infra-status-eyebrow {
+  margin: 0 0 4px;
+  color: #42235e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.infra-staff-status-message {
+  margin: 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.infra-btn-deactivate-confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid #b42318;
+  border-radius: 10px;
+  background: #b42318;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.infra-btn-deactivate-confirm:hover:not(:disabled) {
+  background: #912018;
+  border-color: #912018;
+}
+
+.infra-btn-deactivate-confirm:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Wider modal for staff form */

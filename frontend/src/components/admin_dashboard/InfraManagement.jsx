@@ -79,6 +79,7 @@ export default function InfraManagement() {
   const [showAddStaffModal, setShowAddStaffModal] = useState(false);
   const [showEditStaffModal, setShowEditStaffModal] = useState(false);
   const [editingStaff, setEditingStaff] = useState(null);
+  const [statusStaff, setStatusStaff] = useState(null);
   const [staffForm, setStaffForm] = useState({
     name: "",
     email: "",
@@ -350,16 +351,31 @@ export default function InfraManagement() {
     }
   };
 
-  const handleToggleStaffStatus = async (staff) => {
+  const handleToggleStaffStatus = (staff) => {
+    setStatusStaff(staff);
+  };
+
+  const handleConfirmStaffStatus = async () => {
+    if (!statusStaff) return;
+
     try {
-      const newStatus = !staff.is_active;
-      const res = await updateStaffStatus(staff.id, newStatus);
-      if (res?.success) {
-        showNotification(`Staff marked as ${newStatus ? "active" : "inactive"}.`);
-        await loadData();
+      setActionLoading(true);
+      const newStatus = !statusStaff.is_active;
+      const res = await updateStaffStatus(statusStaff.id, newStatus);
+
+      if (!res?.success) {
+        throw new Error(res?.message || "Failed to change staff status.");
       }
+
+      showNotification(
+        res.message || `Staff ${newStatus ? "activated" : "deactivated"} successfully.`
+      );
+      setStatusStaff(null);
+      await loadData();
     } catch (err) {
-      showNotification("Failed to change staff status.", true);
+      showNotification(err?.message || "Failed to change staff status.", true);
+    } finally {
+      setActionLoading(false);
     }
   };
 
@@ -792,42 +808,41 @@ export default function InfraManagement() {
                         {staff.floor_name || "All Levels / Main"}
                       </td>
                       <td style={{ padding: "14px 18px" }}>
-                        <button
-                          type="button"
-                          onClick={() => handleToggleStaffStatus(staff)}
+                        <span
                           style={{
                             padding: "4px 10px",
                             borderRadius: "20px",
                             fontSize: "11.5px",
                             fontWeight: "700",
-                            border: "none",
-                            cursor: "pointer",
                             background: staff.is_active ? "#ecfdf5" : "#fef3c7",
                             color: staff.is_active ? "#065f46" : "#92400e",
                           }}
-                          title="Click to toggle or approve staff status"
+                          aria-label={staff.is_active ? "Active staff member" : "Inactive staff member"}
                         >
-                          {staff.is_active ? "● Active" : "⏳ Pending Approval"}
-                        </button>
+                          {staff.is_active ? "● Active" : "● Inactive"}
+                        </span>
                       </td>
                       <td style={{ padding: "14px 18px", textAlign: "right" }}>
                         {!staff.is_active && (
                           <button
                             type="button"
+                            className="infra-btn-activate-staff"
                             onClick={() => handleToggleStaffStatus(staff)}
-                            style={{
-                              padding: "5px 12px",
-                              borderRadius: "6px",
-                              background: "#15803d",
-                              color: "#ffffff",
-                              border: "none",
-                              fontSize: "12px",
-                              fontWeight: "700",
-                              cursor: "pointer",
-                              marginRight: "8px"
-                            }}
+                            disabled={actionLoading}
+                            aria-label={`Activate ${staff.name}`}
                           >
-                            ✓ Accept Request
+                            Activate
+                          </button>
+                        )}
+                        {staff.is_active && (
+                          <button
+                            type="button"
+                            className="infra-btn-deactivate-staff"
+                            onClick={() => handleToggleStaffStatus(staff)}
+                            disabled={actionLoading}
+                            aria-label={`Deactivate ${staff.name}`}
+                          >
+                            Deactivate
                           </button>
                         )}
                         <button
@@ -1204,6 +1219,75 @@ export default function InfraManagement() {
                 disabled={actionLoading}
               >
                 {actionLoading ? "Configuring..." : "Generate Parking Slots"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL: CHANGE STAFF ACCESS
+          ======================================================== */}
+      {statusStaff && (
+        <div
+          className="infra-modal-overlay"
+          onClick={() => !actionLoading && setStatusStaff(null)}
+        >
+          <div
+            className="infra-modal infra-staff-status-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="infra-staff-status-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="infra-modal-head">
+              <div>
+                <p className="infra-status-eyebrow">STAFF ACCESS</p>
+                <h3 id="infra-staff-status-title">
+                  {statusStaff.is_active ? "Deactivate Staff?" : "Activate Staff?"}
+                </h3>
+              </div>
+              <button
+                type="button"
+                className="infra-close-btn"
+                onClick={() => setStatusStaff(null)}
+                disabled={actionLoading}
+                aria-label="Close dialog"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <p className="infra-staff-status-message">
+              {statusStaff.is_active
+                ? `Deactivate ${statusStaff.name}? They will lose access to their account. Their staff record will remain and can be reactivated later.`
+                : `Activate ${statusStaff.name}? They will regain access to their account.`}
+            </p>
+
+            <div className="infra-modal-foot">
+              <button
+                type="button"
+                className="infra-btn-secondary"
+                onClick={() => setStatusStaff(null)}
+                disabled={actionLoading}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={
+                  statusStaff.is_active
+                    ? "infra-btn-deactivate-confirm"
+                    : "infra-btn-primary"
+                }
+                onClick={handleConfirmStaffStatus}
+                disabled={actionLoading}
+              >
+                {actionLoading
+                  ? "Updating..."
+                  : statusStaff.is_active
+                    ? "Deactivate Staff"
+                    : "Activate Staff"}
               </button>
             </div>
           </div>

@@ -957,7 +957,7 @@
   border: 1px solid rgba(223, 183, 108, 0.3);
 }
 
-/* MENU ITEMS WITH GOLD ICONS & BURGUNDY ACTIVE PILL */
+/* MENU ITEMS WITH GOLD ICONS & PURPLE ACTIVE PILL */
 .dash-menu-item {
   color: #f7ede6 !important;
   border-radius: 12px !important;
@@ -980,7 +980,7 @@
 }
 
 .dash-menu-item.active {
-  background: linear-gradient(135deg, rgba(98, 12, 32, 0.9) 0%, rgba(65, 8, 20, 0.95) 100%) !important;
+  background: linear-gradient(135deg, #42235e 0%, #2d1442 100%) !important;
   border: 1px solid rgba(223, 183, 108, 0.45) !important;
   box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.35),

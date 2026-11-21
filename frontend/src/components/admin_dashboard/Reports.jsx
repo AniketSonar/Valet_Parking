@@ -28,8 +28,7 @@ function Reports() {
   const [selectedHotel, setSelectedHotel] = useState("all");
   const [hotels, setHotels] = useState([]);
   const [reportPeriod, setReportPeriod] = useState("daily"); // "daily" | "weekly" | "monthly"
-  const [activeReportTab, setActiveReportTab] = useState("overview"); // "overview" | "hotels" | "valets" | "vehicles"
-  const [vehicleSectionTab, setVehicleSectionTab] = useState("vehicles");
+  const [activeReportTab, setActiveReportTab] = useState("overview");
 
   const [stats, setStats] = useState({
     totalStaff: 0,
@@ -226,23 +225,27 @@ function Reports() {
       </section>
 
       {/* SUB-NAV REPORT SECTIONS */}
-      <div style={{ display: "flex", gap: "8px", margin: "16px 0", borderBottom: "1px solid #e5e7eb", paddingBottom: "10px", flexWrap: "wrap" }}>
+      <div role="tablist" aria-label="Performance report sections" style={{ display: "flex", gap: "8px", margin: "16px 0", borderBottom: "1px solid #e5e7eb", paddingBottom: "10px", flexWrap: "wrap" }}>
         {[
           { id: "overview", label: "Executive Overview" },
           { id: "hotels", label: isManager ? "Branch Occupancy & Details" : "Hotel-Wise Comparison" },
           { id: "valets", label: isManager ? "Valet Staff Performance" : "Staff & Valet Performance" },
           { id: "vehicles", label: "Vehicle Categories & Top Visitors" },
+          { id: "valetReport", label: "Valet Report" },
+          { id: "managerReport", label: "Manager Report" },
         ].map((tab) => (
           <button
             key={tab.id}
             type="button"
+            role="tab"
+            aria-selected={activeReportTab === tab.id}
             onClick={() => setActiveReportTab(tab.id)}
             style={{
-              padding: "8px 16px",
-              borderRadius: "8px",
-              border: "none",
+              padding: "7px 13px",
+              borderRadius: "999px",
+              border: activeReportTab === tab.id ? "1px solid #42235e" : "1px solid #e5e7eb",
               fontSize: "13px",
-              fontWeight: activeReportTab === tab.id ? "700" : "500",
+              fontWeight: "700",
               background: activeReportTab === tab.id ? "#42235e" : "#f3f4f6",
               color: activeReportTab === tab.id ? "#ffffff" : "#4b5563",
               cursor: "pointer",
@@ -557,45 +560,12 @@ function Reports() {
       {/* TAB 4: VEHICLE STATS & TOP VISITORS */}
       {activeReportTab === "vehicles" && (
         <div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
+          <div style={{ marginBottom: "16px" }}>
             <h3 style={{ margin: 0, fontSize: "16px", fontWeight: "700", color: "#1f2937" }}>
               Vehicle Categories &amp; Top Visitors
             </h3>
-            <div
-              role="tablist"
-              aria-label="Report type"
-              style={{ display: "flex", justifyContent: "flex-end", gap: "8px", flexWrap: "wrap" }}
-            >
-              {[
-                { id: "vehicles", label: "Vehicle Overview" },
-                { id: "valet", label: "Valet Report" },
-                { id: "manager", label: "Manager Report" },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={vehicleSectionTab === tab.id}
-                  onClick={() => setVehicleSectionTab(tab.id)}
-                  style={{
-                    padding: "7px 13px",
-                    borderRadius: "999px",
-                    border: vehicleSectionTab === tab.id ? "1px solid #42235e" : "1px solid #e5e7eb",
-                    background: vehicleSectionTab === tab.id ? "#42235e" : "#ffffff",
-                    color: vehicleSectionTab === tab.id ? "#ffffff" : "#4b5563",
-                    fontSize: "12px",
-                    fontWeight: "700",
-                    cursor: "pointer",
-                    transition: "all 0.15s ease",
-                  }}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
           </div>
 
-          {vehicleSectionTab === "vehicles" && (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
           {/* Vehicle Categories */}
           <div style={{ background: "#fff", borderRadius: "14px", border: "1px solid #e5e7eb", padding: "20px" }}>
@@ -667,28 +637,17 @@ function Reports() {
             </table>
           </div>
         </div>
-          )}
-          {vehicleSectionTab === "manager" && (
-            <PerformanceReport
-              type="manager"
-              report={systemReports}
-              hotelName={selectedHotel === "all" ? "All Hotels" : hotels.find((hotel) => hotel.id === selectedHotel)?.building_name || "Selected Hotel"}
-              period={reportPeriod}
-              loading={loading}
-              selectedHotel={selectedHotel}
-            />
-          )}
-          {vehicleSectionTab === "valet" && (
-            <PerformanceReport
-              type="valet"
-              report={systemReports}
-              hotelName={selectedHotel === "all" ? "All Hotels" : hotels.find((hotel) => hotel.id === selectedHotel)?.building_name || "Selected Hotel"}
-              period={reportPeriod}
-              loading={loading}
-              selectedHotel={selectedHotel}
-            />
-          )}
         </div>
+      )}
+      {["valetReport", "managerReport"].includes(activeReportTab) && (
+        <PerformanceReport
+          type={activeReportTab === "valetReport" ? "valet" : "manager"}
+          report={systemReports}
+          hotelName={selectedHotel === "all" ? "All Hotels" : hotels.find((hotel) => hotel.id === selectedHotel)?.building_name || "Selected Hotel"}
+          period={reportPeriod}
+          loading={loading}
+          selectedHotel={selectedHotel}
+        />
       )}
     </div>
   );

@@ -1175,7 +1175,7 @@ const ParkingSlots = ({ scope = "manager" }) => {
                         <span className="card-key">TICKET CODE</span>
                         <strong className="card-value highlight-ticket">
                           <Ticket size={13} />
-                          {selectedSlot.session_ticket || "Not available"}
+                          <span>{selectedSlot.session_ticket || "Not available"}</span>
                         </strong>
                       </div>
 

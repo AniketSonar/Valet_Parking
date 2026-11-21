@@ -1,4 +1,4 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -1577,7 +1577,7 @@ a { text-decoration: none; }
 
 
 /* ================================================================
-   REDESIGNED LOGIN CARD — TRENDY GLASSMORPHISM DARK-ACCENTED THEME
+   REDESIGNED LOGIN CARD � TRENDY GLASSMORPHISM DARK-ACCENTED THEME
    ================================================================ */
 
 /* ---- Animated background orbs ---- */
@@ -1999,7 +1999,7 @@ a { text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px 120px 30px 0px;
+  padding: 30px 180px 30px 0px;
   position: relative;
 }
 
@@ -2015,7 +2015,7 @@ a { text-decoration: none; }
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   border-radius: 28px;
-  padding: 24px 26px 20px 48px;
+  padding: 24px 26px 20px 64px;
   box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.03),
     0 24px 60px rgba(0, 0, 0, 0.12),
@@ -2684,7 +2684,7 @@ a { text-decoration: none; }
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 24px 120px 24px 0px !important;
+  padding: 24px 180px 24px 0px !important;
   position: relative !important;
 }
 
@@ -2863,7 +2863,7 @@ a { text-decoration: none; }
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 24px 120px 24px 0px !important;
+  padding: 24px 180px 24px 0px !important;
   position: relative !important;
 }
 
@@ -2879,7 +2879,7 @@ a { text-decoration: none; }
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border-radius: 28px !important;
-  padding: 36px 34px 28px 48px !important;
+  padding: 36px 34px 28px 64px !important;
   border: 1px solid rgba(255, 255, 255, 0.8) !important;
   box-sizing: border-box !important;
 }

@@ -830,7 +830,7 @@ function ValetDashboard() {
         </div>
 
         <div className="vd-hero-visual" aria-hidden="true">
-          <img src="/welcome-hero-banner.png" alt="" />
+          <img src="/welcome-hero-banner.jpg" alt="" />
           <div className="vd-hero-fade" />
         </div>
       </section>

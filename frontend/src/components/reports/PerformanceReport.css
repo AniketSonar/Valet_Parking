@@ -1,0 +1,175 @@
+.performance-report {
+  margin-top: 16px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e8e2ed;
+  border-radius: 14px;
+  color: #292330;
+}
+
+.performance-report-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.performance-report-heading h3 {
+  margin: 0;
+  color: #292330;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.performance-report-heading p {
+  margin: 5px 0 0;
+  color: #706879;
+  font-size: 12px;
+}
+
+.performance-report-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #42235e;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.performance-report-download:hover:not(:disabled) {
+  background: #351a4e;
+}
+
+.performance-report-download:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.performance-report-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.performance-report-kpi {
+  display: flex;
+  min-height: 72px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid #eee8f2;
+  border-radius: 10px;
+  background: #faf8fc;
+}
+
+.performance-report-kpi span {
+  color: #716a78;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.performance-report-kpi strong {
+  color: #42235e;
+  font-size: 18px;
+}
+
+.performance-report-note {
+  margin: 0 0 12px;
+  color: #77707e;
+  font-size: 11px;
+}
+
+.performance-report-error {
+  margin: 0 0 12px;
+  color: #b42318;
+  font-size: 12px;
+}
+
+.performance-report-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #eee8f2;
+  border-radius: 10px;
+}
+
+.performance-report-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.performance-report-table th {
+  padding: 11px 12px;
+  background: #42235e;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.performance-report-table td {
+  padding: 11px 12px;
+  border-top: 1px solid #f0edf3;
+  color: #403a46;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.performance-report-table tbody tr:nth-child(even) {
+  background: #fbf9fc;
+}
+
+.performance-report-status {
+  display: inline-flex;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.performance-report-status.is-active {
+  background: #e8f7ed;
+  color: #18743a;
+}
+
+.performance-report-status.is-inactive {
+  background: #f1eff3;
+  color: #706879;
+}
+
+.performance-report-empty {
+  padding: 24px !important;
+  color: #77707e !important;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .performance-report-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .performance-report {
+    padding: 14px;
+  }
+
+  .performance-report-heading {
+    flex-direction: column;
+  }
+
+  .performance-report-download {
+    width: 100%;
+  }
+}

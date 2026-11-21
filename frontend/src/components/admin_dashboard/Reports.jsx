@@ -1,5 +1,6 @@
 ﻿import React, { useState, useEffect, useCallback } from "react";
 import { RefreshCw, Building2, Car, Users, TrendingUp, Calendar, ShieldCheck, Award } from "lucide-react";
+import PerformanceReport from "../reports/PerformanceReport";
 import ValetReport from "../reports/ValetReport";
 import ManagerReport from "../reports/ManagerReport";
 import {
@@ -567,8 +568,8 @@ function Reports() {
             >
               {[
                 { id: "vehicles", label: "Vehicle Overview" },
-                { id: "manager", label: "Manager Report" },
                 { id: "valet", label: "Valet Report" },
+                { id: "manager", label: "Manager Report" },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -667,8 +668,26 @@ function Reports() {
           </div>
         </div>
           )}
-          {vehicleSectionTab === "manager" && <ManagerReport />}
-          {vehicleSectionTab === "valet" && <ValetReport />}
+          {vehicleSectionTab === "manager" && (
+            <PerformanceReport
+              type="manager"
+              report={systemReports}
+              hotelName={selectedHotel === "all" ? "All Hotels" : hotels.find((hotel) => hotel.id === selectedHotel)?.building_name || "Selected Hotel"}
+              period={reportPeriod}
+              loading={loading}
+              selectedHotel={selectedHotel}
+            />
+          )}
+          {vehicleSectionTab === "valet" && (
+            <PerformanceReport
+              type="valet"
+              report={systemReports}
+              hotelName={selectedHotel === "all" ? "All Hotels" : hotels.find((hotel) => hotel.id === selectedHotel)?.building_name || "Selected Hotel"}
+              period={reportPeriod}
+              loading={loading}
+              selectedHotel={selectedHotel}
+            />
+          )}
         </div>
       )}
     </div>

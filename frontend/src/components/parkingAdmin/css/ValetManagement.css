@@ -104,6 +104,73 @@
   border-color: #d9b6bf !important;
 }
 
+.parking-staff-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.parking-staff-header .manager-add-staff-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 116px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid #7a2e41;
+  border-radius: 9px;
+  background: #7a2e41;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.parking-staff-header .manager-add-staff-button:hover {
+  background: #642436;
+}
+
+.manager-add-staff-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.parking-staff-details-modal form .manager-add-staff-fields label {
+  display: flex !important;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0 !important;
+  color: #615155 !important;
+  font-size: 11px !important;
+}
+
+.manager-add-staff-fields input {
+  width: 100%;
+  height: 40px;
+  padding: 0 11px;
+  box-sizing: border-box;
+  border: 1px solid #e3dadc;
+  border-radius: 9px;
+  background: #fbf9fa;
+  color: #4a3a3e;
+  font-size: 12px;
+  outline: none;
+}
+
+.manager-add-staff-fields input:focus {
+  border-color: #a76b7a;
+  box-shadow: 0 0 0 3px rgba(122, 46, 65, 0.1);
+}
+
+.manager-add-staff-error {
+  margin: 0;
+  color: #b42318;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 
 /* ============================================================
    ALERTS
@@ -1307,6 +1374,10 @@
     margin-top: 0;
   }
 
+  .parking-staff-header-actions {
+    width: 100%;
+  }
+
   .parking-staff-toolbar {
     align-items: stretch;
     flex-direction: column;
@@ -1347,6 +1418,10 @@
   }
 
   .parking-staff-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .manager-add-staff-fields {
     grid-template-columns: 1fr;
   }
 

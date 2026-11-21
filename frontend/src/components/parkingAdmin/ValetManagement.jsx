@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { RefreshCw, Search, Users, UserCheck, Shield, Car, Check, CircleDot, Clock, TriangleAlert } from "lucide-react";
+import { RefreshCw, Search, Users, UserCheck, Shield, Car, Check, CircleDot, Clock, TriangleAlert, Plus } from "lucide-react";
 import { getParkingStaff, getParkingSessions, assignValet } from "../../api/parkingApi";
-import { updateStaffStatus } from "../../api/staffApi";
+import { createStaff, updateStaffStatus } from "../../api/staffApi";
 import "./css/ValetManagement.css";
 
 
@@ -42,6 +42,15 @@ function ValetManagement() {
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
 
   const [selectedStaff, setSelectedStaff] = useState(null);
+  const [showCreateStaff, setShowCreateStaff] = useState(false);
+  const [creatingStaff, setCreatingStaff] = useState(false);
+  const [createStaffError, setCreateStaffError] = useState("");
+  const [newStaff, setNewStaff] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+  });
   const [assigningStaff, setAssigningStaff] = useState(null);
   const [selectedSessionId, setSelectedSessionId] = useState("");
   const [submittingAssign, setSubmittingAssign] = useState(false);
@@ -162,6 +171,36 @@ function ValetManagement() {
     }
   };
 
+  const handleCreateStaff = async (e) => {
+    e.preventDefault();
+    setCreateStaffError("");
+
+    try {
+      setCreatingStaff(true);
+      const response = await createStaff({
+        ...newStaff,
+        name: newStaff.name.trim(),
+        email: newStaff.email.trim(),
+        phone: newStaff.phone.trim(),
+        role: "valet",
+      });
+
+      if (!response?.success) {
+        throw new Error(response?.message || "Failed to add staff member.");
+      }
+
+      setShowCreateStaff(false);
+      setNewStaff({ name: "", email: "", password: "", phone: "" });
+      setSuccessMessage(`${newStaff.name.trim()} added to your branch.`);
+      await loadData();
+    } catch (err) {
+      console.error("Create branch staff error:", err);
+      setCreateStaffError(err.message || "Failed to add staff member.");
+    } finally {
+      setCreatingStaff(false);
+    }
+  };
+
   return (
     <div className="parking-staff-page">
       {/* HEADER */}
@@ -171,15 +210,28 @@ function ValetManagement() {
           <h1>Staff</h1>
         </div>
 
-        <button
-          className="create-staff-btn"
-          style={{ display: "inline-flex", alignItems: "center", gap: "6px", height: "36px", padding: "0 16px" }}
-          onClick={loadData}
-          disabled={loading}
-        >
-          <RefreshCw size={14} className={loading ? "refresh-spinning" : ""} />
-          <span>{loading ? "Refreshing..." : "Refresh"}</span>
-        </button>
+        <div className="parking-staff-header-actions">
+          <button
+            type="button"
+            className="manager-add-staff-button"
+            onClick={() => {
+              setCreateStaffError("");
+              setShowCreateStaff(true);
+            }}
+          >
+            <Plus size={15} />
+            <span>Add Staff</span>
+          </button>
+          <button
+            type="button"
+            className="create-staff-btn"
+            onClick={loadData}
+            disabled={loading}
+          >
+            <RefreshCw size={14} className={loading ? "refresh-spinning" : ""} />
+            <span>{loading ? "Refreshing..." : "Refresh"}</span>
+          </button>
+        </div>
       </div>
 
       {successMessage && (
@@ -484,6 +536,110 @@ function ValetManagement() {
                   disabled={!selectedSessionId || submittingAssign}
                 >
                   {submittingAssign ? "Assigning..." : "Confirm Assignment"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showCreateStaff && (
+        <div
+          className="parking-staff-modal-overlay"
+          onClick={() => !creatingStaff && setShowCreateStaff(false)}
+        >
+          <div
+            className="parking-staff-details-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="parking-staff-modal-header">
+              <div>
+                <p>BRANCH STAFF</p>
+                <h2>Add Staff</h2>
+                <span>The new valet will be assigned to your branch.</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCreateStaff(false)}
+                disabled={creatingStaff}
+                aria-label="Close add staff form"
+              >
+                ×
+              </button>
+            </div>
+
+            <form className="manager-add-staff-form" onSubmit={handleCreateStaff}>
+              <div className="manager-add-staff-fields">
+                <label>
+                  Full Name
+                  <input
+                    name="name"
+                    value={newStaff.name}
+                    onChange={(e) => setNewStaff({ ...newStaff, name: e.target.value })}
+                    autoComplete="name"
+                    required
+                    disabled={creatingStaff}
+                  />
+                </label>
+                <label>
+                  Email Address
+                  <input
+                    name="email"
+                    type="email"
+                    value={newStaff.email}
+                    onChange={(e) => setNewStaff({ ...newStaff, email: e.target.value })}
+                    autoComplete="email"
+                    required
+                    disabled={creatingStaff}
+                  />
+                </label>
+                <label>
+                  Password
+                  <input
+                    name="password"
+                    type="password"
+                    value={newStaff.password}
+                    onChange={(e) => setNewStaff({ ...newStaff, password: e.target.value })}
+                    autoComplete="new-password"
+                    minLength={8}
+                    required
+                    disabled={creatingStaff}
+                  />
+                </label>
+                <label>
+                  Phone Number
+                  <input
+                    name="phone"
+                    type="tel"
+                    value={newStaff.phone}
+                    onChange={(e) => setNewStaff({ ...newStaff, phone: e.target.value })}
+                    autoComplete="tel"
+                    required
+                    disabled={creatingStaff}
+                  />
+                </label>
+              </div>
+
+              {createStaffError && (
+                <p className="manager-add-staff-error" role="alert">
+                  {createStaffError}
+                </p>
+              )}
+
+              <div className="parking-staff-modal-footer">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateStaff(false)}
+                  disabled={creatingStaff}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="assign-valet-btn"
+                  disabled={creatingStaff}
+                >
+                  {creatingStaff ? "Adding..." : "Add Staff"}
                 </button>
               </div>
             </form>

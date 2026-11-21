@@ -735,14 +735,6 @@ function ValetDashboard() {
     { label: "Returned", value: dashboard?.completed_returns ?? 0, icon: CheckCircle2, tone: "done" },
   ];
 
-  const waitingCount = dashboard?.retrieval_requests ?? 0;
-  const heroLine =
-    waitingCount > 0
-      ? `${waitingCount} ${waitingCount === 1 ? "car is" : "cars are"} waiting to be brought out.`
-      : (dashboard?.assigned_vehicles ?? 0) > 0
-      ? "A car is waiting for a parking slot."
-      : "You're all caught up. New jobs appear here automatically.";
-
   if (loading) {
     return (
       <div className="valet-page valet-loading-page">
@@ -816,7 +808,6 @@ function ValetDashboard() {
                 <span>{hotelName}</span>
               </div>
             )}
-            <p>{heroLine}</p>
             <div className="vd-gold-line" />
           </div>
 

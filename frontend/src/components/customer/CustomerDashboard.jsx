@@ -170,9 +170,6 @@ function CustomerDashboard({ onNavigate, onCustomerLoaded }) {
             Welcome, <span>{customer?.name || "Customer"}</span>
           </h1>
 
-          <p>
-            Keep track of your vehicles and parking sessions.
-          </p>
         </div>
 
         <button

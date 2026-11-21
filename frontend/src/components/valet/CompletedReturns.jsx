@@ -93,7 +93,6 @@ const CompletedReturns = () => {
         <div>
           <span className="page-eyebrow">HISTORY & RECORDS</span>
           <h1>Completed Returns</h1>
-          <p>Complete details and audit trail of all vehicles returned.</p>
         </div>
 
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>

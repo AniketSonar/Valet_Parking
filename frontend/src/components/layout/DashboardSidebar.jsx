@@ -59,9 +59,6 @@ const DashboardSidebar = ({
                   filter: "brightness(1.18)"
                 }}
               />
-              <span className="dash-brand-subtitle-gold" style={{ letterSpacing: "3px", fontSize: "8.5px", marginTop: "6px", color: "#bc9b6a", fontWeight: "600" }}>
-                PREMIUM VALET SERVICE
-              </span>
             </div>
 
             <div className="dash-brand-gold-line" />

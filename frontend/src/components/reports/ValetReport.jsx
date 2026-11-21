@@ -321,7 +321,6 @@ const ValetReport = () => {
       <header className="vr-header">
         <div>
           <h2>Valet Report</h2>
-          <p>Filter by valet, date and status, then view or download the report.</p>
         </div>
 
         <div className="vr-actions">

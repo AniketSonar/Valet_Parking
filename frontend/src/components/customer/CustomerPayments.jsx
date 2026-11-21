@@ -137,7 +137,6 @@ function CustomerPayments() {
         <div className="customer-payments-header">
           <div>
             <h1>Payments</h1>
-            <p>View your parking payments and invoices.</p>
           </div>
         </div>
 
@@ -157,9 +156,6 @@ function CustomerPayments() {
       <div className="customer-payments-header">
         <div>
           <h1>Payments</h1>
-          <p>
-            View your parking payments and download invoices.
-          </p>
         </div>
 
         <button

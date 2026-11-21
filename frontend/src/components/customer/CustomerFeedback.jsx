@@ -220,10 +220,6 @@ function CustomerFeedback() {
 
           <h1>Feedback</h1>
 
-          <p>
-            Share your experience after your vehicle
-            has been returned.
-          </p>
         </div>
 
         <button

@@ -93,9 +93,6 @@ const ValetProfile = () => {
 
         <h1>Profile</h1>
 
-        <p>
-          Your valet account information.
-        </p>
       </div>
 
       {!valet ? (

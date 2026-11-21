@@ -308,7 +308,7 @@ function LuxuryDashboardView({
           <h1 className="lux-welcome-title">Welcome Back!</h1>
 
           {/* Hotel / Branch Visible Selector (Single Row spanning across banner) */}
-          <div style={{ marginTop: "6px", width: "100%" }}>
+          <div style={{ marginTop: "12px", width: "100%" }}>
             <div style={{
                 display: "flex",
                 alignItems: "center",
@@ -1065,6 +1065,7 @@ function LuxuryDashboardView({
               <Shield size={18} className="lux-card-header-icon" />
               <h3>Incidents by Week</h3>
             </div>
+            <span className="lux-chart-meta">Last 4 weeks</span>
           </div>
           {(() => {
             const trend = analytics?.incidentTrend || [];
@@ -1078,21 +1079,30 @@ function LuxuryDashboardView({
               );
             }
             const maxCount = Math.max(...trend.map((item) => Number(item.count || 0)), 1);
+            const chartMaximum = maxCount === 1 ? 2 : Math.ceil(maxCount / 2) * 2;
+            const midpoint = Math.ceil(chartMaximum / 2);
             return (
-              <div className="lux-weekly-incident-chart" role="img" aria-label={`${total} incidents across four weeks`}>
-                {trend.map((item, index) => {
-                  const count = Number(item.count || 0);
-                  const height = count === 0 ? 3 : Math.max(8, (count / maxCount) * 100);
-                  return (
-                    <div key={`${item.week}-${index}`} className="lux-weekly-incident-column" title={`${item.week}: ${count} incidents`}>
-                      <span className="lux-weekly-incident-count">{count}</span>
-                      <div className="lux-weekly-incident-track">
-                        <div className="lux-weekly-incident-bar" style={{ height: `${height}%` }} />
+              <div className="lux-chart-shell lux-incident-chart-shell" role="img" aria-label={`${total} incidents across four weeks`}>
+                <div className="lux-chart-y-axis" aria-hidden="true">
+                  <span>{chartMaximum}</span>
+                  <span>{midpoint}</span>
+                  <span>0</span>
+                </div>
+                <div className="lux-weekly-incident-chart">
+                  {trend.map((item, index) => {
+                    const count = Number(item.count || 0);
+                    const height = count === 0 ? 4 : Math.max(8, (count / chartMaximum) * 100);
+                    return (
+                      <div key={`${item.week}-${index}`} className="lux-weekly-incident-column" title={`${item.week}: ${count} incidents`}>
+                        <span className="lux-weekly-incident-count">{count}</span>
+                        <div className="lux-weekly-incident-track">
+                          <div className="lux-weekly-incident-bar" style={{ height: `${height}%` }} />
+                        </div>
+                        <span className="lux-weekly-incident-label">{item.week}</span>
                       </div>
-                      <span className="lux-weekly-incident-label">{item.week}</span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             );
           })()}
@@ -1134,19 +1144,26 @@ function LuxuryDashboardView({
             }
 
             return (
-              <div className="lux-hotel-comparison-chart" role="img" aria-label="Hotel occupancy comparison bar chart">
-                {data.map((h) => {
-                  const rate = Math.min(100, Math.max(0, Number(h.occupancyRate || 0)));
-                  return (
-                    <div key={h.hotel_id} className="lux-hotel-chart-column" title={`${h.hotel_name}: ${rate}% occupancy`}>
-                      <strong className="lux-hotel-chart-value">{rate}%</strong>
-                      <div className="lux-hotel-chart-track">
-                        <div className="lux-hotel-chart-bar" style={{ height: `${Math.max(3, rate)}%` }} />
+              <div className="lux-chart-shell lux-hotel-chart-shell" role="img" aria-label="Hotel occupancy comparison bar chart">
+                <div className="lux-chart-y-axis" aria-hidden="true">
+                  <span>100%</span>
+                  <span>50%</span>
+                  <span>0%</span>
+                </div>
+                <div className="lux-hotel-comparison-chart">
+                  {data.map((h) => {
+                    const rate = Math.min(100, Math.max(0, Number(h.occupancyRate || 0)));
+                    return (
+                      <div key={h.hotel_id} className="lux-hotel-chart-column" title={`${h.hotel_name}: ${rate}% occupancy`}>
+                        <strong className="lux-hotel-chart-value">{rate}%</strong>
+                        <div className="lux-hotel-chart-track">
+                          <div className="lux-hotel-chart-bar" style={{ height: `${Math.max(3, rate)}%` }} />
+                        </div>
+                        <span className="lux-hotel-chart-name" title={h.hotel_name}>{h.hotel_name}</span>
                       </div>
-                      <span className="lux-hotel-chart-name" title={h.hotel_name}>{h.hotel_name}</span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             );
           })()}

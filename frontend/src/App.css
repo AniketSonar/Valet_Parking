@@ -1577,7 +1577,7 @@ a { text-decoration: none; }
 
 
 /* ================================================================
-   REDESIGNED LOGIN CARD — TRENDY GLASSMORPHISM DARK-ACCENTED THEME
+   REDESIGNED LOGIN CARD â€” TRENDY GLASSMORPHISM DARK-ACCENTED THEME
    ================================================================ */
 
 /* ---- Animated background orbs ---- */
@@ -2973,4 +2973,63 @@ a { text-decoration: none; }
 .app-shell .vp-google-btn:hover {
   background: #fffaf7;
   border-color: rgba(139, 18, 48, 0.24);
+}
+
+@media (min-width: 961px) {
+  .app-shell {
+    grid-template-columns: minmax(0, 1fr) minmax(400px, 520px) !important;
+  }
+
+  .vp-hero-body {
+    margin: 52px 0 0 48px !important;
+    max-width: 560px !important;
+  }
+
+  .login-section {
+    padding: 24px 120px 24px 0 !important;
+  }
+
+  .vp-login-wrapper {
+    max-width: 400px !important;
+  }
+
+  .vp-auth-card {
+    padding: 36px 34px 28px !important;
+  }
+}
+
+@media (max-width: 960px) {
+  .app-shell {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .hero-section {
+    min-height: auto !important;
+  }
+
+  .vp-hero-container {
+    min-height: auto !important;
+    padding: 24px 20px 8px !important;
+  }
+
+  .vp-hero-mobile-only {
+    display: block !important;
+  }
+
+  .vp-hero-body {
+    margin: 0 !important;
+    padding: 16px 0 !important;
+  }
+
+  .login-section {
+    padding: 10px 20px 36px !important;
+  }
+
+  .vp-login-wrapper {
+    max-width: 410px !important;
+  }
+
+  .vp-auth-card {
+    padding: 30px 24px 24px !important;
+  }
 }

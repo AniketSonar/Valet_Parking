@@ -95,7 +95,6 @@
 .lux-welcome-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #fdfbf8 0%, rgba(253, 251, 248, 0.9) 20%, rgba(253, 251, 248, 0.45) 55%, transparent 90%);
 }
 
 /* ================================================================

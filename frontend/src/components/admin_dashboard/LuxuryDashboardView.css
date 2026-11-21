@@ -478,8 +478,10 @@
 }
 
 .lux-table-wrapper {
-  overflow-x: auto;
   width: 100%;
+  max-height: 360px;
+  overflow: auto;
+  overscroll-behavior: contain;
 }
 
 .lux-activity-table {
@@ -489,10 +491,14 @@
 }
 
 .lux-activity-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   text-align: left;
   font-size: 11.5px;
   font-weight: 600;
   color: #8c827a;
+  background: #f3e8d9;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 8px 12px 14px 4px;

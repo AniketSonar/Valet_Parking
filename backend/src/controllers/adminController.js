@@ -769,7 +769,7 @@ const getDashboardAnalytics = async (req, res) => {
       }
     } catch { /* ignore */ }
 
-    // 9. Incident breakdown by type + 7-day trend
+    // 9. Incident breakdown by type + 4-week trend
     let incidentBreakdown = [];
     let incidentTrend = [];
     try {
@@ -783,12 +783,19 @@ const getDashboardAnalytics = async (req, res) => {
         incRows.forEach((i) => { const t = i.incident_type || "other"; byType[t] = (byType[t] || 0) + 1; });
         incidentBreakdown = Object.entries(byType).map(([type, count]) => ({ type, count }));
         const now = new Date();
-        for (let d = 6; d >= 0; d--) {
-          const day = new Date(now); day.setDate(day.getDate() - d);
-          const label = day.toLocaleDateString("en-IN", { weekday: "short" });
-          const dateStr = day.toISOString().slice(0, 10);
-          const count = incRows.filter((i) => i.created_at && i.created_at.slice(0, 10) === dateStr).length;
-          incidentTrend.push({ day: label, count });
+        now.setHours(23, 59, 59, 999);
+        for (let weekIndex = 3; weekIndex >= 0; weekIndex--) {
+          const weekEnd = new Date(now);
+          weekEnd.setDate(now.getDate() - (weekIndex * 7));
+          const weekStart = new Date(weekEnd);
+          weekStart.setDate(weekEnd.getDate() - 6);
+          weekStart.setHours(0, 0, 0, 0);
+          const count = incRows.filter((incident) => {
+            if (!incident.created_at) return false;
+            const incidentDate = new Date(incident.created_at);
+            return incidentDate >= weekStart && incidentDate <= weekEnd;
+          }).length;
+          incidentTrend.push({ week: `Week ${4 - weekIndex}`, count });
         }
       }
     } catch { /* ignore */ }

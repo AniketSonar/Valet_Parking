@@ -304,10 +304,12 @@ function LuxuryDashboardView({
       ======================================================== */}
       <section className="lux-welcome-banner">
         <div className="lux-welcome-text">
-          <div className="lux-welcome-meta">
-            <span className="lux-welcome-greeting">{greeting}</span>
-            <div className="lux-welcome-branches">
-              <div style={{
+          <span className="lux-welcome-greeting">{greeting}</span>
+          <h1 className="lux-welcome-title">Welcome Back!</h1>
+
+          {/* Hotel / Branch Visible Selector (Single Row spanning across banner) */}
+          <div style={{ marginTop: "6px", width: "100%" }}>
+            <div style={{
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
@@ -428,9 +430,7 @@ function LuxuryDashboardView({
                   </span>
                 )}
               </div>
-            </div>
           </div>
-          <h1 className="lux-welcome-title">Welcome Back!</h1>
         </div>
 
         <div className="lux-welcome-visual">
@@ -1058,44 +1058,38 @@ function LuxuryDashboardView({
           })()}
         </div>
 
-        {/* Weekly Incidents Bar Chart */}
+        {/* Incident Weekly Bar Chart */}
         <div className="lux-card lux-analytics-card">
           <div className="lux-card-topbar">
             <div className="lux-card-title-group">
               <Shield size={18} className="lux-card-header-icon" />
-              <h3>Incidents This Week</h3>
+              <h3>Incidents by Week</h3>
             </div>
           </div>
           {(() => {
             const trend = analytics?.incidentTrend || [];
             const total = trend.reduce((sum, item) => sum + Number(item.count || 0), 0);
-            if (trend.length === 0 || total === 0) {
+            if (trend.length === 0) {
               return (
                 <div className="lux-incident-empty">
                   <Shield size={32} />
-                  <span>No incidents recorded this week</span>
+                  <span>No incident trend data</span>
                 </div>
               );
             }
             const maxCount = Math.max(...trend.map((item) => Number(item.count || 0)), 1);
             return (
-              <div className="lux-weekly-incident-chart" role="img" aria-label={`${total} incidents recorded over the last seven days`}>
+              <div className="lux-weekly-incident-chart" role="img" aria-label={`${total} incidents across four weeks`}>
                 {trend.map((item, index) => {
                   const count = Number(item.count || 0);
+                  const height = count === 0 ? 3 : Math.max(8, (count / maxCount) * 100);
                   return (
-                    <div
-                      key={`${item.day}-${index}`}
-                      className="lux-weekly-incident-day"
-                      title={`${item.day}: ${count} incident${count === 1 ? "" : "s"}`}
-                    >
-                      <span className="lux-weekly-incident-count">{count || ""}</span>
+                    <div key={`${item.week}-${index}`} className="lux-weekly-incident-column" title={`${item.week}: ${count} incidents`}>
+                      <span className="lux-weekly-incident-count">{count}</span>
                       <div className="lux-weekly-incident-track">
-                        <div
-                          className="lux-weekly-incident-bar"
-                          style={{ height: `${(count / maxCount) * 100}%` }}
-                        />
+                        <div className="lux-weekly-incident-bar" style={{ height: `${height}%` }} />
                       </div>
-                      <span className="lux-weekly-incident-label">{item.day}</span>
+                      <span className="lux-weekly-incident-label">{item.week}</span>
                     </div>
                   );
                 })}
@@ -1140,29 +1134,16 @@ function LuxuryDashboardView({
             }
 
             return (
-              <div className="lux-hotel-comparison-chart">
-                <div className="lux-hotel-chart-scale">
-                  <span>0%</span>
-                  <span>50%</span>
-                  <span>100%</span>
-                </div>
+              <div className="lux-hotel-comparison-chart" role="img" aria-label="Hotel occupancy comparison bar chart">
                 {data.map((h) => {
                   const rate = Math.min(100, Math.max(0, Number(h.occupancyRate || 0)));
-
                   return (
-                    <div key={h.hotel_id} className="lux-hotel-chart-row">
-                      <div className="lux-hotel-chart-heading">
-                        <span title={h.hotel_name}>{h.hotel_name}</span>
-                        <strong>{rate}%</strong>
-                      </div>
+                    <div key={h.hotel_id} className="lux-hotel-chart-column" title={`${h.hotel_name}: ${rate}% occupancy`}>
+                      <strong className="lux-hotel-chart-value">{rate}%</strong>
                       <div className="lux-hotel-chart-track">
-                        <div className="lux-hotel-chart-bar" style={{ width: `${rate}%` }} />
+                        <div className="lux-hotel-chart-bar" style={{ height: `${Math.max(3, rate)}%` }} />
                       </div>
-                      <div className="lux-hotel-chart-metrics">
-                        <span>Slots: <strong>{h.occupiedSlots ?? 0}/{h.totalSlots ?? 0}</strong></span>
-                        <span>Revenue: <strong>₹{Number(h.revenue || 0).toLocaleString("en-IN")}</strong></span>
-                        <span>Sessions: <strong>{h.sessionsCount ?? 0}</strong></span>
-                      </div>
+                      <span className="lux-hotel-chart-name" title={h.hotel_name}>{h.hotel_name}</span>
                     </div>
                   );
                 })}

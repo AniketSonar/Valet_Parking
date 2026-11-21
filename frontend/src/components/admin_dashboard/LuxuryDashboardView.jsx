@@ -447,7 +447,73 @@ function LuxuryDashboardView({
           2. KPI STAT CARDS
       ======================================================== */}
       <section className="lux-stats-grid">
-        {/* Card 1: Total Vehicles Today */}
+        {/* Card 1: Total Hotels */}
+        <div className="lux-kpi-card">
+          <div className="lux-kpi-icon-wrap rose">
+            <Building2 size={16} className="lux-kpi-icon" />
+          </div>
+          <div className="lux-kpi-content-row">
+            <div className="lux-kpi-left-col">
+              <div className="lux-kpi-value">
+                {loading ? "--" : isManager ? "1" : kpiTotalHotels}
+              </div>
+              <div className="lux-kpi-title">Total Hotels</div>
+            </div>
+            <div className="lux-kpi-right-col">
+              <div className="lux-kpi-badge green">
+                <span className="lux-trend-arrow">↑</span>
+                <span className="lux-trend-num">Active</span>
+              </div>
+              <div className="lux-kpi-compare">all locations</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Total Staff */}
+        <div className="lux-kpi-card">
+          <div className="lux-kpi-icon-wrap rose">
+            <Users size={16} className="lux-kpi-icon" />
+          </div>
+          <div className="lux-kpi-content-row">
+            <div className="lux-kpi-left-col">
+              <div className="lux-kpi-value">
+                {loading ? "--" : kpiTotalStaff}
+              </div>
+              <div className="lux-kpi-title">Total Staff</div>
+            </div>
+            <div className="lux-kpi-right-col">
+              <div className="lux-kpi-badge green">
+                <span className="lux-trend-arrow">↑</span>
+                <span className="lux-trend-num">Duty</span>
+              </div>
+              <div className="lux-kpi-compare">team active</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Active Parked Vehicles */}
+        <div className="lux-kpi-card">
+          <div className="lux-kpi-icon-wrap rose">
+            <Clock size={16} className="lux-kpi-icon" />
+          </div>
+          <div className="lux-kpi-content-row">
+            <div className="lux-kpi-left-col">
+              <div className="lux-kpi-value">
+                {loading ? "--" : kpiActiveParked}
+              </div>
+              <div className="lux-kpi-title">Active Parked Vehicles</div>
+            </div>
+            <div className="lux-kpi-right-col">
+              <div className="lux-kpi-badge green">
+                <span className="lux-trend-arrow">↑</span>
+                <span className="lux-trend-num">8%</span>
+              </div>
+              <div className="lux-kpi-compare">vs. yesterday</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Total Vehicles Today */}
         <div className="lux-kpi-card">
           <div className="lux-kpi-icon-wrap rose">
             <Car size={16} className="lux-kpi-icon" />
@@ -469,29 +535,7 @@ function LuxuryDashboardView({
           </div>
         </div>
 
-        {/* Card 2: Active Parked Vehicles */}
-        <div className="lux-kpi-card">
-          <div className="lux-kpi-icon-wrap rose">
-            <Clock size={16} className="lux-kpi-icon" />
-          </div>
-          <div className="lux-kpi-content-row">
-            <div className="lux-kpi-left-col">
-              <div className="lux-kpi-value">
-                {loading ? "--" : kpiActiveParked}
-              </div>
-              <div className="lux-kpi-title">Active Parked</div>
-            </div>
-            <div className="lux-kpi-right-col">
-              <div className="lux-kpi-badge green">
-                <span className="lux-trend-arrow">↑</span>
-                <span className="lux-trend-num">8%</span>
-              </div>
-              <div className="lux-kpi-compare">vs. yesterday</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 3: Empty Slots */}
+        {/* Card 5: Empty Slots Available */}
         <div className="lux-kpi-card">
           <div className="lux-kpi-icon-wrap rose">
             <Shield size={16} className="lux-kpi-icon" />
@@ -513,7 +557,7 @@ function LuxuryDashboardView({
           </div>
         </div>
 
-        {/* Card 4: Revenue Today */}
+        {/* Card 6: Revenue Today */}
         <div className="lux-kpi-card">
           <div className="lux-kpi-icon-wrap rose">
             <TrendingUp size={16} className="lux-kpi-icon" />
@@ -531,50 +575,6 @@ function LuxuryDashboardView({
                 <span className="lux-trend-num">today</span>
               </div>
               <div className="lux-kpi-compare">vs. yesterday</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 5: Total Hotel Branches */}
-        <div className="lux-kpi-card">
-          <div className="lux-kpi-icon-wrap rose">
-            <Building2 size={16} className="lux-kpi-icon" />
-          </div>
-          <div className="lux-kpi-content-row">
-            <div className="lux-kpi-left-col">
-              <div className="lux-kpi-value">
-                {loading ? "--" : isManager ? "1" : kpiTotalHotels}
-              </div>
-              <div className="lux-kpi-title">{isManager ? "Assigned Branch" : "Total Hotel Branches"}</div>
-            </div>
-            <div className="lux-kpi-right-col">
-              <div className="lux-kpi-badge green">
-                <span className="lux-trend-arrow">↑</span>
-                <span className="lux-trend-num">Active</span>
-              </div>
-              <div className="lux-kpi-compare">{isManager ? "your location" : "all locations"}</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 6: Total Staff */}
-        <div className="lux-kpi-card">
-          <div className="lux-kpi-icon-wrap rose">
-            <Users size={16} className="lux-kpi-icon" />
-          </div>
-          <div className="lux-kpi-content-row">
-            <div className="lux-kpi-left-col">
-              <div className="lux-kpi-value">
-                {loading ? "--" : kpiTotalStaff}
-              </div>
-              <div className="lux-kpi-title">{isManager ? "Branch Staff" : "Total Staff Members"}</div>
-            </div>
-            <div className="lux-kpi-right-col">
-              <div className="lux-kpi-badge green">
-                <span className="lux-trend-arrow">↑</span>
-                <span className="lux-trend-num">Duty</span>
-              </div>
-              <div className="lux-kpi-compare">team active</div>
             </div>
           </div>
         </div>

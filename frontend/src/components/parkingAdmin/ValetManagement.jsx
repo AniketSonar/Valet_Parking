@@ -392,8 +392,8 @@ function ValetManagement() {
                               type="button"
                               onClick={async () => {
                                 try {
-                                  await updateStaffStatus(member.id, true);
-                                  setSuccessMessage(`Approved ${member.name} to join branch.`);
+                                  const response = await updateStaffStatus(member.user_id || member.id, true);
+                                  setSuccessMessage(response?.message || `Approved ${member.name} to join branch.`);
                                   await loadData();
                                 } catch (err) {
                                   setError(err.message || "Failed to approve staff.");

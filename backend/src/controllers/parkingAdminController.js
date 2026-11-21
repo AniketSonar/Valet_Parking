@@ -180,17 +180,12 @@ const getParkingStaff = async (req, res) => {
           return member;
         }
 
-        if (!member.is_active) {
-          return null;
-        }
-
         const { data: employee, error: employeeError } = await supabase
           .from("employees")
           .select("id, name, phone, role, email, is_active")
           .eq("email", member.email)
           .eq("role", "valet")
-          .eq("is_active", true)
-          .single();
+          .maybeSingle();
 
         if (employeeError || !employee) {
           console.error(
@@ -204,7 +199,8 @@ const getParkingStaff = async (req, res) => {
 
         return {
           ...member,
-          id: employee.id
+          id: employee.id,
+          user_id: member.id
         };
       })
     );
@@ -218,14 +214,18 @@ const getParkingStaff = async (req, res) => {
       const { data: posted } = await applyFloorScope(
         supabase
           .from("valet_assignments")
-          .select("valet_id, post:valet_posts ( post_name )")
-          .eq("is_active", true),
+          .select("valet_id, is_active, post:valet_posts ( post_name )"),
         scope
       );
 
-      const postByValet = new Map(
-        (posted || []).map((row) => [row.valet_id, row.post?.post_name || null])
-      );
+      const postByValet = new Map();
+      (posted || [])
+        .sort((a, b) => Number(b.is_active) - Number(a.is_active))
+        .forEach((row) => {
+          if (!postByValet.has(row.valet_id)) {
+            postByValet.set(row.valet_id, row.post?.post_name || null);
+          }
+        });
 
       filteredStaff = filteredStaff
         .filter((member) => member.role !== "valet" || postByValet.has(member.id))

@@ -43,7 +43,7 @@ router.put(
 router.patch(
   "/:id/status",
   authenticate,
-  authorizeRoles("super_admin"),
+  authorizeRoles("super_admin", "manager"),
   updateStaffStatus
 );
 

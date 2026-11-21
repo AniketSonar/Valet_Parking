@@ -27,9 +27,11 @@ function LoginCard() {
     password: "",
     role: "valet",
     hotel_id: "",
+    floor_id: "",
     position_name: "",
   });
   const [branches, setBranches] = useState([]);
+  const selectedBranch = branches.find((branch) => branch.id === regForm.hotel_id);
 
   // Fetch available hotel branches for staff registration
   useEffect(() => {
@@ -112,6 +114,11 @@ function LoginCard() {
       return;
     }
 
+    if (regForm.role === "valet" && !regForm.floor_id) {
+      setError("Please select a parking level.");
+      return;
+    }
+
     if (regForm.password.length < 6) {
       setError("Password must be at least 6 characters.");
       return;
@@ -144,6 +151,7 @@ function LoginCard() {
         password: "",
         role: "valet",
         hotel_id: branches[0]?.id || "",
+        floor_id: "",
         position_name: "",
       });
     } catch (err) {
@@ -395,7 +403,7 @@ function LoginCard() {
                 </label>
                 <select
                   value={regForm.role}
-                  onChange={(e) => setRegForm({ ...regForm, role: e.target.value })}
+                  onChange={(e) => setRegForm({ ...regForm, role: e.target.value, floor_id: "" })}
                   style={{
                     width: "100%",
                     padding: "7px 10px",
@@ -419,7 +427,7 @@ function LoginCard() {
                 </label>
                 <select
                   value={regForm.hotel_id}
-                  onChange={(e) => setRegForm({ ...regForm, hotel_id: e.target.value })}
+                  onChange={(e) => setRegForm({ ...regForm, hotel_id: e.target.value, floor_id: "" })}
                   required
                   style={{
                     width: "100%",
@@ -445,8 +453,42 @@ function LoginCard() {
               </div>
             </div>
 
+            {regForm.role === "valet" && (
+              <div style={{ marginBottom: "8px" }}>
+                <label style={{ display: "block", fontSize: "10px", fontWeight: "700", color: "#6b7280", textTransform: "uppercase", marginBottom: "2px" }}>
+                  Parking Level *
+                </label>
+                <select
+                  value={regForm.floor_id}
+                  onChange={(e) => setRegForm({ ...regForm, floor_id: e.target.value })}
+                  required
+                  disabled={!selectedBranch?.floors?.length}
+                  style={{
+                    width: "100%",
+                    padding: "7px 10px",
+                    borderRadius: "8px",
+                    border: "1.5px solid #bc9b6a",
+                    fontSize: "12px",
+                    fontWeight: "700",
+                    color: "#42235e",
+                    background: "#fffdfa",
+                    outline: "none"
+                  }}
+                >
+                  <option value="">
+                    {selectedBranch?.floors?.length ? "Select a parking level" : "No parking levels available"}
+                  </option>
+                  {(selectedBranch?.floors || []).map((floor) => (
+                    <option key={floor.id} value={floor.id}>
+                      {floor.floor_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             <div style={{ fontSize: "11px", color: "#6b7280", marginBottom: "12px", lineHeight: 1.3 }}>
-              🛡️ <em>Request will be sent to Admin. You can log in once approved.</em>
+              🛡️ <em>Request will be sent to the Admin and Branch Manager. You can log in once approved.</em>
             </div>
 
             {/* SUBMIT BUTTON */}

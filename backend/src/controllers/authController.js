@@ -550,19 +550,44 @@ const getPublicBranches = async (req, res) => {
 
     if (error) throw error;
 
-    const list = (buildings || [])
-      .filter((b) => b.status !== "inactive")
-      .map((b) => {
-        let loc = b.address || "";
-        if (loc.includes(" | ")) {
-          loc = loc.split(" | ")[1] || loc.split(" | ")[0];
-        }
-        return {
-          id: b.id,
-          building_name: b.building_name,
-          location: loc || "City Location"
-        };
-      });
+    const activeBuildings = (buildings || []).filter((b) => b.status !== "inactive");
+    const buildingIds = activeBuildings.map((building) => building.id);
+    const floorsByBuilding = new Map();
+
+    if (buildingIds.length > 0) {
+      const { data: floors, error: floorError } = await supabase
+        .from("parking_floors")
+        .select("id, building_id, floor_name, floor_number, status")
+        .in("building_id", buildingIds)
+        .order("floor_number", { ascending: true });
+
+      if (floorError) throw floorError;
+
+      (floors || [])
+        .filter((floor) => floor.status !== "inactive")
+        .forEach((floor) => {
+          const branchFloors = floorsByBuilding.get(floor.building_id) || [];
+          branchFloors.push({
+            id: floor.id,
+            floor_name: floor.floor_name,
+            floor_number: floor.floor_number
+          });
+          floorsByBuilding.set(floor.building_id, branchFloors);
+        });
+    }
+
+    const list = activeBuildings.map((b) => {
+      let loc = b.address || "";
+      if (loc.includes(" | ")) {
+        loc = loc.split(" | ")[1] || loc.split(" | ")[0];
+      }
+      return {
+        id: b.id,
+        building_name: b.building_name,
+        location: loc || "City Location",
+        floors: floorsByBuilding.get(b.id) || []
+      };
+    });
 
     return res.status(200).json({ success: true, branches: list });
   } catch (error) {
@@ -578,7 +603,7 @@ const getPublicBranches = async (req, res) => {
 */
 const registerStaff = async (req, res) => {
   try {
-    const { name, email, phone, password, role, hotel_id, position_name } = req.body;
+    const { name, email, phone, password, role, hotel_id, floor_id, position_name } = req.body;
 
     if (!name || !email || !password || !hotel_id) {
       return res.status(400).json({
@@ -596,6 +621,33 @@ const registerStaff = async (req, res) => {
 
     const normalizedEmail = email.trim().toLowerCase();
     const staffRole = role === "manager" ? "manager" : "valet";
+
+    let selectedFloor = null;
+    if (staffRole === "valet") {
+      if (!floor_id) {
+        return res.status(400).json({
+          success: false,
+          message: "Please select a parking level."
+        });
+      }
+
+      const { data: floor, error: floorError } = await supabase
+        .from("parking_floors")
+        .select("id, building_id")
+        .eq("id", floor_id)
+        .eq("building_id", hotel_id)
+        .neq("status", "inactive")
+        .maybeSingle();
+
+      if (floorError) throw floorError;
+      if (!floor) {
+        return res.status(400).json({
+          success: false,
+          message: "The selected parking level is not available for this branch."
+        });
+      }
+      selectedFloor = floor;
+    }
 
     // Check if user already exists
     const { data: existingUser } = await supabase
@@ -664,43 +716,64 @@ const registerStaff = async (req, res) => {
         .select()
         .single();
 
-      if (!empErr && emp) {
-        let { data: floors } = await supabase
-          .from("parking_floors")
+      if (empErr || !emp) {
+        await supabase.from("users").delete().eq("id", newUser.id);
+        await supabase.auth.admin.deleteUser(authData.user.id);
+        return res.status(400).json({
+          success: false,
+          message: empErr?.message || "Failed to create the staff record."
+        });
+      }
+
+      const targetPost = position_name ? String(position_name).trim() : "Main Post";
+      let { data: post, error: postError } = await supabase
+        .from("valet_posts")
+        .select("id")
+        .eq("floor_id", selectedFloor.id)
+        .ilike("post_name", targetPost)
+        .limit(1)
+        .maybeSingle();
+
+      if (postError) {
+        await supabase.from("employees").delete().eq("id", emp.id);
+        await supabase.from("users").delete().eq("id", newUser.id);
+        await supabase.auth.admin.deleteUser(authData.user.id);
+        return res.status(400).json({ success: false, message: postError.message });
+      }
+
+      if (!post) {
+        const { data: newPost, error: newPostError } = await supabase
+          .from("valet_posts")
+          .insert([{ floor_id: selectedFloor.id, post_name: targetPost }])
           .select("id")
-          .eq("building_id", hotel_id)
-          .order("floor_number", { ascending: true })
-          .limit(1);
-
-        if (floors && floors.length > 0) {
-          const floorId = floors[0].id;
-          const targetPost = position_name ? String(position_name).trim() : "Main Post";
-          let { data: post } = await supabase
-            .from("valet_posts")
-            .select("id")
-            .eq("floor_id", floorId)
-            .ilike("post_name", targetPost)
-            .limit(1)
-            .maybeSingle();
-
-          if (!post) {
-            const { data: newPost } = await supabase
-              .from("valet_posts")
-              .insert([{ floor_id: floorId, post_name: targetPost }])
-              .select()
-              .single();
-            post = newPost;
-          }
-
-          if (post) {
-            await supabase.from("valet_assignments").insert([{
-              valet_id: emp.id,
-              floor_id: floorId,
-              post_id: post.id,
-              is_active: false
-            }]);
-          }
+          .single();
+        if (newPostError || !newPost) {
+          await supabase.from("employees").delete().eq("id", emp.id);
+          await supabase.from("users").delete().eq("id", newUser.id);
+          await supabase.auth.admin.deleteUser(authData.user.id);
+          return res.status(400).json({
+            success: false,
+            message: newPostError?.message || "Failed to create the valet post."
+          });
         }
+        post = newPost;
+      }
+
+      const { error: assignmentError } = await supabase.from("valet_assignments").insert([{
+        valet_id: emp.id,
+        floor_id: selectedFloor.id,
+        post_id: post.id,
+        is_active: false
+      }]);
+
+      if (assignmentError) {
+        await supabase.from("employees").delete().eq("id", emp.id);
+        await supabase.from("users").delete().eq("id", newUser.id);
+        await supabase.auth.admin.deleteUser(authData.user.id);
+        return res.status(400).json({
+          success: false,
+          message: assignmentError.message || "Failed to assign the selected parking level."
+        });
       }
     } else if (staffRole === "manager") {
       let { data: floors } = await supabase
@@ -719,42 +792,57 @@ const registerStaff = async (req, res) => {
     }
 
     // 4. In-app notification for Super Admin & this specific Branch Manager
+    let activeAdminCount = 0;
+    let activeManagerCount = 0;
+    let registrationNotificationError = false;
     try {
-      const { data: building } = await supabase
+      const { data: building, error: buildingError } = await supabase
         .from("parking_buildings")
         .select("building_name")
         .eq("id", hotel_id)
         .maybeSingle();
 
+      if (buildingError) throw buildingError;
+
       const branchName = building?.building_name || "Hotel Branch";
       const notifMsg = `New staff joining request: ${name.trim()} (${staffRole === "manager" ? "Branch Manager" : "Valet Staff"}) has requested to join ${branchName}. Approval required.`;
 
       // Find Super Admins
-      const { data: superAdmins } = await supabase
+      const { data: superAdmins, error: adminError } = await supabase
         .from("users")
         .select("id, role")
-        .eq("role", "super_admin");
+        .eq("role", "super_admin")
+        .eq("is_active", true);
+
+      if (adminError) throw adminError;
 
       // Find Managers assigned to this specific hotel branch
       let branchManagers = [];
-      const { data: floors } = await supabase
+      const { data: floors, error: floorsError } = await supabase
         .from("parking_floors")
         .select("id")
         .eq("building_id", hotel_id);
 
+      if (floorsError) throw floorsError;
+
       if (floors && floors.length > 0) {
         const floorIds = floors.map((f) => f.id);
-        const { data: mgrAssignments } = await supabase
+        const { data: mgrAssignments, error: assignmentsError } = await supabase
           .from("manager_assignments")
           .select("manager_id")
-          .in("floor_id", floorIds);
+          .in("floor_id", floorIds)
+          .eq("is_active", true);
+
+        if (assignmentsError) throw assignmentsError;
 
         if (mgrAssignments && mgrAssignments.length > 0) {
           const mgrIds = [...new Set(mgrAssignments.map((m) => m.manager_id))];
-          const { data: mgrUsers } = await supabase
+          const { data: mgrUsers, error: managersError } = await supabase
             .from("users")
             .select("id, role")
-            .in("id", mgrIds);
+            .in("id", mgrIds)
+            .eq("is_active", true);
+          if (managersError) throw managersError;
           if (mgrUsers) branchManagers = mgrUsers;
         }
       }
@@ -766,7 +854,7 @@ const registerStaff = async (req, res) => {
 
       const notifsToInsert = Array.from(recipientMap.values()).map((recipient) => ({
         parking_session_id: null,
-        recipient_type: recipient.role,
+        recipient_type: recipient.role === "parking_admin" ? "manager" : recipient.role,
         recipient_id: recipient.id,
         message: notifMsg,
         channel: "in_app",
@@ -775,15 +863,34 @@ const registerStaff = async (req, res) => {
       }));
 
       if (notifsToInsert.length > 0) {
-        await supabase.from("notifications").insert(notifsToInsert);
+        const { error: notificationError } = await supabase
+          .from("notifications")
+          .insert(notifsToInsert);
+        if (notificationError) throw notificationError;
+        activeAdminCount = (superAdmins || []).length;
+        activeManagerCount = branchManagers.length;
       }
     } catch (notifErr) {
+      registrationNotificationError = true;
       console.warn("Notification insert warning:", notifErr.message);
+    }
+
+    let submissionMessage = "Joining request submitted successfully!";
+    if (registrationNotificationError) {
+      submissionMessage += " Notification delivery failed; please contact the Admin.";
+    } else if (activeAdminCount && activeManagerCount) {
+      submissionMessage += " Your request was sent to the Admin and Branch Manager.";
+    } else if (activeAdminCount) {
+      submissionMessage += " Your request was sent to the Admin.";
+    } else if (activeManagerCount) {
+      submissionMessage += " Your request was sent to the Branch Manager.";
+    } else {
+      submissionMessage += " No active approver was found; please contact the hotel branch.";
     }
 
     return res.status(201).json({
       success: true,
-      message: "Joining request submitted successfully! Your request has been sent to the Admin and Branch Manager. Once accepted, you will be able to log in."
+      message: `${submissionMessage} Once accepted, you will be able to log in.`
     });
   } catch (error) {
     console.error("Staff registration error:", error);

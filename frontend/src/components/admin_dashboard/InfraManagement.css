@@ -6,11 +6,11 @@
 .infra-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  max-width: 64rem;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+  gap: 14px;
   width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0 24px;
   box-sizing: border-box;
 }
 

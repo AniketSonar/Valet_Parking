@@ -168,7 +168,7 @@ function ValetManagement() {
       <div className="parking-staff-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div>
           <p className="parking-staff-eyebrow">OPERATIONS</p>
-          <h1>Staff / Valets</h1>
+          <h1>Staff</h1>
         </div>
 
         <button

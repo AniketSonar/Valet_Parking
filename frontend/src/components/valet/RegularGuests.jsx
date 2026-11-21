@@ -370,24 +370,41 @@ const RegularGuests = () => {
 
       {/* Modal to Register Regular Guest */}
       {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal-container" style={{ maxWidth: "520px" }} onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
+        <div
+          className="regular-guest-modal-overlay"
+          onClick={() => setShowModal(false)}
+        >
+          <div
+            className="regular-guest-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="regular-guest-modal-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="regular-guest-modal-header">
               <div>
-                <h2>Register Regular / Event Guest</h2>
+                <h2 id="regular-guest-modal-title">Register Regular / Event Guest</h2>
                 <p style={{ fontSize: "0.78rem", color: "#888", marginTop: "2px" }}>
                   Vehicle will be linked to an event package. Zero cash collection.
                 </p>
               </div>
-              <button className="modal-close-btn" onClick={() => setShowModal(false)}>
+              <button
+                type="button"
+                className="regular-guest-modal-close"
+                onClick={() => setShowModal(false)}
+                aria-label="Close registration form"
+              >
                 <X size={18} />
               </button>
             </div>
 
-            {error && <div className="modal-error">{error}</div>}
+            {error && <div className="regular-guest-modal-error">{error}</div>}
 
-            <form onSubmit={handleRegisterRegularGuest} className="modal-form">
-              <div style={{ fontSize: "0.76rem", fontWeight: "700", color: "#bc9b6a", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: "6px" }}>
+            <form
+              onSubmit={handleRegisterRegularGuest}
+              className="regular-guest-modal-form"
+            >
+              <div className="regular-guest-modal-section-title">
                 1. Customer / Host Information
               </div>
               <label>
@@ -420,7 +437,7 @@ const RegularGuests = () => {
                 />
               </label>
 
-              <div style={{ fontSize: "0.76rem", fontWeight: "700", color: "#bc9b6a", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: "14px" }}>
+              <div className="regular-guest-modal-section-title">
                 2. Vehicle Details
               </div>
               <label>
@@ -433,7 +450,7 @@ const RegularGuests = () => {
                 />
               </label>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+              <div className="regular-guest-modal-vehicle-fields">
                 <label>
                   Make
                   <input
@@ -460,7 +477,7 @@ const RegularGuests = () => {
                 </label>
               </div>
 
-              <div style={{ fontSize: "0.76rem", fontWeight: "700", color: "#bc9b6a", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: "14px" }}>
+              <div className="regular-guest-modal-section-title">
                 3. Event / Package Assignment
               </div>
               <label>
@@ -482,11 +499,19 @@ const RegularGuests = () => {
                 />
               </label>
 
-              <div className="modal-actions" style={{ marginTop: "18px" }}>
-                <button type="button" className="secondary-action" onClick={() => setShowModal(false)}>
+              <div className="regular-guest-modal-actions">
+                <button
+                  type="button"
+                  className="regular-guest-modal-cancel"
+                  onClick={() => setShowModal(false)}
+                >
                   Cancel
                 </button>
-                <button type="submit" className="primary-action" disabled={submitting}>
+                <button
+                  type="submit"
+                  className="regular-guest-modal-submit"
+                  disabled={submitting}
+                >
                   {submitting ? "Registering..." : "Register & Log 1st Visit"}
                 </button>
               </div>

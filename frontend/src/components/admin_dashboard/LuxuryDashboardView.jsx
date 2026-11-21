@@ -166,7 +166,7 @@ function LuxuryDashboardView({
 
   // SVG Chart dimensions & dynamic path calculation
   const chartWidth = 620;
-  const chartHeight = 160;
+  const chartHeight = 200;
 
   // Calculate dynamic maxY so chart never clips and scales smoothly
   const maxY = useMemo(() => {
@@ -254,8 +254,8 @@ function LuxuryDashboardView({
 
   // SVG Donut calculation
   const totalPercentage = 100;
-  const radius = 62;
-  const strokeWidth = 24;
+  const radius = 70;
+  const strokeWidth = 28;
   const circumference = 2 * Math.PI * radius;
 
   const donutSegments = useMemo(() => {

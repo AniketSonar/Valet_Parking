@@ -151,6 +151,7 @@ const getEmployeeByEmail = async (email) => {
 const createStaff = async (req, res) => {
   let authUserId = null;
   let createdUserId = null;
+  let createdEmployeeId = null;
 
   try {
     const {
@@ -181,6 +182,39 @@ const createStaff = async (req, res) => {
         success: false,
         message: "Invalid staff role."
       });
+    }
+
+    let targetHotelId = hotel_id;
+    if (req.user?.role === "manager") {
+      if (role !== "valet") {
+        return res.status(403).json({
+          success: false,
+          message: "Managers can only add valet staff to their branch."
+        });
+      }
+
+      const { data: assignments, error: assignmentError } = await supabase
+        .from("manager_assignments")
+        .select("floor:parking_floors ( building_id )")
+        .eq("manager_id", req.user.id)
+        .eq("is_active", true);
+
+      if (assignmentError) throw assignmentError;
+
+      const buildingIds = [
+        ...new Set((assignments || []).map((assignment) => assignment.floor?.building_id).filter(Boolean))
+      ];
+
+      if (buildingIds.length !== 1) {
+        return res.status(403).json({
+          success: false,
+          message: buildingIds.length
+            ? "Your account must be assigned to one branch before adding staff."
+            : "Your account is not assigned to a branch."
+        });
+      }
+
+      targetHotelId = buildingIds[0];
     }
 
     if (role === "valet" && !phone) {
@@ -273,6 +307,7 @@ const createStaff = async (req, res) => {
             phone,
             is_active: true
           });
+        createdEmployeeId = employee?.id || null;
       } catch (employeeError) {
         await supabase
           .from("users")
@@ -299,20 +334,23 @@ const createStaff = async (req, res) => {
       }
     }
 
-    if (hotel_id) {
+    if (targetHotelId) {
       try {
-        let { data: floors } = await supabase
+        let { data: floors, error: floorsError } = await supabase
           .from("parking_floors")
           .select("id")
-          .eq("building_id", hotel_id)
+          .eq("building_id", targetHotelId)
           .order("floor_number", { ascending: true });
 
+        if (floorsError) throw floorsError;
+
         if (!floors || floors.length === 0) {
-          const { data: defaultFloor } = await supabase
+          const { data: defaultFloor, error: defaultFloorError } = await supabase
             .from("parking_floors")
-            .insert([{ building_id: hotel_id, floor_name: "Ground Floor", floor_number: 0 }])
+            .insert([{ building_id: targetHotelId, floor_name: "Ground Floor", floor_number: 0 }])
             .select()
             .single();
+          if (defaultFloorError) throw defaultFloorError;
           if (defaultFloor) floors = [defaultFloor];
         }
 
@@ -335,7 +373,7 @@ const createStaff = async (req, res) => {
             await supabase.from("manager_assignments").insert(managerRecords);
           } else if (role === "valet" && employee?.id) {
             const targetPostName = position_name ? String(position_name).trim() : "Main Post";
-            let { data: post } = await supabase
+            let { data: post, error: postError } = await supabase
               .from("valet_posts")
               .select("id")
               .eq("floor_id", firstFloorId)
@@ -343,28 +381,37 @@ const createStaff = async (req, res) => {
               .limit(1)
               .maybeSingle();
 
+            if (postError) throw postError;
+
             if (!post) {
-              const { data: newPost } = await supabase
+              const { data: newPost, error: newPostError } = await supabase
                 .from("valet_posts")
                 .insert([{ floor_id: firstFloorId, post_name: targetPostName }])
                 .select()
                 .single();
+              if (newPostError) throw newPostError;
               post = newPost;
             }
 
-            if (post) {
-              await supabase.from("valet_assignments").insert([{
+            if (!post) {
+              throw new Error("Unable to find or create a valet post for this branch.");
+            }
+
+            const { error: valetAssignmentError } = await supabase
+              .from("valet_assignments")
+              .insert([{
                 valet_id: employee.id,
                 floor_id: firstFloorId,
                 post_id: post.id,
                 assigned_by: req.user?.id || null,
                 is_active: true
               }]);
-            }
+            if (valetAssignmentError) throw valetAssignmentError;
           }
         }
       } catch (assignErr) {
-        console.warn("Auto hotel assign warning:", assignErr.message);
+        console.error("Auto hotel assign error:", assignErr);
+        throw assignErr;
       }
     }
 
@@ -380,6 +427,17 @@ const createStaff = async (req, res) => {
       "Create staff error:",
       error
     );
+
+    if (createdEmployeeId) {
+      await supabase
+        .from("valet_assignments")
+        .delete()
+        .eq("valet_id", createdEmployeeId);
+      await supabase
+        .from("employees")
+        .delete()
+        .eq("id", createdEmployeeId);
+    }
 
     if (createdUserId) {
       await supabase

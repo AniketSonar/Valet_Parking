@@ -16,7 +16,7 @@ const router = express.Router();
 router.post(
   "/",
   authenticate,
-  authorizeRoles("super_admin"),
+  authorizeRoles("super_admin", "manager"),
   createStaff
 );
 

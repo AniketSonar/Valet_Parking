@@ -122,6 +122,44 @@
   outline-offset: 2px;
 }
 
+.revenue-date-filters {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.revenue-date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+
+.revenue-date-field span {
+  color: #76665c;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.revenue-date-field input {
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(91, 10, 30, 0.14);
+  border-radius: 12px;
+  background: #fffaf2;
+  color: #2d1442;
+  font: inherit;
+  font-size: 13px;
+}
+
+.revenue-date-field input:focus-visible {
+  border-color: #bc9b6a;
+  outline: 3px solid rgba(202, 160, 96, 0.3);
+  outline-offset: 2px;
+}
+
 .revenue-error {
   margin-bottom: 18px;
   padding: 12px 16px;
@@ -465,6 +503,11 @@
 
   .revenue-header-actions {
     width: 100%;
+  }
+
+  .revenue-date-field {
+    flex: 1 1 140px;
+    min-width: 0;
   }
 
   .revenue-periods {

@@ -80,7 +80,9 @@ const DashboardLayout = ({
         mobileOpen={mobileSidebarOpen}
       />
 
-      <main className={`dash-main ${collapsed ? "sidebar-collapsed" : ""}`}>
+      <main
+        className={`dash-main ${config?.roleLabel === "Valet" ? "dash-main--valet" : ""} ${collapsed ? "sidebar-collapsed" : ""}`}
+      >
         <DashboardTopbar
           config={config}
           user={user}

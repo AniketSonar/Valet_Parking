@@ -1201,7 +1201,31 @@
   box-sizing: border-box;
 }
 
+.dash-main--valet > .dash-page-content {
+  padding: 18px 24px 32px;
+}
+
+.dash-main--valet > .dash-page-content > :is(
+  .valet-page,
+  .my-vehicles-page,
+  .retrieval-page,
+  .parking-slots-page,
+  .completed-page,
+  .valet-profile-page,
+  .incident-page
+) {
+  padding: 0 !important;
+}
+
+.dash-main--valet .reception-view-wrapper {
+  padding: 0;
+}
+
 @media (max-width: 600px) {
+  .dash-main--valet > .dash-page-content {
+    padding: 20px 14px 30px;
+  }
+
   .dash-sidebar {
     position: fixed !important;
     top: 0 !important;

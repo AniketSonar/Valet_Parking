@@ -176,6 +176,32 @@
   }
 }
 
+@media (max-width: 1100px) {
+  .my-vehicles-header,
+  .retrieval-header,
+  .parking-slots-header,
+  .completed-header,
+  .profile-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .completed-header > div:last-child {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .cr-search-bar {
+    flex: 1 1 220px;
+    min-width: 0;
+  }
+
+  .cr-search-bar input {
+    width: 100% !important;
+    min-width: 0;
+  }
+}
+
 /* Reception-aligned operational page surfaces */
 .my-vehicles-page,
 .retrieval-page,

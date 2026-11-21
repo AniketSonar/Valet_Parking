@@ -7,8 +7,11 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 0;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .infra-header {
@@ -99,10 +102,13 @@
 /* Action Bar */
 .infra-actions-bar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
   gap: 16px;
+}
+
+.infra-actions-bar > div:last-child {
+  align-self: flex-end;
 }
 
 .infra-search-box {
@@ -113,7 +119,9 @@
   padding: 10px 16px;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
-  min-width: 280px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .infra-search-box input {

@@ -1954,7 +1954,7 @@ a { text-decoration: none; }
   margin-top: auto;
   margin-bottom: auto;
   max-width: 520px;
-  padding: 40px 0;
+  padding: 40px 0 40px 80px;
 }
 
 .hero-main-title {
@@ -2640,7 +2640,7 @@ a { text-decoration: none; }
   margin-top: auto !important;
   margin-bottom: auto !important;
   max-width: 520px !important;
-  padding: 40px 0 !important;
+  padding: 40px 0 40px 80px !important;
 }
 
 .hero-main-title {

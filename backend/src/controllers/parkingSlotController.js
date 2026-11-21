@@ -264,16 +264,40 @@ const getValetParkingSlots = async (req, res) => {
       });
     }
 
+    let floorIds = [floorId];
+    const buildingId = post.floor?.building_id || post.floor?.building?.id;
+
+    if (buildingId) {
+      const { data: floors, error } = await supabase
+        .from("parking_floors")
+        .select("id")
+        .eq("building_id", buildingId);
+
+      if (error) {
+        console.error("Get valet parking floors error:", error);
+
+        return res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      }
+
+      floorIds = Array.from(new Set([
+        floorId,
+        ...(floors || []).map((floor) => floor.id)
+      ]));
+    }
+
     const [slotsResult, gatesResult] = await Promise.all([
       supabase
         .from("parking_slots")
         .select("*")
-        .eq("floor_id", floorId)
+        .in("floor_id", floorIds)
         .order("slot_number", { ascending: true }),
       supabase
         .from("parking_gates")
         .select("*")
-        .eq("floor_id", floorId)
+        .in("floor_id", floorIds)
         .order("gate_name")
     ]);
 
